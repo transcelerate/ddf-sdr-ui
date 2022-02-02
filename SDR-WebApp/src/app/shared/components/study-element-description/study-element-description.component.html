@@ -1,0 +1,78 @@
+<!-- <span class="linkSpan" (click)="backButtonClicked()">back</span> -->
+<!-- <h2><b>StudyId {{sponsorStudyId}} Version {{sponsorVersionId}} - Details</b></h2> -->
+
+<h2>
+  <b>{{ finalVal.accordianName }} <span *ngIf="route.children.length === 0">Version {{ sponsorVersionId }}</span></b>
+</h2>
+<div class="col-sm-12" *ngIf="route.children.length === 0">
+  <div class="buttonDiv">
+    <button (click)="auditTrail()" class="versionButton">
+      View History / Audit Trail
+    </button>
+  </div>
+  <div class="row mt-n4">
+    <div class="col-4 border studyElement">
+      <div class="outerDiv">
+        <div
+          class="titleName"
+          [ngClass]="{ activeSelected: finalVal.isHighlighted }"
+          data-toggle="tooltip"
+          data-placement="top"
+          [title]="finalVal.accordianName"
+          (click)="showTableContent(finalVal, true, finalVal)"
+        >
+          <!-- {{ finalVal.accordianName }} -->
+          {{ heading }}
+        </div>
+        <ul>
+          <ng-container
+            *ngTemplateOutlet="recursiveListTmpl; context: { acc: finalVal }"
+          ></ng-container>
+        </ul>
+
+        <ng-template #recursiveListTmpl let-acc="acc">
+          <div *ngFor="let item of acc.subAccordianList; let i = index">
+            <li
+              [ngClass]="{ isSelected: item.isSelected }"
+              *ngIf="item.isShow"
+              (click)="
+                showTableContent(item, false, acc); $event.stopPropagation()
+              "
+            >
+              <span [ngClass]="{ activeSelected: item.isHighlighted }">
+                {{ item.accordianName | custom }}
+              </span>
+              <ul>
+                <!-- {{ item.subAccordianList[0].accordianName }} -->
+                <ng-container
+                  *ngTemplateOutlet="recursiveListTmpl; context: { acc: item }"
+                ></ng-container>
+              </ul>
+            </li>
+          </div>
+        </ng-template>
+      </div>
+    </div>
+
+    <div class="col-8 border studyElement tableData">
+      <table class="table-bordered outerDiv" *ngIf="tablecontent.length > 0">
+        <tbody *ngFor="let content of tablecontent">
+          <tr>
+            <td>{{ content?.name | custom }}</td>
+            <td>{{ content?.value }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<router-outlet></router-outlet>
+
+<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
+<!-- * * * * * * * * * * * The content above * * * * * * * * * * * -->
+<!-- * * * * * * * * * * is only a placeholder * * * * * * * * * * -->
+<!-- * * * * * * * * * * and can be replaced. * * * * * * * * * * * -->
+<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
+<!-- * * * * * * * * * * End of Placeholder * * * * * * * * * * * -->
+<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
+<!-- <app-login></app-login> -->

@@ -1,0 +1,20 @@
+{
+    "studyPhase": ["PHASE_1_TRIAL","PHASE_2_TRIAL",
+        "PHASE_3_TRIAL",
+        "PHASE_4_TRIAL",
+        "NOT_APPLICABLE",
+        "PHASE_0_TRIAL",
+        "PHASE_1_AND_2_TRIAL",
+        "PHASE_2_AND_3_TRIAL",
+        "PHASE_2A_TRIAL",
+        "PHASE_2B_TRIAL",
+        "PHASE_3A_TRIAL",
+        "PHASE_3B_TRIAL",
+        "PHASE_5_TRIAL"],
+    "interventionModel": ["CROSS_OVER",
+        "FACTORIAL",
+        "PARALLEL",
+        "SEQUENTIAL",
+        "SINGLE_GROUP"]
+
+ }

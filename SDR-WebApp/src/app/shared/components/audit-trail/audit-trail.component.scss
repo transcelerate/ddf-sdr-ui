@@ -1,0 +1,38 @@
+.auditDiv {
+  height: 300px;
+}
+
+input[type="radio"] {
+  display: none;
+}
+
+label {
+  display: inline-block;
+  background-color: #ddd;
+  padding: 4px 11px;
+  font-family: Arial;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+input[type="radio"] {
+  border: 0px;
+  width: 100%;
+  height: 2em;
+}
+
+.versionButtonAudit {
+  position: absolute;
+  right: 50px;
+  top: -28px;
+  background-color: gray;
+  color: white;
+  border: 1px solid gray;
+}
+.buttonDivAudit {
+  position: relative;
+}
+.auditGrid{
+  width: 95%; 
+  height: 100%
+}

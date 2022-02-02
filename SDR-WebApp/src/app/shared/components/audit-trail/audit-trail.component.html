@@ -1,0 +1,29 @@
+<div *ngIf="route.children.length === 0">
+  <div class="buttonDivAudit">
+    <button
+      [disabled]="disableButton"
+      class="versionButtonAudit"
+      (click)="versionCompare()"
+    >
+      Version Comparison
+    </button>
+  </div>
+  <div class="auditDiv gridOuter">
+    <ag-grid-angular
+      #agGrid
+      id="myGrid"
+      class="ag-theme-alpine auditGrid"
+      [rowData]="rowData"
+      [columnDefs]="columnDefs"
+      [rowHeight]="28"
+      [defaultColDef]="defaultColDef"
+      [icons]="icons"
+      [sortingOrder]="['asc', 'desc']"
+      [headerHeight]="60"
+      (gridReady)="onGridReady($event)"
+    >
+    </ag-grid-angular>
+  </div>
+</div>
+
+<router-outlet></router-outlet>

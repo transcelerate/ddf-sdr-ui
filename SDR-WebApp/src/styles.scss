@@ -1,0 +1,208 @@
+/* You can add global styles to this file, and also import other style files */
+@import "bootstrap/dist/css/bootstrap.min.css";
+@import "~ag-grid-community/dist/styles/ag-grid.css";
+@import "~ag-grid-community/dist/styles/ag-theme-balham.css";
+@import "~bootstrap-icons/font/bootstrap-icons.css";
+
+:root {
+  --color-text: #111111;
+  --color-link: #125699;
+  --color-background: #f57242;
+  --font-color: #fff;
+}
+.recentWidget {
+  .ag-root {
+    border: 1px solid;
+  }
+  .ag-header {
+    background: var(--color-background);
+  }
+  .ag-header-cell-text {
+    color: var(--font-color);
+  }
+
+  .ag-cell {
+    font-size: small;
+    //border-bottom: 3px solid;
+  }
+  .studyTitleContent {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .ag-root-wrapper.ag-layout-normal {
+    height: 180% !important;
+  }
+  .ag-theme-alpine {
+    //overflow-x: hidden;
+    //height: 700px;
+  }
+}
+.linkSpan {
+  cursor: pointer;
+  color: blue;
+  text-decoration: underline;
+}
+.linkSpan:hover {
+  text-decoration: none;
+  text-shadow: 1px 1px 1px #555;
+}
+body {
+  font-family: auto;
+  overflow-x: hidden;
+}
+.ag-tooltip {
+  background-color: #0f1014;
+  color: #999eab;
+  border-radius: 2px;
+  padding: 5px;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #545454;
+}
+.ag-header-cell,
+.ag-header-group-cell {
+  border: 1px solid black;
+}
+.ag-cell {
+  border-color: black;
+  border-width: 1px;
+  border-style: solid;
+}
+.ag-header-cell-text {
+  padding-left: 2px;
+  font-size: medium;
+}
+.gridOuter {
+  .ag-header {
+    background: var(--color-background);
+  }
+  .ag-header-cell-text {
+    color: var(--font-color);
+  }
+  .imgStyle {
+    height: 200px;
+    color: #fff;
+  }
+}
+.ag-pivot-off .ag-header-group-cell {
+  font-size: 50px;
+  //color: red;
+}
+.imgStyle {
+  height: 200px;
+  color: #fff;
+}
+.search .imgStyle {
+  width: 73%;
+  margin-left: 28%;
+  
+}
+.auditDiv .imgStyle {
+  width: 67%;
+  margin-left: 29%;
+}
+.ag-header-cell-text {
+  min-width: 80px;
+}
+.ag-header-cell-label .ag-header-cell-text {
+  white-space: normal !important;
+}
+.accordion-button::after {
+  background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23000000'><path fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/></svg>") !important;
+}
+body {
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    border-radius: 10px;
+    background: rgba(0, 0, 0, 0.1);
+  }
+  ::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background: rgba(0, 0, 0, 0.2);
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 0, 0, 0.4);
+  }
+  ::-webkit-scrollbar-thumb:active {
+    background: rgba(0, 0, 0, 0.9);
+  }
+}
+.container-radio {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 22px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Hide the browser's default radio button */
+.container-radio input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+/* Create a custom radio button */
+.checkmark {
+  position: absolute;
+  top: -9px;
+  right: 48px;
+  height: 20px;
+  width: 23px;
+  // background-color: #eee;
+  border-radius: 100%;
+  border: 2px solid#0d6efd;
+}
+
+/* On mouse-over, add a grey background color */
+// .container-radio:hover input ~ .checkmark {
+//   background-color: #ccc;
+// }
+
+/* When the radio button is checked, add a blue background */
+.container-radio input:checked ~ .checkmark {
+  background-color: #0d6efd;
+}
+.container-radio input:disabled ~ .checkmark {
+  //background-color: #ccc;
+  border: 2px solid#ccc;
+  pointer-events: none;
+}
+
+/* Create the indicator (the dot/circle - hidden when not checked) */
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the indicator (dot/circle) when checked */
+.container-radio input:checked ~ .checkmark:after {
+  display: block;
+}
+
+/* Style the indicator (dot/circle) */
+.container-radio .checkmark:after {
+  top: 9px;
+  left: 9px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  //background: white;
+}
+
+.editorHeading{
+  font-weight: bold;
+}
+
+
+// html, body { height: 100%; }
+// body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

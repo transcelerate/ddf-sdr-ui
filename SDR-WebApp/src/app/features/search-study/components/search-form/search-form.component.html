@@ -1,0 +1,183 @@
+<div  *ngIf="route.children.length === 0">
+  <div class="container-fluid outer">
+    <h3>Search Study Definitions</h3>
+    <form [formGroup]="editorForm">
+      <div class="row">
+        <div class="col-6">
+          <!--left side -->
+          <div class="form-group row">
+            <label for="studyTitle" class="col-sm-6 col-form-label"
+              >Study Title</label
+            >
+            <div class="col-sm-6">
+              <input
+                type="text"
+                (keypress)="restrictChar($event)"
+                class="input-sm"
+                formControlName="studyTitle"
+              />
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="briefTitle" class="col-sm-6 col-form-label"
+              >Brief Title</label
+            >
+            <div class="col-sm-6">
+              <input
+                type="text"
+                (keypress)="restrictChar($event)"
+                class="input-sm"
+                formControlName="briefTitle"
+              />
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="interventionModel" class="col-sm-6 col-form-label"
+              >Intervention Model</label
+            >
+            <div class="col-sm-6">
+              <input
+                type="text"
+                (keypress)="restrictChar($event)"
+                class="input-sm"
+                formControlName="interventionModel"
+                matInput
+                [matAutocomplete]="intervention"
+              />
+              <mat-autocomplete #intervention="matAutocomplete">
+                <mat-option
+                  *ngFor="let option of interventionList | async"
+                  [value]="option"
+                >
+                  {{ option }}
+                </mat-option>
+              </mat-autocomplete>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="fromDate" class="col-sm-6 col-form-label"
+              >Modified From</label
+            >
+            <div class="col-sm-6">
+              <input
+                type="date"
+                class="input-sm"
+                formControlName="fromDate"
+                [max]="getToday()"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div class="col-6">
+          <div class="form-group row">
+            <label for="studyId" class="col-sm-6 col-form-label"
+              >Sponsor Id</label
+            >
+            <div class="col-sm-6">
+              <input
+                type="text"
+                (keypress)="restrictChar($event)"
+                class="input-sm"
+                formControlName="studyId"
+              />
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="phase" class="col-sm-6 col-form-label">Phase</label>
+            <div class="col-sm-6">
+              <input
+                type="text"
+                (keypress)="restrictChar($event)"
+                class="input-sm"
+                matInput
+                formControlName="phase"
+                [matAutocomplete]="auto"
+              />
+              <mat-autocomplete #auto="matAutocomplete">
+                <mat-option
+                  *ngFor="let option of phaseList | async"
+                  [value]="option"
+                >
+                  {{ option }}
+                </mat-option>
+              </mat-autocomplete>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="indication" class="col-sm-6 col-form-label"
+              >Indication</label
+            >
+            <div class="col-sm-6">
+              <input
+                type="text"
+                (keypress)="restrictChar($event)"
+                class="input-sm"
+                formControlName="indication"
+              />
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="toDate" class="col-sm-6 col-form-label"
+              >Modified To</label
+            >
+            <div class="col-sm-6">
+              <input
+                type="date"
+                class="input-sm"
+                formControlName="toDate"
+                [max]="getToday()"
+              />
+            </div>
+          </div>
+        </div>
+        <!--right side -->
+      </div>
+      <!-- form for teacher/student-->
+      <div class="row">
+        <div class="col-6">
+          <button
+            type="submit"
+            class="btn btn-primary submit"
+            [disabled]="!editorForm.valid"
+            (click)="submitSearch()"
+          >
+            Search
+          </button>
+        </div>
+        <div class="col-6">
+          <button class="btn btn-primary clear" (click)="clearSearch()">
+            Clear
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div *ngIf="showGrid" class="container-fluid gridOuter search">
+    <ag-grid-angular
+      #agGrid
+      id="myGrid"
+      class="ag-theme-alpine searchGrid"
+      [rowHeight]="20"
+      [columnDefs]="columnDefs"
+      [defaultColDef]="defaultColDef"
+      [rowBuffer]="rowBuffer"
+      [rowSelection]="rowSelection"
+      [rowModelType]="rowModelType"
+      [cacheBlockSize]="cacheBlockSize"
+      [cacheOverflowSize]="cacheOverflowSize"
+      [maxConcurrentDatasourceRequests]="maxConcurrentDatasourceRequests"
+      [infiniteInitialRowCount]="infiniteInitialRowCount"
+      [maxBlocksInCache]="maxBlocksInCache"
+      [rowData]="rowData"
+      [icons]="icons"
+      [suppressNoRowsOverlay] = false
+      [sortingOrder]="['asc', 'desc']"
+      (gridReady)="onGridReady($event)"
+      [overlayNoRowsTemplate]="noRowsTemplate"
+      [headerHeight] = 60
+    ></ag-grid-angular>
+  </div>
+</div>
+<router-outlet></router-outlet>  
+

@@ -1,0 +1,29 @@
+
+<div class="recentWidget" *ngIf="route.children.length === 0">
+  
+  <div class="conatiner">
+    <h2>Welcome to the Digital Data Flow Study Definitions Repository Dashboard!</h2>
+  </div>
+  <ag-grid-angular
+    #agGrid
+    
+    id="myGrid"
+    class="ag-theme-alpine recentGrid"
+    [rowHeight]="25"
+    [columnDefs]="columnDefs"
+    [defaultColDef]="defaultColDef"
+    [rowBuffer]="rowBuffer"
+    [rowSelection]="rowSelection"
+    [rowModelType]="rowModelType"
+    [cacheBlockSize]="cacheBlockSize"
+    [cacheOverflowSize]="cacheOverflowSize"
+    [maxConcurrentDatasourceRequests]="maxConcurrentDatasourceRequests"
+    [infiniteInitialRowCount]="infiniteInitialRowCount"
+    [maxBlocksInCache]="maxBlocksInCache"
+    [rowData]="rowData"
+    [suppressHorizontalScroll]= true
+    (gridReady)="onGridReady($event)"
+  ></ag-grid-angular>
+</div>
+<router-outlet></router-outlet>  
+

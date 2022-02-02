@@ -1,0 +1,55 @@
+.toolbar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  display: flex;
+  // align-items: center;
+  background-color: #1976d2;
+  // color: white;
+  font-weight: 600;
+}
+
+.toolbar img {
+  margin: 7px 10px;
+}
+
+.toolbar #twitter-logo {
+  height: 40px;
+  margin: 0 8px;
+}
+
+.toolbar #youtube-logo {
+  height: 40px;
+  margin: 0 16px;
+}
+
+.toolbar #twitter-logo:hover,
+.toolbar #youtube-logo:hover {
+  opacity: 0.8;
+}
+
+.user {
+  margin: 70%;
+}
+
+#demo {
+  position: absolute;
+  margin: 85% 88% 79%;
+  margin: 38% 20% 33% 88%;
+}
+
+.accordion {
+  margin: 20px 64px;
+  color: #fff;
+  font-size: 15px;
+  cursor: pointer;
+  
+}
+
+.imgStyleHeader{
+  height: 28px;
+  margin-top: 17px;
+  cursor: pointer;
+}

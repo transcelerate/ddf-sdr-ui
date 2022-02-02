@@ -1,0 +1,16 @@
+<nav class="navbar" id="menu"  *ngIf = "refreshStatus">
+    <ul class="navbar-nav">
+      <li  *ngFor="let menu of menuList" class="nav-item">
+        <a class="nav-link" [ngClass]="{'active': menu.isSelected}" [href]=menu.link (click)="changeActive(menu.name)">{{menu.name}}</a>
+      </li>
+      <!-- <li class="nav-item">
+        <a class="nav-link" href="home">Search Study Definitions</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="home">Reports</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="home">Study Versions Comparison</a>
+      </li> -->
+    </ul>
+  </nav>
