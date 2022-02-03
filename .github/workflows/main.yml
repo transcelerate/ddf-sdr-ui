@@ -35,37 +35,31 @@ jobs:
          npm install touch-cli -g
          npm install typescript
     
-    - name: touch env.dev
-      run: touch '${{ github.workspace }}/SDR-WebApp/src/environments/environment.dev2.ts'
-      
-    - name: touch env.qa
-      run: touch '${{ github.workspace }}/SDR-WebApp/src/environments/environment.qa.ts'
-      
-#     - name: touch env.prod
-#       run: touch '${{ github.workspace }}\SDR-WebApp\src\environments\environment.prod.ts'
-      
-    - name: rename
+     
+    - name: rename_prod
       run: cp '${{ github.workspace }}\SDR-WebApp\src\environments\environment.ts' '${{ github.workspace }}\SDR-WebApp\src\environments\environment.prod.ts'
+      
+    - name: rename_dev2
+      run: cp '${{ github.workspace }}\SDR-WebApp\src\environments\environment.ts' '${{ github.workspace }}\SDR-WebApp\src\environments\environment.dev2.ts'
+      
+    - name: rename_qa
+      run: cp '${{ github.workspace }}\SDR-WebApp\src\environments\environment.ts' '${{ github.workspace }}\SDR-WebApp\src\environments\environment.qa.ts'
+      
       
     - name: list
       run: |
        cd ${{ github.workspace }}\SDR-WebApp\src\environments
        ls
   
-      
     - name: npm install
       run: npm install SDR-WebApp
     - name: npm update
       run: npm update SDR-WebApp
       
-     
-      
-  
     - name: Build dev2
-      
       run: |
          cd ${{ github.workspace }}\SDR-WebApp
-         ng build
+         ng build --configuration=dev2
     - name: 'Copy Files to: ${{ github.workspace }}/dev2'
       run: Copy '${{ github.workspace }}/**/SDR-WebApp/dist/**' '${{ github.workspace }}/dev2'
     - name: 'Publish Artifact: drop_dev2'
