@@ -36,6 +36,9 @@ jobs:
     - name: touch env.qa
       run: touch '${{ github.workspace }}/SDR-WebApp/src/environments/environment.qa.ts '
       
+    - name: touch env.prod
+      run: touch '${{ github.workspace }}/SDR-WebApp/src/environments/environment.prod.ts '
+      
     - name: npm install
       run: npm install SDR-WebApp
     - name: npm update
@@ -45,7 +48,7 @@ jobs:
       
   
     - name: Build dev2
-      run: ng build  '${{ github.workspace }}\SDR-WebApp'
+      run: npm run build  '${{ github.workspace }}\SDR-WebApp'
     - name: 'Copy Files to: ${{ github.workspace }}/dev2'
       run: Copy '${{ github.workspace }}/**/SDR-WebApp/dist/**' '${{ github.workspace }}/dev2'
     - name: 'Publish Artifact: drop_dev2'
@@ -53,13 +56,13 @@ jobs:
       with:
         path: ${{ github.workspace }}/dev2
         name: drop_dev2
-    - name: Build qa
-      run: ng build --configuration=qa
-    - name: 'Copy Files to: ${{ github.workspace }} copy'
-      run: Copy '${{ github.workspace }}/**/SDR-WebApp/dist/**' '${{ github.workspace }}/qa'
-    - name: 'Publish Artifact: drop_qa'
-      uses: actions/upload-artifact@v2
-      with:
-        path: ${{ github.workspace }}/qa
-        name: drop_qa
+#     - name: Build qa
+#       run: ng build --configuration=qa
+#     - name: 'Copy Files to: ${{ github.workspace }} copy'
+#       run: Copy '${{ github.workspace }}/**/SDR-WebApp/dist/**' '${{ github.workspace }}/qa'
+#     - name: 'Publish Artifact: drop_qa'
+#       uses: actions/upload-artifact@v2
+#       with:
+#         path: ${{ github.workspace }}/qa
+#         name: drop_qa
                     
