@@ -48,7 +48,10 @@ jobs:
       
   
     - name: Build dev2
-      run: npm run build  '${{ github.workspace }}\SDR-WebApp'
+      
+      run: |
+         cd ${{ github.workspace }}\SDR-WebApp
+         npm run build
     - name: 'Copy Files to: ${{ github.workspace }}/dev2'
       run: Copy '${{ github.workspace }}/**/SDR-WebApp/dist/**' '${{ github.workspace }}/dev2'
     - name: 'Publish Artifact: drop_dev2'
