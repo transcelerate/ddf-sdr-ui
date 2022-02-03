@@ -31,10 +31,10 @@ jobs:
     - name: npm touch install
       run: npm install touch-cli -g
     - name: touch env.dev
-      run: touch environment.dev2.ts
+      run: touch environment.dev2.ts '${{ github.workspace }}/SDR-WebApp/src/environments'
       
     - name: touch env.qa
-      run: touch environment.qa.ts
+      run: touch environment.qa.ts '${{ github.workspace }}/SDR-WebApp/src/environments'
       
     - name: npm install
       run: npm install SDR-WebApp
