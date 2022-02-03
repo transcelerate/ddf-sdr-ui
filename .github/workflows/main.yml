@@ -28,10 +28,22 @@ jobs:
         node-version: 12.x
     - name: npm cli
       run: npm install -g @angular/cli@13.0.3 SDR-WebApp
+    - name: npm touch install
+      run: npm install touch-cli -g
+    - name: touch env.dev
+      run: touch environment.dev2.ts
+      
+    - name: touch env.qa
+      run: touch environment.qa.ts
+      
     - name: npm install
       run: npm install SDR-WebApp
     - name: npm update
       run: npm update SDR-WebApp
+      
+     
+      
+  
     - name: Build dev2
       run: ng build --configuration=dev2 '${{ github.workspace }}\SDR-WebApp'
     - name: 'Copy Files to: ${{ github.workspace }}/dev2'
