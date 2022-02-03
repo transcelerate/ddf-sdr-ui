@@ -63,23 +63,13 @@ jobs:
          ls
     - name: 'Copy Files to: ${{ github.workspace }}/dev2'
       run: cp '${{ github.workspace }}\SDR-WebApp\dist\**' '${{ github.workspace }}\dev2'
-#     - name: 'Publish Artifact: drop_dev2'
-#       uses: actions/upload-artifact@v2
-#       with:
-#         path: ${{ github.workspace }}\dev2
-#         name: drop_dev2
-        
-    - name: Upload a Build Artifact
-      uses: actions/upload-artifact@v2.3.1
+    - name: 'Publish Artifact: Artifact'
+      uses: actions/upload-artifact@v2
       with:
-      # Artifact name
-       name:  artifact
-       # A file, directory or wildcard pattern that describes what to upload
-       path: '${{ github.workspace }}\dev2'
-        # The desired behavior if no files are found using the provided path.
+        path: '${{ github.workspace }}\dev2\**'
+        name: Build-Artifact
         
-
- 
+  
 #     - name: Build qa
 #       run: ng build --configuration=qa
 #     - name: 'Copy Files to: ${{ github.workspace }} copy'
