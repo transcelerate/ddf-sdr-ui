@@ -45,7 +45,7 @@ jobs:
       
   
     - name: Build dev2
-      run: ng build --configuration=dev2 '${{ github.workspace }}\SDR-WebApp'
+      run: ng build  '${{ github.workspace }}\SDR-WebApp'
     - name: 'Copy Files to: ${{ github.workspace }}/dev2'
       run: Copy '${{ github.workspace }}/**/SDR-WebApp/dist/**' '${{ github.workspace }}/dev2'
     - name: 'Publish Artifact: drop_dev2'
