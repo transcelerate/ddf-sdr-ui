@@ -39,10 +39,16 @@ jobs:
       run: touch '${{ github.workspace }}/SDR-WebApp/src/environments/environment.dev2.ts'
       
     - name: touch env.qa
-      run: touch '${{ github.workspace }}/SDR-WebApp/src/environments/environment.qa.ts '
+      run: touch '${{ github.workspace }}/SDR-WebApp/src/environments/environment.qa.ts'
       
     - name: touch env.prod
-      run: touch '${{ github.workspace }}/SDR-WebApp/src/environments/environment.prod.ts '
+      run: touch '${{ github.workspace }}\SDR-WebApp\src\environments\environment.prod.ts'
+      
+    - name: list
+      run: |
+       cd ${{ github.workspace }}\SDR-WebApp\src\environments
+       ls
+  
       
     - name: npm install
       run: npm install SDR-WebApp
