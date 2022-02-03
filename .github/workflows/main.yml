@@ -41,8 +41,8 @@ jobs:
     - name: touch env.qa
       run: touch '${{ github.workspace }}/SDR-WebApp/src/environments/environment.qa.ts'
       
-    - name: touch env.prod
-      run: touch '${{ github.workspace }}\SDR-WebApp\src\environments\environment.prod.ts'
+#     - name: touch env.prod
+#       run: touch '${{ github.workspace }}\SDR-WebApp\src\environments\environment.prod.ts'
       
     - name: rename
       run: cp '${{ github.workspace }}\SDR-WebApp\src\environments\environment.ts' '${{ github.workspace }}\SDR-WebApp\src\environments\environment.prod.ts'
