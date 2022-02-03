@@ -65,7 +65,7 @@ jobs:
     - name: 'Publish Artifact: drop_dev2'
       uses: actions/upload-artifact@v2
       with:
-        path: ${{ github.workspace }}/dev2
+        path: ${{ github.workspace }}\dev2
         name: drop_dev2
 #     - name: Build qa
 #       run: ng build --configuration=qa
