@@ -44,6 +44,9 @@ jobs:
     - name: touch env.prod
       run: touch '${{ github.workspace }}\SDR-WebApp\src\environments\environment.prod.ts'
       
+    - name: rename
+      run: cp '${{ github.workspace }}\SDR-WebApp\src\environments\environment.ts' '${{ github.workspace }}\SDR-WebApp\src\environments\environment.prod.ts'
+      
     - name: list
       run: |
        cd ${{ github.workspace }}\SDR-WebApp\src\environments
