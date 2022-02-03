@@ -61,7 +61,7 @@ jobs:
          cd ${{ github.workspace }}\SDR-WebApp
          ng build --configuration=dev2
     - name: 'Copy Files to: ${{ github.workspace }}/dev2'
-      run: Copy '${{ github.workspace }}/**/SDR-WebApp/dist/**' '${{ github.workspace }}/dev2'
+      run: cp '${{ github.workspace }}\**\SDR-WebApp\dist\**' '${{ github.workspace }}\dev2'
     - name: 'Publish Artifact: drop_dev2'
       uses: actions/upload-artifact@v2
       with:
@@ -70,7 +70,7 @@ jobs:
 #     - name: Build qa
 #       run: ng build --configuration=qa
 #     - name: 'Copy Files to: ${{ github.workspace }} copy'
-#       run: Copy '${{ github.workspace }}/**/SDR-WebApp/dist/**' '${{ github.workspace }}/qa'
+#       run: cp '${{ github.workspace }}/**/SDR-WebApp/dist/**' '${{ github.workspace }}/qa'
 #     - name: 'Publish Artifact: drop_qa'
 #       uses: actions/upload-artifact@v2
 #       with:
