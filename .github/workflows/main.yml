@@ -75,16 +75,26 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         path: '${{ github.workspace }}\dev2\**'
-        name: Build-Artifact
+        name: Build-Artifact-Dev
         
   
-#     - name: Build qa
-#       run: ng build --configuration=qa
-#     - name: 'Copy Files to: ${{ github.workspace }} copy'
-#       run: cp '${{ github.workspace }}/**/SDR-WebApp/dist/**' '${{ github.workspace }}/qa'
-#     - name: 'Publish Artifact: drop_qa'
-#       uses: actions/upload-artifact@v2
-#       with:
-#         path: ${{ github.workspace }}/qa
-#         name: drop_qa
-                    
+    - name: Build QA
+      run: |
+         cd ${{ github.workspace }}\SDR-WebApp
+         ng build --configuration=qa
+         cd ${{ github.workspace }}\SDR-WebApp\dist\SDR-WebApp
+         ls
+         
+    - name: 'Copy Files to: ${{ github.workspace }}/dev2'
+      run: |
+       cp '${{ github.workspace }}\SDR-WebApp\dist\SDR-WebApp\**' '${{ github.workspace }}\qa'
+       cd ${{ github.workspace }}\qa
+       ls
+       
+     
+      
+    - name: 'Publish Artifact: Artifact'
+      uses: actions/upload-artifact@v2
+      with:
+        path: '${{ github.workspace }}\qa\**'
+        name: Build-Artifact-QA
