@@ -62,7 +62,11 @@ jobs:
          ng build --configuration=dev2
          ls
     - name: 'Copy Files to: ${{ github.workspace }}/dev2'
-      run: cp '${{ github.workspace }}\SDR-WebApp\dist\**' '${{ github.workspace }}\dev2'
+      run: |
+       cp '${{ github.workspace }}\SDR-WebApp\dist\**' '${{ github.workspace }}\dev2'
+       cd ${{ github.workspace }}\dev2
+       ls
+      
     - name: 'Publish Artifact: Artifact'
       uses: actions/upload-artifact@v2
       with:
