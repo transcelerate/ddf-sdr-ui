@@ -60,12 +60,12 @@ jobs:
       run: |
          cd ${{ github.workspace }}\SDR-WebApp
          ng build --configuration=dev2
-         cd ${{ github.workspace }}\SDR-WebApp\dist
+         cd ${{ github.workspace }}\SDR-WebApp\dist\SDR-WebApp
          ls
          
     - name: 'Copy Files to: ${{ github.workspace }}/dev2'
       run: |
-       cp '${{ github.workspace }}\SDR-WebApp\dist\**' '${{ github.workspace }}\dev2'
+       cp '${{ github.workspace }}\SDR-WebApp\dist\SDR-WebApp\**' '${{ github.workspace }}\dev2'
        cd ${{ github.workspace }}\dev2
        ls
        
