@@ -22,6 +22,23 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+    - # "Note: the 'AZURE_SP' secret is required to be added into GitHub Secrets. See this blog post for details: https://samlearnsazure.blog/2019/12/13/github-actions/"
+      name: Azure Login
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_SP }}
+        
+    - uses: Azure/get-keyvault-secrets@v1
+      with:
+        keyvault: "kv-sdr-dev2-eastus" # name of key vault in Azure portal
+        secrets: 'AzureAd-TenantId,AzureAd-Authority,AzureAd-ClientId,AzureAd-Audiance,AzureAd-RedirectUrl,AzureAd-LoginUrl,Apim-BaseUrl'  # comma separated list of secret keys to fetch from key vault 
+      id: myGetSecretAction # ID for secrets that you will reference
+      
+     
+
+        
+        
+    - uses: actions/checkout@v2
     - name: Use Node 12.x
       uses: actions/setup-node@v1
       with:
@@ -36,20 +53,20 @@ jobs:
          npm install typescript
     
      
-    - name: rename_prod
-      run: cp '${{ github.workspace }}\SDR-WebApp\src\environments\environment.ts' '${{ github.workspace }}\SDR-WebApp\src\environments\environment.prod.ts'
+#     - name: rename_prod
+#       run: cp '${{ github.workspace }}\SDR-WebApp\src\environments\environment.ts' '${{ github.workspace }}\SDR-WebApp\src\environments\environment.prod.ts'
       
-    - name: rename_dev2
-      run: cp '${{ github.workspace }}\SDR-WebApp\src\environments\environment.ts' '${{ github.workspace }}\SDR-WebApp\src\environments\environment.dev2.ts'
+#     - name: rename_dev2
+#       run: cp '${{ github.workspace }}\SDR-WebApp\src\environments\environment.ts' '${{ github.workspace }}\SDR-WebApp\src\environments\environment.dev2.ts'
       
-    - name: rename_qa
-      run: cp '${{ github.workspace }}\SDR-WebApp\src\environments\environment.ts' '${{ github.workspace }}\SDR-WebApp\src\environments\environment.qa.ts'
+#     - name: rename_qa
+#       run: cp '${{ github.workspace }}\SDR-WebApp\src\environments\environment.ts' '${{ github.workspace }}\SDR-WebApp\src\environments\environment.qa.ts'
       
       
-    - name: list
-      run: |
-       cd ${{ github.workspace }}\SDR-WebApp\src\environments
-       ls
+#     - name: list
+#       run: |
+#        cd ${{ github.workspace }}\SDR-WebApp\src\environments
+#        ls
   
     - name: npm install
       run: npm install SDR-WebApp
@@ -59,14 +76,15 @@ jobs:
     - name: Build dev2
       run: |
          cd ${{ github.workspace }}\SDR-WebApp
-         ng build --configuration=dev2
+ 
+         ng build
          cd ${{ github.workspace }}\SDR-WebApp\dist\SDR-WebApp
          ls
          
-    - name: 'Copy Files to: ${{ github.workspace }}/dev2'
+    - name: 'Copy Files to: ${{ github.workspace }}'
       run: |
-       cp '${{ github.workspace }}\SDR-WebApp\dist\SDR-WebApp\**' '${{ github.workspace }}\dev2'
-       cd ${{ github.workspace }}\dev2
+       cp '${{ github.workspace }}\SDR-WebApp\dist\SDR-WebApp\**' '${{ github.workspace }}'
+       cd ${{ github.workspace }}
        ls
        
      
@@ -74,27 +92,27 @@ jobs:
     - name: 'Publish Artifact: Artifact'
       uses: actions/upload-artifact@v2
       with:
-        path: '${{ github.workspace }}\dev2\**'
-        name: Build-Artifact-Dev
+        path: '${{ github.workspace }}\**'
+        name: Build-Artifact
         
   
-    - name: Build QA
-      run: |
-         cd ${{ github.workspace }}\SDR-WebApp
-         ng build --configuration=qa
-         cd ${{ github.workspace }}\SDR-WebApp\dist\SDR-WebApp
-         ls
+#     - name: Build QA
+#       run: |
+#          cd ${{ github.workspace }}\SDR-WebApp
+#          ng build --configuration=qa
+#          cd ${{ github.workspace }}\SDR-WebApp\dist\SDR-WebApp
+#          ls
          
-    - name: 'Copy Files to: ${{ github.workspace }}/dev2'
-      run: |
-       cp '${{ github.workspace }}\SDR-WebApp\dist\SDR-WebApp\**' '${{ github.workspace }}\qa'
-       cd ${{ github.workspace }}\qa
-       ls
+#     - name: 'Copy Files to: ${{ github.workspace }}/dev2'
+#       run: |
+#        cp '${{ github.workspace }}\SDR-WebApp\dist\SDR-WebApp\**' '${{ github.workspace }}\qa'
+#        cd ${{ github.workspace }}\qa
+#        ls
        
      
       
-    - name: 'Publish Artifact: Artifact'
-      uses: actions/upload-artifact@v2
-      with:
-        path: '${{ github.workspace }}\qa\**'
-        name: Build-Artifact-QA
+#     - name: 'Publish Artifact: Artifact'
+#       uses: actions/upload-artifact@v2
+#       with:
+#         path: '${{ github.workspace }}\qa\**'
+#         name: Build-Artifact-QA
