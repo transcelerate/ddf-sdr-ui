@@ -74,12 +74,8 @@ jobs:
       run: npm update SDR-WebApp
       
     - name: Build dev2
-      run: |
-         cd ${{ github.workspace }}\SDR-WebApp
- 
-         ng build
-         cd ${{ github.workspace }}\SDR-WebApp\dist\SDR-WebApp
-         ls
+      run:  ng build
+         
          
     - name: 'Copy Files to: ${{ github.workspace }}'
       run: |
