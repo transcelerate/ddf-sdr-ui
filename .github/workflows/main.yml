@@ -30,7 +30,7 @@ jobs:
         
     - uses: Azure/get-keyvault-secrets@v1
       with:
-        keyvault: "kv-sdr-dev2-eastus" # name of key vault in Azure portal
+        keyvault: "${{ secrets.KeyVault_Dev }}" # name of key vault in Azure portal
         secrets: 'AzureAd-TenantId,AzureAd-Authority,AzureAd-ClientId,AzureAd-Audiance,AzureAd-RedirectUrl,AzureAd-LoginUrl,Apim-BaseUrl'  # comma separated list of secret keys to fetch from key vault 
       id: myGetSecretAction # ID for secrets that you will reference
       
