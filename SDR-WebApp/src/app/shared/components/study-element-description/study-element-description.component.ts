@@ -54,11 +54,15 @@ export class StudyElementDescriptionComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
-      if(Object.keys(params).length !==0 ){
+      if (Object.keys(params).length !== 0) {
         this.studyId = params['studyId'];
         this.versionId = params['versionId'];
       }
-     
+      if(this.studyId && this.versionId){
+        localStorage.setItem('studyId', this.studyId);
+    localStorage.setItem('versionId', this.versionId);
+      }
+      
     });
     // this.msalBroadcastService.msalSubject$
     //   .pipe(
@@ -68,7 +72,12 @@ export class StudyElementDescriptionComponent implements OnInit {
     //     console.log('result', result);
     //   });
     this.heading = configList.HEADING;
-
+    this.studyId = this.studyId
+      ? this.studyId
+      : localStorage.getItem('studyId');
+    this.versionId = this.versionId
+      ? this.versionId
+      : localStorage.getItem('versionId');
     this.getstudyelement();
   }
 
@@ -117,10 +126,10 @@ export class StudyElementDescriptionComponent implements OnInit {
         this.spinner.hide();
 
         // this.studyelement = studyelement.clinicalStudy;
-      //  studyelement = mockJson;
-     let sponsorDetails = this.commonMethod.getSponsorDetails(studyelement);
-      //   this.sponsorStudyId = sponsorDetails.studyId;
-      this.sponsorVersionId = sponsorDetails.versionId;
+        //  studyelement = mockJson;
+        let sponsorDetails = this.commonMethod.getSponsorDetails(studyelement);
+        //   this.sponsorStudyId = sponsorDetails.studyId;
+        this.sponsorVersionId = sponsorDetails.versionId;
         // studyelement = val.clinicalStudy;
 
         this.finalVal.attributeList = [];
@@ -154,14 +163,13 @@ export class StudyElementDescriptionComponent implements OnInit {
       },
       error: (error) => {
         console.log(error);
-        // this.userExists = false;
+        this.spinner.hide();
+        // alert('Service error');
       },
     });
   }
 
-  setLoginDisplay() {
-    //this.loginDisplay = this.authService.instance.getAllAccounts().length > 0;
-  }
+
   setHighLighted(val: any) {
     val.forEach((elem: Accordian) => {
       elem.isHighlighted = false;
@@ -207,9 +215,23 @@ export class StudyElementDescriptionComponent implements OnInit {
   backButtonClicked() {
     this.backClicked.emit(true);
   }
-  auditTrail(){
-    this.router.navigate(["audit",  {
-      studyId : this.studyId || this.finalVal.attributeList.filter(elem=>elem.name == "studyId")[0].value,
-    } ], {relativeTo: this.route});
+  auditTrail() {
+    this.router.navigate(
+      [
+        'audit',
+        {
+          studyId:
+            this.studyId ||
+            this.finalVal.attributeList.filter(
+              (elem) => elem.name == 'studyId'
+            )[0].value,
+        },
+      ],
+      { relativeTo: this.route }
+    );
+  }
+  ngOnDestroy() {
+    localStorage.setItem('studyId', this.studyId);
+    localStorage.setItem('versionId', this.versionId);
   }
 }

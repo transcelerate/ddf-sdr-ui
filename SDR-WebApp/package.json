@@ -7,7 +7,10 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "lint": "ng lint"
+    "lint": "ng lint",
+    "local": "ng serve -c development",
+    "qa": "ng build --prod --configuration=qa --build optimizer",
+    "sonar": "sonar-scanner"
   },
   "private": true,
   "dependencies": {
@@ -30,17 +33,17 @@
     "bootstrap": "^5.1.3",
     "bootstrap-icons": "^1.7.2",
     "core-js": "^3.19.1",
-    "font-awesome": "^4.7.0",
     "jquery": "^3.3.1",
     "moment": "^2.29.1",
     "monaco-editor": "^0.31.1",
-    "ngx-spinner": "^13.0.0",
+    "ngx-spinner": "^13.1.1",
     "popper.js": "^1.16.1",
     "rxjs": "~7.4.0",
     "tslib": "^2.3.1",
     "zone.js": "~0.11.4"
   },
   "devDependencies": {
+    "@angular-builders/custom-webpack": "^13.1.0",
     "@angular-devkit/build-angular": "~13.0.3",
     "@angular-eslint/builder": "13.0.1",
     "@angular-eslint/eslint-plugin": "13.0.1",
@@ -55,12 +58,18 @@
     "@typescript-eslint/parser": "5.3.0",
     "eslint": "^8.2.0",
     "jasmine-core": "~3.10.0",
+    "javascript-obfuscator": "^4.0.0",
     "karma": "~6.3.0",
     "karma-chrome-launcher": "~3.1.0",
     "karma-coverage": "~2.0.3",
+    "karma-coverage-istanbul-reporter": "^3.0.3",
     "karma-jasmine": "~4.0.0",
     "karma-jasmine-html-reporter": "~1.7.0",
+    "karma-junit-reporter": "~2.0.1",
+    "karma-sonarqube-unit-reporter": "~0.0.23",
+    "sonar-scanner": "^3.1.0",
     "tslint-angular": "^3.0.3",
-    "typescript": "~4.4.3"
+    "typescript": "~4.4.3",
+    "webpack-obfuscator": "^3.5.1"
   }
 }

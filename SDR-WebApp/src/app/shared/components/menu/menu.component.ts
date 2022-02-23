@@ -17,11 +17,6 @@ export class MenuComponent implements OnInit {
       name:'Search Study Definitions',
       link:'search',
       isSelected : false
-    },
-    {
-      name:'Study Versions Comparison',
-      link:'home',
-      isSelected : false
     }];
    
   constructor(private ds: DialogService) {

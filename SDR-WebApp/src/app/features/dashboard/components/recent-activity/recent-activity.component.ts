@@ -7,6 +7,7 @@ import {
 } from '@angular/core';
 import { IGetRowsParams } from 'ag-grid';
 import * as moment from 'moment';
+import { configList } from '../../../../shared/components/study-element-description/config/study-element-field-config';
 import { filter, Observable, Subject, takeUntil } from 'rxjs';
 import { ServiceCall } from '../../../../shared/services/service-call/service-call.service';
 import { MenuComponent } from 'src/app/shared/components/menu/menu.component';
@@ -38,7 +39,7 @@ export class RecentActivityComponent {
   public maxBlocksInCache;
   public rowData: any;
   public value: any = [];
-  BLOCK_SIZE: number = 5;
+  BLOCK_SIZE: number = configList.BLOCK_SIZE;
   @ViewChild(MenuComponent) menu: MenuComponent;
   studyId: any;
   versionId: any;
@@ -53,7 +54,8 @@ export class RecentActivityComponent {
     private commonMethod: CommonMethodsService,
     private authService: MsalService,
     private msalBroadcastService: MsalBroadcastService,
-    public router: Router, public route: ActivatedRoute
+    public router: Router,
+    public route: ActivatedRoute
   ) {
     this.columnDefs = [
       {
@@ -102,30 +104,39 @@ export class RecentActivityComponent {
     this.ds.changeDialogState('Home');
   }
   getStudyVersionGrid(params: any) {
-    console.log(params);
-    const eDiv = document.createElement('div');
-    // tslint:disable-next-line:no-this-assignment
-    const self = this;
-    eDiv.innerHTML =
-      '<span class="linkSpan"><a>' +
-      params.data?.clinicalStudy.studyTitle +
-      '&nbsp;<span>_Version ' +
-      params.data?.auditTrail.studyVersion +
-      '</span> </a></span>';
-    eDiv.addEventListener('click', () => {
-      console.log('button clicked');
-      self.setSelectedValue(params.data);
-    });
+    if (!params.data) {
+      return '';
+    } else {
+      console.log(params);
+      const eDiv = document.createElement('div');
+      // tslint:disable-next-line:no-this-assignment
+      const self = this;
+      eDiv.innerHTML =
+        '<span class="linkSpan"><a>' +
+        params.data?.clinicalStudy.studyTitle +
+        '&nbsp;<span>_Version ' +
+        params.data?.auditTrail.studyVersion +
+        '</span> </a></span>';
+      eDiv.addEventListener('click', () => {
+        self.setSelectedValue(params.data);
+      });
 
-    return eDiv;
+      return eDiv;
+    }
   }
   setSelectedValue(val: any) {
     this.showStudyElement = true;
-      this.router.navigate(["details",  {
-        studyId : val.clinicalStudy.studyId,
-        versionId : val.auditTrail.studyVersion,
-      } ], {relativeTo: this.route});
-   
+    this.router.navigate(
+      [
+        'details',
+        {
+          studyId: val.clinicalStudy.studyId,
+          versionId: val.auditTrail.studyVersion,
+        },
+      ],
+      { relativeTo: this.route }
+    );
+
     // this._elementRef.nativeElement.querySelector('#myGrid').style.display =
     //   'none';
   }
@@ -141,7 +152,6 @@ export class RecentActivityComponent {
     this.showStudyElement = false;
   }
   gridValueMerge(params: any) {
-    console.log(params);
     if (params && params.data) {
       return {
         studyId: params.data.studyId,
@@ -152,19 +162,20 @@ export class RecentActivityComponent {
       return '';
     }
   }
-
-  onGridReady(params: any) {
-    this.gridApi = params.api;
-    this.gridColumnApi = params.columnApi;
-    params.api.sizeColumnsToFit();
-    let reqObj = {
-      fromDate: moment().subtract(30, 'days'),
-      toDate: moment(),
-    };
-    this.commonMethod.gridDataSourceForSearchStudy(
-      reqObj,
-      this.gridApi,
-      this.BLOCK_SIZE
-    );
-  }
+/* istanbul ignore next */
+  onGridReady(params: any) {  //NOSONAR
+    this.gridApi = params.api;  //NOSONAR
+    this.gridColumnApi = params.columnApi;  //NOSONAR
+    params.api.sizeColumnsToFit();  //NOSONAR
+    let reqObj = {  //NOSONAR
+      fromDate: moment().subtract(30, 'days'),  //NOSONAR
+      toDate: moment(),  //NOSONAR
+    };  //NOSONAR
+    this.commonMethod.gridDataSourceForSearchStudy(  //NOSONAR
+      reqObj,  //NOSONAR
+      this.gridApi,  //NOSONAR
+      this.BLOCK_SIZE  //NOSONAR
+    );  //NOSONAR
+  }  //NOSONAR
+  /* istanbul ignore end */
 }

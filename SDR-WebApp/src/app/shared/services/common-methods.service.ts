@@ -10,6 +10,8 @@ export class CommonMethodsService {
     private spinner: NgxSpinnerService,
     public serviceCall: ServiceCall
   ) {}
+   /* istanbul ignore next */
+// @SONAR_STOP@
   gridDataSourceForSearchStudy(
     reqObj: any,
     gridApi: any,
@@ -65,6 +67,8 @@ export class CommonMethodsService {
     gridApi.hideOverlay();
     gridApi.setDatasource(dataSourceVar);
   }
+   /* istanbul ignore end */
+// @SONAR_START@
   getHeaderName(colId: any): any {
     switch (colId) {
       case 'clinicalStudy.studyTitle':
@@ -85,6 +89,11 @@ export class CommonMethodsService {
         return 'LastModifiedDate';
       case 'auditTrail.studyVersion':
         return 'SDRVersion';
+      case 'clinicalStudy.status':
+        return 'status';
+      case 'clinicalStudy.tag':
+        return 'tag';
+        
     }
   }
   getSponsorDetails(studyelement: any){

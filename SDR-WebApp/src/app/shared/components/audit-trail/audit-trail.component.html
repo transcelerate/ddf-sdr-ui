@@ -8,7 +8,7 @@
       Version Comparison
     </button>
   </div>
-  <div class="auditDiv gridOuter">
+  <div class="auditDiv gridOuter" *ngIf="rowData.length>0">
     <ag-grid-angular
       #agGrid
       id="myGrid"

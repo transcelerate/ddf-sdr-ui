@@ -66,6 +66,10 @@ td, th {
 h2{
   margin:0px;
 }
+.textCenter{
+  //text-align: center;
+  display:none;
+} 
 .versionButton {
   position: absolute;
   right: -11px;
@@ -76,6 +80,10 @@ h2{
 }
 .buttonDiv {
   position: relative;
+}
+
+.titleSpacing{
+ // margin-left: 40%;
 }
 
 

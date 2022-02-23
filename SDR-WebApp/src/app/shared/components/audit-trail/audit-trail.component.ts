@@ -21,12 +21,12 @@ export class AuditTrailComponent implements OnInit {
       suppressSizeToFit: false,
       width: 150,
     },
-    {
-      headerName: 'System ID',
-      field: 'entrySystemId',
-      suppressSizeToFit: false,
-      width: 150,
-    },
+    // {
+    //   headerName: 'System ID',
+    //   field: 'entrySystemId',
+    //   suppressSizeToFit: false,
+    //   width: 150,
+    // },
     {
       headerName: 'System',
       field: 'entrySystem',
@@ -106,6 +106,10 @@ export class AuditTrailComponent implements OnInit {
         this.studyId = params['studyId'];
       }
     });
+    this.studyId = this.studyId
+      ? this.studyId
+      : localStorage.getItem('studyId');
+    this.spinner.show();
     this.serviceCall.getAuditTrail(this.studyId).subscribe({
       next: (audit: any) => {
         //this.userExists = true;
@@ -116,6 +120,8 @@ export class AuditTrailComponent implements OnInit {
       },
       error: (error) => {
         console.log(error);
+        this.spinner.hide();
+        // alert('Service error');
         // this.userExists = false;
       },
     });
@@ -150,6 +156,8 @@ export class AuditTrailComponent implements OnInit {
 
     return eDiv;
   }
+  /* istanbul ignore next */
+// @SONAR_STOP@
   onGridReady(params: {
     api: { sizeColumnsToFit: () => void };
     columnApi: any;
@@ -166,6 +174,8 @@ export class AuditTrailComponent implements OnInit {
     ];
     params.columnApi.applyColumnState({ state: defaultSortModel });
   }
+   /* istanbul ignore end */
+// @SONAR_START@
   setRadio(selectedVal: any, from: string) {
     let disableField = from === 'A' ? 'B' : 'A';
     if (from == 'A') {
@@ -181,9 +191,14 @@ export class AuditTrailComponent implements OnInit {
     for (var i = 0; i < domElement.length; i++) {
       domElement[i].removeAttribute('disabled');
     }
-    this._elementRef.nativeElement
-      .getElementsByClassName(selectedVal.studyVersion + disableField)[0]
-      .setAttribute('disabled', true);
+    if (
+      this._elementRef.nativeElement.getElementsByClassName(
+        selectedVal.studyVersion + disableField
+      )[0]
+    )
+      this._elementRef.nativeElement
+        .getElementsByClassName(selectedVal.studyVersion + disableField)[0]
+        .setAttribute('disabled', true);
     //this.disableButton = ! (typeof(this.versionA) == 'number' && typeof(this.versionB) == 'number')
     this.disableButton = this.versionA === '' || this.versionB === '';
   }

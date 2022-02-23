@@ -19,7 +19,7 @@ export interface IHTTPOptions{
 })
 
 export class HttpWrapperService {
-private httpOptions:IHTTPOptions;
+public httpOptions:IHTTPOptions;
 
   constructor(private httpClient:HttpClient, private spinner: NgxSpinnerService) {
     this.httpOptions=this.getDefaultHttpOptions();
@@ -35,7 +35,6 @@ private httpOptions:IHTTPOptions;
      return new HttpHeaders({
       'Content-Type':'application/json',
       'Authorization':'Bearer ' + localStorage.getItem('token'),
-      'ocp-apim-subscription-key': environment.subscriptionKey,
      });
    }
 
@@ -73,31 +72,31 @@ private httpOptions:IHTTPOptions;
    );
    }
 
-   private showErrorAlert(httpErrorRes:HttpErrorResponse):void{
-   let errMsg:string="";
+  //  private showErrorAlert(httpErrorRes:HttpErrorResponse):void{
+  //  let errMsg:string="";
 
-    switch(httpErrorRes.status)
-    {
-      case 400:
-      errMsg:httpErrorRes.error?httpErrorRes.error:'Bad Request';
-      break;
-      case 401:
-      errMsg:'Unauthorized Access Denied';
-      break;
-      case 403:
-      errMsg:httpErrorRes.error;
-      break;
-      case 404:
-      errMsg:'Page not found';
-      break;
-      case 502:
-      errMsg:'Request timed out';
-      break;
-      default:
-      errMsg:'Http response error';
-      break;
-    }
+  //   switch(httpErrorRes.status)
+  //   {
+  //     case 400:
+  //     errMsg:httpErrorRes.error?httpErrorRes.error:'Bad Request';
+  //     break;
+  //     case 401:
+  //     errMsg:'Unauthorized Access Denied';
+  //     break;
+  //     case 403:
+  //     errMsg:httpErrorRes.error;
+  //     break;
+  //     case 404:
+  //     errMsg:'Page not found';
+  //     break;
+  //     case 502:
+  //     errMsg:'Request timed out';
+  //     break;
+  //     default:
+  //     errMsg:'Http response error';
+  //     break;
+  //   }
 
-    alert(errMsg);
-   }
+  //   alert(errMsg);
+  //  }
 }

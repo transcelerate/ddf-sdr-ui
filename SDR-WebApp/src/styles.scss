@@ -92,20 +92,39 @@ body {
   height: 200px;
   color: #fff;
 }
-.search .imgStyle {
-  width: 73%;
-  margin-left: 28%;
-  
+.search {
+  .imgStyle {
+    // width: 325%;
+    // margin-left: -190%;
+    width: 20px;
+  }
+  .ag-header-icon {
+    text-align: left;
+   // margin-left: -13px;
+  }
+  .ag-header-cell-text {
+   // min-width: 80px;
+    max-width: 80px;
+  }
 }
-.auditDiv .imgStyle {
-  width: 67%;
-  margin-left: 29%;
+.auditDiv {
+  .imgStyle {
+    // width: 67%;
+    // margin-left: 29%;
+    width: 20px;
+  }
+  .ag-header-icon {
+    text-align: left;
+    margin-left: -13px;
+  }
+  .ag-header-cell-text {
+    min-width: 80px;
+    max-width: 90px;
+  }
 }
-.ag-header-cell-text {
-  min-width: 80px;
-}
+
 .ag-header-cell-label .ag-header-cell-text {
-  white-space: normal !important;
+  white-space: pre-wrap !important;
 }
 .accordion-button::after {
   background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23000000'><path fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/></svg>") !important;
@@ -199,10 +218,13 @@ body {
   //background: white;
 }
 
-.editorHeading{
+.editorHeading {
   font-weight: bold;
 }
 
+.diffViewport {
+  min-height: 64px !important;
+}
 
 // html, body { height: 100%; }
 // body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

@@ -15,8 +15,14 @@
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@angular-builders/custom-webpack:browser",
           "options": {
+            "customWebpackConfig": {
+              "path": "./webpack.config.js",
+              "mergeRules": {
+                "externals": "replace"
+              }
+            },
             "outputPath": "dist/SDR-WebApp",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -26,10 +32,12 @@
               { "glob": "**/*", "input": "node_modules/monaco-editor", "output": "assets/monaco-editor/" },
               "src/favicon.ico.webp",
               "src/assets",
-              "src/web.config"
+              "src/web.config",
+              "src/robots.txt"
             ],
             "styles": [
               "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
+              "node_modules/ngx-spinner/animations/ball-scale-multiple.css",
               "src/styles.scss"
             ],
             "scripts": [
@@ -39,29 +47,7 @@
             ]
           },
           "configurations": {
-            "dev2": {
-              "fileReplacements": [
-                {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.dev2.ts"
-                }
-              ]
-            },
-        
-              "qa": {
-                "fileReplacements": [
-                  {
-                    "replace": "src/environments/environment.ts",
-                    "with": "src/environments/environment.qa.ts"
-                  }
-                ]
-              },
-
             "production": {
-              "fileReplacements": [{
-                "replace": "src/environments/environment.ts",
-                "with": "src/environments/environment.prod.ts"
-              }],
               "budgets": [
                 {
                   "type": "initial",
@@ -74,9 +60,24 @@
                   "maximumError": "10mb"
                 }
               ],
+              "optimization": true,
+  
+              "sourceMap": false,
+              
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
               "outputHashing": "all"
             },
             "development": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.development.ts"
+                }
+              ],
               "buildOptimizer": false,
               "optimization": false,
               "vendorChunk": true,
@@ -119,6 +120,7 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.spec.json",
             "karmaConfig": "karma.conf.js",
+            "codeCoverageExclude": ["src/app/shared/components/breadcrumb/breadcrumb.component.ts"],
             "assets": [
               "src/favicon.ico.webp",
               "src/assets"
@@ -145,6 +147,7 @@
   },
   "defaultProject": "SDR-WebApp",
   "cli": {
+    "analytics": false,
     "defaultCollection": "@angular-eslint/schematics"
   }
 }
