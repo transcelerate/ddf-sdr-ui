@@ -34,7 +34,9 @@ jobs:
         secrets: 'AzureAd-TenantId,AzureAd-Authority,AzureAd-ClientId,AzureAd-Audiance,AzureAd-RedirectUrl,AzureAd-LoginUrl,Apim-BaseUrl'  # comma separated list of secret keys to fetch from key vault 
       id: myGetSecretAction # ID for secrets that you will reference
       
-     
+#     - name: Run tmate
+#       uses: mxschmitt/action-tmate@v2
+
     - name: Find and Replace User Name - Using Build Variable
       run: |
         find SDR-WebApp/src/environments/environment.ts -type f -exec sed -i ''s/#{AzureAd-TenantId}#/${{ steps.myGetSecretAction.outputs.AzureAd-TenantId }}/g'' {} \;
@@ -52,7 +54,7 @@ jobs:
         node-version: 12.x
     - name: npm cli
       run: |
-       
+         cd ${{ github.workspace }}\SDR-WebApp
          npm install -g @angular/cli@13.0.3
          npm install @angular-devkit/build-angular
          npm install @materia-ui/ngx-monaco-editor
@@ -60,28 +62,21 @@ jobs:
          npm install typescript
     
      
-#     - name: rename_prod
-#       run: cp '${{ github.workspace }}\SDR-WebApp\src\environments\environment.ts' '${{ github.workspace }}\SDR-WebApp\src\environments\environment.prod.ts'
-      
-#     - name: rename_dev2
-#       run: cp '${{ github.workspace }}\SDR-WebApp\src\environments\environment.ts' '${{ github.workspace }}\SDR-WebApp\src\environments\environment.dev2.ts'
-      
-#     - name: rename_qa
-#       run: cp '${{ github.workspace }}\SDR-WebApp\src\environments\environment.ts' '${{ github.workspace }}\SDR-WebApp\src\environments\environment.qa.ts'
-      
-      
-#     - name: list
-#       run: |
-#        cd ${{ github.workspace }}\SDR-WebApp\src\environments
-#        ls
+
   
     - name: npm install
-      run: npm install SDR-WebApp
+      run: |
+         cd ${{ github.workspace }}\SDR-WebApp
+         npm install SDR-WebApp
     - name: npm update
-      run: npm update SDR-WebApp
+      run: |
+         cd ${{ github.workspace }}\SDR-WebApp
+         npm update SDR-WebApp
       
     - name: Build dev2
-      run:  ng build
+      run: |
+          cd ${{ github.workspace }}\SDR-WebApp
+          ng build
          
          
     - name: 'Copy Files to: ${{ github.workspace }}'
