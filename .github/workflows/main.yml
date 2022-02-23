@@ -68,12 +68,12 @@ jobs:
     - name: npm install
       run: |
          cd ${{ github.workspace }}/SDR-WebApp/
-         npm install SDR-WebApp
+         npm install
          
     - name: npm update
       run: |
          cd ${{ github.workspace }}/SDR-WebApp/
-         npm update SDR-WebApp
+         npm update
       
     - name: Build dev2
       run: |
