@@ -62,6 +62,7 @@ jobs:
          npm install typescript@4.4.4
          npm install @angular-builders/custom-webpack
          npm install ngx-spinner@13.1.1
+         npm install webpack-obfuscator@3.5.1
     
      
 
