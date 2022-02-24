@@ -60,6 +60,7 @@ jobs:
          npm install @angular-devkit/build-angular
          npm install @materia-ui/ngx-monaco-editor
          npm install typescript@4.4.4
+         npm install @angular-builders/custom-webpack
     
      
 
