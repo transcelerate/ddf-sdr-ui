@@ -72,14 +72,14 @@ jobs:
       
     - name: Build SDR-WebApp
       run: |
-         cd ${{ github.workspace }}\SDR-WebApp
+         cd ${{ github.workspace }}/SDR-WebApp
          ng build
-         cd ${{ github.workspace }}\SDR-WebApp\dist\SDR-WebApp
+         cd ${{ github.workspace }}/SDR-WebApp/dist/SDR-WebApp
          ls
          
     - name: 'Copy Files to: ${{ github.workspace }}'
       run: |
-       cp '${{ github.workspace }}\SDR-WebApp\dist\SDR-WebApp\**' '${{ github.workspace }}'
+       cp '${{ github.workspace }}/SDR-WebApp/dist/SDR-WebApp/**' '${{ github.workspace }}'
        cd ${{ github.workspace }}
        ls
        
@@ -88,7 +88,7 @@ jobs:
     - name: 'Publish Artifact: Artifact'
       uses: actions/upload-artifact@v2
       with:
-        path: '${{ github.workspace }}\**'
+        path: '${{ github.workspace }}/**'
         name: Build-Artifact
         
   
