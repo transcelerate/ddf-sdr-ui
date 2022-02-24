@@ -94,7 +94,7 @@ jobs:
     - name: 'Publish Artifact: Artifact'
       uses: actions/upload-artifact@v2
       with:
-        path: '${{ github.workspace }}/*'
+        path: '${{ github.workspace }}/SDR-WebApp/dist/**'
         name: Build-Artifact
         
   
