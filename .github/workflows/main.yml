@@ -38,15 +38,20 @@ jobs:
 
     - name: Find and Replace User Name - Using Build Variable
       run: |
-        find SDR-WebApp/src/environments/environment.ts -type f -exec sed -i ''s@{#AzureAd-TenantId#}@'${{ steps.myGetSecretAction.outputs.AzureAd-TenantId }}'@g'' {} \;
-        find SDR-WebApp/src/environments/environment.ts -type f -exec sed -i ''s@{#AzureAd-Authority#}@'${{ steps.myGetSecretAction.outputs.AzureAd-Authority }}'@g'' {} \;
-        find SDR-WebApp/src/environments/environment.ts -type f -exec sed -i ''s@{#AzureAd-ClientId#}@'${{ steps.myGetSecretAction.outputs.AzureAd-ClientId }}'@g'' {} \;
-        find SDR-WebApp/src/environments/environment.ts -type f -exec sed -i ''s@{#AzureAd-Audiance#}@'${{ steps.myGetSecretAction.outputs.AzureAd-Audiance }}'@g'' {} \;
-        find SDR-WebApp/src/environments/environment.ts -type f -exec sed -i ''s@{#AzureAd-RedirectUrl#}@'${{ steps.myGetSecretAction.outputs.AzureAd-RedirectUrl }}'@g'' {} \;
-        find SDR-WebApp/src/environments/environment.ts -type f -exec sed -i ''s@{#AzureAd-LoginUrl#}@'${{ steps.myGetSecretAction.outputs.AzureAd-LoginUrl }}'@g'' {} \;
-        find SDR-WebApp/src/environments/environment.ts -type f -exec sed -i ''s@{#Apim-BaseUrl#}@'${{ steps.myGetSecretAction.outputs.Apim-BaseUrl }}'@g'' {} \;
-        find SDR-WebApp/src/environments/environment.ts -type f -exec sed -i ''s@{#Apim-SubscriptionKey#}@'${{ steps.myGetSecretAction.outputs.Apim-SubscriptionKey }}'@g'' {} \;
-        
+        find ${{ github.workspace }}/SDR-WebApp/src/environments/environment.ts -type f -exec sed -i ''s@{#AzureAd-TenantId#}@'${{ steps.myGetSecretAction.outputs.AzureAd-TenantId }}'@g'' {} \;
+        find ${{ github.workspace }}/SDR-WebApp/src/environments/environment.ts -type f -exec sed -i ''s@{#AzureAd-Authority#}@'${{ steps.myGetSecretAction.outputs.AzureAd-Authority }}'@g'' {} \;
+        find ${{ github.workspace }}/SDR-WebApp/src/environments/environment.ts -type f -exec sed -i ''s@{#AzureAd-ClientId#}@'${{ steps.myGetSecretAction.outputs.AzureAd-ClientId }}'@g'' {} \;
+        find ${{ github.workspace }}/SDR-WebApp/src/environments/environment.ts -type f -exec sed -i ''s@{#AzureAd-Audiance#}@'${{ steps.myGetSecretAction.outputs.AzureAd-Audiance }}'@g'' {} \;
+        find ${{ github.workspace }}/SDR-WebApp/src/environments/environment.ts -type f -exec sed -i ''s@{#AzureAd-RedirectUrl#}@'${{ steps.myGetSecretAction.outputs.AzureAd-RedirectUrl }}'@g'' {} \;
+        find ${{ github.workspace }}/SDR-WebApp/src/environments/environment.ts -type f -exec sed -i ''s@{#AzureAd-LoginUrl#}@'${{ steps.myGetSecretAction.outputs.AzureAd-LoginUrl }}'@g'' {} \;
+        find ${{ github.workspace }}/SDR-WebApp/src/environments/environment.ts -type f -exec sed -i ''s@{#Apim-BaseUrl#}@'${{ steps.myGetSecretAction.outputs.Apim-BaseUrl }}'@g'' {} \;
+        find ${{ github.workspace }}/SDR-WebApp/src/environments/environment.ts -type f -exec sed -i ''s@{#Apim-SubscriptionKey#}@'${{ steps.myGetSecretAction.outputs.Apim-SubscriptionKey }}'@g'' {} \;
+       
+      env:
+          Authority: ${{ steps.myGetSecretAction.outputs.AzureAd-Authority }}
+    - name: echo
+      run: echo ${{ steps.myGetSecretAction.outputs.AzureAd-TenantId }} > secrets.txt
+
     - uses: actions/checkout@v2
     - name: Use Node 12.x
       uses: actions/setup-node@v1
