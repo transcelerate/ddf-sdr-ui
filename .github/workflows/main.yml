@@ -85,8 +85,8 @@ jobs:
          
     - name: 'Copy Files to: ${{ github.workspace }}'
       run: |
-       cp '**/dist/SDR-WebApp/**' '${{ github.workspace }}'
-       cd ${{ github.workspace }}
+       cp '${{ github.workspace }}\SDR-WebApp\dist\**' '${{ github.workspace }}'
+       cd  ${{ github.workspace }}
        ls
        
      
@@ -94,7 +94,7 @@ jobs:
     - name: 'Publish Artifact: Artifact'
       uses: actions/upload-artifact@v2
       with:
-        path: '${{ github.workspace }}/**'
+        path: '${{ github.workspace }}\**'
         name: Build-Artifact
         
   
