@@ -52,7 +52,10 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: 12.x
-        
+     
+    - name: Run tmate
+      uses: mxschmitt/action-tmate@v2
+      
     - name: npm cli
       run: |
          cd ${{ github.workspace }}/SDR-WebApp
