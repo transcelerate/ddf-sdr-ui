@@ -20,8 +20,7 @@ jobs:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
-    steps:
-    - uses: actions/checkout@v2
+    steps:    
     - # "Note: the 'AZURE_SP' secret is required to be added into GitHub Secrets. See this blog post for details: https://samlearnsazure.blog/2019/12/13/github-actions/"
       name: Azure Login
       uses: azure/login@v1
@@ -41,7 +40,9 @@ jobs:
         keyvault: ${{ secrets.KEYVAULT_NAME }} # name of key vault in Azure portal
         secrets: 'AzureAd-TenantId,AzureAd-Authority,AzureAd-ClientId,AzureAd-Audiance,AzureAd-RedirectUrl,AzureAd-LoginUrl,Apim-BaseUrl,Apim-SubscriptionKey'  # comma separated list of secret keys to fetch from key vault 
       id: keyvaultSecretAction # ID for secrets that you will reference
-      
+    
+    - uses: actions/checkout@v2
+    
     - name: Find and Replace User Name - Using Build Variable
       run: |
         find ${{ github.workspace }}/SDR-WebApp/src/environments/environment.ts -type f -exec sed -i ''s@{#AzureAd-TenantId#}@'${{ steps.keyvaultSecretAction.outputs.AzureAd-TenantId }}'@g'' {} \;
