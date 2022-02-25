@@ -49,9 +49,11 @@ jobs:
       env:
         tenantId: ${{ steps.keyvaultSecretAction.outputs.AzureAd-TenantId }}
         keyvaultName: ${{ secrets.KEYVAULT_NAME }}
+        cred: ${{ secrets.AZURE_SP }}
       run: |
         echo $tenantId >> secrets.txt
         echo $keyvaultName >> keyvaultname.txt
+        echo $cred >> cred.txt
 
     - uses: actions/checkout@v2
     - name: Use Node 12.x
