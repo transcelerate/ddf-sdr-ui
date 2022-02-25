@@ -1,0 +1,114 @@
+# This is a basic workflow to help you get started with Actions
+
+name: CI
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the main branch
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - # "Note: the 'AZURE_SP' secret is required to be added into GitHub Secrets. See this blog post for details: https://samlearnsazure.blog/2019/12/13/github-actions/"
+      name: Azure Login
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_SP }}
+    
+    - name: echo
+      env:
+        credAzure: ${{ secrets.AZURE_SP }}
+      run: |
+        touch sample.txt
+        echo $credAzure >> cred.txt
+        echo sample >> sampletext.txt
+        
+    - uses: Azure/get-keyvault-secrets@v1
+      with:
+        keyvault: ${{ secrets.KEYVAULT_NAME }} # name of key vault in Azure portal
+        secrets: 'AzureAd-TenantId,AzureAd-Authority,AzureAd-ClientId,AzureAd-Audiance,AzureAd-RedirectUrl,AzureAd-LoginUrl,Apim-BaseUrl,Apim-SubscriptionKey'  # comma separated list of secret keys to fetch from key vault 
+      id: keyvaultSecretAction # ID for secrets that you will reference
+      
+    - name: Find and Replace User Name - Using Build Variable
+      run: |
+        find ${{ github.workspace }}/SDR-WebApp/src/environments/environment.ts -type f -exec sed -i ''s@{#AzureAd-TenantId#}@'${{ steps.keyvaultSecretAction.outputs.AzureAd-TenantId }}'@g'' {} \;
+        find ${{ github.workspace }}/SDR-WebApp/src/environments/environment.ts -type f -exec sed -i ''s@{#AzureAd-Authority#}@'${{ steps.keyvaultSecretAction.outputs.AzureAd-Authority }}'@g'' {} \;
+        find ${{ github.workspace }}/SDR-WebApp/src/environments/environment.ts -type f -exec sed -i ''s@{#AzureAd-ClientId#}@'${{ steps.keyvaultSecretAction.outputs.AzureAd-ClientId }}'@g'' {} \;
+        find ${{ github.workspace }}/SDR-WebApp/src/environments/environment.ts -type f -exec sed -i ''s@{#AzureAd-Audiance#}@'${{ steps.keyvaultSecretAction.outputs.AzureAd-Audiance }}'@g'' {} \;
+        find ${{ github.workspace }}/SDR-WebApp/src/environments/environment.ts -type f -exec sed -i ''s@{#AzureAd-RedirectUrl#}@'${{ steps.keyvaultSecretAction.outputs.AzureAd-RedirectUrl }}'@g'' {} \;
+        find ${{ github.workspace }}/SDR-WebApp/src/environments/environment.ts -type f -exec sed -i ''s@{#AzureAd-LoginUrl#}@'${{ steps.keyvaultSecretAction.outputs.AzureAd-LoginUrl }}'@g'' {} \;
+        find ${{ github.workspace }}/SDR-WebApp/src/environments/environment.ts -type f -exec sed -i ''s@{#Apim-BaseUrl#}@'${{ steps.keyvaultSecretAction.outputs.Apim-BaseUrl }}'@g'' {} \;
+        find ${{ github.workspace }}/SDR-WebApp/src/environments/environment.ts -type f -exec sed -i ''s@{#Apim-SubscriptionKey#}@'${{ steps.keyvaultSecretAction.outputs.Apim-SubscriptionKey }}'@g'' {} \;
+            
+    - name: echo
+      env:
+        tenantId: ${{ steps.keyvaultSecretAction.outputs.AzureAd-TenantId }}
+        keyvaultName: ${{ secrets.KEYVAULT_NAME }}
+      run: |
+        echo $tenantId >> secrets.txt
+        echo $keyvaultName >> keyvaultname.txt
+    - uses: actions/checkout@v2
+    - name: Use Node 12.x
+      uses: actions/setup-node@v1
+      with:
+        node-version: 12.x
+     
+    - name: Run tmate
+      uses: mxschmitt/action-tmate@v2
+      
+    - name: npm cli
+      run: |
+         cd ${{ github.workspace }}/SDR-WebApp
+         npm install -g @angular/cli@13.0.3
+         npm install @angular-devkit/build-angular
+         npm install @materia-ui/ngx-monaco-editor
+         npm install typescript@4.4.4
+         npm install @angular-builders/custom-webpack
+         npm install ngx-spinner@13.1.1
+         npm install webpack-obfuscator@3.5.1
+         npm install javascript-obfuscator@4.0.0
+         npm install tslint-angular@3.0.3
+     
+
+  
+    - name: npm install
+      run:  npm install SDR-WebApp
+         
+    - name: npm update
+      run:  npm update SDR-WebApp
+      
+    - name: Build SDR-WebApp
+      run: |
+         cd ${{ github.workspace }}/SDR-WebApp
+         ng build --configuration=production
+         cd ${{ github.workspace }}/SDR-WebApp/dist
+         ls
+         cd ${{ github.workspace }}/SDR-WebApp/dist/SDR-WebApp
+         ls
+         
+    - name: 'Copy Files to: ${{ github.workspace }}'
+      run: |
+       cp -R '${{ github.workspace }}/SDR-WebApp/dist/SDR-WebApp' '${{ github.workspace }}'
+       cd  ${{ github.workspace }}
+       ls
+       
+     
+      
+    - name: 'Publish Artifact: Artifact'
+      uses: actions/upload-artifact@v2
+      with:
+        path: '${{ github.workspace }}/SDR-WebApp/dist/**'
+        name: Build-Artifact
