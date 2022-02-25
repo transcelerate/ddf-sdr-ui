@@ -19,6 +19,10 @@ jobs:
   build:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
+    
+    env:  
+        AZURE_WEBAPP_NAME: ${{ secrets.AZURE_WEBAPP_NAME }}    # set this to your application's name
+        AZURE_WEBAPP_PACKAGE_PATH: '${{ github.workspace }}/SDR-WebApp/dist/**'      # set this to the path to your web app project, defaults to the repository root
 
     steps:   
     - uses: actions/checkout@v2
@@ -92,4 +96,10 @@ jobs:
       with:
         path: '${{ github.workspace }}/SDR-WebApp/dist/**'
         name: Build-Artifact
+        
+    - name: 'Run Azure webapp deploy action using publish profile credentials'
+      uses: azure/webapps-deploy@v2
+      with: 
+        app-name: ${{ env.AZURE_WEBAPP_NAME }} # Replace with your app name
+        package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
         
