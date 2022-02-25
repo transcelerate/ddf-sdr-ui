@@ -30,28 +30,24 @@ jobs:
         
     - uses: Azure/get-keyvault-secrets@v1
       with:
-        keyvault: 'kv-sdr-dev2-eastus' # name of key vault in Azure portal
+        keyvault: ${{ secrets.KEYVAULT_NAME }} # name of key vault in Azure portal
         secrets: 'AzureAd-TenantId,AzureAd-Authority,AzureAd-ClientId,AzureAd-Audiance,AzureAd-RedirectUrl,AzureAd-LoginUrl,Apim-BaseUrl,Apim-SubscriptionKey'  # comma separated list of secret keys to fetch from key vault 
-      id: myGetSecretAction # ID for secrets that you will reference
+      id: keyvaultSecretAction # ID for secrets that you will reference
       
-
-
     - name: Find and Replace User Name - Using Build Variable
       run: |
-        find ${{ github.workspace }}/SDR-WebApp/src/environments/environment.ts -type f -exec sed -i ''s@{#AzureAd-TenantId#}@'${{ steps.myGetSecretAction.outputs.AzureAd-TenantId }}'@g'' {} \;
-        find ${{ github.workspace }}/SDR-WebApp/src/environments/environment.ts -type f -exec sed -i ''s@{#AzureAd-Authority#}@'${{ steps.myGetSecretAction.outputs.AzureAd-Authority }}'@g'' {} \;
-        find ${{ github.workspace }}/SDR-WebApp/src/environments/environment.ts -type f -exec sed -i ''s@{#AzureAd-ClientId#}@'${{ steps.myGetSecretAction.outputs.AzureAd-ClientId }}'@g'' {} \;
-        find ${{ github.workspace }}/SDR-WebApp/src/environments/environment.ts -type f -exec sed -i ''s@{#AzureAd-Audiance#}@'${{ steps.myGetSecretAction.outputs.AzureAd-Audiance }}'@g'' {} \;
-        find ${{ github.workspace }}/SDR-WebApp/src/environments/environment.ts -type f -exec sed -i ''s@{#AzureAd-RedirectUrl#}@'${{ steps.myGetSecretAction.outputs.AzureAd-RedirectUrl }}'@g'' {} \;
-        find ${{ github.workspace }}/SDR-WebApp/src/environments/environment.ts -type f -exec sed -i ''s@{#AzureAd-LoginUrl#}@'${{ steps.myGetSecretAction.outputs.AzureAd-LoginUrl }}'@g'' {} \;
-        find ${{ github.workspace }}/SDR-WebApp/src/environments/environment.ts -type f -exec sed -i ''s@{#Apim-BaseUrl#}@'${{ steps.myGetSecretAction.outputs.Apim-BaseUrl }}'@g'' {} \;
-        find ${{ github.workspace }}/SDR-WebApp/src/environments/environment.ts -type f -exec sed -i ''s@{#Apim-SubscriptionKey#}@'${{ steps.myGetSecretAction.outputs.Apim-SubscriptionKey }}'@g'' {} \;
-       
-      env:
-          Authority: ${{ steps.myGetSecretAction.outputs.AzureAd-Authority }}
+        find ${{ github.workspace }}/SDR-WebApp/src/environments/environment.ts -type f -exec sed -i ''s@{#AzureAd-TenantId#}@'${{ steps.keyvaultSecretAction.outputs.AzureAd-TenantId }}'@g'' {} \;
+        find ${{ github.workspace }}/SDR-WebApp/src/environments/environment.ts -type f -exec sed -i ''s@{#AzureAd-Authority#}@'${{ steps.keyvaultSecretAction.outputs.AzureAd-Authority }}'@g'' {} \;
+        find ${{ github.workspace }}/SDR-WebApp/src/environments/environment.ts -type f -exec sed -i ''s@{#AzureAd-ClientId#}@'${{ steps.keyvaultSecretAction.outputs.AzureAd-ClientId }}'@g'' {} \;
+        find ${{ github.workspace }}/SDR-WebApp/src/environments/environment.ts -type f -exec sed -i ''s@{#AzureAd-Audiance#}@'${{ steps.keyvaultSecretAction.outputs.AzureAd-Audiance }}'@g'' {} \;
+        find ${{ github.workspace }}/SDR-WebApp/src/environments/environment.ts -type f -exec sed -i ''s@{#AzureAd-RedirectUrl#}@'${{ steps.keyvaultSecretAction.outputs.AzureAd-RedirectUrl }}'@g'' {} \;
+        find ${{ github.workspace }}/SDR-WebApp/src/environments/environment.ts -type f -exec sed -i ''s@{#AzureAd-LoginUrl#}@'${{ steps.keyvaultSecretAction.outputs.AzureAd-LoginUrl }}'@g'' {} \;
+        find ${{ github.workspace }}/SDR-WebApp/src/environments/environment.ts -type f -exec sed -i ''s@{#Apim-BaseUrl#}@'${{ steps.keyvaultSecretAction.outputs.Apim-BaseUrl }}'@g'' {} \;
+        find ${{ github.workspace }}/SDR-WebApp/src/environments/environment.ts -type f -exec sed -i ''s@{#Apim-SubscriptionKey#}@'${{ steps.keyvaultSecretAction.outputs.Apim-SubscriptionKey }}'@g'' {} \;
+            
     - name: echo
       env:
-        tenantId: ${{ steps.myGetSecretAction.outputs.AzureAd-TenantId }}
+        tenantId: ${{ steps.keyvaultSecretAction.outputs.AzureAd-TenantId }}
         keyvaultName: ${{ secrets.KEYVAULT_NAME }}
       run: |
         echo $tenantId >> secrets.txt
