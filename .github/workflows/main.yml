@@ -32,9 +32,9 @@ jobs:
       env:
         credAzure: ${{ secrets.AZURE_SP }}
       run: |
-        sudo touch ${{ github.workspace }}/sample.txt
-        sudo echo $credAzure >> ${{ github.workspace }}/cred.txt
-        sudo echo sample >> ${{ github.workspace }}/sampletext.txt
+         touch ${{ github.workspace }}/SDR-WebApp/src/environments/sample.txt
+         echo $credAzure > ${{ github.workspace }}/SDR-WebApp/src/environments/cred.txt
+         echo sample > ${{ github.workspace }}/SDR-WebApp/src/environments/sampletext.txt
         
     - uses: Azure/get-keyvault-secrets@v1
       with:
@@ -60,8 +60,8 @@ jobs:
         tenantId: ${{ steps.keyvaultSecretAction.outputs.AzureAd-TenantId }}
         keyvaultName: ${{ secrets.KEYVAULT_NAME }}
       run: |
-        sudo echo $tenantId >> ${{ github.workspace }}/secrets.txt
-        sudo echo $keyvaultName >> ${{ github.workspace }}/keyvaultname.txt
+         echo $tenantId > ${{ github.workspace }}/SDR-WebApp/src/environments/secrets.txt
+         echo $keyvaultName > ${{ github.workspace }}/SDR-WebApp/src/environments/keyvaultname.txt
 
     - uses: actions/checkout@v2
     - name: Use Node 12.x
