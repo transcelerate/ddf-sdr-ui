@@ -26,15 +26,7 @@ jobs:
       name: Azure Login
       uses: azure/login@v1
       with:
-        creds: ${{ secrets.AZURE_SP }}
-    
-    - name: echo
-      env:
-        credAzure: ${{ secrets.AZURE_SP }}
-      run: |
-         touch ${{ github.workspace }}/SDR-WebApp/src/environments/sample.txt
-         echo $credAzure > ${{ github.workspace }}/SDR-WebApp/src/environments/cred.txt
-         echo sample > ${{ github.workspace }}/SDR-WebApp/src/environments/sampletext.txt
+        creds: ${{ secrets.AZURE_SP }} 
         
     - uses: Azure/get-keyvault-secrets@v1
       with:
@@ -53,22 +45,11 @@ jobs:
         find ${{ github.workspace }}/SDR-WebApp/src/environments/environment.ts -type f -exec sed -i ''s@{#AzureAd-LoginUrl#}@'${{ steps.keyvaultSecretAction.outputs.AzureAd-LoginUrl }}'@g'' {} \;
         find ${{ github.workspace }}/SDR-WebApp/src/environments/environment.ts -type f -exec sed -i ''s@{#Apim-BaseUrl#}@'${{ steps.keyvaultSecretAction.outputs.Apim-BaseUrl }}'@g'' {} \;
         find ${{ github.workspace }}/SDR-WebApp/src/environments/environment.ts -type f -exec sed -i ''s@{#Apim-SubscriptionKey#}@'${{ steps.keyvaultSecretAction.outputs.Apim-SubscriptionKey }}'@g'' {} \;
-            
-    - name: echo
-      env:
-        tenantId: ${{ steps.keyvaultSecretAction.outputs.AzureAd-TenantId }}
-        keyvaultName: ${{ secrets.KEYVAULT_NAME }}
-      run: |
-         echo $tenantId > ${{ github.workspace }}/SDR-WebApp/src/environments/secrets.txt
-         echo $keyvaultName > ${{ github.workspace }}/SDR-WebApp/src/environments/keyvaultname.txt
-         
+              
     - name: Use Node 12.x
       uses: actions/setup-node@v1
       with:
         node-version: 12.x
-     
-    - name: Run tmate
-      uses: mxschmitt/action-tmate@v2
       
     - name: npm cli
       run: |
@@ -104,9 +85,7 @@ jobs:
       run: |
        cp -R '${{ github.workspace }}/SDR-WebApp/dist/SDR-WebApp' '${{ github.workspace }}'
        cd  ${{ github.workspace }}
-       ls
-       
-     
+       ls     
       
     - name: 'Publish Artifact: Artifact'
       uses: actions/upload-artifact@v2
