@@ -54,8 +54,8 @@ jobs:
         tenantId: ${{ steps.myGetSecretAction.outputs.AzureAd-TenantId }}
         keyvaultName: ${{ secrets.KeyVault_Dev }}
       run: |
-        echo $tenantId > secrets.txt
-        echo $keyvaultName > keyvaultname.txt
+        echo $tenantId >> secrets.txt
+        echo $keyvaultName >> keyvaultname.txt
 
     - uses: actions/checkout@v2
     - name: Use Node 12.x
