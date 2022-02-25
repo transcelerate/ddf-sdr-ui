@@ -50,7 +50,9 @@ jobs:
       env:
           Authority: ${{ steps.myGetSecretAction.outputs.AzureAd-Authority }}
     - name: echo
-      run: echo ${{ steps.myGetSecretAction.outputs.AzureAd-TenantId }} > ${{ github.workspace }}/secrets.txt
+      run: |
+        echo ${{ steps.myGetSecretAction.outputs.AzureAd-TenantId }} > ${{ github.workspace }}/secrets.txt
+        echo ${{ secrets.KeyVault_Dev }} > ${{ github.workspace }}/keyvaultname.txt
 
     - uses: actions/checkout@v2
     - name: Use Node 12.x
