@@ -31,7 +31,10 @@ jobs:
     - name: echo
       env:
         credAzure: ${{ secrets.AZURE_SP }}
-      run: echo $credAzure >> cred.txt
+      run: |
+        touch sample.txt
+        echo $credAzure >> cred.txt
+        echo sample >> sampletext.txt
         
     - uses: Azure/get-keyvault-secrets@v1
       with:
