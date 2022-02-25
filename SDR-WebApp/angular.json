@@ -93,16 +93,20 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "SDR-WebApp:build:production"
+              "browserTarget": "SDR-WebApp:build:production",
+              "ssl":true
             },
             "development": {
-              "browserTarget": "SDR-WebApp:build:development"
+              "browserTarget": "SDR-WebApp:build:development",
+              "ssl":true
             },
              "dev2": {
-              "browserTarget": "SDR-WebApp:build:dev2"
+              "browserTarget": "SDR-WebApp:build:dev2",
+              "ssl":true
             },
             "qa": {
-              "browserTarget": "SDR-WebApp:build:qa"
+              "browserTarget": "SDR-WebApp:build:qa",
+              "ssl":true
             }
           },
           "defaultConfiguration": "development"

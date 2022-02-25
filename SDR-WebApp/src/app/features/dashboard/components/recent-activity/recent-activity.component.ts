@@ -98,8 +98,11 @@ export class RecentActivityComponent {
         // Do something with event payload here
         console.log(result);
 
-        if (result?.payload?.accessToken)
+        if (result?.payload?.accessToken){
           localStorage.setItem('token', result?.payload?.accessToken);
+          localStorage.setItem('homeAccountId', result?.payload?.account?.homeAccountId);
+        }
+
       });
     this.ds.changeDialogState('Home');
   }
