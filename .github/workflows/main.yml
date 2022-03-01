@@ -103,3 +103,6 @@ jobs:
         app-name: ${{ env.AZURE_WEBAPP_NAME }} # Replace with your app name
         package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
         
+    - name: Run Angular tests
+      run: ng test --watch=false --code-coverage true
+        
