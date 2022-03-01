@@ -104,5 +104,7 @@ jobs:
         package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
         
     - name: Run Angular tests
-      run: ng test --watch=false --code-coverage true
+      run: |
+          cd '${{ github.workspace }}/SDR-WebApp'
+          ng test --watch=false --code-coverage true
         
