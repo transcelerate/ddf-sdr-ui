@@ -111,6 +111,7 @@ jobs:
           
     - name: Code Coverage Summary Report
       uses: irongut/CodeCoverageSummary@v1.0.2
+      if: always()
       with:
         filename: coverage.xml
         badge: true
@@ -119,6 +120,7 @@ jobs:
     
     - name: Report code coverage
       uses: zgosalvez/github-actions-report-lcov@v1
+      if: always()
       with:
         coverage-files: lcov.info
         minimum-coverage: 90
