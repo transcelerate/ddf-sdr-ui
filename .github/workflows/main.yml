@@ -116,13 +116,10 @@ jobs:
           cp testresults/coverage/lcov.info '${{ github.workspace }}/lcov.info'
           
     - name: Code Coverage Summary Report
-      uses: irongut/CodeCoverageSummary@v1.0.2
+      uses: EnricoMi/publish-unit-test-result-action@v1
       if: always()
       with:
-        filename: coverage.xml
-        badge: true
-        format: 'markdown'
-        output: 'both'
+        files: coverage.xml
     
     - name: Report code coverage
       uses: zgosalvez/github-actions-report-lcov@v1
@@ -132,5 +129,5 @@ jobs:
         minimum-coverage: 90
         artifact-name: code-coverage-report
         github-token: ${{ secrets.GITHUB_TOKEN }}
-        working-directory: src/SDR-WebApp
+        working-directory: ${{ github.workspace }}
         
