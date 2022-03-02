@@ -55,53 +55,53 @@ jobs:
       with:
         node-version: 12.x
       
-    - name: npm cli
-      run: |
-         cd ${{ github.workspace }}/SDR-WebApp
-         npm install -g @angular/cli@13.0.3
-         npm install @angular-devkit/build-angular
-         npm install @materia-ui/ngx-monaco-editor
-         npm install typescript@4.4.4
-         npm install @angular-builders/custom-webpack
-         npm install ngx-spinner@13.1.1
-         npm install webpack-obfuscator@3.5.1
-         npm install javascript-obfuscator@4.0.0
-         npm install tslint-angular@3.0.3
+#     - name: npm cli
+#       run: |
+#          cd ${{ github.workspace }}/SDR-WebApp
+#          npm install -g @angular/cli@13.0.3
+#          npm install @angular-devkit/build-angular
+#          npm install @materia-ui/ngx-monaco-editor
+#          npm install typescript@4.4.4
+#          npm install @angular-builders/custom-webpack
+#          npm install ngx-spinner@13.1.1
+#          npm install webpack-obfuscator@3.5.1
+#          npm install javascript-obfuscator@4.0.0
+#          npm install tslint-angular@3.0.3
      
 
   
-    - name: npm install
-      run:  npm install SDR-WebApp
+#     - name: npm install
+#       run:  npm install SDR-WebApp
          
-    - name: npm update
-      run:  npm update SDR-WebApp
+#     - name: npm update
+#       run:  npm update SDR-WebApp
       
-    - name: Build SDR-WebApp
-      run: |
-         cd ${{ github.workspace }}/SDR-WebApp
-         ng build --configuration=production
-         cd ${{ github.workspace }}/SDR-WebApp/dist
-         ls
-         cd ${{ github.workspace }}/SDR-WebApp/dist/SDR-WebApp
-         ls
+#     - name: Build SDR-WebApp
+#       run: |
+#          cd ${{ github.workspace }}/SDR-WebApp
+#          ng build --configuration=production
+#          cd ${{ github.workspace }}/SDR-WebApp/dist
+#          ls
+#          cd ${{ github.workspace }}/SDR-WebApp/dist/SDR-WebApp
+#          ls
          
-    - name: 'Copy Files to: ${{ github.workspace }}'
-      run: |
-       cp -R '${{ github.workspace }}/SDR-WebApp/dist/SDR-WebApp' '${{ github.workspace }}'
-       cd  ${{ github.workspace }}
-       ls     
+#     - name: 'Copy Files to: ${{ github.workspace }}'
+#       run: |
+#        cp -R '${{ github.workspace }}/SDR-WebApp/dist/SDR-WebApp' '${{ github.workspace }}'
+#        cd  ${{ github.workspace }}
+#        ls     
       
-    - name: 'Publish Artifact: Artifact'
-      uses: actions/upload-artifact@v2
-      with:
-        path: '${{ github.workspace }}/SDR-WebApp/dist/**'
-        name: Build-Artifact
+#     - name: 'Publish Artifact: Artifact'
+#       uses: actions/upload-artifact@v2
+#       with:
+#         path: '${{ github.workspace }}/SDR-WebApp/dist/**'
+#         name: Build-Artifact
         
-    - name: 'Run Azure webapp deploy action using publish profile credentials'
-      uses: azure/webapps-deploy@v2
-      with: 
-        app-name: ${{ env.AZURE_WEBAPP_NAME }} # Replace with your app name
-        package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
+#     - name: 'Run Azure webapp deploy action using publish profile credentials'
+#       uses: azure/webapps-deploy@v2
+#       with: 
+#         app-name: ${{ env.AZURE_WEBAPP_NAME }} # Replace with your app name
+#         package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
     
     - name: Install Chrome
       run: |
@@ -113,5 +113,5 @@ jobs:
     - name: Run Angular tests
       run: |
           cd '${{ github.workspace }}/SDR-WebApp'
-          ng test --watch=false --code-coverage true
+          sudo ng test --watch=false --code-coverage true
         
