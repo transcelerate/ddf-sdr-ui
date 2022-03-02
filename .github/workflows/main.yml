@@ -113,13 +113,14 @@ jobs:
       run: |
           cd '${{ github.workspace }}/SDR-WebApp'
           cp testresults/coverage/coverage.xml '${{ github.workspace }}/coverage.xml'
-          cp testresults/coverage/lcov.info '${{ github.workspace }}/lcov.info'
+          cp testresults/coverage/coverage.xml '${{ github.workspace }}/coverage.xml'
+          cp testresults/junit/unit-test-result.xml '${{ github.workspace }}/unit-test-result.xml'
           
     - name: Code Coverage Summary Report
       uses: EnricoMi/publish-unit-test-result-action@v1
       if: always()
       with:
-        files: coverage.xml
+        files: unit-test-result.xml
     
     - name: Report code coverage
       uses: zgosalvez/github-actions-report-lcov@v1
