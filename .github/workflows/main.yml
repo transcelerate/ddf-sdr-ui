@@ -103,15 +103,9 @@ jobs:
 #         app-name: ${{ env.AZURE_WEBAPP_NAME }} # Replace with your app name
 #         package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
     
-    - name: Install Chrome
-      run: |
-          wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add - 
-          sudo sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list'
-          sudo apt-get update 
-          sudo apt-get install google-chrome-stable
-          
+              
     - name: Run Angular tests
       run: |
           cd '${{ github.workspace }}/SDR-WebApp'
-          sudo ng test --watch=false --code-coverage true
+          ng test --watch=false --code-coverage true --browsers ChromeHeadless
         
