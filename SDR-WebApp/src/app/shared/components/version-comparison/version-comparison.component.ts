@@ -23,6 +23,7 @@ export class VersionComparisonComponent implements OnInit {
   leftHeader: string;
   rightHeader: string;
   showheading: boolean;
+  showError = false;
   //   options = {
   //     theme: 'vs-dark',
   //     automaticLayout: true
@@ -69,13 +70,6 @@ export class VersionComparisonComponent implements OnInit {
             //   'editor.inactiveSelectionBackground': '#7e890b'
           },
         });
-
-        //  this._elementRef.nativeElement.getElementsByClassName(
-        //    'original'
-        //  )[0].appendChild('<span> A >> Version 3.4');
-        //  this._elementRef.nativeElement.getElementsByClassName(
-        //    'modified'
-        //  )[0].appendChild('<span> A >> Version 3.4');
       });
   }
 
@@ -170,14 +164,16 @@ export class VersionComparisonComponent implements OnInit {
               error: (error) => {
                 console.log(error);
                 this.spinner.hide();
-                alert('Service error');
+                this.showError = true;
+               // alert('Service error');
               },
             });
         },
         error: (error) => {
           console.log(error);
           this.spinner.hide();
-          alert('Service error');
+          this.showError = true;
+          //alert('Service error');
         },
       });
   }

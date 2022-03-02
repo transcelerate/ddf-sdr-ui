@@ -1,6 +1,8 @@
+<app-error-component *ngIf="showError"></app-error-component>
 <div  *ngIf="route.children.length === 0">
   <div class="container-fluid outer">
     <h3>Search Study Definitions</h3>
+    
     <form [formGroup]="editorForm">
       <div class="row">
         <div class="col-6">

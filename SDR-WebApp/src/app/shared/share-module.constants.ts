@@ -17,6 +17,7 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import { AgGridModule } from 'ag-grid-angular';
 // import { MonacoEditorModule } from 'ngx-monaco-editor';
 import { MonacoEditorModule } from '@materia-ui/ngx-monaco-editor';
+import { ErrorComponentComponent } from './components/error-component/error-component.component';
 export class SharedModuleConstants {
   static MODULE_IMPORTS = [
     RouterModule,
@@ -37,7 +38,8 @@ export class SharedModuleConstants {
     AuditTrailComponent,
     VersionComparisonComponent,
     StudyElementDescriptionComponent,
-    CustomPipe
+    CustomPipe,
+    ErrorComponentComponent
   ];
   static MODULE_PROVIDERS = [
    
@@ -56,6 +58,7 @@ export class SharedModuleConstants {
     VersionComparisonComponent,
     NgxSpinnerModule,
     MatAutocompleteModule,
+    ErrorComponentComponent,
   ];
 
   static ENTRY_COMPONENTS = [

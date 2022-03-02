@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { ColDef } from 'ag-grid-community';
+import { ColDef, GridApi, GridReadyEvent } from 'ag-grid-community';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ServiceCall } from '../../services/service-call/service-call.service';
 
@@ -14,6 +14,9 @@ export class AuditTrailComponent implements OnInit {
   versionA: any;
   versionB: any;
   disableButton = true;
+  showError = false;
+  public overlayNoRowsTemplate =
+  '<span></span>';
   columnDefs: ColDef[] = [
     {
       headerName: 'Date',
@@ -74,7 +77,7 @@ export class AuditTrailComponent implements OnInit {
     },
   ];
 
-  rowData = [];
+  rowData: { tag: string; status: string; entryDateTime: string; studyVersion: any; }[];
   gridApi: any;
   gridColumnApi: any;
   defaultColDef: { sortable: boolean; resizable: boolean };
@@ -98,6 +101,7 @@ export class AuditTrailComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    var view = this;
     this.route.params.subscribe((params) => {
       this.versionA = '';
       this.versionB = '';
@@ -120,7 +124,20 @@ export class AuditTrailComponent implements OnInit {
       },
       error: (error) => {
         console.log(error);
+        this.showError = true;
+        this.rowData = [];
         this.spinner.hide();
+        setTimeout(() => {
+        Array.from(document.getElementsByClassName('alert') as HTMLCollectionOf<HTMLElement>).forEach(element => {
+          element.style.width='95%';
+        });
+        }, 0);
+        
+        // this.rowData = [{
+        //   'entrySystem':'',
+
+        // }];
+        //view.gridApi.showNoRowsOverlay();
         // alert('Service error');
         // this.userExists = false;
       },

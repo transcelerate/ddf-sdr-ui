@@ -40,7 +40,7 @@ export class StudyElementDescriptionComponent implements OnInit {
   heading: string;
   studyId: any;
   versionId: any;
-
+  showError = false;
   constructor(
     private el: ElementRef,
     private authService: MsalService,
@@ -163,6 +163,8 @@ export class StudyElementDescriptionComponent implements OnInit {
       },
       error: (error) => {
         console.log(error);
+        this.showError = true;
+        this.finalVal = new Accordian();
         this.spinner.hide();
         // alert('Service error');
       },

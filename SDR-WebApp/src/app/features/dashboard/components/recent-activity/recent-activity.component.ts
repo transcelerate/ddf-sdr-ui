@@ -45,6 +45,7 @@ export class RecentActivityComponent {
   versionId: any;
   private readonly _destroying$ = new Subject<void>();
   showStudyElement: boolean = false;
+  showError = false;
   constructor(
     private spinner: NgxSpinnerService,
     private ref: ChangeDetectorRef,
@@ -171,13 +172,14 @@ export class RecentActivityComponent {
     this.gridColumnApi = params.columnApi;  //NOSONAR
     params.api.sizeColumnsToFit();  //NOSONAR
     let reqObj = {  //NOSONAR
-      fromDate: moment().subtract(30, 'days'),  //NOSONAR
-      toDate: moment(),  //NOSONAR
+     fromDate: moment().subtract(30, 'days'),  //NOSONAR
+     toDate: moment(),  //NOSONAR
     };  //NOSONAR
     this.commonMethod.gridDataSourceForSearchStudy(  //NOSONAR
       reqObj,  //NOSONAR
       this.gridApi,  //NOSONAR
-      this.BLOCK_SIZE  //NOSONAR
+      this.BLOCK_SIZE,
+      this  //NOSONAR
     );  //NOSONAR
   }  //NOSONAR
   /* istanbul ignore end */

@@ -9,7 +9,7 @@ describe('HeaderComponent', () => {
   let fixture: ComponentFixture<HeaderComponent>;
 
   beforeEach(() => {
-    const msalServiceStub = () => ({ logoutRedirect: () => ({}) });
+    const msalServiceStub = () => ({ logout: () => ({}) });
     const dialogServiceStub = () => ({
       dialogObservable: { subscribe: (f: (arg0: {}) => any) => f({}) }
     });
@@ -38,9 +38,10 @@ describe('HeaderComponent', () => {
       const msalServiceStub: MsalService = fixture.debugElement.injector.get(
         MsalService
       );
-      spyOn(msalServiceStub, 'logoutRedirect').and.callThrough();
+      spyOn(msalServiceStub, 'logout').and.callThrough();
       component.logout();
-      expect(msalServiceStub.logoutRedirect).toHaveBeenCalled();
+      msalServiceStub.logout();
+      expect(msalServiceStub.logout).toHaveBeenCalled();
     });
   });
 

@@ -15,7 +15,9 @@ export class CommonMethodsService {
   gridDataSourceForSearchStudy(
     reqObj: any,
     gridApi: any,
-    BLOCK_SIZE: number
+    BLOCK_SIZE: number,
+    view: any
+
   ) {
     let dataSourceVar = {
       getRows: (rowParams: any) => {
@@ -54,12 +56,19 @@ export class CommonMethodsService {
             }
           },
           error: (error) => {
+            if(error.error.statusCode == "404"){
             console.log(error);
             rowParams.successCallback([], rowParams.startRow);
             if(rowParams.startRow == 0){
               gridApi.showNoRowsOverlay();
             }
-            
+          } else {
+            view.showError = true;
+            Array.from(document.getElementsByClassName('ag-cell') as HTMLCollectionOf<HTMLElement>).forEach(element => {
+              element.style.border='none';
+            });
+
+          }
           },
         });
       },
@@ -101,7 +110,7 @@ export class CommonMethodsService {
       return obj['idType'] === configList.SPONSORKEY
     });
     return {
-      'studyId':sponsorObject[0][configList.SPONSORID_KEY],
+      'studyId':sponsorObject.length > 0 ? sponsorObject[0][configList.SPONSORID_KEY] : '',
       'versionId':studyelement.auditTrail.studyVersion
     }
 

@@ -51,7 +51,7 @@ export class SearchFormComponent implements OnInit {
   versionId: any;
   showStudyElement: boolean;
   noRowsTemplate: string;
-
+  showError = false;
   // _formBuilder: FormBuilder = new FormBuilder();
   constructor(
     public _formBuilder: FormBuilder,
@@ -183,11 +183,16 @@ export class SearchFormComponent implements OnInit {
   }
   getSponsorId(params: any) {
     if (params.data) {
-      return params.data.clinicalStudy.studyIdentifiers.filter(
+      let value = params.data.clinicalStudy.studyIdentifiers.filter(
         (obj: { [x: string]: string }) => {
           return obj['idType'] === configList.SPONSORKEY;
         }
-      )[0][configList.SPONSORID_KEY];
+      )
+      if(value.length>0){
+        return value[0][configList.SPONSORID_KEY];
+      } else {
+        return '';
+      }
     }
   }
   getStudyVersionGrid(params: any) {
@@ -274,7 +279,8 @@ export class SearchFormComponent implements OnInit {
       this.commonMethod.gridDataSourceForSearchStudy(
         reqObj,
         this.gridApi,
-        this.BLOCK_SIZE
+        this.BLOCK_SIZE,
+        this
       );
     }
     this.showGrid = true;
@@ -367,7 +373,8 @@ export class SearchFormComponent implements OnInit {
     this.commonMethod.gridDataSourceForSearchStudy(
       reqObj,
       this.gridApi,
-      this.BLOCK_SIZE
+      this.BLOCK_SIZE,
+      this
     );
 
     this.gridApi.addEventListener('failCallback', this.onServerFailCallback);

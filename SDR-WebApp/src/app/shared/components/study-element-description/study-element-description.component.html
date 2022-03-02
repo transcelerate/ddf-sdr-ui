@@ -1,11 +1,12 @@
 <!-- <span class="linkSpan" (click)="backButtonClicked()">back</span> -->
 <!-- <h2><b>StudyId {{sponsorStudyId}} Version {{sponsorVersionId}} - Details</b></h2> -->
 
-<h2>
+<h2 *ngIf="!showError">
   <b>{{ finalVal.accordianName }} <span *ngIf="route.children.length === 0">Version {{ sponsorVersionId }}</span></b>
 </h2>
 <div class="col-sm-12" *ngIf="route.children.length === 0">
-  <div class="buttonDiv">
+  <app-error-component *ngIf="showError"></app-error-component>
+  <div class="buttonDiv" *ngIf="!showError">
     <button (click)="auditTrail()" class="versionButton">
       View History / Audit Trail
     </button>
