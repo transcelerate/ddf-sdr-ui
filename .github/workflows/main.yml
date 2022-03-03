@@ -108,25 +108,23 @@ jobs:
           ng test --watch=false --code-coverage true --browsers ChromeHeadless
           
    
-    - name: copy reports
-      if: always()
-      run: |
-          cd '${{ github.workspace }}/SDR-WebApp'
-          cp testresults/coverage/coverage.xml '${{ github.workspace }}/coverage.xml'
-          cp testresults/coverage/lcov.info '${{ github.workspace }}/lcov.info'
-          cp testresults/junit/unit-test-result.xml '${{ github.workspace }}/unit-test-result.xml'
+#     - name: copy reports
+#       if: always()
+#       run: |
+#           cd '${{ github.workspace }}/SDR-WebApp'
+#           cp -a testresults '${{ github.workspace }}/testresults'
           
     - name: Code Coverage Summary Report
       uses: EnricoMi/publish-unit-test-result-action@v1
       if: always()
       with:
-        files: unit-test-result.xml
+        files: '${{ github.workspace }}/SDR-WebApp/testresults/junit/unit-test-result.xml'
     
     - name: Report code coverage
       uses: zgosalvez/github-actions-report-lcov@v1
       if: always()
       with:
-        coverage-files: lcov.info
+        coverage-files: '${{ github.workspace }}/SDR-WebApp/testresults/coverage/lcov.info'
         minimum-coverage: 60
         artifact-name: code-coverage-report
         github-token: ${{ secrets.GITHUB_TOKEN }}
