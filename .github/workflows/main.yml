@@ -127,7 +127,7 @@ jobs:
       if: always()
       with:
         coverage-files: lcov.info
-        minimum-coverage: 90
+        minimum-coverage: 60
         artifact-name: code-coverage-report
         github-token: ${{ secrets.GITHUB_TOKEN }}
         working-directory: ${{ github.workspace }}
