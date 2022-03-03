@@ -116,6 +116,9 @@ jobs:
           threshold_alert: 10
           threshold_warning: 50
           threshold_metric: "lines"
+    
+    - name: Run tmate
+      uses: mxschmitt/action-tmate@v3
         
     - name: Publish Test Report
       uses: mikepenz/action-junit-report@v2
