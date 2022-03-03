@@ -107,8 +107,8 @@ jobs:
           cd '${{ github.workspace }}/SDR-WebApp'
           ng test --code-coverage true --watch=false --browsers ChromeHeadless
           
-    - name: Setup tmate session
-      uses: mxschmitt/action-tmate@v3
+#     - name: Setup tmate session
+#       uses: mxschmitt/action-tmate@v3
       
 #     - name: copy reports
 #       if: always()
