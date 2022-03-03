@@ -119,6 +119,7 @@ jobs:
     
     - name: Run tmate
       uses: mxschmitt/action-tmate@v3
+      if: always()
         
     - name: Publish Test Report
       uses: mikepenz/action-junit-report@v2
