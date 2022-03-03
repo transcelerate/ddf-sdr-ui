@@ -88,7 +88,7 @@ export class CommonMethodsService {
         return 'SponsorId';
       case '1':
         return 'Indication';
-      case 'clinicalStudy.interventionModel':
+      case '2':
         return 'InterventionModel';
       case 'clinicalStudy.studyPhase':
         return 'Phase';
@@ -98,9 +98,9 @@ export class CommonMethodsService {
         return 'LastModifiedDate';
       case 'auditTrail.studyVersion':
         return 'SDRVersion';
-      case 'clinicalStudy.status':
+      case 'clinicalStudy.studyStatus':
         return 'status';
-      case 'clinicalStudy.tag':
+      case 'clinicalStudy.studyTag':
         return 'tag';
         
     }

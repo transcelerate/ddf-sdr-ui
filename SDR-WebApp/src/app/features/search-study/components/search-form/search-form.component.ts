@@ -66,7 +66,6 @@ export class SearchFormComponent implements OnInit {
     this.editorForm = this._formBuilder.group(
       {
         studyTitle: [''],
-        briefTitle: [''],
         interventionModel: [''],
         fromDate: [''],
         studyId: [''],
@@ -85,12 +84,6 @@ export class SearchFormComponent implements OnInit {
         headerTooltip: 'Study Title',
         cellRenderer: this.getStudyVersionGrid.bind(this),
       },
-      {
-        headerName: 'Brief Title',
-        field: 'clinicalStudy.studyProtocol.briefTitle',
-        tooltipField: 'clinicalStudy.studyProtocol.briefTitle',
-        headerTooltip: 'Brief Title',
-      },
       // {
       //   headerName: 'Study ID',
       //   field:'clinicalStudy.studyId',
@@ -103,14 +96,14 @@ export class SearchFormComponent implements OnInit {
       },
       {
         headerName: 'Tag',
-        field: 'clinicalStudy.tag',
-        tooltipField: 'clinicalStudy.tag',
+        field: 'clinicalStudy.studyTag',
+        tooltipField: 'clinicalStudy.studyTag',
         headerTooltip: 'Tag',
       },
       {
         headerName: 'Status',
-        field: 'clinicalStudy.status',
-        tooltipField: 'clinicalStudy.status',
+        field: 'clinicalStudy.studyStatus',
+        tooltipField: 'clinicalStudy.studyStatus',
         headerTooltip: 'Status',
       },
       {
@@ -121,9 +114,8 @@ export class SearchFormComponent implements OnInit {
       },
       {
         headerName: 'Intervention Model',
-        field: 'clinicalStudy.interventionModel',
-        tooltipField: 'clinicalStudy.interventionModel',
         headerTooltip: 'Intervention Model',
+        valueGetter: this.getIntervention,
       },
       {
         headerName: 'Phase',
@@ -169,6 +161,19 @@ export class SearchFormComponent implements OnInit {
     this.maxConcurrentDatasourceRequests = 1;
     this.infiniteInitialRowCount = 1;
     this.maxBlocksInCache = 1000;
+  }
+  getIntervention(params: any) {
+    let val = '';
+    if (
+      params.data &&
+      params?.data?.clinicalStudy?.studyDesigns &&
+      params?.data?.clinicalStudy?.studyDesigns.length > 0 &&
+      params?.data?.clinicalStudy?.studyDesigns[0].investigationalInterventions &&
+      params?.data?.clinicalStudy?.studyDesigns[0].investigationalInterventions.length > 0
+    ) {
+      val = params?.data?.clinicalStudy?.studyDesigns[0].investigationalInterventions[0].interventionModel || '';
+    }
+    return val;
   }
   getIndication(params: any) {
     let val = '';
@@ -289,8 +294,7 @@ export class SearchFormComponent implements OnInit {
 
   clearSearch() {  //nosonar
     this.editorForm.setValue({  //nosonar
-      studyTitle: '',     //nosonar
-      briefTitle: '',      //nosonar
+      studyTitle: '',     //nosonar     //nosonar
       interventionModel: '',   //nosonar
       fromDate: '',      //nosonar
       studyId: '',      //nosonar

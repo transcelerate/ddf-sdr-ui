@@ -69,9 +69,6 @@ describe('CommonMethodsService', () => {
     it('tests studyTitle', () => {
       expect(service.getHeaderName('clinicalStudy.studyTitle')).toEqual('studyTitle');
     });
-    it('tests briefTitle', () => {
-      expect(service.getHeaderName('clinicalStudy.studyProtocol.briefTitle')).toEqual('briefTitle');
-    });
     it('tests SponsorId', () => {
       expect(service.getHeaderName('0')).toEqual('SponsorId');
     });
@@ -79,7 +76,7 @@ describe('CommonMethodsService', () => {
       expect(service.getHeaderName('1')).toEqual('Indication');
     });
     it('tests InterventionModel', () => {
-      expect(service.getHeaderName('clinicalStudy.interventionModel')).toEqual('InterventionModel');
+      expect(service.getHeaderName('2')).toEqual('InterventionModel');
     });
     it('tests Phase', () => {
       expect(service.getHeaderName('clinicalStudy.studyPhase')).toEqual('Phase');
@@ -94,10 +91,10 @@ describe('CommonMethodsService', () => {
       expect(service.getHeaderName('auditTrail.studyVersion')).toEqual('SDRVersion');
     });
     it('tests status', () => {
-      expect(service.getHeaderName('clinicalStudy.status')).toEqual('status');
+      expect(service.getHeaderName('clinicalStudy.studyStatus')).toEqual('status');
     });
     it('tests tag', () => {
-      expect(service.getHeaderName('clinicalStudy.tag')).toEqual('tag');
+      expect(service.getHeaderName('clinicalStudy.studyTag')).toEqual('tag');
     });
   });
   // describe('gridDataSourceForSearchStudy',() => {

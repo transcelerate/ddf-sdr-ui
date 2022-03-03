@@ -53,7 +53,6 @@ describe('SearchFormComponent', () => {
     component.editorForm = formBuilder.group(
       {
         studyTitle: 'uu',
-        briefTitle: 'uu',
         interventionModel: 'uu',
         fromDate: 'uu',
         studyId: 'uu',
