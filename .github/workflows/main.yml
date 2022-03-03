@@ -113,7 +113,15 @@ jobs:
 #       run: |
 #           cd '${{ github.workspace }}/SDR-WebApp'
 #           cp -a testresults '${{ github.workspace }}/testresults'
-          
+   
+    - name: Code Coverage Summary Report
+      uses: irongut/CodeCoverageSummary@v1.0.2
+      with:
+        filename: '${{ github.workspace }}/SDR-WebApp/testresults/coverage/coverage.xml'
+        badge: true
+        format: 'markdown'
+        output: 'both'
+        
     - name: Code Coverage Summary Report
       uses: EnricoMi/publish-unit-test-result-action@v1
       if: always()
