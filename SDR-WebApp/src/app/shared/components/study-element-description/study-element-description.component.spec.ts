@@ -11,7 +11,7 @@ import { CommonMethodsService } from '../../services/common-methods.service';
 import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 import { StudyElementDescriptionComponent } from './study-element-description.component';
-import { of } from 'rxjs';
+import { of, throwError } from 'rxjs';
 describe('StudyElementDescriptionComponent', () => {
   let component: StudyElementDescriptionComponent;
   let fixture: ComponentFixture<StudyElementDescriptionComponent>;
@@ -121,6 +121,14 @@ describe('StudyElementDescriptionComponent', () => {
       expect(ngxSpinnerServiceStub.hide).toHaveBeenCalled();
       expect(commonMethodsServiceStub.getSponsorDetails).toHaveBeenCalled();
     });
+    
+  it('error call ', () => {
+    const serviceCallStub: ServiceCall =
+      fixture.debugElement.injector.get(ServiceCall);
+    spyOn<ServiceCall, any>(serviceCallStub, 'getStudyElement').and.returnValue(throwError(errorResponse))
+    component.getstudyelement();
+    expect(component.showError).toEqual(true);
+});
   });
   describe('setHighLighted', () => {
     it('makes expected calls', () => {
@@ -421,3 +429,7 @@ describe('StudyElementDescriptionComponent', () => {
 function getstudyelement(serviceCallStub: ServiceCall, getstudyelement: any) {
   throw new Error('Function not implemented.');
 }
+function errorResponse(errorResponse: any): any {
+  throw new Error('Function not implemented.');
+}
+

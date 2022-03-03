@@ -10,7 +10,7 @@ export class CommonMethodsService {
     private spinner: NgxSpinnerService,
     public serviceCall: ServiceCall
   ) {}
-   /* istanbul ignore next */
+   
 // @SONAR_STOP@
   gridDataSourceForSearchStudy(
     reqObj: any,
@@ -56,7 +56,7 @@ export class CommonMethodsService {
             }
           },
           error: (error) => {
-            if(error.error.statusCode == "404"){
+            if(error && error.error && error.error.statusCode == "404"){
             console.log(error);
             rowParams.successCallback([], rowParams.startRow);
             if(rowParams.startRow == 0){

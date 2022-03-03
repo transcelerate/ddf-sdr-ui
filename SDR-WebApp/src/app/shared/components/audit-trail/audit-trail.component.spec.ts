@@ -6,7 +6,7 @@ import { ActivatedRoute } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ServiceCall } from '../../services/service-call/service-call.service';
 import { AuditTrailComponent } from './audit-trail.component';
-import { of } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 
 describe('AuditTrailComponent', () => {
   let component: AuditTrailComponent;
@@ -133,6 +133,13 @@ describe('AuditTrailComponent', () => {
         // expect(component.heading).toEqual('Study Details');
         expect(serviceCallStub.getAuditTrail).toHaveBeenCalled();
       });
+      it('error call ', () => {
+        const serviceCallStub: ServiceCall =
+          fixture.debugElement.injector.get(ServiceCall);
+        spyOn<ServiceCall, any>(serviceCallStub, 'getAuditTrail').and.returnValue(throwError(errorResponse))
+        component.ngOnInit();
+        expect(component.showError).toEqual(true);
+    });
     });
   
   });
@@ -147,3 +154,7 @@ describe('AuditTrailComponent', () => {
     return false;
   }
 });
+function errorResponse(errorResponse: any): any {
+  throw new Error('Function not implemented.');
+}
+
