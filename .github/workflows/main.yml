@@ -113,7 +113,7 @@ jobs:
       run: |
           cd '${{ github.workspace }}/SDR-WebApp'
           cp testresults/coverage/coverage.xml '${{ github.workspace }}/coverage.xml'
-          cp testresults/coverage/coverage.xml '${{ github.workspace }}/coverage.xml'
+          cp testresults/coverage/lcov.info '${{ github.workspace }}/lcov.info'
           cp testresults/junit/unit-test-result.xml '${{ github.workspace }}/unit-test-result.xml'
           
     - name: Code Coverage Summary Report
