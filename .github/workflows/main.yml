@@ -120,22 +120,20 @@ jobs:
           ng test --code-coverage true --watch=false --browsers ChromeHeadless
           cp testresults/coverage/coverage.xml '${{ github.workspace }}/coverage.xml'
           
-    - name: Monitor coverage
-      uses: slavcodev/coverage-monitor-action@v1
-      with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          coverage_path: coverage.xml
-          threshold_alert: 10
-          threshold_warning: 50
-          threshold_metric: "lines"
+#     - name: Monitor coverage
+#       uses: slavcodev/coverage-monitor-action@v1
+#       with:
+#           github_token: ${{ secrets.GITHUB_TOKEN }}
+#           coverage_path: coverage.xml
+#           threshold_alert: 10
+#           threshold_warning: 50
+#           threshold_metric: "lines"
     
     - name: Report code coverage
-      uses: zgosalvez/github-actions-report-lcov@v1
+      uses: romeovs/lcov-reporter-action@v0.2.16
       if: always()
       with:
-        coverage-files: '${{ github.workspace }}/SDR-WebApp/testresults/coverage/lcov.info'
-        minimum-coverage: 60
-        artifact-name: code-coverage-report
+        lcov-file: '${{ github.workspace }}/SDR-WebApp/testresults/coverage/lcov.info'
+        title: code-coverage-report
         github-token: ${{ secrets.GITHUB_TOKEN }}
-        working-directory: ${{ github.workspace }}
         
