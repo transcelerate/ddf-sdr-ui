@@ -74,32 +74,32 @@ jobs:
     - name: npm update
       run:  npm update SDR-WebApp
       
-#     - name: Build SDR-WebApp
-#       run: |
-#          cd ${{ github.workspace }}/SDR-WebApp
-#          ng build --configuration=production
-#          cd ${{ github.workspace }}/SDR-WebApp/dist
-#          ls
-#          cd ${{ github.workspace }}/SDR-WebApp/dist/SDR-WebApp
-#          ls
+    - name: Build SDR-WebApp
+      run: |
+         cd ${{ github.workspace }}/SDR-WebApp
+         ng build --configuration=production
+         cd ${{ github.workspace }}/SDR-WebApp/dist
+         ls
+         cd ${{ github.workspace }}/SDR-WebApp/dist/SDR-WebApp
+         ls
          
-#     - name: 'Copy Files to: ${{ github.workspace }}'
-#       run: |
-#        cp -R '${{ github.workspace }}/SDR-WebApp/dist/SDR-WebApp' '${{ github.workspace }}'
-#        cd  ${{ github.workspace }}
-#        ls     
+    - name: 'Copy Files to: ${{ github.workspace }}'
+      run: |
+       cp -R '${{ github.workspace }}/SDR-WebApp/dist/SDR-WebApp' '${{ github.workspace }}'
+       cd  ${{ github.workspace }}
+       ls     
       
-#     - name: 'Publish Artifact: Artifact'
-#       uses: actions/upload-artifact@v2
-#       with:
-#         path: '${{ github.workspace }}/SDR-WebApp/dist/**'
-#         name: Build-Artifact
+    - name: 'Publish Artifact: Artifact'
+      uses: actions/upload-artifact@v2
+      with:
+        path: '${{ github.workspace }}/SDR-WebApp/dist/**'
+        name: Build-Artifact
         
-#     - name: 'Run Azure webapp deploy action using publish profile credentials'
-#       uses: azure/webapps-deploy@v2
-#       with: 
-#         app-name: ${{ env.AZURE_WEBAPP_NAME }} # Replace with your app name
-#         package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
+    - name: 'Run Azure webapp deploy action using publish profile credentials'
+      uses: azure/webapps-deploy@v2
+      with: 
+        app-name: ${{ env.AZURE_WEBAPP_NAME }} # Replace with your app name
+        package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
     
               
     - name: Run Angular tests
@@ -117,12 +117,5 @@ jobs:
       run: |
           cd '${{ github.workspace }}/SDR-WebApp'
           ng test --code-coverage true --watch=false --browsers ChromeHeadless
-          cp testresults/coverage/cobertura-coverage.xml '${{ github.workspace }}/coverage.xml'
-          
-    - name: Code Coverage Summary Report
-      uses: irongut/CodeCoverageSummary@v1.0.2
-      with:
-        filename: coverage.xml
-        badge: true
-        format: 'markdown'
-        output: 'both'
+          cp testresults/coverage/cobertura-coverage.xml '${{ github.workspace }}/coverage.xml'          
+    
