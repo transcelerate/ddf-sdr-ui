@@ -117,22 +117,12 @@ jobs:
       run: |
           cd '${{ github.workspace }}/SDR-WebApp'
           ng test --code-coverage true --watch=false --browsers ChromeHeadless
-          cp testresults/coverage/cobertura-coverage.xml '${{ github.workspace }}/cobertura-coverage.xml'
+          cp testresults/coverage/cobertura-coverage.xml '${{ github.workspace }}/coverage.xml'
           
-    - name: Monitor coverage
-      uses: slavcodev/coverage-monitor-action@v1
+    - name: Code Coverage Summary Report
+      uses: irongut/CodeCoverageSummary@v1.0.2
       with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          coverage_path: cobertura-coverage.xml
-          threshold_alert: 10
-          threshold_warning: 50
-          threshold_metric: "lines"
-    
-    - name: Report code coverage
-      uses: romeovs/lcov-reporter-action@v0.2.16
-      if: always()
-      with:
-        lcov-file: '${{ github.workspace }}/SDR-WebApp/testresults/coverage/lcov.info'
-        title: code-coverage-report
-        github-token: ${{ secrets.GITHUB_TOKEN }}
-        
+        filename: coverage.xml
+        badge: true
+        format: 'markdown'
+        output: 'both'
