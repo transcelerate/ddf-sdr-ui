@@ -95,11 +95,11 @@ jobs:
         path: '${{ github.workspace }}/SDR-WebApp/dist/**'
         name: Build-Artifact
         
-    - name: 'Run Azure webapp deploy action using publish profile credentials'
-      uses: azure/webapps-deploy@v2
-      with: 
-        app-name: ${{ env.AZURE_WEBAPP_NAME }} # Replace with your app name
-        package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
+#     - name: 'Run Azure webapp deploy action using publish profile credentials'
+#       uses: azure/webapps-deploy@v2
+#       with: 
+#         app-name: ${{ env.AZURE_WEBAPP_NAME }} # Replace with your app name
+#         package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
     
               
     - name: Run Angular tests
@@ -119,3 +119,16 @@ jobs:
           ng test --code-coverage true --watch=false --browsers ChromeHeadless
           cp testresults/coverage/cobertura-coverage.xml '${{ github.workspace }}/coverage.xml'          
     
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+    - uses: sonarsource/sonarqube-scan-action@master
+      env:
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+      # If you wish to fail your job when the Quality Gate is red, uncomment the
+      # following lines. This would typically be used to fail a deployment.
+      # - uses: sonarsource/sonarqube-quality-gate-action@master
+      #   timeout-minutes: 5
+      #   env:
+      #     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
