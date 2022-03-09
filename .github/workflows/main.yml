@@ -137,7 +137,7 @@ jobs:
          -Dsonar.exclusions=**/node_modules/**,**/breadcrumb/**
          -Dsonar.coverage.exclusions=**/breadcrumb/**,**/version-comparison/**,**/search-form/**,**/services/**
          -Dsonar.cobertura.reportPath='${{ github.workspace }}/coverage.xml'
-         -Dsonar.typescript.lcov.reportPaths ${{ github.workspace }}/lcov.info'
+         -Dsonar.typescript.lcov.reportPaths='${{ github.workspace }}/lcov.info'
          -Dsonar.javascript.lcov.reportPaths='${{ github.workspace }}/lcov.info'
          
       # If you wish to fail your job when the Quality Gate is red, uncomment the
