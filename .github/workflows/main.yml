@@ -129,7 +129,8 @@ jobs:
       with:
         projectBaseDir: ${{ github.workspace }}/SDR-WebApp
         args: >
-         -Dsonar.python.coverage.reportPaths=coverage.xml
+         -Dsonar.projectKey=transceleratebiopharmainc_ddf-sdr-ui
+         -Dsonar.cobertura.reportPath=coverage.xml
          -Dsonar.test.exclusions=tests/**
          -Dsonar.tests=${{ github.workspace }}/SDR-WebApp/testresults/junit/unit-test-result.xml
 
