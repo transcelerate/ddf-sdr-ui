@@ -120,6 +120,8 @@ jobs:
           cp testresults/coverage/cobertura-coverage.xml '${{ github.workspace }}/coverage.xml'    
           cp testresults/coverage/lcov.info '${{ github.workspace }}/lcov.info'    
     
+    - name: Setup tmate session
+      uses: mxschmitt/action-tmate@v3
 
     - uses: sonarsource/sonarqube-scan-action@master
       env:
