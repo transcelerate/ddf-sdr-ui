@@ -121,10 +121,10 @@ jobs:
           cp testresults/coverage/lcov.info '${{ github.workspace }}/lcov.info'    
     
 
-    - uses: kitabisa/sonarqube-action@v1.1.0
+    - uses: sonarsource/sonarqube-scan-action@master
       env:
-        login: ${{ secrets.SONAR_TOKEN }}
-        host: ${{ secrets.SONAR_HOST_URL }}
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
       with:
         projectBaseDir: ${{ github.workspace }}/SDR-WebApp
          
