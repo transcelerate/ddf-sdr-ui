@@ -130,10 +130,8 @@ jobs:
         projectBaseDir: ${{ github.workspace }}/SDR-WebApp
         args: >
          -Dsonar.projectKey=transceleratebiopharmainc_ddf-sdr-ui
-         -Dsonar.cobertura.reportPath=coverage.xml
-         -Dsonar.test.exclusions=tests/**
-         -Dsonar.tests=${{ github.workspace }}/SDR-WebApp/testresults/junit/unit-test-result.xml
-
+         -Dsonar.cobertura.reportPath=${{ github.workspace }}/coverage.xml
+         
       # If you wish to fail your job when the Quality Gate is red, uncomment the
       # following lines. This would typically be used to fail a deployment.
       # - uses: sonarsource/sonarqube-quality-gate-action@master
