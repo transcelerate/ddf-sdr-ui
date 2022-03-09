@@ -129,6 +129,7 @@ jobs:
       with:
         projectBaseDir: ${{ github.workspace }}/SDR-WebApp
         args: >
+         -Dsonar.projectKey=transceleratebiopharmainc_ddf-sdr-ui
          -Dsonar.sources=${{ github.workspace }}/SDR-WebApp/src
          -Dsonar.tests=${{ github.workspace }}/SDR-WebApp/src
          -Dsonar.test.inclusions=**/*.spec.ts,**/*test.ts
