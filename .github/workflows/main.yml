@@ -117,7 +117,8 @@ jobs:
       run: |
           cd '${{ github.workspace }}/SDR-WebApp'
           ng test --code-coverage true --watch=false --browsers ChromeHeadless
-          cp testresults/coverage/cobertura-coverage.xml '${{ github.workspace }}/coverage.xml'          
+          cp testresults/coverage/cobertura-coverage.xml '${{ github.workspace }}/coverage.xml'    
+          cp testresults/coverage/lcov.info '${{ github.workspace }}/lcov.info'    
     
 #     - uses: actions/checkout@v2
 #       with:
@@ -135,9 +136,9 @@ jobs:
          -Dsonar.test.inclusions=**/*.spec.ts,**/*test.ts
          -Dsonar.exclusions=**/node_modules/**,**/breadcrumb/**
          -Dsonar.coverage.exclusions=**/breadcrumb/**,**/version-comparison/**,**/search-form/**,**/services/**
-         -Dsonar.cobertura.reportPath=${{ github.workspace }}/SDR-WebApp/testresults/coverage/cobertura-coverage.xml
-         -Dsonar.typescript.lcov.reportPaths=${{ github.workspace }}/SDR-WebApp/testresults/coverage/lcov.info
-         -Dsonar.javascript.lcov.reportPaths=${{ github.workspace }}/SDR-WebApp/testresults/coverage/lcov.info
+         -Dsonar.cobertura.reportPath='${{ github.workspace }}/coverage.xml'
+         -Dsonar.typescript.lcov.reportPaths ${{ github.workspace }}/lcov.info'
+         -Dsonar.javascript.lcov.reportPaths='${{ github.workspace }}/lcov.info'
          
       # If you wish to fail your job when the Quality Gate is red, uncomment the
       # following lines. This would typically be used to fail a deployment.
