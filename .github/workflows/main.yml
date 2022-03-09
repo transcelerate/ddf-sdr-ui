@@ -118,10 +118,7 @@ jobs:
           cd '${{ github.workspace }}/SDR-WebApp'
           ng test --code-coverage true --watch=false --browsers ChromeHeadless
           cp testresults/coverage/cobertura-coverage.xml '${{ github.workspace }}/coverage.xml'    
-          cp testresults/coverage/lcov.info '${{ github.workspace }}/lcov.info'    
-    
-    - name: Setup tmate session
-      uses: mxschmitt/action-tmate@v3
+          cp testresults/coverage/lcov.info '${{ github.workspace }}/lcov.info'  
 
     - uses: sonarsource/sonarqube-scan-action@master
       env:
