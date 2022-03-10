@@ -67,6 +67,7 @@ jobs:
          npm install webpack-obfuscator@3.5.1
          npm install javascript-obfuscator@4.0.0
          npm install tslint-angular@3.0.3  
+         npm install -g sonarqube-scanner
   
     - name: npm install
       run:  npm install SDR-WebApp
@@ -120,28 +121,28 @@ jobs:
           cp testresults/coverage/cobertura-coverage.xml '${{ github.workspace }}/coverage.xml'    
           cp testresults/coverage/lcov.info '${{ github.workspace }}/lcov.info'  
     
-#     - name: Setup tmate session
-#       uses: mxschmitt/action-tmate@v3
-      
-    - uses: sonarsource/sonarqube-scan-action@master
+    - name: Run Sonar
       env:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-      with:
-        projectBaseDir: ${{ github.workspace }}/SDR-WebApp/src
-        args: >
-         -Dsonar.projectKey=transceleratebiopharmainc_ddf-sdr-ui
-         -Dsonar.test.inclusions=**/*.spec.ts,**/*test.ts
-         -Dsonar.exclusions=**/node_modules/**,**/breadcrumb/**
-         -Dsonar.coverage.exclusions=**/breadcrumb/**,**/version-comparison/**,**/search-form/**,**/services/**
-         -Dsonar.cobertura.reportPath='${{ github.workspace }}/SDR-WebApp/testresults/coverage/coverage.xml'
-         -Dsonar.typescript.lcov.reportPaths='${{ github.workspace }}/SDR-WebApp/testresults/coverage/lcov.info'
-         -Dsonar.javascript.lcov.reportPaths='${{ github.workspace }}/SDR-WebApp/testresults/coverage/lcov.info'
-         
-         
-      # If you wish to fail your job when the Quality Gate is red, uncomment the
-      # following lines. This would typically be used to fail a deployment.
-      # - uses: sonarsource/sonarqube-quality-gate-action@master
-      #   timeout-minutes: 5
-      #   env:
-      #     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      run: |
+          cd '${{ github.workspace }}/SDR-WebApp'
+          sonar-scanner -Dsonar.host.url=$SONAR_HOST_URL -Dsonar.login=$SONAR_TOKEN
+          
+#     - name: Setup tmate session
+#       uses: mxschmitt/action-tmate@v3
+      
+#     - uses: sonarsource/sonarqube-scan-action@master
+#       env:
+#         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+#         SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+#       with:
+#         projectBaseDir: ${{ github.workspace }}/SDR-WebApp/src
+#         args: >
+#          -Dsonar.projectKey=transceleratebiopharmainc_ddf-sdr-ui
+#          -Dsonar.test.inclusions=**/*.spec.ts,**/*test.ts
+#          -Dsonar.exclusions=**/node_modules/**,**/breadcrumb/**
+#          -Dsonar.coverage.exclusions=**/breadcrumb/**,**/version-comparison/**,**/search-form/**,**/services/**
+#          -Dsonar.cobertura.reportPath='${{ github.workspace }}/SDR-WebApp/testresults/coverage/coverage.xml'
+#          -Dsonar.typescript.lcov.reportPaths='${{ github.workspace }}/SDR-WebApp/testresults/coverage/lcov.info'
+#          -Dsonar.javascript.lcov.reportPaths='${{ github.workspace }}/SDR-WebApp/testresults/coverage/lcov.info'
