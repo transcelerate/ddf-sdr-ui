@@ -128,11 +128,11 @@ jobs:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
       with:
-        projectBaseDir: ${{ github.workspace }}/SDR-WebApp
+        projectBaseDir: ${{ github.workspace }}/SDR-WebApp/src
         args: >
          -Dsonar.projectKey=transceleratebiopharmainc_ddf-sdr-ui
-         -Dsonar.sources=$(System.DefaultWorkingDirectory)/SDR-WebApp/src
-         -Dsonar.tests=$(System.DefaultWorkingDirectory)/SDR-WebApp/src
+         -Dsonar.sources=${{ github.workspace }}/SDR-WebApp/src
+         -Dsonar.tests=${{ github.workspace }}/SDR-WebApp/src
          -Dsonar.test.inclusions=**/*.spec.ts,**/*test.ts
          -Dsonar.exclusions=**/node_modules/**,**/breadcrumb/**
          -Dsonar.coverage.exclusions=**/breadcrumb/**,**/version-comparison/**,**/search-form/**,**/services/**
