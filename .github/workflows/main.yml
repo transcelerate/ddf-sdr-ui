@@ -119,22 +119,29 @@ jobs:
           ng test --code-coverage true --watch=false --browsers ChromeHeadless
           cp testresults/coverage/cobertura-coverage.xml '${{ github.workspace }}/coverage.xml'    
           cp testresults/coverage/lcov.info '${{ github.workspace }}/lcov.info'  
-
+    
+    - name: Setup tmate session
+      uses: mxschmitt/action-tmate@v3
+      
     - uses: sonarsource/sonarqube-scan-action@master
       env:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
       with:
-        projectBaseDir: ${{ github.workspace }}/SDR-WebApp
+        projectBaseDir: ${{ github.workspace }}/SDR-WebApp/src
         args: >
          -Dsonar.projectKey=transceleratebiopharmainc_ddf-sdr-ui
-         -Dsonar.projectName=ddf-sdr-ui
+         -Dsonar.sources=$(System.DefaultWorkingDirectory)/SDR-WebApp/src
+         -Dsonar.tests=$(System.DefaultWorkingDirectory)/SDR-WebApp/src
          -Dsonar.test.inclusions=**/*.spec.ts,**/*test.ts
          -Dsonar.exclusions=**/node_modules/**,**/breadcrumb/**
          -Dsonar.coverage.exclusions=**/breadcrumb/**,**/version-comparison/**,**/search-form/**,**/services/**
          -Dsonar.cobertura.reportPath='${{ github.workspace }}/SDR-WebApp/testresults/coverage/coverage.xml'
          -Dsonar.typescript.lcov.reportPaths='${{ github.workspace }}/SDR-WebApp/testresults/coverage/lcov.info'
          -Dsonar.javascript.lcov.reportPaths='${{ github.workspace }}/SDR-WebApp/testresults/coverage/lcov.info'
+         -Dsonar.issue.ignore.block=e2
+         -Dsonar.issue.ignore.block.e2.beginBlockRegexp=// @SONAR_STOP@
+         -Dsonar.issue.ignore.block.e2.endBlockRegexp=// @SONAR_START@
          
       # If you wish to fail your job when the Quality Gate is red, uncomment the
       # following lines. This would typically be used to fail a deployment.
