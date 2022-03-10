@@ -120,8 +120,8 @@ jobs:
           cp testresults/coverage/cobertura-coverage.xml '${{ github.workspace }}/coverage.xml'    
           cp testresults/coverage/lcov.info '${{ github.workspace }}/lcov.info'  
     
-    - name: Setup tmate session
-      uses: mxschmitt/action-tmate@v3
+#     - name: Setup tmate session
+#       uses: mxschmitt/action-tmate@v3
       
     - uses: sonarsource/sonarqube-scan-action@master
       env:
@@ -140,8 +140,8 @@ jobs:
          -Dsonar.typescript.lcov.reportPaths='${{ github.workspace }}/SDR-WebApp/testresults/coverage/lcov.info'
          -Dsonar.javascript.lcov.reportPaths='${{ github.workspace }}/SDR-WebApp/testresults/coverage/lcov.info'
          -Dsonar.issue.ignore.block=e2
-         -Dsonar.issue.ignore.block.e2.beginBlockRegexp=// @SONAR_STOP@
-         -Dsonar.issue.ignore.block.e2.endBlockRegexp=// @SONAR_START@
+         -Dsonar.issue.ignore.block.e2.beginBlockRegexp='// @SONAR_STOP@'
+         -Dsonar.issue.ignore.block.e2.endBlockRegexp='// @SONAR_START@'
          
       # If you wish to fail your job when the Quality Gate is red, uncomment the
       # following lines. This would typically be used to fail a deployment.
