@@ -58,20 +58,8 @@ jobs:
     - name: npm cli
       run: |
          cd ${{ github.workspace }}/SDR-WebApp
-         npm install -g @angular/cli@13.0.3
-         npm install @angular-devkit/build-angular
-         npm install @materia-ui/ngx-monaco-editor
-         npm install typescript@4.4.4
-         npm install @angular-builders/custom-webpack
-         npm install ngx-spinner@13.1.1
-         npm install webpack-obfuscator@3.5.1
-         npm install javascript-obfuscator@4.0.0
-         npm install tslint-angular@3.0.3  
-         npm install @angular/core@13.0.0
-         npm install @angular/common@13.0.0
+         npm install -g @angular/cli@13.0.3         
          npm install -g sonarqube-scanner
-         npm install ngx-bootstrap@8.0.0
-         npm install rxjs@7.4.0
   
     - name: npm install
       run:  npm install SDR-WebApp
