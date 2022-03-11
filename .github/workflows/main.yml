@@ -122,7 +122,7 @@ jobs:
       run: |
           cd '${{ github.workspace }}/SDR-WebApp'
           ng test --code-coverage true --watch=false --browsers ChromeHeadless
-          cp testresults/coverage/coverage.xml '${{ github.workspace }}/coverage.xml'    
+          cp testresults/coverage/cobertura-coverage.xml '${{ github.workspace }}/coverage.xml'    
           cp testresults/coverage/lcov.info '${{ github.workspace }}/lcov.info'  
           
     - uses: actions/setup-dotnet@v1
