@@ -4,46 +4,60 @@
 
 # Introduction
 
-Digital Data Flow Application is TransCelerate’s vision to catalyze industry-level transformation, enabling digital exchange of study definition information by collaborating with technology providers and standards bodies to create a sustainable open-source Study Definition Repository.
+Study Definition Repository (Reference Implementation) is TransCelerate’s vision to catalyze industry-level transformation, enabling digital exchange of study definition information by collaborating with technology providers and standards bodies to create a sustainable open-source Study Definition Repository.
 
-In this Angular project, user can view different versions of study element and their details
+Using this Angular project, user can connect with SDR data, to view the study documents, search certain documents by giving search criteria, to view the audit details of search study, and also user can compare differences between two versions of the document.
 
 # Pre-requisites
 
-1. Install [Node.js](https://nodejs.org) with default options.
+1. Install latest version of [Node.js](https://nodejs.org).
 
-2. Install the Angular CLI globally in cmd prompt:
+2. After installing Node.js, install the Angular CLI globally in cmd prompt using the command below:
 
 ```
 npm install -g @angular/cli
 ```
-3. Validate if node and npm is installed using below commands in cmd prompt
+3. Validate if node and npm is installed using below commands in cmd prompt. If it has installed properly, it will show the version installed.
 ```
 node -v
 ```
 ```
 npm -v
 ```
-
+4. Try repeating the installation, if there is any issue.
 ### How to setup code
 
-3. Clone the repo
+1. Clone the repo into a local directory using below git command.
 
 ```shell
 git clone "repo_url"
+```
+Once repo is cloned, open a terminal window and go to the project root folder using the command as mentioned below.
+
+```shell
 cd SDR%20UI/SDR-WebApp
 ```
-Open a terminal window and go to the project root folder as mentioned above.
 
-4. Run `npm install` to install the required libraries.
+2. After navigation to the root folder path as mentioned above, run `npm install` to install the required libraries.
 
 ### How To Run
 
-5. Run `ng serve` for a dev server.
+1. Once code setup is done, run the project locally using the below command.
 
-Navigate to `http://localhost:4200/`.
+```shell
+ng serve
+```
 
-The browser will automatically reload if you change any of the source files.
+2. After code is compiled successfully, open `https://localhost:4200/` in browser to run the application.
+
+For any changes in source code, angular terminal recompiles the code and the browser will reload the application.
+
+3. Use the below commands to commit and push the changes to repo. 
+
+```shell
+git commit -m'message for commit'
+git push
+```
 
 # Base solution structure
 
@@ -57,37 +71,56 @@ The solution has the following structure:
       │   ├── features
       │   └── shared
       ├── environments
-      │   ├── environment(local)
-      │   ├── environment.dev2
-      │   ├── environment.qa
-      │   ├── environment.prod
+      │   ├── environment.ts
       ├── styles
 
 ```
 
 ### Making requests to the backend API
 
-API URL is configured in `src/environments/environment.ts` file for localhost, defaulted to one of the dev environments.
+API URL and other secrets are configured in `src/environments/environment.ts` file as shown below, the values of the keys will be replaced 
+with the environment specific values from devops during deployment.
 
-Relevant environment variables should be changed if we need to point localhost to a different environment. 
+```
+export const environment = {
+  production: true,
 
+  tenantId: '#{AzureAd-TenantId}#',
+  authority: `#{AzureAd-Authority}#`, 
+  clientId: '#{AzureAd-ClientId}#', 
+  Audiance: '#{AzureAd-Audiance}#',
+
+  redirectUrl: '#{AzureAd-RedirectUrl}#',
+  loginUrl: '#{AzureAd-LoginUrl}#',
+
+  BASE_URL:'#{Apim-BaseUrl}#',
+};
+```
+
+To run locally, create `environment.development.ts` file under environments folder, and replace the values of the keys with values of the target environment.
+
+And this file is not committed, as it is ignored in `.gitignore` file.
+ 
 ### Certificate Installation for APIM
-1. Contact system admin and get the environment specific client certificates and install.
+1. Get the environment specific client certificates from Cloud administrator and install on the local system.
 
-2. While accessing homepage, certificate selection prompt will be shown, need to select environment specific certificate to proceed further and access the web application.
+2. While accessing homepage, certificate selection prompt will be shown. Select the relevant certificate from the list to proceed further and access data.
 
-**General functionality:**
+**Application Authentication :**
+- The application uses  Microsoft Authentication Library (MSAL) for user authentication.
+- Users with valid credentials (registered in cloud active directory) can login to the application.
+- For MSAL integration, the secrets should be configured in environment file as mentioned in the above section.
 
-- Login page, uses MSAL
-- After successfull login, user will be navigated to home screen with recent activity widget having list of study documents updated in last 30 days.
-- Search page: User can search specific study documents based on certain study parameters.
-- On click of any Study document, user will be navigated to Study details page.
+**Application Features:**
+- After successful login, user will be navigated to home screen 
+- Home screen will have *Recent activity widget*, showing list of study documents updated in last 30 days.
+- On click of Search menu, user will be navigated to *Search page* to search specific study documents based on certain study parameters.
+- On click of any Study document, user will be navigated to *Study details page*.
 - From Study details page, user  can click  "View History / Audit Trail" to view the complete audit trail data for the study document
-- In audit trail page, user  can select any two versions and click on "Version Comparison" to compare the changes.
-- user will be logged out from application on click of logout url in the header.
+- In *Audit trail page*, user  can select any two versions and click on "Version Comparison" to compare the changes.
+- User will be logged out from application on click of logout link in the header.
 
-
-**The general page breakdown looks like this:**
+**URL List**
 
 - Default page (URL: /# )
   - Has login link

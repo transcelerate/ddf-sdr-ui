@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef  } from '@angular/core';
+import { BsModalService, BsModalRef, ModalOptions } from 'ngx-bootstrap/modal';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import {
@@ -12,6 +13,7 @@ import * as moment from 'moment';
 import { ServiceCall } from '../../../../shared/services/service-call/service-call.service';
 import { DialogService } from 'src/app/shared/services/communication.service';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { ModalComponentComponent } from 'src/app/shared/components/modal-component/modal-component.component';
 import { CommonMethodsService } from '../../../../shared/services/common-methods.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { configList } from '../../../../shared/components/study-element-description/config/study-element-field-config';
@@ -52,6 +54,7 @@ export class SearchFormComponent implements OnInit {
   showStudyElement: boolean;
   noRowsTemplate: string;
   showError = false;
+  bsModalRef?: BsModalRef;
   // _formBuilder: FormBuilder = new FormBuilder();
   constructor(
     public _formBuilder: FormBuilder,
@@ -60,7 +63,8 @@ export class SearchFormComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private commonMethod: CommonMethodsService,
     public router: Router,
-    public route: ActivatedRoute
+    public route: ActivatedRoute,
+    private modalService: BsModalService
   ) {
     this.noRowsTemplate = '<span>No Study Matches the search keywords</span>';
     this.editorForm = this._formBuilder.group(
@@ -84,15 +88,9 @@ export class SearchFormComponent implements OnInit {
         headerTooltip: 'Study Title',
         cellRenderer: this.getStudyVersionGrid.bind(this),
       },
-      // {
-      //   headerName: 'Study ID',
-      //   field:'clinicalStudy.studyId',
-      //   tooltipField: 'clinicalStudy.studyId',
-      //   headerTooltip: 'Study ID'
-      // },
       {
         headerName: 'Sponsor ID',
-        valueGetter: this.getSponsorId,
+        cellRenderer: this.getSponsorIdGrid.bind(this,'sponsor'),
       },
       {
         headerName: 'Tag',
@@ -114,8 +112,9 @@ export class SearchFormComponent implements OnInit {
       },
       {
         headerName: 'Intervention Model',
-        headerTooltip: 'Intervention Model',
-        valueGetter: this.getIntervention,
+        // headerTooltip: 'Intervention Model',
+        // valueGetter: this.getIntervention,
+        cellRenderer: this.getSponsorIdGrid.bind(this,'intervention'),
       },
       {
         headerName: 'Phase',
@@ -162,6 +161,7 @@ export class SearchFormComponent implements OnInit {
     this.infiniteInitialRowCount = 1;
     this.maxBlocksInCache = 1000;
   }
+  
   getIntervention(params: any) {
     let val = '';
     if (
@@ -186,7 +186,19 @@ export class SearchFormComponent implements OnInit {
     }
     return val;
   }
-  getSponsorId(params: any) {
+  openModal(val:any, type: any) {
+   
+    const initialState: ModalOptions = {
+      initialState: {
+        list: val,
+        title: type === 'sponsor' ? 'Sponsor Id List' : 'Intervention Model List'
+      }
+    };
+    this.bsModalRef = this.modalService.show(ModalComponentComponent, initialState);
+    this.bsModalRef.content.closeBtnName = 'Close';
+  }
+
+getSponsorId(params: any) {
     if (params.data) {
       let value = params.data.clinicalStudy.studyIdentifiers.filter(
         (obj: { [x: string]: string }) => {
@@ -225,6 +237,83 @@ export class SearchFormComponent implements OnInit {
       });
 
       return eDiv;
+    }
+  }
+  getSponsorIdGrid(type: any,params: any) {
+    if (!params.data) {
+      return '';
+    } else {
+      if(type === 'sponsor'){
+        var value = params.data.clinicalStudy.studyIdentifiers.filter(
+          (obj: { [x: string]: string }) => {
+            return obj['idType'] === configList.SPONSORKEY;
+          }
+        )
+        
+      }
+      else{
+        var value:any= [];
+
+        if (
+          params.data &&
+          params?.data?.clinicalStudy?.studyDesigns &&
+          params?.data?.clinicalStudy?.studyDesigns.length > 0
+        ) {
+          let studyDesigns = params?.data?.clinicalStudy?.studyDesigns;
+          studyDesigns.forEach((element: any) => {
+            if(element.investigationalInterventions && element.investigationalInterventions .length>0 ){
+              element.investigationalInterventions.forEach((item: any) => {
+                if(item.interventionModel &&  item.interventionModel!= ''){
+                  value.push(item);
+                }
+                
+              });
+              
+            }
+          });
+         
+        }
+        
+      }
+      if(value && value.length>1){
+       var val = type === 'sponsor' ? value.map((elem: { orgCode: any; })=>{return elem.orgCode}) : value.map((elem: { interventionModel: any; })=>{return elem.interventionModel});
+        val = [...new Set(val)];
+      }
+      if(val && val.length>1){
+        const eDiv = document.createElement('a');
+        // tslint:disable-next-line:no-this-assignment
+        const self = this;
+        var htmlTag =  '<span class="linkSpan"> ' + val[0] + '</span>';
+        eDiv.innerHTML = htmlTag;
+          eDiv.addEventListener('click', () => {
+            console.log('button clicked');
+            self.openModal(val,type);
+          });
+        return eDiv
+      } else {
+        if(value && value.length>0){
+          if(type === 'sponsor'){
+            return value[0][configList.SPONSORID_KEY] || '';
+          } else {
+           return value[0].interventionModel || '';
+          }
+        } else {
+          return '';
+        }
+        
+        
+      }
+      
+     
+      // '<span class="linkSpan"><a>Study ' +
+      // params.data?.studyId +
+      // '&nbsp;<span> Version ' +
+      // params.data?.version +
+      // '</span> </a></span> <br><div class="studyTitleContent">' +
+      // params.data?.studyTitle +
+      // '</div>';
+     
+
     }
   }
   setSelectedValue(val: any) {

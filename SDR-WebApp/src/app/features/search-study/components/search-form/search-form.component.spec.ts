@@ -8,7 +8,7 @@ import { CommonMethodsService } from '../../../../shared/services/common-methods
 import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 import { SearchFormComponent } from './search-form.component';
-
+import { BsModalService } from 'ngx-bootstrap/modal';
 describe('SearchFormComponent', () => {
   let component: SearchFormComponent;
   let fixture: ComponentFixture<SearchFormComponent>;
@@ -22,6 +22,7 @@ describe('SearchFormComponent', () => {
     const dialogServiceStub = () => ({
       changeDialogState: (string: any) => ({}),
     });
+    const bsModalServiceStub = {  };
     const ngxSpinnerServiceStub = () => ({});
     const commonMethodsServiceStub = () => ({
       gridDataSourceForSearchStudy: (
@@ -44,6 +45,7 @@ describe('SearchFormComponent', () => {
         { provide: CommonMethodsService, useFactory: commonMethodsServiceStub },
         { provide: Router, useFactory: routerStub },
         { provide: ActivatedRoute, useFactory: activatedRouteStub },
+        { provide: BsModalService, useValue: bsModalServiceStub },
       ],
     });
     fixture = TestBed.createComponent(SearchFormComponent);

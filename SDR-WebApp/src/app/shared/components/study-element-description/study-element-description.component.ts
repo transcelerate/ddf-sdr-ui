@@ -88,7 +88,10 @@ export class StudyElementDescriptionComponent implements OnInit {
   createAttribute(elem: any) {
     if (typeof elem[1] !== 'object' || elem[1] == null) {
       let attribute: Attribute = new Attribute();
-      attribute.name = elem[0];
+      attribute.name = !isNaN(+elem[0])
+      ? configList.NAME + ' ' + (Number(elem[0]) + 1)
+      : elem[0];
+;
       attribute.value = elem[1];
       return attribute;
       //attributeList.push(attribute)
@@ -99,18 +102,22 @@ export class StudyElementDescriptionComponent implements OnInit {
   createsubAccordian(objectVal: any) {
     if (typeof objectVal[1] === 'object' && objectVal[1] !== null) {
       let accordian = new Accordian();
-
-      Object.entries(objectVal[1]).forEach((elem) => {
+      if(Object.entries(objectVal[1]).length == 0){
         accordian.accordianName = objectVal[0];
-        let attributeList = this.createAttribute(elem);
-        if (typeof attributeList === 'object') {
-          accordian.attributeList.push(attributeList);
-        }
-        let accordianList = this.createsubAccordian(elem);
-        if (typeof accordianList === 'object') {
-          accordian.subAccordianList.push(accordianList);
-        }
-      });
+      } else {
+        Object.entries(objectVal[1]).forEach((elem) => {
+          accordian.accordianName = objectVal[0];
+          let attributeList = this.createAttribute(elem);
+          if (typeof attributeList === 'object') {
+            accordian.attributeList.push(attributeList);
+          }
+          let accordianList = this.createsubAccordian(elem);
+          if (typeof accordianList === 'object') {
+            accordian.subAccordianList.push(accordianList);
+          }
+        });
+      }
+      
 
       return accordian;
     }
@@ -123,9 +130,7 @@ export class StudyElementDescriptionComponent implements OnInit {
     this.serviceCall.getStudyElement(this.studyId, this.versionId).subscribe({
       next: (studyelement: any) => {
         //this.userExists = true;
-        this.spinner.hide();
-
-        // this.studyelement = studyelement.clinicalStudy;
+        this.spinner.hide();        // this.studyelement = studyelement.clinicalStudy;
         //  studyelement = mockJson;
         let sponsorDetails = this.commonMethod.getSponsorDetails(studyelement);
         //   this.sponsorStudyId = sponsorDetails.studyId;

@@ -44,13 +44,13 @@ export class AuditTrailComponent implements OnInit {
     },
     {
       headerName: 'Tag',
-      field: 'tag',
+      field: 'studyTag',
       suppressSizeToFit: false,
       width: 150,
     },
     {
       headerName: 'Status',
-      field: 'status',
+      field: 'studyStatus',
       suppressSizeToFit: false,
       width: 150,
     },

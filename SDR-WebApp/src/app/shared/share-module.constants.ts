@@ -8,6 +8,7 @@ import { StudyElementDescriptionComponent } from './components/study-element-des
 import { MenuComponent } from './components/menu/menu.component';
 import { BreadcrumbComponent } from './components/breadcrumb/breadcrumb.component';
 import { AuditTrailComponent } from './components/audit-trail/audit-trail.component';
+import { ModalComponentComponent } from './components/modal-component/modal-component.component';
 import { VersionComparisonComponent } from './components/version-comparison/version-comparison.component';
 import { DialogService } from './services/communication.service';
 import { CustomPipe } from './pipes/custom.pipe';
@@ -17,6 +18,7 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import { AgGridModule } from 'ag-grid-angular';
 // import { MonacoEditorModule } from 'ngx-monaco-editor';
 import { MonacoEditorModule } from '@materia-ui/ngx-monaco-editor';
+import {  ModalModule } from 'ngx-bootstrap/modal';
 import { ErrorComponentComponent } from './components/error-component/error-component.component';
 export class SharedModuleConstants {
   static MODULE_IMPORTS = [
@@ -28,7 +30,9 @@ export class SharedModuleConstants {
     MatNativeDateModule,
     MatAutocompleteModule,
     AgGridModule.withComponents([]),
+    ModalModule.forRoot(),
     MonacoEditorModule,
+    ModalModule,
   ];
   static MODULE_COMPONENTS = [
     FooterComponent,
@@ -39,7 +43,8 @@ export class SharedModuleConstants {
     VersionComparisonComponent,
     StudyElementDescriptionComponent,
     CustomPipe,
-    ErrorComponentComponent
+    ErrorComponentComponent,
+    ModalComponentComponent
   ];
   static MODULE_PROVIDERS = [
    
@@ -59,6 +64,7 @@ export class SharedModuleConstants {
     NgxSpinnerModule,
     MatAutocompleteModule,
     ErrorComponentComponent,
+    ModalComponentComponent
   ];
 
   static ENTRY_COMPONENTS = [
