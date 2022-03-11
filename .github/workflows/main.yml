@@ -67,9 +67,10 @@ jobs:
          npm install webpack-obfuscator@3.5.1
          npm install javascript-obfuscator@4.0.0
          npm install tslint-angular@3.0.3  
-         npm install @angular/core@13.0.0
+         npm install -g @angular/core
+         npm install -g @angular/common
          npm install -g sonarqube-scanner
-         npm install rxjs@7.4.0
+         npm install -g rxjs@7.4.0
   
     - name: npm install
       run:  npm install SDR-WebApp
