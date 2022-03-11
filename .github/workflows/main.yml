@@ -69,6 +69,7 @@ jobs:
          npm install tslint-angular@3.0.3  
          npm install @angular/core@13.0.0
          npm install -g sonarqube-scanner
+         npm install rxjs@7.4.0
   
     - name: npm install
       run:  npm install SDR-WebApp
