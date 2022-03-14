@@ -109,10 +109,10 @@ jobs:
         package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
     
               
-#     - name: Run Angular tests
-#       run: |
-#           cd '${{ github.workspace }}/SDR-WebApp'
-#           ng test --reporters junit --watch=false --browsers ChromeHeadless
+    - name: Run Angular tests
+      run: |
+          cd '${{ github.workspace }}/SDR-WebApp'
+          ng test --reporters junit --watch=false --browsers ChromeHeadless
           
     - name: Publish Unit Test Results
       uses: EnricoMi/publish-unit-test-result-action/composite@v1
