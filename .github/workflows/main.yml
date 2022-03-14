@@ -136,14 +136,14 @@ jobs:
       shell: pwsh
       run: |
           dotnet tool update dotnet-reportgenerator-globaltool -g 
-          reportgenerator "-reports:${{ github.workspace }}/SDR-WebApp/testresults/coverage/cobertura-coverage.xml" "-targetdir:coverage" -reporttypes:"Cobertura;SonarQube;lcov"
+          reportgenerator "-reports:${{ github.workspace }}/SDR-WebApp/testresults/*/cobertura-coverage.xml" "-targetdir:coverage" -reporttypes:"Cobertura;SonarQube;lcov"
           
     - name: Run Sonar
       env:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
       run: |
-          cd '${{ github.workspace }}/SDR-WebApp/src'
+          cd '${{ github.workspace }}/SDR-WebApp'
           sonar-scanner -Dsonar.host.url=$SONAR_HOST_URL -Dsonar.login=$SONAR_TOKEN
 
 
