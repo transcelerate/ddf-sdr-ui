@@ -66,9 +66,7 @@ jobs:
          npm install ngx-spinner@13.1.1
          npm install webpack-obfuscator@3.5.1
          npm install javascript-obfuscator@4.0.0
-         npm install tslint-angular@3.0.3  
-         npm install @angular/core@13.0.0
-         npm install @angular/common@13.0.0
+         npm install tslint-angular@3.0.3
          npm install -g sonarqube-scanner
          npm install ngx-bootstrap@8.0.0
          npm install rxjs@7.4.0
