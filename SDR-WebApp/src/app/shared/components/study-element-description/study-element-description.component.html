@@ -56,7 +56,7 @@
     </div>
 
     <div class="col-8 border studyElement tableData">
-      <table aria-describedby="mydesc" class="table-bordered outerDiv" *ngIf="tablecontent.length > 0">
+      <table role="presentation" aria-describedby="mydesc" class="table-bordered outerDiv" *ngIf="tablecontent.length > 0">
         <!-- <tbody > -->
           <tr *ngFor="let content of tablecontent">
             <td>{{ content?.name | custom }}</td>
