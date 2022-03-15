@@ -72,7 +72,9 @@ export class VersionComparisonComponent implements OnInit {
         });
       });
   }
-
+ /*
+ fetch api for 2 versions and setting value to monaco editor
+  */
   ngOnInit(): void {
     document.getElementsByTagName('h2')[0].classList.add('textCenter');
     this.route.params.subscribe((params) => {
@@ -162,7 +164,6 @@ export class VersionComparisonComponent implements OnInit {
                 }, 1000);
               },
               error: (error) => {
-                console.log(error);
                 this.spinner.hide();
                 this.showError = true;
                // alert('Service error');
@@ -170,10 +171,8 @@ export class VersionComparisonComponent implements OnInit {
             });
         },
         error: (error) => {
-          console.log(error);
           this.spinner.hide();
           this.showError = true;
-          //alert('Service error');
         },
       });
   }

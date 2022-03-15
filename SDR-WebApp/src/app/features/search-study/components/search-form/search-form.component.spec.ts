@@ -194,7 +194,6 @@ describe('SearchFormComponent', () => {
        }
        }
       let val = component.getStudyVersionGrid(params);
-      console.log(val);
       expect(true).toBe(true);
     });
   });

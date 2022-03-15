@@ -2,7 +2,7 @@
 <!-- <h2><b>StudyId {{sponsorStudyId}} Version {{sponsorVersionId}} - Details</b></h2> -->
 
 <h2 *ngIf="!showError">
-  <b>{{ finalVal.accordianName }} <span *ngIf="route.children.length === 0">Version {{ sponsorVersionId }}</span></b>
+  <strong>{{ finalVal.accordianName }} <span *ngIf="route.children.length === 0">Version {{ sponsorVersionId }}</span></strong>
 </h2>
 <div class="col-sm-12" *ngIf="route.children.length === 0">
   <app-error-component *ngIf="showError"></app-error-component>
@@ -32,7 +32,7 @@
         </ul>
 
         <ng-template #recursiveListTmpl let-acc="acc">
-          <div *ngFor="let item of acc.subAccordianList; let i = index">
+          <ul *ngFor="let item of acc.subAccordianList; let i = index">
             <li
               [ngClass]="{ isSelected: item.isSelected }"
               *ngIf="item.isShow"
@@ -50,19 +50,19 @@
                 ></ng-container>
               </ul>
             </li>
-          </div>
+          </ul>
         </ng-template>
       </div>
     </div>
 
     <div class="col-8 border studyElement tableData">
-      <table class="table-bordered outerDiv" *ngIf="tablecontent.length > 0">
-        <tbody *ngFor="let content of tablecontent">
-          <tr>
+      <table aria-describedby="mydesc" class="table-bordered outerDiv" *ngIf="tablecontent.length > 0">
+        <!-- <tbody > -->
+          <tr *ngFor="let content of tablecontent">
             <td>{{ content?.name | custom }}</td>
             <td>{{ content?.value }}</td>
           </tr>
-        </tbody>
+        <!-- </tbody> -->
       </table>
     </div>
   </div>

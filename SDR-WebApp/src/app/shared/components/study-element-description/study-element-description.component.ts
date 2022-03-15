@@ -28,6 +28,9 @@ import { Router, ActivatedRoute } from '@angular/router';
   templateUrl: './study-element-description.component.html',
   styleUrls: ['./study-element-description.component.scss'],
 })
+/*
+Study Element Details component 
+*/
 export class StudyElementDescriptionComponent implements OnInit {
   @Output() backClicked = new EventEmitter();
   cloginDisplay = false;
@@ -51,26 +54,21 @@ export class StudyElementDescriptionComponent implements OnInit {
     public router: Router,
     public route: ActivatedRoute
   ) {}
-
+  /*
+get the studyId and version id from rcent activity page or search page from routing
+*/
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
       if (Object.keys(params).length !== 0) {
         this.studyId = params['studyId'];
         this.versionId = params['versionId'];
       }
-      if(this.studyId && this.versionId){
+      if (this.studyId && this.versionId) {
         localStorage.setItem('studyId', this.studyId);
-    localStorage.setItem('versionId', this.versionId);
+        localStorage.setItem('versionId', this.versionId);
       }
-      
     });
-    // this.msalBroadcastService.msalSubject$
-    //   .pipe(
-    //     filter((msg: EventMessage) => msg.eventType === EventType.LOGIN_SUCCESS)
-    //   )
-    //   .subscribe((result: EventMessage) => {
-    //     console.log('result', result);
-    //   });
+
     this.heading = configList.HEADING;
     this.studyId = this.studyId
       ? this.studyId
@@ -81,28 +79,29 @@ export class StudyElementDescriptionComponent implements OnInit {
     this.getstudyelement();
   }
 
-  // isShowAttribute(content: any){
-  //   if(content.name)
-
-  // }
+ /*
+to create attribute which is key value pair that get showed as table in right side
+*/
   createAttribute(elem: any) {
     if (typeof elem[1] !== 'object' || elem[1] == null) {
       let attribute: Attribute = new Attribute();
       attribute.name = !isNaN(+elem[0])
-      ? configList.NAME + ' ' + (Number(elem[0]) + 1)
-      : elem[0];
-;
+        ? configList.NAME + ' ' + (Number(elem[0]) + 1)
+        : elem[0];
       attribute.value = elem[1];
       return attribute;
-      //attributeList.push(attribute)
+
     }
     return;
   }
 
+   /*
+to create child acordian structure if elem has child objects and not in the format of key value pair
+*/
   createsubAccordian(objectVal: any) {
     if (typeof objectVal[1] === 'object' && objectVal[1] !== null) {
       let accordian = new Accordian();
-      if(Object.entries(objectVal[1]).length == 0){
+      if (Object.entries(objectVal[1]).length == 0) {
         accordian.accordianName = objectVal[0];
       } else {
         Object.entries(objectVal[1]).forEach((elem) => {
@@ -117,25 +116,22 @@ export class StudyElementDescriptionComponent implements OnInit {
           }
         });
       }
-      
 
       return accordian;
     }
     return;
   }
-
+ /*
+to get study details from api based on study id and version id
+*/
   getstudyelement(): void {
-    //
     this.spinner.show();
     this.serviceCall.getStudyElement(this.studyId, this.versionId).subscribe({
       next: (studyelement: any) => {
-        //this.userExists = true;
-        this.spinner.hide();        // this.studyelement = studyelement.clinicalStudy;
-        //  studyelement = mockJson;
+        this.spinner.hide();
         let sponsorDetails = this.commonMethod.getSponsorDetails(studyelement);
-        //   this.sponsorStudyId = sponsorDetails.studyId;
+
         this.sponsorVersionId = sponsorDetails.versionId;
-        // studyelement = val.clinicalStudy;
 
         this.finalVal.attributeList = [];
         this.finalVal.subAccordianList = [];
@@ -148,35 +144,23 @@ export class StudyElementDescriptionComponent implements OnInit {
             this.finalVal.attributeList.push(attributeList);
           }
           let accordianList = this.createsubAccordian(elem);
-          // accordianList = accordianList.map(mapElem=>{
-          //   mapElem.isShow = true;
-          //   return mapElem;
-          // });
 
           if (typeof accordianList === 'object') {
             this.finalVal.subAccordianList.push(accordianList);
           }
-          //this.finalVal.subAccordianList.push(this.createsubAccordian(elem));
         });
-        console.log(this.finalVal);
         this.showTableContent(this.finalVal, false, this.finalVal);
-
-        //this.dataSource = Object.entries(this.studyelement);
-        // this.dataSource = Object.entries(this.studyelement);
-        // console.log(Object.entries(this.studyelement));
-        //this.dataSource = Object.entries(this.studyelement)[0][1];
       },
       error: (error) => {
-        console.log(error);
         this.showError = true;
         this.finalVal = new Accordian();
         this.spinner.hide();
-        // alert('Service error');
       },
     });
   }
-
-
+ /*
+ TO highlight the text on click of the tree 
+  */
   setHighLighted(val: any) {
     val.forEach((elem: Accordian) => {
       elem.isHighlighted = false;
@@ -185,13 +169,10 @@ export class StudyElementDescriptionComponent implements OnInit {
       }
     });
   }
+   /*
+  TO show table contents on click of value on the tree
+  */
   showTableContent(val: any, fromTitle?: boolean, field?: Accordian) {
-    // if(event){
-    //   // this.el.nativeElement.querySelector("li").forEach((element: { removeClass: (arg0: string) => void; }) => {
-    //   //   element.removeClass("activeSelected");
-    //   // });
-    //   event.srcElement.classList.add("activeSelected");
-    // }
     this.setHighLighted(this.finalVal.subAccordianList);
     this.finalVal.isHighlighted = false;
     val.isHighlighted = true;
@@ -214,7 +195,6 @@ export class StudyElementDescriptionComponent implements OnInit {
           ? configList.NAME + ' ' + (Number(mapElem.accordianName) + 1)
           : mapElem.accordianName;
 
-        //mapElem.isSelected = !mapElem.isSelected && mapElem.subAccordianList.length == 0;
         return mapElem;
       });
     }
@@ -222,6 +202,9 @@ export class StudyElementDescriptionComponent implements OnInit {
   backButtonClicked() {
     this.backClicked.emit(true);
   }
+   /*
+  Navigate to audit trail 
+  */
   auditTrail() {
     this.router.navigate(
       [
@@ -237,6 +220,9 @@ export class StudyElementDescriptionComponent implements OnInit {
       { relativeTo: this.route }
     );
   }
+   /*
+  to set Localstorage for study and version id so page can be retrieved on refresh
+  */
   ngOnDestroy() {
     localStorage.setItem('studyId', this.studyId);
     localStorage.setItem('versionId', this.versionId);

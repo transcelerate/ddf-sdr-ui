@@ -117,7 +117,6 @@ describe('RecentActivityComponent', () => {
           },
         },
       });
-      console.log(val);
       expect(val).not.toEqual('');
     });
   });

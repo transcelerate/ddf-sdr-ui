@@ -12,11 +12,12 @@ export class HeaderComponent implements OnInit {
   refreshStatus = false;
   ngOnInit(): void {
     this.ds.dialogObservable.subscribe((dialogState) => {
-      //add your logic here!! for now I'm just gonna console log the sate of the dialog
-      console.log(dialogState);
       this.refreshStatus = dialogState !== 'Not Clicked';
     });
   }
+   /*
+  Logout logic 
+  */
   async logout() {
     //this.authService.logoutRedirect();
     let homeAccountId:any = localStorage.getItem('homeAccountId');

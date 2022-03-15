@@ -21,9 +21,9 @@ export class CommonMethodsService {
   ) {
     let dataSourceVar = {
       getRows: (rowParams: any) => {
-        console.log(
-          'asking for ' + rowParams.startRow + ' to ' + rowParams.endRow
-        );
+        // console.log(
+        //   'asking for ' + rowParams.startRow + ' to ' + rowParams.endRow
+        // );
 
         reqObj.pageSize = rowParams.endRow - rowParams.startRow;
         reqObj.pageNumber =
@@ -35,12 +35,10 @@ export class CommonMethodsService {
           reqObj.header = this.getHeaderName(rowParams.sortModel[0].colId);
           reqObj.asc = rowParams.sortModel[0].sort === 'asc';
         }
-        console.log('req', reqObj);
         this.spinner.show();
 
         this.serviceCall.getSearchResult(reqObj).subscribe({
           next: (data: any) => {
-            console.log(data);
             this.spinner.hide();
             if (data.length > 0) {
               gridApi.hideOverlay();
@@ -57,7 +55,6 @@ export class CommonMethodsService {
           },
           error: (error) => {
             if(error && error.error && error.error.statusCode == "404"){
-            console.log(error);
             rowParams.successCallback([], rowParams.startRow);
             if(rowParams.startRow == 0){
               gridApi.showNoRowsOverlay();

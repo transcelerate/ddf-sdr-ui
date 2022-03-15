@@ -18,14 +18,15 @@ export class LoginComponent {
     @Inject(MSAL_GUARD_CONFIG) private msalGuardConfig: MsalGuardConfiguration,
     private authService: MsalService
   ) {}
-
+ /*
+ Login on click of link
+  */
   login() {
     if (this.msalGuardConfig.authRequest) {
       this.authService.loginRedirect({
         ...this.msalGuardConfig.authRequest,
       } as RedirectRequest);
     } else {
-      // console.log('redirect',this.msalGuardConfig.authRequest);
       this.authService.loginRedirect();
     }
   }

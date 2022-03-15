@@ -86,6 +86,9 @@ export class RecentActivityComponent {
     this.infiniteInitialRowCount = 1;
     this.maxBlocksInCache = 1000;
   }
+  /*
+  To get home account id after login for silent logout
+  */
   ngOnInit() {
     this.msalBroadcastService.msalSubject$
       .pipe(
@@ -96,8 +99,7 @@ export class RecentActivityComponent {
         takeUntil(this._destroying$)
       )
       .subscribe((result: any) => {
-        // Do something with event payload here
-        console.log(result);
+
 
         if (result?.payload?.accessToken){
           localStorage.setItem('token', result?.payload?.accessToken);
@@ -107,11 +109,14 @@ export class RecentActivityComponent {
       });
     this.ds.changeDialogState('Home');
   }
+
+   /*
+  To constuct recent widget first column
+  */
   getStudyVersionGrid(params: any) {
     if (!params.data) {
       return '';
     } else {
-      console.log(params);
       const eDiv = document.createElement('div');
       // tslint:disable-next-line:no-this-assignment
       const self = this;
@@ -128,6 +133,9 @@ export class RecentActivityComponent {
       return eDiv;
     }
   }
+   /*
+  Redirect to details page on click of link
+  */
   setSelectedValue(val: any) {
     this.showStudyElement = true;
     this.router.navigate(
@@ -140,14 +148,12 @@ export class RecentActivityComponent {
       ],
       { relativeTo: this.route }
     );
-
-    // this._elementRef.nativeElement.querySelector('#myGrid').style.display =
-    //   'none';
   }
+   /*
+  show grid 
+  */
   showGrid(event: any) {
     if (event) {
-      // this._elementRef.nativeElement.querySelector('#myGrid').style.display =
-      //   'block';
       this.showStudyElement = false;
     }
   }

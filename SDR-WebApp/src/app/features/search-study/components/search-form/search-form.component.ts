@@ -161,7 +161,9 @@ export class SearchFormComponent implements OnInit {
     this.infiniteInitialRowCount = 1;
     this.maxBlocksInCache = 1000;
   }
-  
+   /*
+  Getting value for intervention model 
+  */
   getIntervention(params: any) {
     let val = '';
     if (
@@ -175,6 +177,9 @@ export class SearchFormComponent implements OnInit {
     }
     return val;
   }
+   /*
+  Getting value for study indication
+  */
   getIndication(params: any) {
     let val = '';
     if (
@@ -186,6 +191,9 @@ export class SearchFormComponent implements OnInit {
     }
     return val;
   }
+   /*
+  Modal for multiple sponsor id and interventional model
+  */
   openModal(val:any, type: any) {
    
     const initialState: ModalOptions = {
@@ -197,7 +205,9 @@ export class SearchFormComponent implements OnInit {
     this.bsModalRef = this.modalService.show(ModalComponentComponent, initialState);
     this.bsModalRef.content.closeBtnName = 'Close';
   }
-
+ /*
+  Getting value for sponsor id
+  */
 getSponsorId(params: any) {
     if (params.data) {
       let value = params.data.clinicalStudy.studyIdentifiers.filter(
@@ -212,11 +222,13 @@ getSponsorId(params: any) {
       }
     }
   }
+   /*
+  Construct Study Version Grid
+  */
   getStudyVersionGrid(params: any) {
     if (!params.data) {
       return '';
     } else {
-      console.log(params);
       const eDiv = document.createElement('a');
       // tslint:disable-next-line:no-this-assignment
       const self = this;
@@ -224,21 +236,16 @@ getSponsorId(params: any) {
         '<span class="linkSpan">' +
         params.data?.clinicalStudy.studyTitle +
         '</span>';
-      // '<span class="linkSpan"><a>Study ' +
-      // params.data?.studyId +
-      // '&nbsp;<span> Version ' +
-      // params.data?.version +
-      // '</span> </a></span> <br><div class="studyTitleContent">' +
-      // params.data?.studyTitle +
-      // '</div>';
       eDiv.addEventListener('click', () => {
-        console.log('button clicked');
         self.setSelectedValue(params.data);
       });
 
       return eDiv;
     }
   }
+   /*
+  Construct multiple values for sponsor id and interventional model 
+  */
   getSponsorIdGrid(type: any,params: any) {
     if (!params.data) {
       return '';
@@ -286,7 +293,6 @@ getSponsorId(params: any) {
         var htmlTag =  '<span class="linkSpan"> ' + val[0] + '</span>';
         eDiv.innerHTML = htmlTag;
           eDiv.addEventListener('click', () => {
-            console.log('button clicked');
             self.openModal(val,type);
           });
         return eDiv
@@ -305,17 +311,14 @@ getSponsorId(params: any) {
       }
       
      
-      // '<span class="linkSpan"><a>Study ' +
-      // params.data?.studyId +
-      // '&nbsp;<span> Version ' +
-      // params.data?.version +
-      // '</span> </a></span> <br><div class="studyTitleContent">' +
-      // params.data?.studyTitle +
-      // '</div>';
+     
      
 
     }
   }
+   /*
+  Redirect to details page
+  */
   setSelectedValue(val: any) {
     this.router.navigate(
       [
@@ -327,27 +330,26 @@ getSponsorId(params: any) {
       ],
       { relativeTo: this.route }
     );
-    // this._elementRef.nativeElement.querySelector('#myGrid').style.display =
-    //   'none';
+   
   }
   showGridUpdate(event: any) {
     if (event) {
-      // this._elementRef.nativeElement.querySelector('#myGrid').style.display =
-      //   'block';
+      
       this.showStudyElement = false;
     }
   }
   /* istanbul ignore next */
 // @SONAR_STOP@
+ /*
+  Validation to enable search button
+  */
   public atLeastOneValidator: any = (control: FormGroup): any => {
     let controls = control.controls;
-    console.log(controls);
     if (controls) {
       let theOne = Object.keys(controls).findIndex(
         (key) => controls[key].value !== ''
       );
       if (theOne === -1) {
-        console.log(theOne);
         return {
           atLeastOneRequired: {
             text: 'At least one should be selected',
@@ -358,6 +360,9 @@ getSponsorId(params: any) {
   };
   /* istanbul ignore end */
 // @SONAR_START@
+ /*
+ Validate date and fetch search results
+  */
   submitSearch() {
     if (this.editorForm?.value?.fromDate && this.editorForm?.value?.toDate) {
       const fromDate = new Date(this.editorForm.value.fromDate);
@@ -380,7 +385,9 @@ getSponsorId(params: any) {
     this.showGrid = true;
   }
   /* istanbul ignore next */
-
+ /*
+  On click of clear button clear search value
+  */
   clearSearch() {  //nosonar
     this.editorForm.setValue({  //nosonar
       studyTitle: '',     //nosonar     //nosonar
@@ -394,10 +401,15 @@ getSponsorId(params: any) {
     this.showGrid = false;     //nosonar
   }         //nosonar
   /* istanbul ignore end */
-
+ /*
+ Get today's date
+  */
   getToday(): string {
     return new Date().toISOString().split('T')[0];
   }
+   /*
+  Logic to form dropdowns for studyphase, intervention Model
+  */
   ngOnInit(): void {
     this.ds.changeDialogState('Search Study Definitions');
     this.dropDownValues = this.serviceCall.readConfigFile();
@@ -426,6 +438,9 @@ getSponsorId(params: any) {
       option.toLowerCase().includes(filterValue)
     );
   }
+   /*
+  Logic to restrict char on text key
+  */
   restrictChar(event: {
     charCode: number;
     which: number;

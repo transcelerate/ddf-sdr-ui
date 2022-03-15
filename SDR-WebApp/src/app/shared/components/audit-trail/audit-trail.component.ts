@@ -9,14 +9,16 @@ import { ServiceCall } from '../../services/service-call/service-call.service';
   templateUrl: './audit-trail.component.html',
   styleUrls: ['./audit-trail.component.scss'],
 })
+/*
+Audit Trail component 
+*/
 export class AuditTrailComponent implements OnInit {
   studyId: any;
   versionA: any;
   versionB: any;
   disableButton = true;
   showError = false;
-  public overlayNoRowsTemplate =
-  '<span></span>';
+  public overlayNoRowsTemplate = '<span></span>';
   columnDefs: ColDef[] = [
     {
       headerName: 'Date',
@@ -24,12 +26,6 @@ export class AuditTrailComponent implements OnInit {
       suppressSizeToFit: false,
       width: 150,
     },
-    // {
-    //   headerName: 'System ID',
-    //   field: 'entrySystemId',
-    //   suppressSizeToFit: false,
-    //   width: 150,
-    // },
     {
       headerName: 'System',
       field: 'entrySystem',
@@ -77,7 +73,12 @@ export class AuditTrailComponent implements OnInit {
     },
   ];
 
-  rowData: { tag: string; status: string; entryDateTime: string; studyVersion: any; }[];
+  rowData: {
+    tag: string;
+    status: string;
+    entryDateTime: string;
+    studyVersion: any;
+  }[];
   gridApi: any;
   gridColumnApi: any;
   defaultColDef: { sortable: boolean; resizable: boolean };
@@ -99,7 +100,9 @@ export class AuditTrailComponent implements OnInit {
       resizable: true,
     };
   }
-
+  /*
+get the studyId from study details page
+*/
   ngOnInit(): void {
     var view = this;
     this.route.params.subscribe((params) => {
@@ -123,28 +126,25 @@ export class AuditTrailComponent implements OnInit {
         this.rowData = audit.auditTrail;
       },
       error: (error) => {
-        console.log(error);
         this.showError = true;
         this.rowData = [];
         this.spinner.hide();
         setTimeout(() => {
-        Array.from(document.getElementsByClassName('alert') as HTMLCollectionOf<HTMLElement>).forEach(element => {
-          element.style.width='95%';
-        });
+          Array.from(
+            document.getElementsByClassName(
+              'alert'
+            ) as HTMLCollectionOf<HTMLElement>
+          ).forEach((element) => {
+            element.style.width = '95%';
+          });
         }, 0);
-        
-        // this.rowData = [{
-        //   'entrySystem':'',
-
-        // }];
-        //view.gridApi.showNoRowsOverlay();
-        // alert('Service error');
-        // this.userExists = false;
       },
     });
   }
+  /*
+Logic to generate radio button html element for A column
+*/
   generateCompareA(params: any) {
-    console.log(params);
     const eDiv = document.createElement('div');
     const self = this;
     eDiv.innerHTML =
@@ -152,14 +152,15 @@ export class AuditTrailComponent implements OnInit {
       params.data?.studyVersion +
       'A"> <span class="checkmark"></span></label>';
     eDiv.addEventListener('click', () => {
-      console.log('button clicked');
       self.setRadio(params.data, 'A');
     });
 
     return eDiv;
   }
+  /*
+Logic to generate radio button html element for B column
+*/
   generateCompareB(params: any) {
-    console.log(params);
     const eDiv = document.createElement('div');
     const self = this;
     eDiv.innerHTML =
@@ -167,14 +168,16 @@ export class AuditTrailComponent implements OnInit {
       params.data?.studyVersion +
       'B"><span class="checkmark"></span></label>';
     eDiv.addEventListener('click', () => {
-      console.log('button clicked');
       self.setRadio(params.data, 'B');
     });
 
     return eDiv;
   }
   /* istanbul ignore next */
-// @SONAR_STOP@
+  // @SONAR_STOP@
+  /*
+AG Grid initialization for Audit table
+*/
   onGridReady(params: {
     api: { sizeColumnsToFit: () => void };
     columnApi: any;
@@ -191,8 +194,13 @@ export class AuditTrailComponent implements OnInit {
     ];
     params.columnApi.applyColumnState({ state: defaultSortModel });
   }
-   /* istanbul ignore end */
-// @SONAR_START@
+  /* istanbul ignore end */
+  // @SONAR_START@
+  /*
+on selection of radio button, we disable the corresponding other radio button to revent using same version for comparison.
+@Param selectedVal : radio button selected
+@Param from : from which column button is selected
+*/
   setRadio(selectedVal: any, from: string) {
     let disableField = from === 'A' ? 'B' : 'A';
     if (from == 'A') {
@@ -200,11 +208,9 @@ export class AuditTrailComponent implements OnInit {
     } else {
       this.versionB = selectedVal.studyVersion;
     }
-    console.log('A', selectedVal, 'from', from);
     let domElement = this._elementRef.nativeElement.getElementsByClassName(
       'radio' + disableField
     );
-    console.log(domElement);
     for (var i = 0; i < domElement.length; i++) {
       domElement[i].removeAttribute('disabled');
     }
@@ -219,7 +225,9 @@ export class AuditTrailComponent implements OnInit {
     //this.disableButton = ! (typeof(this.versionA) == 'number' && typeof(this.versionB) == 'number')
     this.disableButton = this.versionA === '' || this.versionB === '';
   }
-
+ /*
+on clcik of version compare this method will be triggered which will redirect to version compare page
+*/
   versionCompare() {
     this.router.navigate(
       [

@@ -72,31 +72,6 @@ public httpOptions:IHTTPOptions;
    );
    }
 
-  //  private showErrorAlert(httpErrorRes:HttpErrorResponse):void{
-  //  let errMsg:string="";
-
-  //   switch(httpErrorRes.status)
-  //   {
-  //     case 400:
-  //     errMsg:httpErrorRes.error?httpErrorRes.error:'Bad Request';
-  //     break;
-  //     case 401:
-  //     errMsg:'Unauthorized Access Denied';
-  //     break;
-  //     case 403:
-  //     errMsg:httpErrorRes.error;
-  //     break;
-  //     case 404:
-  //     errMsg:'Page not found';
-  //     break;
-  //     case 502:
-  //     errMsg:'Request timed out';
-  //     break;
-  //     default:
-  //     errMsg:'Http response error';
-  //     break;
-  //   }
-
-  //   alert(errMsg);
-  //  }
+  
+ 
 }

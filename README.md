@@ -55,7 +55,7 @@ For any changes in source code, angular terminal recompiles the code and the bro
 3. Use the below commands to commit and push the changes to repo. 
 
 ```shell
-git commit -m'message for commit'
+git commit -m 'message for commit'
 git push
 ```
 
@@ -75,6 +75,16 @@ The solution has the following structure:
       ├── styles
 
 ```
+**core** - contains files related to core angular structure - app.component.ts, app.module.ts, app-routing.module.ts.
+
+**features** - contains application feature modules - dashboard,login,search-study.
+
+**shared** - contains application shared modules - audit-trail, breadcrumb, error-component, footer, header, menu, modal-component, study-element-description, version-comparison.
+
+**environment.ts** - contains files to configure service URLs and other environment specific secrets.
+
+**styles** - contains common CSS stylesheets.
+
 
 ### Making requests to the backend API
 
