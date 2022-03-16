@@ -98,8 +98,8 @@ jobs:
     - name: 'Copy Files to: ${{ github.workspace }}'
       # Copying the artifacts generated after build to github default workspace
       run: |
-       cp -R '${{ github.workspace }}/SDR-WebApp/dist/SDR-WebApp' '${{ github.workspace }}'
        # For checking the contents after copying the artifacts to default directory
+       cp -R '${{ github.workspace }}/SDR-WebApp/dist/SDR-WebApp' '${{ github.workspace }}'
        cd  ${{ github.workspace }}
        ls     
       
