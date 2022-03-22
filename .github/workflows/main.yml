@@ -127,7 +127,12 @@ jobs:
       with:
         files: '${{ github.workspace }}/SDR-WebApp/testresults/junit/unit-test-result.xml'
          
-         
+    
+          
+ 
+ #############################-----------Sonar Scan---------------#############################################
+     
+          
     - name: Run Angular tests
       # Running the jasmine test cases and copying the test case files to default github directory
       run: |
@@ -136,9 +141,6 @@ jobs:
           # Copying the coverage.xml and lcov.info to Github default working directory for sonarqube analysis
           cp testresults/coverage/cobertura-coverage.xml '${{ github.workspace }}/coverage.xml'    
           cp testresults/coverage/lcov.info '${{ github.workspace }}/lcov.info' 
-          
- 
- #############################-----------Sonar Scan---------------#############################################
      
 #     - uses: actions/setup-dotnet@v1
 #       # Setup for installing sonar-scanner
