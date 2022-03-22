@@ -133,14 +133,14 @@ jobs:
  #############################-----------Sonar Scan---------------#############################################
      
           
-    - name: Run Angular tests
-      # Running the jasmine test cases and copying the test case files to default github directory
-      run: |
-          cd '${{ github.workspace }}/SDR-WebApp'
-          ng test --code-coverage true --watch=false --browsers ChromeHeadless
-          # Copying the coverage.xml and lcov.info to Github default working directory for sonarqube analysis
-          cp testresults/coverage/cobertura-coverage.xml '${{ github.workspace }}/coverage.xml'    
-          cp testresults/coverage/lcov.info '${{ github.workspace }}/lcov.info' 
+#     - name: Run Angular tests
+#       # Running the jasmine test cases and copying the test case files to default github directory
+#       run: |
+#           cd '${{ github.workspace }}/SDR-WebApp'
+#           ng test --code-coverage true --watch=false --browsers ChromeHeadless
+#           # Copying the coverage.xml and lcov.info to Github default working directory for sonarqube analysis
+#           cp testresults/coverage/cobertura-coverage.xml '${{ github.workspace }}/coverage.xml'    
+#           cp testresults/coverage/lcov.info '${{ github.workspace }}/lcov.info' 
      
 #     - uses: actions/setup-dotnet@v1
 #       # Setup for installing sonar-scanner
