@@ -42,6 +42,7 @@ jobs:
       id: keyvaultSecretAction # ID for secrets that you will reference    
     
     
+    
     - name: Find and Replace User Name - Using Build Variable
       # Variables in environment.ts is replaced using the find script while fetching it from keyvault through secrets
       run: |
