@@ -43,12 +43,12 @@ module.exports = function (config) {
      outputFile: 'unit-test-result.xml',
      useBrowserName: false
     },
-    coverageReporter: {
-     type : 'cobertura',
-     dir : 'testresults',
-     subdir:'coverage',
-     file: 'coverage.xml'
-    },
+//     coverageReporter: {
+//      type : 'cobertura',
+//      dir : 'testresults',
+//      subdir:'coverage',
+//      file: 'coverage.xml'
+//     },
     sonarQubeUnitReporter: {
       sonarQubeVersion: 'LATEST',
       outputDir: "testresults/junit",
