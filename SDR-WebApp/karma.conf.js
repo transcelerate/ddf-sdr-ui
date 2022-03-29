@@ -33,13 +33,8 @@ module.exports = function (config) {
       subdir: '.',
       reporters: [
         { type: 'html' },
-        { type: 'text-summary' },
-        
+        { type: 'text-summary' }, 
         {type: 'lcov',dir:'test/karma-coverage/coverage/lcov'}
-      type : 'cobertura',
-      dir : 'testresults',
-      subdir:'coverage',
-      file: 'coverage.xml'
       ]
     },
     junitReporter: {
@@ -47,12 +42,12 @@ module.exports = function (config) {
      outputFile: 'unit-test-result.xml',
      useBrowserName: false
     },
-//     coverageReporter: {
-//      type : 'cobertura',
-//      dir : 'testresults',
-//      subdir:'coverage',
-//      file: 'coverage.xml'
-//     },
+    coverageReporter: {
+     type : 'cobertura',
+     dir : 'testresults',
+     subdir:'coverage',
+     file: 'coverage.xml'
+    },
     sonarQubeUnitReporter: {
       sonarQubeVersion: 'LATEST',
       outputDir: "testresults/junit",
