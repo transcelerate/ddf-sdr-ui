@@ -36,6 +36,10 @@ module.exports = function (config) {
         { type: 'text-summary' },
         
         {type: 'lcov',dir:'test/karma-coverage/coverage/lcov'}
+      type : 'cobertura',
+      dir : 'testresults',
+      subdir:'coverage',
+      file: 'coverage.xml'
       ]
     },
     junitReporter: {
