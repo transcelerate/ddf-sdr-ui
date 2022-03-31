@@ -35,6 +35,7 @@ public httpOptions:IHTTPOptions;
      return new HttpHeaders({
       'Content-Type':'application/json',
       'Authorization':'Bearer ' + localStorage.getItem('token'),
+      'Cache-control': 'no-store'
      });
    }
 

@@ -38,7 +38,6 @@
     "monaco-editor": "^0.31.1",
     "ngx-bootstrap": "^8.0.0",
     "ngx-spinner": "^13.1.1",
-    "popper.js": "^1.16.1",
     "rxjs": "~7.4.0",
     "tslib": "^2.3.1",
     "zone.js": "~0.11.4"
