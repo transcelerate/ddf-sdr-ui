@@ -8,6 +8,8 @@ Study Definition Repository (SDR) Reference Implementation is TransCelerate’s 
 
 Using this Angular project, user can connect with SDR data, to view the study documents, search certain documents by giving search criteria, to view the audit details of search study, and also user can compare differences between two versions of the document.
 
+Please read the [DDF SDR UI User Guide](documents/ddf-sdr-user-guide-ui.pdf) to get started.
+
 # Pre-requisites
 
 1. Install latest version of [Node.js](https://nodejs.org).
