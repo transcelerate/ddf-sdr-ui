@@ -170,8 +170,8 @@ jobs:
 #       timeout-minutes: 5
       env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-      with:
-         scanMetadataReportFile: build/sonar/report-task.tx
+#       with:
+#          scanMetadataReportFile: build/sonar/report-task.tx
           
  
 ##########################-------------Deployment----------------#####################################
