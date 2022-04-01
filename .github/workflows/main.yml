@@ -133,59 +133,53 @@ jobs:
  #############################-----------Sonar Scan---------------#############################################
      
           
-    - name: Run Angular tests for Sonar
-      # Running the jasmine test cases and copying the test case files to default github directory
-      run: |
-          cd '${{ github.workspace }}/SDR-WebApp'
-          ng test --code-coverage true --watch=false --browsers ChromeHeadless
-          # Copying the coverage.xml and lcov.info to Github default working directory for sonarqube analysis
-          cp testresults/coverage/cobertura-coverage.xml '${{ github.workspace }}/coverage.xml'    
-          cp testresults/coverage/lcov.info '${{ github.workspace }}/lcov.info' 
+#     - name: Run Angular tests for Sonar
+#       # Running the jasmine test cases and copying the test case files to default github directory
+#       run: |
+#           cd '${{ github.workspace }}/SDR-WebApp'
+#           ng test --code-coverage true --watch=false --browsers ChromeHeadless
+#           # Copying the coverage.xml and lcov.info to Github default working directory for sonarqube analysis
+#           cp testresults/coverage/cobertura-coverage.xml '${{ github.workspace }}/coverage.xml'    
+#           cp testresults/coverage/lcov.info '${{ github.workspace }}/lcov.info' 
      
-    - uses: actions/setup-dotnet@v1
-      # Setup for installing sonar-scanner
-      with:
-        dotnet-version: 6.0.x
+#     - uses: actions/setup-dotnet@v1
+#       # Setup for installing sonar-scanner
+#       with:
+#         dotnet-version: 6.0.x
         
-    - name: Install SonarQube scanner
-      # Installing Sonar scanner
-      if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
-      shell: pwsh
-      run: |
-          # reportgenrator used for converting the report files
-          dotnet tool update dotnet-reportgenerator-globaltool -g 
-          reportgenerator "-reports:${{ github.workspace }}/SDR-WebApp/testresults/*/cobertura-coverage.xml" "-targetdir:coverage" -reporttypes:"Cobertura;SonarQube;lcov"
+#     - name: Install SonarQube scanner
+#       # Installing Sonar scanner
+#       if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
+#       shell: pwsh
+#       run: |
+#           # reportgenrator used for converting the report files
+#           dotnet tool update dotnet-reportgenerator-globaltool -g 
+#           reportgenerator "-reports:${{ github.workspace }}/SDR-WebApp/testresults/*/cobertura-coverage.xml" "-targetdir:coverage" -reporttypes:"Cobertura;SonarQube;lcov"
           
-    - name: Run Sonar
-      env:
-        # SONAR_TOKEN and SONAR_HOST_URL getting fetched from secrets
-        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-      run: |
-          cd '${{ github.workspace }}/SDR-WebApp'
-          sonar-scanner -Dsonar.host.url=$SONAR_HOST_URL -Dsonar.login=$SONAR_TOKEN
+#     - name: Run Sonar
+#       env:
+#         # SONAR_TOKEN and SONAR_HOST_URL getting fetched from secrets
+#         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+#         SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+#       run: |
+#           cd '${{ github.workspace }}/SDR-WebApp'
+#           sonar-scanner -Dsonar.host.url=$SONAR_HOST_URL -Dsonar.login=$SONAR_TOKEN
    
-   
-    - name: SonarQube Quality Gate check
-      uses: sonarsource/sonarqube-quality-gate-action@master
-      with:
-        scanMetadataReportFile: .scannerwork/report-task.txt
-      env:
-       SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
  
 ##########################-------------Deployment----------------#####################################
 
-#     - name: 'Run Azure webapp deploy action using publish profile credentials'
-#       env:
-#         # AZURE_WEBAPP_NAME is getting fetched from secrets
-#         # AZURE_WEBAPP_PACKAGE_PATH is declared from build path
-#         AZURE_WEBAPP_NAME: ${{ secrets.AZURE_WEBAPP_NAME }}    # set this to your application's name
-#         AZURE_WEBAPP_PACKAGE_PATH: '${{ github.workspace }}/SDR-WebApp/dist'      # set this to the path to your web app project, defaults to the repository root
-#       uses: azure/webapps-deploy@v2
-#       # Deploy to target machine and path
-#       with: 
-#         app-name: ${{ env.AZURE_WEBAPP_NAME }} # Replace with your app name
-#         package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
+    - name: 'Run Azure webapp deploy action using publish profile credentials'
+      env:
+        # AZURE_WEBAPP_NAME is getting fetched from secrets
+        # AZURE_WEBAPP_PACKAGE_PATH is declared from build path
+        AZURE_WEBAPP_NAME: ${{ secrets.AZURE_WEBAPP_NAME }}    # set this to your application's name
+        AZURE_WEBAPP_PACKAGE_PATH: '${{ github.workspace }}/SDR-WebApp/dist'      # set this to the path to your web app project, defaults to the repository root
+      uses: azure/webapps-deploy@v2
+      # Deploy to target machine and path
+      with: 
+        app-name: ${{ env.AZURE_WEBAPP_NAME }} # Replace with your app name
+        package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
 
 
 
