@@ -169,7 +169,7 @@ jobs:
     - name: SonarQube Quality Gate check
       uses: sonarsource/sonarqube-quality-gate-action@master
       with:
-        scanMetadataReportFile: ../report-task.txt
+        scanMetadataReportFile: .scannerwork/report-task.txt
       env:
        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
  
