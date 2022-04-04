@@ -164,7 +164,7 @@ jobs:
       run: |
           cd '${{ github.workspace }}/SDR-WebApp'
           sonar-scanner -Dsonar.host.url=$SONAR_HOST_URL -Dsonar.login=$SONAR_TOKEN
-          sonar.qualitygate.wait=true
+          
 
           
 #     - name: SonarQube Quality Gate check
