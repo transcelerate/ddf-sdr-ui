@@ -10,6 +10,8 @@ Using this Angular project, user can connect with SDR data, to view the study do
 
 Please read the [DDF SDR UI User Guide](documents/ddf-sdr-user-guide-ui.pdf) to get started.
 
+NOTE: As of May 2022, the DDF initiative is still the process of setting up operations, and any pull requests submitted will not be triaged at this point in time.
+
 # Pre-requisites
 
 1. Install latest version of [Node.js](https://nodejs.org).
