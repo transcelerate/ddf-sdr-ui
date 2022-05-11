@@ -1,6 +1,11 @@
 - [Introduction](#introduction)
+- [Requirements to Contribute and Propose Changes](#requirements-to-contribute-and-propose-changes)
 - [Pre-Requisites](#pre-requisites)
+  - [How to Setup Code](#how-to-setup-code)
+  - [How to Run](#how-to-run)
 - [Base solution structure](#base-solution-structure) 
+  - [Making Requests to the Backend](#making-requests-to-the-backend-api)
+  - [Certificate Installation for APIM](#certificate-installation-for-apim)
 
 # Introduction
 
@@ -14,6 +19,17 @@ This [Process Flow Document](https://github.com/transcelerate/ddf-sdr-platform/b
 - These materials and information are provided by TransCelerate Biopharma Inc. AS IS.  Any party using or relying on this information and these materials do so entirely at their own risk.  Neither TransCelerate nor its members will bear any responsibility or liability for any harm, including indirect or consequential harm, that a user may incur from use or misuse of this information or materials.
 - Please be aware that any information you put into the provided tools (including the UI or API) will be visible to all users, so we recommend not using commercially sensitive or confidential information.  You and/or your employer bear all responsibility for anything you share with this project.  TransCelerate, its member companies and any vendors affiliated with the DDF project are not responsible for any harm or loss you occur as a result of uploading any information or code: commercially sensitive, confidential or otherwise.  
 - As of May 2022, the DDF initiative is still the process of setting up operations, and any pull requests submitted will not be triaged at this point in time.
+
+## Requirements to Contribute and Propose Changes
+Before participating, you must acknowledge the Contribution License Agreement (CLA).
+
+To acknowledge the CLA, follow these instructions:
+
+- Click [here](https://github.com/transcelerate/ddf-home/blob/main/documents/DDF_CLA_2022MAR28_FINAL.pdf) to download and carefully read the CLA.
+- Print the document.
+- Complete and sign the document.
+- Scan and email a PDF version of the completed and signed document to [DDF@transceleratebiopharmainc.com](mailto:DDF@transceleratebiopharmainc.com?subject=Signed%20CLA).
+NOTE: Keep a copy for your records.
 
 # Pre-requisites
 
@@ -93,7 +109,7 @@ The solution has the following structure:
 **styles** - contains common CSS stylesheets.
 
 
-### Making requests to the backend API
+## Making requests to the backend API
 
 API URL and other secrets are configured in `src/environments/environment.ts` file as shown below, the values of the keys will be replaced 
 with the environment specific values from devops during deployment.
@@ -118,7 +134,7 @@ To run locally, create `environment.development.ts` file under environments fold
 
 And this file is not committed, as it is ignored in `.gitignore` file.
  
-### Certificate Installation for APIM
+## Certificate Installation for APIM
 1. Get the environment specific client certificates from Cloud administrator and install on the local system.
 
 2. While accessing homepage, certificate selection prompt will be shown. Select the relevant certificate from the list to proceed further and access data.
