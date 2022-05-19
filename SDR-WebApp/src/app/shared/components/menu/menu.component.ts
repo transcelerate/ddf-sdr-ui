@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MsalService } from '@azure/msal-angular';
 import { DialogService } from '../../services/communication.service';
 @Component({
   selector: 'app-menu',
@@ -17,9 +18,19 @@ export class MenuComponent implements OnInit {
       link: 'search',
       isSelected: false,
     },
+    {
+      name: 'Group Management',
+      link: 'admin',
+      isSelected: false,
+    },
+    {
+      name: 'User Management',
+      link: 'admin/userMap',
+      isSelected: false,
+    },
   ];
 
-  constructor(private ds: DialogService) {}
+  constructor(private ds: DialogService, private authService: MsalService) {}
 
   refreshStatus: boolean;
   /*
@@ -36,5 +47,16 @@ export class MenuComponent implements OnInit {
       elem.isSelected = elem.name == selectedName;
       return elem;
     });
+  }
+     /*
+  Logout logic 
+  */
+  async logout() {
+    //this.authService.logoutRedirect();
+    let homeAccountId:any = localStorage.getItem('homeAccountId');
+    const currentAccount:any = this.authService.instance.getAccountByHomeId(
+      homeAccountId
+    );
+    await this.authService.instance.logout({ logoutHint: currentAccount?.idTokenClaims.login_hint});
   }
 }

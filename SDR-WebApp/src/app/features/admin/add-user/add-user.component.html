@@ -1,0 +1,65 @@
+<div class="container-fluid">
+  <h2>Add Group</h2>
+  <form class="initial-container">
+    <div class="row">
+      <div class="col-10">
+        <!--left side -->
+        <div class="form-group row">
+          <label class="col-sm-4 paddingTen">User Name:<span>*</span></label>
+          <div class="col-sm-8 inputDiv">
+            <ng-multiselect-dropdown
+            [ngModelOptions]="{standalone: true}"
+            [settings]="dropdownSettingsUser"
+            [data]="userList"
+            [(ngModel)]="userSelected"
+            (onSelect)="onItemSelect($event)"
+            (onSelectAll)="onSelectAll($event)"
+          >
+          </ng-multiselect-dropdown>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+    <div class="row paddingTen">
+      <div class="col-10">
+        <!--left side -->
+        <div class="form-group row">
+          <label class="col-sm-4 paddingTen"
+            >Group:<span>*</span></label
+          >
+          <div class="col-sm-8 inputDiv">
+            <ng-multiselect-dropdown
+            [ngModelOptions]="{standalone: true}"
+            [settings]="dropdownSettings"
+            [data]="groupList"
+            [(ngModel)]="groupSelected"
+            (onSelect)="onItemSelect($event)"
+            (onSelectAll)="onSelectAll($event)"
+          >
+          </ng-multiselect-dropdown>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+  <div class="col-md-12 text-center">
+    <form>
+      <button
+        class="btn btn-primary btn-sm searchButton"
+        type="submit"
+       
+      >
+        Add
+      </button>
+      <button
+        class="btn btn-primary btn-sm searchButton"
+        type="submit"
+       
+      >
+        Cancel
+      </button>
+     
+    </form>
+  </div>
+</div>

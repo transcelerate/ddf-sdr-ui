@@ -21,6 +21,11 @@ const routes: Routes = [{
     loadChildren: () => import('./features/search-study/search-study.module').then(x => x.SearchStudyModule),
     canActivate: [MsalGuard] 
   },
+  { 
+    path: 'admin',  
+    loadChildren: () => import('./features/admin/admin.module').then(x => x.AdminModule),
+    canActivate: [MsalGuard] 
+  },
 ]
 }
   

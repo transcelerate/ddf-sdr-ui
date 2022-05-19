@@ -20,7 +20,7 @@
     "@angular/compiler": "~13.0.0",
     "@angular/core": "~13.0.0",
     "@angular/forms": "~13.0.0",
-    "@angular/material": "^13.1.1",
+    "@angular/material": "^13.3.7",
     "@angular/platform-browser": "~13.0.0",
     "@angular/platform-browser-dynamic": "~13.0.0",
     "@angular/router": "~13.0.0",
@@ -36,7 +36,9 @@
     "jquery": "^3.3.1",
     "moment": "^2.29.1",
     "monaco-editor": "^0.31.1",
+    "ng-multiselect-dropdown": "^0.3.8",
     "ngx-bootstrap": "^8.0.0",
+    "ngx-mat-msautocomplete": "^1.0.0",
     "ngx-spinner": "^13.1.1",
     "rxjs": "~7.4.0",
     "tslib": "^2.3.1",
@@ -69,6 +71,7 @@
     "karma-sonarqube-unit-reporter": "~0.0.23",
     "sonar-scanner": "^3.1.0",
     "tslint-angular": "^3.0.3",
+    "typedoc": "^0.22.13",
     "typescript": "~4.4.3",
     "webpack-obfuscator": "^3.5.1"
   }

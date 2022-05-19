@@ -1,16 +1,34 @@
-<nav class="navbar" id="menu"  *ngIf = "refreshStatus">
-    <ul class="navbar-nav">
+<!-- <nav class="navbar navbar-default" id="menu"  *ngIf = "refreshStatus">
+    <ul class="nav navbar-nav ">
       <li  *ngFor="let menu of menuList" class="nav-item">
         <a class="nav-link" [ngClass]="{'active': menu.isSelected}" [href]=menu.link (click)="changeActive(menu.name)">{{menu.name}}</a>
       </li>
-      <!-- <li class="nav-item">
-        <a class="nav-link" href="home">Search Study Definitions</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="home">Reports</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="home">Study Versions Comparison</a>
-      </li> -->
+     
     </ul>
+  </nav> -->
+
+  <nav class="navbar navbar-expand-lg navbar-light bg-light" *ngIf = "refreshStatus">
+    <!-- <a class="navbar-brand" href="#">Navbar</a> -->
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      <div class = "navDiv">
+      <div class="navbar-nav"  *ngFor="let menu of menuList" >
+        <a class="nav-item nav-link listStyle" [ngClass]="{'active': menu.isSelected}" [href]=menu.link (click)="changeActive(menu.name)">{{menu.name}}</a>
+      </div>
+    </div>
+      <!-- <div class="navbar-nav">
+        <a class="nav-item nav-link active" href="#">Home <span class="sr-only">(current)</span></a>
+        <a class="nav-item nav-link" href="#">Features</a>
+        <a class="nav-item nav-link" href="#">Pricing</a>
+        <a class="nav-item nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+      </div> -->
+    </div>
+    <div class="accordion" id="accordionExample" (click)="logout()">
+     <span class="listStyle"> Logout</span> 
+       <!-- <img src="../../../../assets/Images/alpine-icons/sign-out.svg" class="imgStyleHeader" title="Log Out" > -->
+     </div>
   </nav>
+
+  

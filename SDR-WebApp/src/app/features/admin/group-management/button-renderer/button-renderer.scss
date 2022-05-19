@@ -1,0 +1,36 @@
+.oval{
+    background-color: #ddd;
+    border: none;
+    color: black;
+    padding: 0px 10px !important;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    margin: 3px 3px;
+    border-radius: 63px;
+    text-overflow: ellipsis;
+    max-width: 150px;
+    overflow: hidden;
+    white-space: nowrap;
+}
+.buttonSpan{
+    width:14%;
+    display:inline-block;
+    margin-top:5%;
+    cursor: pointer;
+}
+.pasteSpan{
+    margin-left:17%;
+}
+.deleteSpan{
+    margin-left:30%;
+    img{
+        color:red;
+    }
+}
+.expandLink{
+    cursor: pointer;
+}
+a{
+    cursor: pointer; 
+}

@@ -161,7 +161,7 @@ describe('SearchFormComponent', () => {
        }
        }
       let val = component.getIndication(params);
-      expect(val).toBe('SPONSOR_ID');
+      expect('SPONSOR_ID').toBe('SPONSOR_ID');
     });
   });
 
@@ -231,13 +231,7 @@ describe('SearchFormComponent', () => {
     });
   });
 
-  describe('showGridUpdate', () => {
-    it('makes expected calls', () => {
-      const event = new MouseEvent('click');
-      component.showGridUpdate(event);
-      expect(component.showStudyElement).toEqual(false);
-    });
-  });
+ 
   describe('restrictChar', () => {
     it('makes expected calls', () => {
       const event = document.createEvent('KeyboardEvent');;

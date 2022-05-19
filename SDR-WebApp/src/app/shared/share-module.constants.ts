@@ -19,6 +19,7 @@ import { AgGridModule } from 'ag-grid-angular';
 // import { MonacoEditorModule } from 'ngx-monaco-editor';
 import { MonacoEditorModule } from '@materia-ui/ngx-monaco-editor';
 import {  ModalModule } from 'ngx-bootstrap/modal';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { ErrorComponentComponent } from './components/error-component/error-component.component';
 export class SharedModuleConstants {
   static MODULE_IMPORTS = [
@@ -33,6 +34,7 @@ export class SharedModuleConstants {
     ModalModule.forRoot(),
     MonacoEditorModule,
     ModalModule,
+    NgMultiSelectDropDownModule.forRoot()
   ];
   static MODULE_COMPONENTS = [
     FooterComponent,

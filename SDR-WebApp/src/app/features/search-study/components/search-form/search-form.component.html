@@ -163,9 +163,12 @@
       [icons]="icons"
       [suppressNoRowsOverlay] = false
       [sortingOrder]="['asc', 'desc']"
-      (gridReady)="onGridReady($event)"
       [overlayNoRowsTemplate]="noRowsTemplate"
       [headerHeight] = 74
+      [tooltipShowDelay]="tooltipShowDelay"
+    
+      (gridReady)="onGridReady($event)"
+     
     ></ag-grid-angular>
   </div>
 </div>

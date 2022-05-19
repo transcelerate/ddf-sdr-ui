@@ -4,9 +4,7 @@ import {
   MSAL_GUARD_CONFIG,
   MsalGuardConfiguration,
 } from '@azure/msal-angular';
-import {
-  RedirectRequest,
-} from '@azure/msal-browser';
+import { RedirectRequest } from '@azure/msal-browser';
 
 @Component({
   selector: 'app-login',
@@ -18,9 +16,17 @@ export class LoginComponent {
     @Inject(MSAL_GUARD_CONFIG) private msalGuardConfig: MsalGuardConfiguration,
     private authService: MsalService
   ) {}
- /*
- Login on click of link
-  */
+  ngOnInit() {
+    this.authService.logoutRedirect({
+      onRedirectNavigate: () => {
+        // Return false to stop navigation after local logout
+        return false;
+      },
+    });
+  }
+  /**
+   *Login on click of link
+   */
   login() {
     if (this.msalGuardConfig.authRequest) {
       this.authService.loginRedirect({

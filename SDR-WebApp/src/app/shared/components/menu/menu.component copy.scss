@@ -1,0 +1,42 @@
+.active{
+    background-color: coral !important;
+    //color: #fff;
+   
+}
+
+.nav-link
+{
+    padding: 10px;
+}
+.navbar{
+    margin-top:5%;
+}
+.navbar {
+    
+   background-color: gainsboro !important;
+   padding:0px;
+    
+}
+.navDiv{
+    display: inline-flex;
+    //margin-left: 41%;
+}
+.navbar-light .navbar-nav .nav-link.active, .navbar-light .navbar-nav .show>.nav-link, .navbar-light .navbar-nav .nav-link {
+ //   color: #ffffff;
+  //  font-size: medium;
+}
+.listStyle{
+    padding: 10px 15px 9px 15px !important;
+   // letter-spacing: 1px;
+    font-family: 'Source Sans Pro', sans-serif;
+    //font-size: 14px;
+    overflow: hidden;
+    text-decoration: none;
+    color: inherit;
+    background-color: inherit;
+    text-align: center;
+    text-transform: uppercase;
+}
+.navbar-light .navbar-nav .nav-link {
+    color: #000000;
+}

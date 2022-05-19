@@ -109,7 +109,7 @@ describe('StudyElementDescriptionComponent', () => {
       spyOn(ngxSpinnerServiceStub, 'show').and.callThrough();
       spyOn(ngxSpinnerServiceStub, 'hide').and.callThrough();
       spyOn(commonMethodsServiceStub, 'getSponsorDetails').and.callThrough();
-      component.backButtonClicked();
+      //component.backButtonClicked();
       component.getstudyelement();
 
       expect(serviceCallStub.getStudyElement).toHaveBeenCalled();

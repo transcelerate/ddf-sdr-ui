@@ -72,9 +72,11 @@ export class VersionComparisonComponent implements OnInit {
         });
       });
   }
- /*
- fetch api for 2 versions and setting value to monaco editor
-  */
+  /**
+   *getStudyElement api will be called twice for the 2 different version of the document. And get assigned to the monaco editor to the keyname
+   "originalCode" for the lower version and appears on the left grid and to "code" for higer version and appears on
+   the right side.
+   */
   ngOnInit(): void {
     document.getElementsByTagName('h2')[0].classList.add('textCenter');
     this.route.params.subscribe((params) => {
@@ -91,15 +93,15 @@ export class VersionComparisonComponent implements OnInit {
         // useShadows: false,
         // verticalHasArrows: true,
         // horizontalHasArrows: true,
-                    // set scrollbar hidden
+        // set scrollbar hidden
         vertical: 'visible',
         horizontal: 'visible',
-        handleMouseWheel:true,
-    
+        handleMouseWheel: true,
+
         verticalScrollbarSize: 10,
         horizontalScrollbarSize: 17,
-        arrowSize: 30
-      }
+        arrowSize: 30,
+      },
     };
     this.spinner.show();
     this.serviceCall
@@ -159,14 +161,13 @@ export class VersionComparisonComponent implements OnInit {
                     clearInterval(interval);
                   } else {
                     this.showheading = false;
-                    
                   }
                 }, 1000);
               },
               error: (error) => {
                 this.spinner.hide();
                 this.showError = true;
-               // alert('Service error');
+                // alert('Service error');
               },
             });
         },

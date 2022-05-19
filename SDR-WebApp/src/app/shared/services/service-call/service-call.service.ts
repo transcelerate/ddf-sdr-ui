@@ -22,6 +22,13 @@ export class ServiceCall {
   getSearchResult(reqObj:any){
     return this.httpWrapperService.postData(environment.BASE_URL + ApiUrlList.SEARCHRESULT, reqObj);
   }
+  getAllGroups(reqObj:any){
+    return this.httpWrapperService.postData(environment.BASE_URL + ApiUrlList.ALLGROUPS, reqObj);
+  }
+  postGroup(reqObj:any){
+    return this.httpWrapperService.postData(environment.BASE_URL + ApiUrlList.POSTGROUP, reqObj);
+  }
+
 
   readConfigFile() {
     return dropDownJson;

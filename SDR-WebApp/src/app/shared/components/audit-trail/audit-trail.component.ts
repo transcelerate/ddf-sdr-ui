@@ -9,9 +9,9 @@ import { ServiceCall } from '../../services/service-call/service-call.service';
   templateUrl: './audit-trail.component.html',
   styleUrls: ['./audit-trail.component.scss'],
 })
-/*
-Audit Trail component 
-*/
+/**
+ *Audit Trail component
+ */
 export class AuditTrailComponent implements OnInit {
   studyId: any;
   versionA: any;
@@ -33,7 +33,7 @@ export class AuditTrailComponent implements OnInit {
       width: 170,
     },
     {
-      headerName: '(SDR) Record Version',
+      headerName: 'SDR Record Version',
       field: 'studyVersion',
       suppressSizeToFit: false,
       width: 150,
@@ -100,9 +100,9 @@ export class AuditTrailComponent implements OnInit {
       resizable: true,
     };
   }
-  /*
-get the studyId from study details page
-*/
+  /**
+   *get the studyId from study details page
+   */
   ngOnInit(): void {
     var view = this;
     this.route.params.subscribe((params) => {
@@ -141,9 +141,10 @@ get the studyId from study details page
       },
     });
   }
-  /*
-Logic to generate radio button html element for A column
-*/
+  /**
+   *Logic to generate radio button html element for A column
+   * @param params   ag grid value for each row with data.
+   */
   generateCompareA(params: any) {
     const eDiv = document.createElement('div');
     const self = this;
@@ -157,9 +158,10 @@ Logic to generate radio button html element for A column
 
     return eDiv;
   }
-  /*
-Logic to generate radio button html element for B column
-*/
+  /**
+   *Logic to generate radio button html element for B column
+   * @param params   ag grid value for each row with data.
+   */
   generateCompareB(params: any) {
     const eDiv = document.createElement('div');
     const self = this;
@@ -175,9 +177,10 @@ Logic to generate radio button html element for B column
   }
   /* istanbul ignore next */
   // @SONAR_STOP@
-  /*
-AG Grid initialization for Audit table
-*/
+  /**
+   *This method will be called on initialization of ag grid
+   * @param params   ag grid value for each row with data.
+   */
   onGridReady(params: {
     api: { sizeColumnsToFit: () => void };
     columnApi: any;
@@ -196,11 +199,11 @@ AG Grid initialization for Audit table
   }
   /* istanbul ignore end */
   // @SONAR_START@
-  /*
-on selection of radio button, we disable the corresponding other radio button to revent using same version for comparison.
-@Param selectedVal : radio button selected
-@Param from : from which column button is selected
-*/
+  /**
+   *on selection of radio button, we disable the corresponding other radio button to revent using same version for comparison.
+   *@param selectedVal : radio button selected
+   *@param from : from which column button is selected
+   */
   setRadio(selectedVal: any, from: string) {
     let disableField = from === 'A' ? 'B' : 'A';
     if (from == 'A') {
@@ -225,9 +228,9 @@ on selection of radio button, we disable the corresponding other radio button to
     //this.disableButton = ! (typeof(this.versionA) == 'number' && typeof(this.versionB) == 'number')
     this.disableButton = this.versionA === '' || this.versionB === '';
   }
- /*
-on clcik of version compare this method will be triggered which will redirect to version compare page
-*/
+  /**
+   *on clcik of version compare this method will be triggered which will redirect to version compare page
+   */
   versionCompare() {
     this.router.navigate(
       [

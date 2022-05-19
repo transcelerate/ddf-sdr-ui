@@ -25,6 +25,17 @@
     ],
     "resolveJsonModule": true,
   },
+  "typedocOptions": {
+    "entryPoints": [
+      "src/app/features/dashboard/components/recent-activity/recent-activity.component.ts",
+      "src/app/features/search-study/components/search-form/search-form.component.ts",
+      "src/app/shared/components/audit-trail/audit-trail.component.ts",
+      "src/app/shared/components/version-comparison/version-comparison.component.ts",
+      "src/app/features/login/components/login/login.component.ts",
+      "src/app/shared/components/study-element-description/study-element-description.component.ts"
+    ],
+    "out": "docs"
+  },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
     "strictInjectionParameters": true,

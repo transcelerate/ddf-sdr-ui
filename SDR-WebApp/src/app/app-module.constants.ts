@@ -73,15 +73,16 @@ export function MSALInstanceFactory():IPublicClientApplication{
             //console.log(message);
           },
           logLevel: LogLevel.Verbose,
-          piiLoggingEnabled: false
-        }
+          piiLoggingEnabled: false,
+        },
+        allowRedirectInIframe: true
       }
     });
 }
 export const protectedResources = {
   profileApi: {
     endpoint: environment.BASE_URL,
-    scopes: [environment.Audiance],
+    scopes: [environment.Audience],
  
     
     //scopes: ["api://Enter_the_Application_Id_of_Service_Here/.default"],
@@ -106,7 +107,7 @@ export function MSALGuardConfigFactory():MsalGuardConfiguration{
   return {
     interactionType: InteractionType.Redirect,
     authRequest:{
-      scopes:[environment.Audiance],
+      scopes:[environment.Audience],
     },
   };
 }

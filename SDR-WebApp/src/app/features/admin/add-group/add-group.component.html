@@ -1,0 +1,206 @@
+<div class="container-fluid">
+  <h2>Add Group</h2>
+  <form class="initial-container">
+    <div class="row">
+      <div class="col-4">
+        <!--left side -->
+        <div class="form-group row">
+          <label class="col-sm-4 paddingTen">Group Name:<span>*</span></label>
+          <div class="col-sm-8 inputDiv">
+            <input type="text" class="input-sm paddingTen" />
+          </div>
+        </div>
+      </div>
+      <div class="col-4">
+        <!--left side -->
+        <div class="form-group row">
+          <label class="col-sm-5 paddingTen"
+            >Group Permission:<span>*</span></label
+          >
+          <div class="col-sm-7">
+            <select
+              class="form-control input-sm"
+              [(ngModel)]="group.permission"
+              name="permission"
+            >
+              <option *ngFor="let title of permissionList" [value]="title">
+                {{ title }}
+              </option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="col-4">
+        <!--left side -->
+        <div class="form-group row">
+          <label class="col-sm-5 paddingTen"
+            >Group Filter Field:<span>*</span></label
+          >
+          <div class="col-sm-7">
+            <select
+              class="form-control input-sm"
+              [(ngModel)]="groupList.groupFieldName"
+              name="groupFieldName"
+              (change)="filterFieldSelected()"
+            >
+              <option *ngFor="let title of filterFieldList" [value]="title">
+                {{ title }}
+              </option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+  <form *ngIf="isSearchSelected === false">
+    <div class="row">
+      <div class="col-4">
+        <!--left side -->
+        <div class="form-group row">
+          <label class="col-sm-4 paddingTen">Filter Value:<span>*</span></label>
+          <div class="col-sm-8 checkbox">
+            <div *ngFor="let option of filterFieldValueList">
+              <input
+                type="checkbox"
+                [value]="option"
+                (change)="updateChecked(option, $event)"
+              />{{ option }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+  <form *ngIf="isSearchSelected === true" [formGroup]="editorForm">
+    <div class="row">
+      <div class="col-4">
+        <!--left side -->
+        <div class="form-group row">
+          <label class="col-sm-4 paddingTen">Study Title:</label>
+          <div class="col-sm-8 inputDiv">
+            <input
+              type="text"
+              class="input-sm paddingTen"
+              formControlName="studyTitle"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="col-4">
+        <!--left side -->
+        <div class="form-group row">
+          <label class="col-sm-5 paddingTen"
+            >Modified From:</label
+          >
+          <div class="col-sm-7">
+            <input
+              type="date"
+              class="input-sm form-control"
+              formControlName="fromDate"
+              [max]="getToday()"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="col-4">
+        <!--left side -->
+        <div class="form-group row">
+          <label class="col-sm-5 paddingTen">Modified To:</label>
+          <div class="col-sm-7">
+            <input
+              type="date"
+              class="input-sm form-control"
+              formControlName="toDate"
+              [max]="getToday()"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="col-md-12 text-center">
+        <form>
+          <button
+            class="btn btn-primary btn-sm searchButton"
+            type="submit"
+            (click)="submitSearch()"
+          >
+            Search
+          </button>
+         
+        </form>
+      </div>
+    </div>
+    <div *ngIf="showGrid" class="container-fluid gridOuter search">
+      <ag-grid-angular
+        #agGrid
+        id="myGrid"
+        class="ag-theme-alpine searchGrid"
+        [rowHeight]="20"
+        
+        [defaultColDef]="defaultColDef"
+        [rowBuffer]="rowBuffer"
+        [rowSelection]="rowSelection"
+     
+        [rowModelType]="rowModelType"
+        [cacheBlockSize]="cacheBlockSize"
+        [cacheOverflowSize]="cacheOverflowSize"
+        [maxConcurrentDatasourceRequests]="maxConcurrentDatasourceRequests"
+        [infiniteInitialRowCount]="infiniteInitialRowCount"
+        [maxBlocksInCache]="maxBlocksInCache"
+        [rowData]="rowData"
+        [icons]="icons"
+        [suppressNoRowsOverlay]="false"
+        [sortingOrder]="['asc', 'desc']"
+        [overlayNoRowsTemplate]="noRowsTemplate"
+        [headerHeight]="24"
+        [tooltipShowDelay]="tooltipShowDelay"
+        [columnDefs]="columnDefs"
+        [gridOptions]="gridOptions"
+        (gridReady)="onGridReady($event)"
+      ></ag-grid-angular>
+      <ng-container *ngIf="searchList.length>0">
+        <span *ngFor="let value of searchList;  let i=index">
+          <span class="oval" >{{value.studyTitle}}  <strong (click)="delete(value)">X</strong></span>
+     
+      </span>
+    </ng-container>
+    </div>
+  </form>
+  
+
+  <ng-template #template>
+    <div class="modal-header">
+      <h4 class="modal-title pull-left">Current Rule</h4>
+      <button
+        type="button"
+        class="btn-close close pull-right"
+        aria-label="Close"
+        (click)="modalRef?.hide()"
+      >
+        <span aria-hidden="true" class="visually-hidden">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      {{ content }}
+    </div>
+  </ng-template>
+  <div class="buttonGroup">
+    <div class="col-md-12 text-center">
+      <form>
+        <span *ngIf="showContent" class="currentRule" (click)="openModal(template)"
+    >Current Rule</span
+  >
+        <button
+          class="btn btn-primary btn-sm"
+          type="submit"
+          (click)="addRule()"
+        >
+          Add Rule/selection
+        </button>
+        <button class="btn btn-primary btn-sm" type="submit">Save Group</button>
+        <button class="btn btn-primary btn-sm" type="submit">Cancel</button>
+      </form>
+    </div>
+  </div>
+</div>

@@ -121,20 +121,20 @@ describe('RecentActivityComponent', () => {
     });
   });
 
-  describe('showGrid', () => {
-    it('makes expected calls', () => {
-      const event = new MouseEvent('click');
-      component.showGrid(event);
-      expect(component.showStudyElement).toEqual(false);
-    });
-  });
+  // describe('showGrid', () => {
+  //   it('makes expected calls', () => {
+  //     const event = new MouseEvent('click');
+  //     component.showGrid(event);
+  //     expect(component.showStudyElement).toEqual(false);
+  //   });
+  // });
 
-  describe('ngAfterViewInit', () => {
-    it('makes expected calls', () => {
-      component.ngAfterViewInit();
-      expect(component.showStudyElement).toEqual(false);
-    });
-  });
+  // describe('ngAfterViewInit', () => {
+  //   it('makes expected calls', () => {
+  //     component.ngAfterViewInit();
+  //     expect(component.showStudyElement).toEqual(false);
+  //   });
+  // });
   describe('setSelectedValue', () => {
     it('should redirect the user to the details page', () => {
       let router = TestBed.get(Router);
@@ -155,23 +155,23 @@ describe('RecentActivityComponent', () => {
       );
     });
   });
-  describe('gridValueMerge', () => {
-    it('test gridValueMerge if and else', () => {
-      let param = {
-        data: {
-          studyId: 1,
-          version: 1,
-          studyTitle: 'titleTest',
-        },
-      };
-      let val = component.gridValueMerge(param);
-      expect(val).toEqual({
-        studyId: 1,
-        version: 1,
-        studyTitle: 'titleTest',
-      });
-      let val1 = component.gridValueMerge({});
-      expect(val1).toEqual('');
-    });
-  });
+  // describe('gridValueMerge', () => {
+  //   it('test gridValueMerge if and else', () => {
+  //     let param = {
+  //       data: {
+  //         studyId: 1,
+  //         version: 1,
+  //         studyTitle: 'titleTest',
+  //       },
+  //     };
+  //     let val = component.gridValueMerge(param);
+  //     expect(val).toEqual({
+  //       studyId: 1,
+  //       version: 1,
+  //       studyTitle: 'titleTest',
+  //     });
+  //     let val1 = component.gridValueMerge({});
+  //     expect(val1).toEqual('');
+  //   });
+  // });
 });
