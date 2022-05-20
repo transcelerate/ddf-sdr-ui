@@ -4,7 +4,7 @@ export const environment = {
   tenantId: '{#AzureAd-TenantId#}',
   authority: `{#AzureAd-Authority#}`, 
   clientId: '{#AzureAd-ClientId#}', 
-  Audiance: '{#AzureAd-Audiance#}',
+  Audiance: '{#AzureAd-Audience#}',
 
   redirectUrl: '{#AzureAd-RedirectUrl#}',
   loginUrl: '{#AzureAd-LoginUrl#}',
