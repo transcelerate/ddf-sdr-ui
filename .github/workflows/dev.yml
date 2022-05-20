@@ -47,7 +47,7 @@ jobs:
         find ${{ github.workspace }}/SDR-WebApp/src/environments/environment.ts -type f -exec sed -i ''s@{#AzureAd-TenantId#}@'${{ steps.keyvaultSecretAction.outputs.AzureAd-TenantId }}'@g'' {} \;
         find ${{ github.workspace }}/SDR-WebApp/src/environments/environment.ts -type f -exec sed -i ''s@{#AzureAd-Authority#}@'${{ steps.keyvaultSecretAction.outputs.AzureAd-Authority }}'@g'' {} \;
         find ${{ github.workspace }}/SDR-WebApp/src/environments/environment.ts -type f -exec sed -i ''s@{#AzureAd-ClientId#}@'${{ steps.keyvaultSecretAction.outputs.AzureAd-ClientId }}'@g'' {} \;
-        find ${{ github.workspace }}/SDR-WebApp/src/environments/environment.ts -type f -exec sed -i ''s@{#AzureAd-Audiance#}@'${{ steps.keyvaultSecretAction.outputs.AzureAd-Audiance }}'@g'' {} \;
+        find ${{ github.workspace }}/SDR-WebApp/src/environments/environment.ts -type f -exec sed -i ''s@{#AzureAd-Audience#}@'${{ steps.keyvaultSecretAction.outputs.AzureAd-Audience }}'@g'' {} \;
         find ${{ github.workspace }}/SDR-WebApp/src/environments/environment.ts -type f -exec sed -i ''s@{#AzureAd-RedirectUrl#}@'${{ steps.keyvaultSecretAction.outputs.AzureAd-RedirectUrl }}'@g'' {} \;
         find ${{ github.workspace }}/SDR-WebApp/src/environments/environment.ts -type f -exec sed -i ''s@{#AzureAd-LoginUrl#}@'${{ steps.keyvaultSecretAction.outputs.AzureAd-LoginUrl }}'@g'' {} \;
         find ${{ github.workspace }}/SDR-WebApp/src/environments/environment.ts -type f -exec sed -i ''s@{#Apim-BaseUrl#}@'${{ steps.keyvaultSecretAction.outputs.Apim-BaseUrl }}'@g'' {} \;
