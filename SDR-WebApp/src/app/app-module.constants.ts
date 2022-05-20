@@ -82,7 +82,7 @@ export function MSALInstanceFactory():IPublicClientApplication{
 export const protectedResources = {
   profileApi: {
     endpoint: environment.BASE_URL,
-    scopes: [environment.Audience],
+    scopes: [environment.Audiance],
  
     
     //scopes: ["api://Enter_the_Application_Id_of_Service_Here/.default"],
