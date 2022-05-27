@@ -36,7 +36,7 @@ jobs:
     - uses: Azure/get-keyvault-secrets@v1
       with:
         # Name of the azure key vault
-        keyvault: ${{ secrets.KEYVAULT_NAME_DEV }} # name of key vault in Azure portal
+        keyvault: ${{ secrets.KEYVAULT_NAME }} # name of key vault in Azure portal
         # Name of the secret to be fetched
         secrets: 'AzureAd-TenantId,AzureAd-Authority,AzureAd-ClientId,AzureAd-Audiance,AzureAd-RedirectUrl,AzureAd-LoginUrl,Apim-BaseUrl'  # comma separated list of secret keys to fetch from key vault 
       id: keyvaultSecretAction # ID for secrets that you will reference    
