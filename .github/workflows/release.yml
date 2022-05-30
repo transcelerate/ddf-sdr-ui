@@ -4,7 +4,7 @@ name: CICD_QA
 
 # Controls when the workflow will run
 on:
-  # Triggers the workflow on push or pull request events but only for the release branch
+  # Triggers the workflow on push or pull request events but only for the develop branch
   push:
     branches: [ release ]
   pull_request:
@@ -23,17 +23,21 @@ jobs:
     environment: QA
     
     steps:   
-    - uses: actions/checkout@v2
+    
+    - name: Fetch Depth
+      uses: actions/checkout@v2
       # fetch depth is used to disable shallow cloning while sonarqube analysis
       with:
         fetch-depth: 0
-    - # "Note: the 'AZURE_SP' secret is required to be added into GitHub Secrets. See this blog post for details: https://samlearnsazure.blog/2019/12/13/github-actions/"
-      name: Azure Login
+        
+      # "Note: the 'AZURE_SP' secret is required to be added into GitHub Secrets. See this blog post for details: https://samlearnsazure.blog/2019/12/13/github-actions/"
+    - name: Azure Login
       uses: azure/login@v1
       with:
         creds: ${{ secrets.AZURE_SP }} 
-        
-    - uses: Azure/get-keyvault-secrets@v1
+      
+    - name: Fetch Keyvault values
+      uses: Azure/get-keyvault-secrets@v1
       with:
         # Name of the azure key vault
         keyvault: ${{ secrets.KEYVAULT_NAME }} # name of key vault in Azure portal
@@ -114,27 +118,20 @@ jobs:
     
 ######################---------------Jasmine Test Cases-----------------------#############################
 
-#     - name: Run Angular tests
-#       # Running the jasmine test cases
-#       run: |
-#           cd '${{ github.workspace }}/SDR-WebApp'
-#           ng test --reporters junit --watch=false --browsers ChromeHeadless
+    - name: Run Angular tests
+      # Running the jasmine test cases
+      run: |
+          cd '${{ github.workspace }}/SDR-WebApp'
+          ng test --reporters junit --watch=false --browsers ChromeHeadless
           
           
-#     - name: Publish Unit Test Results
-#       uses: EnricoMi/publish-unit-test-result-action/composite@v1
-#       # Publish the test cases results
-#       if: always()
-#       with:
-#         files: '${{ github.workspace }}/SDR-WebApp/testresults/junit/unit-test-result.xml'
-        
-      
-#     - name: Run tmate
-#       uses: mxschmitt/action-tmate@v2  
-       
-         
+    - name: Publish Unit Test Results
+      uses: EnricoMi/publish-unit-test-result-action/composite@v1
+      # Publish the test cases results
+      if: always()
+      with:
+        files: '${{ github.workspace }}/SDR-WebApp/testresults/junit/unit-test-result.xml'
     
-          
  
  #############################-----------Sonar Scan---------------#############################################
      
@@ -187,7 +184,5 @@ jobs:
         package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
 
 
-
-       
 
        
