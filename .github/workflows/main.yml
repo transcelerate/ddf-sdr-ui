@@ -17,22 +17,27 @@ on:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
-  build:
+  Build_Deploy_PRE_PROD:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
+    environment: PRE_PROD
     
     steps:   
-    - uses: actions/checkout@v2
+    
+    - name: Fetch Depth
+      uses: actions/checkout@v2
       # fetch depth is used to disable shallow cloning while sonarqube analysis
       with:
         fetch-depth: 0
-    - # "Note: the 'AZURE_SP' secret is required to be added into GitHub Secrets. See this blog post for details: https://samlearnsazure.blog/2019/12/13/github-actions/"
-      name: Azure Login
+        
+      # "Note: the 'AZURE_SP' secret is required to be added into GitHub Secrets. See this blog post for details: https://samlearnsazure.blog/2019/12/13/github-actions/"
+    - name: Azure Login
       uses: azure/login@v1
       with:
         creds: ${{ secrets.AZURE_SP }} 
-        
-    - uses: Azure/get-keyvault-secrets@v1
+      
+    - name: Fetch Keyvault values
+      uses: Azure/get-keyvault-secrets@v1
       with:
         # Name of the azure key vault
         keyvault: ${{ secrets.KEYVAULT_NAME }} # name of key vault in Azure portal
@@ -126,9 +131,7 @@ jobs:
       if: always()
       with:
         files: '${{ github.workspace }}/SDR-WebApp/testresults/junit/unit-test-result.xml'
-         
     
-          
  
  #############################-----------Sonar Scan---------------#############################################
      
