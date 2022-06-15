@@ -123,6 +123,7 @@ jobs:
       run: |
           cd '${{ github.workspace }}/SDR-WebApp'
           ng test --reporters junit --watch=false --browsers ChromeHeadless
+          condition:succeededOrFailed()
           
           
     - name: Publish Unit Test Results
@@ -144,6 +145,7 @@ jobs:
           # Copying the coverage.xml and lcov.info to Github default working directory for sonarqube analysis
           cp testresults/coverage/cobertura-coverage.xml '${{ github.workspace }}/coverage.xml'    
           cp testresults/coverage/lcov.info '${{ github.workspace }}/lcov.info' 
+          condition:succeededOrFailed()
      
     - uses: actions/setup-dotnet@v1
       # Setup for installing sonar-scanner
