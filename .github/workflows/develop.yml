@@ -122,8 +122,8 @@ jobs:
       # Running the jasmine test cases
       run: |
           cd '${{ github.workspace }}/SDR-WebApp'
-          ng test --reporters junit --watch=false --browsers ChromeHeadless
-          fail-on-error: false
+          ng test --reporters junit --watch=false --browsers ChromeHeadless || true
+
           
           
     - name: Publish Unit Test Results
@@ -141,11 +141,11 @@ jobs:
       # Running the jasmine test cases and copying the test case files to default github directory
       run: |
           cd '${{ github.workspace }}/SDR-WebApp'
-          ng test --code-coverage true --watch=false --browsers ChromeHeadless
+          ng test --code-coverage true --watch=false --browsers ChromeHeadless  || true
           # Copying the coverage.xml and lcov.info to Github default working directory for sonarqube analysis
           cp testresults/coverage/cobertura-coverage.xml '${{ github.workspace }}/coverage.xml'    
           cp testresults/coverage/lcov.info '${{ github.workspace }}/lcov.info' 
-          fail-on-error: false
+          
      
     - uses: actions/setup-dotnet@v1
       # Setup for installing sonar-scanner
