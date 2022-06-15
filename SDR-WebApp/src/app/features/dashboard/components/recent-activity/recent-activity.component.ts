@@ -91,14 +91,15 @@ export class RecentActivityComponent {
       )
       .subscribe((result: any) => {
 
-
         if (result?.payload?.accessToken){
           localStorage.setItem('token', result?.payload?.accessToken);
           localStorage.setItem('homeAccountId', result?.payload?.account?.homeAccountId);
+          let isAdmin:any = result?.payload?.account?.idTokenClaims?.roles?.indexOf('org.admin') >= 0;
+          localStorage.setItem('isAdmin', isAdmin);
         }
-
+        this.ds.changeDialogState('Home');
       });
-    this.ds.changeDialogState('Home');
+    
   }
 
   /**

@@ -40,6 +40,9 @@ export class BtnCellRenderer implements ICellRendererAngularComp, OnDestroy {
   delete() {
     this.componentParent.openDeleteConfirmation(this.params.data);
   }
+  edit() {
+    this.componentParent.edit(this.params.data);
+  }
   ngOnDestroy() {
     // no need to remove the button click handler
     // https://stackoverflow.com/questions/49083993/does-angular-automatically-remove-template-event-listeners

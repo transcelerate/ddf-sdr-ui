@@ -10,9 +10,9 @@ import {
     <input
       type="checkbox"
       class="chkBox"
-      [(ngModel)]="params.value"
+      [checked]="params.data?.selected"
       (change)="this.refresh(this.params)"
-    />
+    />{{params.selected}}
   `,
   styleUrls: ['./add-group.component.scss'],
 })
@@ -21,11 +21,15 @@ export class CheckboxRenderer implements AgRendererComponent {
 
   agInit(params: any): void {
     this.params = params;
+    console.log(this.params);
   }
 
-  afterGuiAttached(params?: IAfterGuiAttachedParams): void {}
+  afterGuiAttached(params?: IAfterGuiAttachedParams): void {
+    debugger;
+  }
 
   refresh(params: any): boolean {
+    params.data.selected = !params.data?.selected;
     params.context.componentParent.getSelectSearch(params);
     return false;
   }

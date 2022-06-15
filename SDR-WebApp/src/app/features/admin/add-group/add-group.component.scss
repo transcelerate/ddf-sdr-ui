@@ -58,6 +58,9 @@
   .btn {
     margin: 0% 2%;
   }
+  span,button{
+    cursor:pointer !important;
+  }
 }
 .currentRule {
   cursor: pointer;
@@ -86,20 +89,31 @@
   background-color: #ddd;
   border: none;
   color: black;
-  padding: 6px 20px;
+  padding: 0px 10px !important;
   text-align: center;
   text-decoration: none;
-  display: inline-block;
-  margin: 4px 2px;
-  border-radius: 16px;
-  display: inline-block;
-  overflow: auto;
+  display: inline-flex;
+  margin: 3px 3px;
+  border-radius: 63px;
 }
-.chkBox{
-    margin: 4px 8px;
+.ovalText {
+  text-overflow: ellipsis;
+  max-width: 150px;
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.chkBox {
+  margin: 4px 8px;
 }
 .btn-primary {
   color: #fff;
   background-color: coral;
   border-color: coral;
+}
+.groupError{
+  color:red;
+}
+select, input[type=checkbox]{
+  cursor: pointer !important;
 }

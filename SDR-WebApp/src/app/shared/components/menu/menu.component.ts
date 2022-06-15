@@ -18,16 +18,7 @@ export class MenuComponent implements OnInit {
       link: 'search',
       isSelected: false,
     },
-    {
-      name: 'Group Management',
-      link: 'admin',
-      isSelected: false,
-    },
-    {
-      name: 'User Management',
-      link: 'admin/userMap',
-      isSelected: false,
-    },
+   
   ];
 
   constructor(private ds: DialogService, private authService: MsalService) {}
@@ -39,6 +30,18 @@ export class MenuComponent implements OnInit {
   ngOnInit() {
     this.ds.dialogObservable.subscribe((dialogState) => {
       this.refreshStatus = dialogState !== 'Not Clicked';
+      if(this.menuList.length == 2 && localStorage.getItem('isAdmin') == 'true' ){
+        this.menuList.push( {
+          name: 'Group Management',
+          link: 'admin',
+          isSelected: false,
+        },
+        {
+          name: 'User Management',
+          link: 'admin/userMap',
+          isSelected: false,
+        },);
+      }
       this.changeActive(dialogState);
     });
   }
@@ -53,6 +56,7 @@ export class MenuComponent implements OnInit {
   */
   async logout() {
     //this.authService.logoutRedirect();
+    localStorage.setItem('isAdmin', 'false');
     let homeAccountId:any = localStorage.getItem('homeAccountId');
     const currentAccount:any = this.authService.instance.getAccountByHomeId(
       homeAccountId

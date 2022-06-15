@@ -14,7 +14,7 @@ export class Group {
 
 export class GroupFilter {
   groupFieldName: string = '';
-  groupFilterValues:string [] = [];
+  groupFilterValues:any [] = [];
 }
 
 export class UserList {
