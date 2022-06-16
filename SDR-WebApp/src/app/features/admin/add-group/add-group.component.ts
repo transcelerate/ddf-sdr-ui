@@ -5,7 +5,12 @@ import { Group, GroupFilter } from './group.model';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { configList } from 'src/app/shared/components/study-element-description/config/study-element-field-config';
 import { CommonMethodsService } from 'src/app/shared/services/common-methods.service';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { CheckboxRenderer } from './checkbox-renderer.component';
 import {
   CellClassParams,
@@ -13,22 +18,29 @@ import {
   GridOptions,
   RowSpanParams,
 } from 'ag-grid-community';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { AlertComponent } from 'ngx-bootstrap/alert';
+import { ServiceCall } from 'src/app/shared/services/service-call/service-call.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { map, Observable } from 'rxjs';
 @Component({
   selector: 'app-add-group',
   templateUrl: './add-group.component.html',
   styleUrls: ['./add-group.component.scss'],
 })
 export class AddGroupComponent implements OnInit {
+  state$: Observable<object>;
   public gridOptions: GridOptions;
   permissionList: string[];
   group = new Group();
   groupList = new GroupFilter();
-  filterFieldList: string[];
+  filterFieldList: any;
   isSearchSelected: any = undefined;
   filterFieldValueList: any;
   modalRef?: BsModalRef;
   content: string = '';
   showContent: boolean;
+  showAddButton = false;
   searchList: any = [];
   noRowsTemplate: string;
   public gridApi: any;
@@ -52,11 +64,20 @@ export class AddGroupComponent implements OnInit {
   showGrid: boolean;
   icons: { sortAscending: string; sortDescending: string };
   editorForm: FormGroup;
+  initialForm: FormGroup;
+  showError: boolean;
+  groupError: boolean;
+  saveSuccess: boolean;
+  isEdit: boolean;
   constructor(
     public _formBuilder: FormBuilder,
     private ds: DialogService,
     private modalService: BsModalService,
-    private commonMethod: CommonMethodsService
+    private spinner: NgxSpinnerService,
+    public serviceCall: ServiceCall,
+    private commonMethod: CommonMethodsService,
+    public router: Router,
+    public activatedRoute: ActivatedRoute
   ) {
     this.gridOptions = <GridOptions>{
       enableSorting: true,
@@ -116,71 +137,184 @@ export class AddGroupComponent implements OnInit {
     this.editorForm = this._formBuilder.group(
       {
         studyTitle: [''],
-        interventionModel: [''],
         fromDate: [''],
-        studyId: [''],
-        phase: [''],
-        indication: [''],
         toDate: [''],
       },
       { validators: this.atLeastOneValidator }
     );
+    this.initialForm = this._formBuilder.group({
+      groupName: new FormControl('', [
+        Validators.required,
+        Validators.maxLength(20),
+      ]),
+      groupPermission: new FormControl('', [Validators.required]),
+      groupFieldName: new FormControl('', [Validators.required]),
+    });
   }
 
   ngOnInit(): void {
     this.ds.changeDialogState('Group Management');
     this.permissionList = groupConfigList.PERMISSIONLIST;
-    this.filterFieldList = groupConfigList.FILTER_FIELD;
-    // groupConfigList.FILTER_FIELD.forEach((field) => {
-    //   let groupList = new GroupFilter();
-    //   groupList.groupFieldName = field;
-    //   this.group.groupFilter.push(groupList);
-    // });
+    this.filterFieldList = groupConfigList.FILTER_FIELD.map((elem) => {
+      return elem;
+    });
+    const selectedGroup = history.state.data;
+    if (selectedGroup) {
+      this.isEdit = true;
+      this.group = selectedGroup;
+      if (this.initialForm) {
+        this.initialForm?.get('groupName')?.patchValue(this.group.groupName);
+        this.initialForm?.get('groupName')?.disable();
+        this.initialForm.value.groupPermission = this.group.permission;
+        this.initialForm
+          ?.get('groupFieldName')
+          ?.patchValue(history.state.selected);
+      }
+
+      this.filterFieldSelected();
+      let index = this.group.groupFilter.findIndex(
+        (elem) =>
+          elem.groupFieldName.replace(/\s/g, '').toUpperCase() === 'STUDY'
+      );
+      if (index != -1) {
+        this.searchList = this.group.groupFilter[index].groupFilterValues;
+      }
+      this.checkSave();
+    }
   }
+
   filterFieldSelected() {
-    this.isSearchSelected =
-      this.groupList.groupFieldName.toLowerCase() === 'search';
+    let fieldName = this.initialForm?.get('groupFieldName')?.value;
+    this.isSearchSelected = fieldName.toLowerCase() === 'study';
+    let index = this.findIndex();
+    this.showAddButton = false;
+
+    // this.groupList.groupFieldName.toLowerCase() === 'search';
     if (!this.isSearchSelected) {
       // let key = Object.keys(this.groupList.groupFieldName.replace(/\s/g, '').toUpperCase());
-      this.filterFieldValueList =
-        groupConfigList[
-          this.groupList.groupFieldName
-            .replace(/\s/g, '')
-            .toUpperCase() as keyof typeof groupConfigList
-        ];
+      this.filterFieldValueList = groupConfigList[
+        fieldName
+          .replace(/\s/g, '')
+          .toUpperCase() as keyof typeof groupConfigList
+      ].map((elem) => ({
+        isSelected:
+          index === -1
+            ? false
+            : this.group.groupFilter[index].groupFilterValues.filter(
+                (filterValue) => {
+                  return filterValue.title == elem;
+                }
+              ).length > 0
+            ? true
+            : false,
+        value: elem,
+      }));
+      console.log(this.filterFieldValueList);
+      if (
+        index != -1 &&
+        this.group.groupFilter[index].groupFilterValues.length > 0
+      ) {
+        this.groupList = this.group.groupFilter[index];
+      }
+    } else {
     }
+  }
+  findIndex() {
+    let index = this.group.groupFilter.findIndex(
+      (elem) =>
+        elem.groupFieldName.replace(/\s/g, '').toUpperCase() ===
+        this.initialForm.value.groupFieldName.replace(/\s/g, '').toUpperCase()
+    );
+    return index;
   }
   updateChecked(option: string, $event: any) {
     debugger;
-    if (!this.groupList.groupFilterValues.includes(option)) {
-      //checking weather array contain the id
-      this.groupList.groupFilterValues.push(option); //adding to array because value doesnt exists
-    } else {
-      this.groupList.groupFilterValues.splice(
-        this.groupList.groupFilterValues.indexOf(option),
-        1
-      ); //deleting
-    }
-  }
-  addRule() {
-    if (this.isSearchSelected === true) {
-      let groupFilterValues: any = [];
-      this.searchList.forEach((element: { studyId: any }) => {
-        groupFilterValues.push(element.studyId);
-      });
-      let searchObj = {
-        groupFieldName: 'search',
-        groupFilterValues: groupFilterValues,
-      };
-      this.group.groupFilter.push(searchObj);
-    } else {
+    let index = this.findIndex();
+    if (index == -1) {
       this.group.groupFilter.push(this.groupList);
+      index = this.group.groupFilter.length - 1;
+    }
+    let selectedValue = { id: option, title: option };
+    if (
+      this.group.groupFilter[index].groupFilterValues.filter((value) => {
+        return value.id == option;
+      }).length > 0
+    ) {
+      //checking weather array contain the id
+      this.group.groupFilter[index].groupFilterValues = this.group.groupFilter[
+        index
+      ].groupFilterValues.filter((elem) => {
+        return elem.id != option;
+      });
+    } else {
+      this.group.groupFilter[index].groupFilterValues.push(selectedValue); //adding to array because value doesnt exists
+      //deleting
     }
 
-    this.showContent = true;
+    this.groupList.groupFieldName = 'studyType';
+    this.checkSave();
+  }
+  addRule() {
+    let index = this.findIndex();
+
+    if (this.isSearchSelected === true) {
+      let groupFilterValues: any = [];
+
+      let searchObj = {
+        groupFieldName: 'study',
+        groupFilterValues: this.searchList,
+      };
+      if (index == -1) {
+        this.group.groupFilter.push(searchObj);
+        index = this.group.groupFilter.length - 1;
+      } else {
+        this.group.groupFilter[index] = searchObj;
+      }
+    }
+    this.checkSave();
+  }
+  checkSave() {
+    this.showContent = false;
+    for (let i = 0; i < this.group.groupFilter.length; i++) {
+      if (this.group.groupFilter[i].groupFilterValues.length > 0) {
+        this.showContent = true;
+      } else {
+        this.group.groupFilter.splice(i, 1);
+        i--;
+      }
+    }
+  }
+  saveGroup() {
+    if (!this.isEdit) {
+      this.group.groupCreatedOn = new Date().toISOString().slice(0, 10);
+      this.group.groupEnabled = true;
+      this.group.groupName = this.initialForm.value?.groupName;
+    }
+
+    this.group.permission = this.initialForm.value?.groupPermission;
+
+    //this.group.groupCreatedOn = "2022-MAY-24";
+    this.group.groupModifiedOn = new Date().toISOString().slice(0, 10);
+
+    let response = this.commonMethod.postGroup(this.group, this);
+  }
+  getAllGroups() {
+    this.saveSuccess = true;
+  }
+  onClosed() {
+    this.router.navigateByUrl('/admin');
   }
   openModal(template: TemplateRef<any>) {
-    this.content = JSON.stringify(this.group.groupFilter);
+    this.modalRef = this.modalService.show(template);
+  }
+  getStringValue(filter: any[]) {
+    return filter
+      .map(function (id: string) {
+        return "'" + id + "'";
+      })
+      .join(', ');
+  }
+  openSearchData(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template);
   }
   getToday(): string {
@@ -277,28 +411,104 @@ export class AddGroupComponent implements OnInit {
   }
 
   getSelectSearch(params: any) {
-    if (params.value) {
+    if (params.data.selected) {
+      if (
+        this.searchList.some(
+          (elem: { id: any }) => elem.id === params.data.clinicalStudy.studyId
+        )
+      ) {
+        return;
+      }
       this.searchList.push({
-        studyId: params.data.clinicalStudy.studyId,
-        studyTitle: params.data.clinicalStudy.studyTitle,
-        studyVersion: params.data.auditTrail.studyVersion,
+        id: params.data.clinicalStudy.studyId,
+        title: params.data.clinicalStudy.studyTitle,
       });
     } else {
       this.searchList = this.searchList.filter((elem: any) => {
-        return !(
-          elem.studyId === params.data.clinicalStudy.studyId &&
-          elem.studyVersion === params.data.auditTrail.studyVersion
-        );
+        return !(elem.id === params.data.clinicalStudy.studyId);
       });
     }
-    console.log(this.searchList);
+    // let index = this.group.groupFilter.findIndex(
+    //   (elem) => elem.groupFieldName.replace(/\s/g, '').toUpperCase() === 'STUDY'
+    // );
+    // if (index !== -1) {
+    //   this.addRule();
+    // }
+
+    // this.showAddButton = this.isSearchSelected && this.searchList.length > 0;
+    // console.log(this.searchList);
+    this.addRule();
   }
   delete(params: any) {
     this.searchList = this.searchList.filter((elem: any) => {
-      return !(
-        elem.studyId === params.studyId &&
-        elem.studyVersion === params.studyVersion
-      );
+      return !(elem.id === params.id);
     });
+    this.gridOptions?.api?.forEachNode((elem) => {
+      if (elem?.data?.clinicalStudy?.studyId === params.id) {
+        // arbitrarily update some data
+        var updated = elem.data;
+        updated.selected = false;
+
+        // directly update data in rowNode
+        elem.setData(updated);
+      }
+    });
+    // let index = this.group.groupFilter.findIndex(
+    //   (elem) => elem.groupFieldName.replace(/\s/g, '').toUpperCase() === 'STUDY'
+    // );
+    // if (index !== -1) {
+    //   this.addRule();
+    // }
+    // this.showAddButton = this.isSearchSelected && this.searchList.length > 0;
+    this.addRule();
+  }
+  validateGroupName(event: any) {
+    if (event.target.value === '') {
+      return;
+    }
+    this.groupError = false;
+    console.log(event.target.value);
+    this.spinner.show();
+    this.serviceCall.checkGroup(event.target.value).subscribe({
+      next: (data: any) => {
+        this.spinner.hide();
+        debugger;
+        if (data.isExists) {
+          this.groupError = true;
+        }
+      },
+      error: (error) => {
+        this.spinner.hide();
+        this.showError = true;
+      },
+    });
+  }
+  /**
+   *  Logic to restrict special char on typing
+   *  @param event Keyboard event on typing.
+   */
+  restrictChar(event: {
+    charCode: number;
+    which: number;
+    preventDefault: () => void;
+  }) {
+    var k;
+    k = event.charCode; //         k = event.keyCode;  (Both can be used)
+    return (
+      (k > 64 && k < 91) ||
+      (k > 96 && k < 123) ||
+      k == 8 ||
+      k == 32 ||
+      k == 46 ||
+      (k >= 48 && k <= 57)
+    );
+  }
+  confirm() {
+    this.modalRef?.hide();
+    this.onClosed();
+  }
+
+  decline(): void {
+    this.modalRef?.hide();
   }
 }

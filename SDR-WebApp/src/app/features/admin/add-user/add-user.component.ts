@@ -1,124 +1,155 @@
-import { Component, OnInit } from '@angular/core';
-import {IDropdownSettings } from 'ng-multiselect-dropdown';
+import { Component, OnInit, TemplateRef } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
+import { IDropdownSettings } from 'ng-multiselect-dropdown';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { CommonMethodsService } from 'src/app/shared/services/common-methods.service';
+import { DialogService } from 'src/app/shared/services/communication.service';
+import { ServiceCall } from 'src/app/shared/services/service-call/service-call.service';
 @Component({
   selector: 'app-add-user',
   templateUrl: './add-user.component.html',
-  styleUrls: ['./add-user.component.scss','../add-group/add-group.component.scss']
+  styleUrls: [
+    './add-user.component.scss',
+    '../add-group/add-group.component.scss',
+  ],
 })
 export class AddUserComponent implements OnInit {
-  groupList: { groupId: string; groupName: string; }[];
-  
-  groupSelected = [];
-  userSelected = [];
-    dropdownSettings: IDropdownSettings;
-    dropdownSettingsUser: IDropdownSettings;
-    userList: { oid: string; email: string; }[];
-  constructor() { 
+  groupList: any;
 
-  }
+  groupSelected : any = [];
+  userSelected: any = [];
+  dropdownSettings: IDropdownSettings;
+  dropdownSettingsUser: IDropdownSettings;
+  userList: any;
+  showError: boolean;
+  saveSuccess: boolean;
+  modalRef?: BsModalRef;
+  isEdit: boolean;
+  groupSelectedOriginal: any = [];
+  constructor(
+    public router: Router,
+    public route: ActivatedRoute,
+    private serviceCall: ServiceCall,
+    private spinner: NgxSpinnerService,
+    private commonMethod: CommonMethodsService,
+    private ds: DialogService,
+    private modalService: BsModalService
+  ) {}
 
   ngOnInit(): void {
-    this.userList = [
-        {
-            "oid": "0193a357-8519-4488-90e4-522f701658b9",
-            "email": "user1@SDR.com"
-        },
-        {
-            "oid": "83864612-ffbd-463f-90ce-3e8819c5d132",
-            "email": "user2@SDR.com"
-        },
-        {
-            "oid": "b9f848b8-9af7-46c1-9a3c-2663f547cc7a",
-            "email": "user3@SDR.com"
-        },
-        {
-            "oid": "9eb070f2-58e9-4c63-ae29-43d4f3202809",
-            "email": "user4@SDR.com"
-        },
-        {
-            "oid": "d47a4fdb-944c-4a0d-add2-2f78706f0e52",
-            "email": "user5@SDR.com"
-        },
-        {
-            "oid": "236b775e-6ef1-4a69-b398-74fbe8413771",
-            "email": "user6@SDR.com"
-        },
-        {
-            "oid": "d7aa036b-8ebf-4960-936b-e02adf5b6270",
-            "email": "user7@SDR.com"
-        },
-        {
-            "oid": "c50ccb41-db9b-4b97-b132-cbbfaa68af5a",
-            "email": "user8@SDR.com"
-        },
-        {
-            "oid": "985c4eaf-4823-44f6-844d-35c55872d84f",
-            "email": "user9@SDR.com"
+    this.ds.changeDialogState('User Management');
+    this.serviceCall.getAllUserList().subscribe({
+      next: (users: any) => {
+        //this.userExists = true;
+        this.spinner.hide();
+        this.userList = users;
+        const selectedUser = history.state.data;
+        if (selectedUser) {
+          this.isEdit = true;
+          console.log(selectedUser);
+          this.groupSelected = selectedUser.groups;
+          this.groupSelectedOriginal = this.groupSelected;
+          this.userSelected = this.userList.filter((elem: { id: any }) => {
+            return elem.id === selectedUser.oid;
+          });
         }
-    ]
-    this.groupList = [
-      {
-          "groupId": "0193a357-8519-4488-90e4-522f701658b9",
-          "groupName": "OncologyRead"
       },
-      {
-          "groupId": "83864612-ffbd-463f-90ce-3e8819c5d132",
-          "groupName": "OncologyWrite"
+      error: (error) => {
+        this.showError = true;
+        this.spinner.hide();
       },
-      {
-          "groupId": "b9f848b8-9af7-46c1-9a3c-2663f547cc7a",
-          "groupName": "AlzheimerReadWrite"
+    });
+    this.spinner.show();
+    this.serviceCall.getAllGroupList().subscribe({
+      next: (users: any) => {
+        //this.userExists = true;
+        this.spinner.hide();
+        this.groupList = users;
       },
-      {
-          "groupId": "9eb070f2-58e9-4c63-ae29-43d4f3202809",
-          "groupName": "ParkinsonReadWrite"
+      error: (error) => {
+        this.showError = true;
+        this.spinner.hide();
       },
-      {
-          "groupId": "d47a4fdb-944c-4a0d-add2-2f78706f0e52",
-          "groupName": "AlzheimerRead"
-      },
-      {
-          "groupId": "236b775e-6ef1-4a69-b398-74fbe8413771",
-          "groupName": "TherapyRead"
-      },
-      {
-          "groupId": "d7aa036b-8ebf-4960-936b-e02adf5b6270",
-          "groupName": "AmnesiaRead"
-      },
-      {
-          "groupId": "c50ccb41-db9b-4b97-b132-cbbfaa68af5a",
-          "groupName": "AmnesiaReadWrite"
-      },
-      {
-          "groupId": "985c4eaf-4823-44f6-844d-35c55872d84f",
-          "groupName": "HeadacheRead"
-      }
-  ]
-  this.dropdownSettings = {
-    singleSelection: false,
-    idField: 'groupId',
-    textField: 'groupName',
-    selectAllText: 'Select All',
-    unSelectAllText: 'UnSelect All',
-    itemsShowLimit: 300000,
-    allowSearchFilter: true,
- 
-  };
-  this.dropdownSettingsUser = {
-    singleSelection: true,
-    idField: 'oid',
-    textField: 'email',
-    selectAllText: 'Select All',
-    unSelectAllText: 'UnSelect All',
-    itemsShowLimit: 300000,
-    allowSearchFilter: true,
- 
-  };
+    });
+    this.dropdownSettings = {
+      singleSelection: false,
+      idField: 'groupId',
+      textField: 'groupName',
+      selectAllText: 'Select All',
+      unSelectAllText: 'UnSelect All',
+      itemsShowLimit: 300000,
+      allowSearchFilter: true,
+    };
+    this.dropdownSettingsUser = {
+      singleSelection: true,
+      idField: 'id',
+      textField: 'displayName',
+      selectAllText: 'Select All',
+      unSelectAllText: 'UnSelect All',
+      itemsShowLimit: 300000,
+      allowSearchFilter: true,
+    };
   }
   onItemSelect(item: any) {
     console.log(item);
   }
   onSelectAll(items: any) {
     console.log(items);
+  }
+  addUser() {
+    let groups: any = [];
+    let email = this.userList.filter((elem: { id: any }) => {
+      return elem.id == this.userSelected[0].id;
+    })[0];
+    if (!this.isEdit) {
+      groups = this.groupSelected.map((elem: any) => {
+        elem.isActive = true;
+        return elem;
+      });
+    } else {
+      groups = this.groupSelectedOriginal.map((elem: any) => {
+        elem.isActive = false;
+        if (
+          this.groupSelected.filter((val: any) => {
+            return val.groupId === elem.groupId;
+          }).length > 0
+        ) {
+          elem.isActive = true;
+        }
+        return elem;
+      });
+      const arr = this.groupSelected.filter((o: any)=> !groups.some((i: any)=> i.groupId === o.groupId));
+        arr.forEach((element: any) => {
+        element.isActive = true;
+        groups.push(element);
+      });
+    }
+
+    let request = {
+      oid: email.id,
+      email: email.mail || email.displayName,
+      groups: groups,
+    };
+    console.log(request);
+
+    this.commonMethod.postUser(request, this);
+  }
+  getAllUsers() {
+    this.saveSuccess = true;
+  }
+  onClosed() {
+    this.router.navigateByUrl('/admin/userMap');
+  }
+  openSearchData(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template);
+  }
+  confirm() {
+    this.modalRef?.hide();
+    this.onClosed();
+  }
+
+  decline(): void {
+    this.modalRef?.hide();
   }
 }

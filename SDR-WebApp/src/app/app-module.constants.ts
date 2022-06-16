@@ -12,6 +12,7 @@ import { AppComponent } from './app.component';
 import { AgGridModule } from 'ag-grid-angular';
 // import { MonacoEditorModule } from 'ngx-monaco-editor';
 import { MonacoEditorModule } from '@materia-ui/ngx-monaco-editor';
+import { AuthGuardService } from './auth-guard.service';
 export class AppModuleConstants {
   static MODULE_IMPORTS = [
     BrowserAnimationsModule,
@@ -44,7 +45,8 @@ export class AppModuleConstants {
     },
     MsalGuard,
     MsalService,
-    MsalBroadcastService
+    MsalBroadcastService,
+    AuthGuardService
   ];
 
   static MODULE_DECLARATION = [

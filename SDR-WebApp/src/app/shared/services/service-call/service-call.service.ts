@@ -28,7 +28,21 @@ export class ServiceCall {
   postGroup(reqObj:any){
     return this.httpWrapperService.postData(environment.BASE_URL + ApiUrlList.POSTGROUP, reqObj);
   }
-
+  checkGroup(groupName:any){
+    return this.httpWrapperService.getData(environment.BASE_URL + ApiUrlList.CHECKGROUP + groupName);
+  }
+  getAllUsers(reqObj:any){
+    return this.httpWrapperService.postData(environment.BASE_URL + ApiUrlList.ALLUSERS, reqObj);
+  }
+  postUser(reqObj:any){
+    return this.httpWrapperService.postData(environment.BASE_URL + ApiUrlList.POSTUSERS, reqObj);
+  }
+  getAllGroupList(){
+    return this.httpWrapperService.getData(environment.BASE_URL + ApiUrlList.GETGROUPLIST);
+  }
+  getAllUserList(){
+    return this.httpWrapperService.getData(environment.BASE_URL + ApiUrlList.GETUSERLIST);
+  }
 
   readConfigFile() {
     return dropDownJson;

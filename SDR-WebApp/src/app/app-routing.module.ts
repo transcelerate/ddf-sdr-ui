@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { MsalGuard } from '@azure/msal-angular'; // Import MsalInterceptor
+import { AuthGuardService } from './auth-guard.service';
 
 
 const routes: Routes = [{
@@ -24,7 +25,8 @@ const routes: Routes = [{
   { 
     path: 'admin',  
     loadChildren: () => import('./features/admin/admin.module').then(x => x.AdminModule),
-    canActivate: [MsalGuard] 
+    canActivate: [MsalGuard],
+    canLoad:[AuthGuardService] 
   },
 ]
 }

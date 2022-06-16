@@ -42,7 +42,8 @@ export class CommonMethodsService {
             this.spinner.hide();
             if (data.length > 0) {
               gridApi.hideOverlay();
-              data = data.map((elem: { clinicalStudy: any }) => {
+              data = data.map((elem: { selected: boolean; }) => {
+                elem.selected = false;
                 return elem;
               });
               let lastRow = -1;
@@ -73,9 +74,10 @@ export class CommonMethodsService {
     gridApi.hideOverlay();
     gridApi.setDatasource(dataSourceVar);
   }
-  gridDataSourceForGroup(
+  gridDataSourceForUser(
     reqObj: any,
     gridApi: any,
+    gridOptions:any,
     BLOCK_SIZE: number,
     view: any
 
@@ -85,7 +87,7 @@ export class CommonMethodsService {
         // console.log(
         //   'asking for ' + rowParams.startRow + ' to ' + rowParams.endRow
         // );
-        reqObj.sortOrder = 'asc';
+       // reqObj.sortOrder = 'asc';
         reqObj.pageSize = rowParams.endRow - rowParams.startRow;
         reqObj.pageNumber =
           rowParams.endRow / (rowParams.endRow - rowParams.startRow);
@@ -98,34 +100,18 @@ export class CommonMethodsService {
         // }
         this.spinner.show();
 
-        this.serviceCall.getAllGroups(reqObj).subscribe({
+        this.serviceCall.getAllUsers(reqObj).subscribe({
           next: (data: any) => {
             this.spinner.hide();
             if (data.length > 0) {
               gridApi.hideOverlay();
-              // data = data.map((elem: { clinicalStudy: any }) => {
-              //   return elem;
-              // });
-             
-              let rows: any[] = [];
-              data.forEach((element: { groupFilter: any[]; groupName: any; permission: any; groupId: any; }) => {
-                element.groupFilter.forEach((fieldValues, index) => {
-                  if (index === 0) {
-                    Object.assign(fieldValues, { groupName: element.groupName });
-                    Object.assign(fieldValues, { permission: element.permission });
-                  }
-                  Object.assign(fieldValues, { groupId: element.groupId });
-                  rows.push(fieldValues);
-                });
-              });
-              view.rowData = rows;
+              
               let lastRow = -1;
               if (data.length < BLOCK_SIZE) {
                 lastRow = rowParams.startRow + data.length;
               }
-              rowParams.context.componentParent.cacheBlockSize = rows.length;
-              rowParams.endRow = rowParams.endRow - rowParams.startRow + rows.length;
-              rowParams.successCallback(rows, -1);
+              
+              rowParams.successCallback(data, lastRow);
             }
           },
           error: (error) => {
@@ -194,6 +180,32 @@ export class CommonMethodsService {
       next: (data: any) => {
         this.spinner.hide();
         view.getAllGroups();
+      },
+      error: (error) => {
+        this.spinner.hide();
+        view.showError = true;
+      //   if(error && error.error && error.error.statusCode == "404"){
+      //   rowParams.successCallback([], rowParams.startRow);
+      //   if(rowParams.startRow == 0){
+      //     gridApi.showNoRowsOverlay();
+      //   }
+      // } else {
+      //   view.showError = true;
+      //   Array.from(document.getElementsByClassName('ag-cell') as HTMLCollectionOf<HTMLElement>).forEach(element => {
+      //     element.style.border='none';
+      //   });
+
+      }
+      
+    });
+  }
+  postUser(reqObj: any, view: any){
+    console.log(reqObj);
+    this.spinner.show();
+    this.serviceCall.postUser(reqObj).subscribe({
+      next: (data: any) => {
+        this.spinner.hide();
+        view.getAllUsers();
       },
       error: (error) => {
         this.spinner.hide();

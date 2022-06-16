@@ -270,9 +270,17 @@ body {
   a {
     cursor: pointer;
     margin-top: 30px;
-    margin: -5% 80%;
+    margin: -5% 96%;
     display: block;
   }
+}
+.admin-user {
+  a {
+    margin: -4% 96%;
+  }
+}
+input[type="text"]:disabled { 
+  background-color: #eceeef !important;
 }
 
 // html, body { height: 100%; }
