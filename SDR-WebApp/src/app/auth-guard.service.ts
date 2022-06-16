@@ -6,14 +6,13 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class AuthGuardService implements CanLoad {
-  constructor( private router: Router) {}
+  constructor(private router: Router) {}
   canLoad(): boolean {
-    
     const loggedIn: boolean = localStorage.getItem('isAdmin') == 'true';
-  // if not, redirect to /login
-  if (!loggedIn) {
-    this.router.navigate(['']);
-  }
-  return loggedIn;
+    // if not, redirect to /login
+    if (!loggedIn) {
+      this.router.navigate(['']);
+    }
+    return loggedIn;
   }
 }
