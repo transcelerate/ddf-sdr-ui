@@ -9,6 +9,7 @@ import { CommonMethodsService } from 'src/app/shared/services/common-methods.ser
 import { DialogService } from 'src/app/shared/services/communication.service';
 import { ServiceCall } from 'src/app/shared/services/service-call/service-call.service';
 import { AddUserComponent } from './add-user.component';
+import { of } from 'rxjs';
 
 describe('AddUserComponent', () => {
   let component: AddUserComponent;
@@ -45,6 +46,7 @@ describe('AddUserComponent', () => {
     });
     fixture = TestBed.createComponent(AddUserComponent);
     component = fixture.componentInstance;
+    
   });
 
   it('can load instance', () => {
@@ -83,14 +85,26 @@ describe('AddUserComponent', () => {
       const dialogServiceStub: DialogService = fixture.debugElement.injector.get(
         DialogService
       );
-      const serviceCallStub: ServiceCall = fixture.debugElement.injector.get(
-        ServiceCall
-      );
+      const serviceCallStub: ServiceCall =
+      fixture.debugElement.injector.get(ServiceCall);
+    
+
+    spyOn<ServiceCall, any>(serviceCallStub, 'getAllUserList').and.callFake(
+      () => {
+        return of([{"id":"c8d1921e-c915-4dbe-aa4a-9b2dde248ae9","displayName":"A81691DIRPacpazr0799@accenture.com","mail":null},{"id":"13fb048c-a008-4a4d-85e3-284cac2980f1","displayName":"Luckman, Alison","mail":"abilling@amgen.com"}]); // or return a list of bookings in case you want to test the first part of the if statement
+      }
+    );
+    spyOn<ServiceCall, any>(serviceCallStub, 'getAllGroupList').and.callFake(
+      () => {
+        return of([{"groupId":"0193a357-8519-4488-90e4-522f701658b9","groupName":"OncologyRead"},{"groupId":"a5e41cf7-b984-4091-90a2-4be699ad2f67","groupName":"OncologyReadWrite"}]); // or return a list of bookings in case you want to test the first part of the if statement
+      }
+    );
+    
       spyOn(ngxSpinnerServiceStub, 'hide').and.callThrough();
       spyOn(ngxSpinnerServiceStub, 'show').and.callThrough();
       spyOn(dialogServiceStub, 'changeDialogState').and.callThrough();
-      spyOn(serviceCallStub, 'getAllUserList').and.callThrough();
-      spyOn(serviceCallStub, 'getAllGroupList').and.callThrough();
+      
+      // spyOn(serviceCallStub, 'getAllGroupList').and.callThrough();
       component.ngOnInit();
       expect(ngxSpinnerServiceStub.hide).toHaveBeenCalled();
       expect(ngxSpinnerServiceStub.show).toHaveBeenCalled();
@@ -105,6 +119,10 @@ describe('AddUserComponent', () => {
       const commonMethodsServiceStub: CommonMethodsService = fixture.debugElement.injector.get(
         CommonMethodsService
       );
+      component.userList = [{"id":"c8d1921e-c915-4dbe-aa4a-9b2dde248ae9","displayName":"A81691DIRPacpazr0799@accenture.com","mail":null},{"id":"13fb048c-a008-4a4d-85e3-284cac2980f1","displayName":"Luckman, Alison","mail":"abilling@amgen.com"}];
+    component.groupSelected = [];
+    component.groupSelectedOriginal = [];
+    component.userSelected = [{"id":"13fb048c-a008-4a4d-85e3-284cac2980f1","displayName":"Luckman, Alison"}];
       spyOn(commonMethodsServiceStub, 'postUser').and.callThrough();
       component.addUser();
       expect(commonMethodsServiceStub.postUser).toHaveBeenCalled();

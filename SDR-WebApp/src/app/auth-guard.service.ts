@@ -1,16 +1,18 @@
 import { Injectable } from '@angular/core';
-import { CanLoad, Route, UrlSegment, UrlTree } from '@angular/router';
+import { CanLoad, Route, Router, UrlSegment, UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthGuardService implements CanLoad {
-  constructor() {}
+  constructor(private router: Router) {}
   canLoad(): boolean {
-    if(localStorage.getItem('isAdmin') == 'true'){
-      return true;
+    const loggedIn: boolean = localStorage.getItem('isAdmin') == 'true';
+    // if not, redirect to /login
+    if (!loggedIn) {
+      this.router.navigate(['']);
     }
-    return false;
+    return loggedIn;
   }
 }

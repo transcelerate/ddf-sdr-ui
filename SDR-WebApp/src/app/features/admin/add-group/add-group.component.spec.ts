@@ -178,6 +178,7 @@ describe('AddGroupComponent', () => {
         commonMethodsServiceStub,
         'gridDataSourceForSearchStudy'
       ).and.callThrough();
+      component.showGrid = true;
       component.submitSearch();
       expect(
         commonMethodsServiceStub.gridDataSourceForSearchStudy

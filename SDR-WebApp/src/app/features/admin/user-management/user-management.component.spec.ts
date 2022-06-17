@@ -72,6 +72,47 @@ describe("UserManagementComponent", () => {
       const commonMethodsServiceStub: CommonMethodsService = fixture.debugElement.injector.get(
         CommonMethodsService
       );
+      component.selectedUser = {
+
+        "oid": "<AzurePortal-OID3>",
+
+        "email": "testuser1@acp200520a.onmicrosoft.com",
+
+        "groups": [
+
+            {
+
+                "groupId": "a1dbb863-9494-4e5e-9d3b-0c6e79e2971b",
+
+                "groupName": "testIn dev2 group",
+
+                "isActive": false
+
+            },
+
+            {
+
+                "groupId": "192844eb-beec-4e94-a185-ba33337ae243",
+
+                "groupName": "Testing Group",
+
+                "isActive": true
+
+            },
+
+            {
+
+                "groupId": "2c99575e-c157-4c2a-b5e0-66cba4db8040",
+
+                 "groupName": "Testing Group1",
+
+                "isActive": true
+
+            }
+
+        ]
+
+    }
       spyOn(commonMethodsServiceStub, "postUser").and.callThrough();
       component.confirm();
       expect(commonMethodsServiceStub.postUser).toHaveBeenCalled();
