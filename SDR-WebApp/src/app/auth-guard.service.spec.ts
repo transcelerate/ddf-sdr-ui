@@ -1,16 +1,28 @@
 import { TestBed } from '@angular/core/testing';
-
+import { Router } from '@angular/router';
 import { AuthGuardService } from './auth-guard.service';
 
 describe('AuthGuardService', () => {
   let service: AuthGuardService;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
-    service = TestBed.inject(AuthGuardService);
+    const routerStub = () => ({ navigate: (array: any) => ({}) });
+    TestBed.configureTestingModule({
+      providers: [AuthGuardService, { provide: Router, useFactory: routerStub }]
+    });
+    service = TestBed.get(AuthGuardService);
   });
 
-  it('should be created', () => {
+  it('can load instance', () => {
     expect(service).toBeTruthy();
+  });
+
+  describe('canLoad', () => {
+    it('makes expected calls', () => {
+      const routerStub: Router = TestBed.get(Router);
+      spyOn(routerStub, 'navigate').and.callThrough();
+      service.canLoad();
+      expect(routerStub.navigate).toHaveBeenCalled();
+    });
   });
 });
