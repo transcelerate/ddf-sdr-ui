@@ -46,7 +46,8 @@ describe('AddUserComponent', () => {
     });
     fixture = TestBed.createComponent(AddUserComponent);
     component = fixture.componentInstance;
-    
+    let somevalue = {"oid":"13fb048c-a008-4a4d-85e3-284cac2980f1","email":"abilling@amgen.com","groups":[{"groupId":"a5e41cf7-b984-4091-90a2-4be699ad2f67","groupName":"OncologyReadWrite","isActive":true}]};
+    window.history.pushState({ data: somevalue, selected:'studyType'}, '', '');
   });
 
   it('can load instance', () => {

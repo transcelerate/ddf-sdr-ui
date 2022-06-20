@@ -40,7 +40,7 @@ describe('AddGroupComponent', () => {
         { provide: DialogService, useFactory: dialogServiceStub },
         { provide: BsModalService, useFactory: bsModalServiceStub },
         { provide: CommonMethodsService, useFactory: commonMethodsServiceStub },
-        { provide: FormBuilder, useFactory: formBuilderStub },
+        FormBuilder,
         { provide: NgxSpinnerService, useFactory: ngxSpinnerServiceStub },
         { provide: ServiceCall, useFactory: serviceCallStub },
         { provide: ActivatedRoute, useFactory: activatedRouteStub },
@@ -49,13 +49,14 @@ describe('AddGroupComponent', () => {
     });
     fixture = TestBed.createComponent(AddGroupComponent);
     component = fixture.componentInstance;
+    //fixture.detectChanges();
     let somevalue = {"groupId":"b9f848b8-9af7-46c1-9a3c-2663f547cc7a","groupName":"AlzheimerReadWrite","groupDescription":"Detailed description of group","permission":"READ_WRITE","groupFilter":[{"groupFieldName":"studyType","groupFilterValues":[{"id":"INTERVENTIONAL","title":"INTERVENTIONAL"},{"id":"EXPANDED_ACCESS","title":"EXPANDED_ACCESS"}],"groupName":"AlzheimerReadWrite","permission":"READ_WRITE","groupId":"b9f848b8-9af7-46c1-9a3c-2663f547cc7a"},{"groupFieldName":"study","groupFilterValues":[{"id":"studyId1","title":"Study Number Two"},{"id":"studyId2","title":"StudyTitle1-Tag3"}],"groupId":"b9f848b8-9af7-46c1-9a3c-2663f547cc7a"}],"groupModifiedOn":"2022-JUN-01","groupModifiedBy":"yuvarani.nagarajan@accenture.com","groupCreatedOn":"2022-MAY-10","groupCreatedBy":"admin1@SDR.com","groupEnabled":true};
     window.history.pushState({ data: somevalue, selected:'studyType'}, '', '');
-    // component.initialForm.setValue({
-    //   "groupName":"",
-    //   "groupPermission":"",
-    //   "groupFieldName":""
-    // });
+    component.initialForm.setValue({
+      "groupName":"uu",
+      "groupPermission":"99",
+      "groupFieldName":"study"
+    });
  
   });
 
@@ -122,7 +123,7 @@ describe('AddGroupComponent', () => {
       component.initialForm.setValue({
           "groupName":"uu",
           "groupPermission":"99",
-          "groupFieldName":""
+          "groupFieldName":"study"
         });
       component.ngOnInit();
       expect(component.filterFieldSelected).toHaveBeenCalled();
