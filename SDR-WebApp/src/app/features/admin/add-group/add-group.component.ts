@@ -227,7 +227,7 @@ export class AddGroupComponent implements OnInit {
     );
     return index;
   }
-  updateChecked(option: string, $event: any) {
+  updateChecked(option: string) {
     debugger;
     let index = this.findIndex();
     if (index == -1) {
