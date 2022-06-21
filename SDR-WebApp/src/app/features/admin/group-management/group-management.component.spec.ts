@@ -121,6 +121,101 @@ describe('GroupManagementComponent', () => {
       expect(commonMethodsServiceStub.postGroup).toHaveBeenCalled();
     });
   });
-
-
+  describe('openModal', () => {
+    it('makes expected calls', () => {
+      let field = [{"id":"INTERVENTIONAL","title":"INTERVENTIONAL"},{"id":"EXPANDED_ACCESS","title":"EXPANDED_ACCESS"}];
+      component.openModal(field);    
+      expect(component.filterFieldList).toBe(field);
+    });
+  });
+  describe('openDeleteConfirmation', () => {
+    it('makes expected calls', () => {
+      component.rowData = [{"groupFieldName":"studyType","groupFilterValues":[{"id":"INTERVENTIONAL","title":"INTERVENTIONAL"},{"id":"EXPANDED_ACCESS","title":"EXPANDED_ACCESS"}],"groupName":"OncologyReadWrite","permission":"READONLY","groupId":"a5e41cf7-b984-4091-90a2-4be699ad2f67"},{"groupFieldName":"study","groupFilterValues":[{"id":"848430c4-432f-4e2e-9e5a-e90a85144a8f","title":"Study On Parkinson disease"}],"groupName":"OncologyRead","permission":"READ_WRITE","groupId":"0193a357-8519-4488-90e4-522f701658b9"},{"groupFieldName":"studyType","groupFilterValues":[{"id":"OBSERVATIONAL","title":"OBSERVATIONAL"}],"groupId":"0193a357-8519-4488-90e4-522f701658b9"}];
+      let field = {"groupFieldName":"studyType","groupFilterValues":[{"id":"INTERVENTIONAL","title":"INTERVENTIONAL"},{"id":"EXPANDED_ACCESS","title":"EXPANDED_ACCESS"}],"groupName":"OncologyReadWrite","permission":"READONLY","groupId":"a5e41cf7-b984-4091-90a2-4be699ad2f67"};
+      component.openDeleteConfirmation(field);    
+      expect(component.deleteGroup).toBe(field);
+    });
+  });
+  describe('edit', () => {
+    it('makes expected calls', () => {
+      component.responseData = [{"groupId":"a5e41cf7-b984-4091-90a2-4be699ad2f67","groupName":"OncologyReadWrite","groupDescription":"Detailed description of group","permission":"READONLY","groupFilter":[{"groupFieldName":"studyType","groupFilterValues":[{"id":"INTERVENTIONAL","title":"INTERVENTIONAL"},{"id":"EXPANDED_ACCESS","title":"EXPANDED_ACCESS"}],"groupName":"OncologyReadWrite","permission":"READONLY","groupId":"a5e41cf7-b984-4091-90a2-4be699ad2f67"}],"groupModifiedOn":"2022-JUN-16","groupModifiedBy":"yuvarani.nagarajan@accenture.com","groupCreatedOn":"2022-JUN-14","groupCreatedBy":"viswesh.mb@accenture.com","groupEnabled":true},{"groupId":"0193a357-8519-4488-90e4-522f701658b9","groupName":"OncologyRead","groupDescription":"Detailed description of group","permission":"READ_WRITE","groupFilter":[{"groupFieldName":"study","groupFilterValues":[{"id":"848430c4-432f-4e2e-9e5a-e90a85144a8f","title":"Study On Parkinson disease"}],"groupName":"OncologyRead","permission":"READ_WRITE","groupId":"0193a357-8519-4488-90e4-522f701658b9"},{"groupFieldName":"studyType","groupFilterValues":[{"id":"OBSERVATIONAL","title":"OBSERVATIONAL"}],"groupId":"0193a357-8519-4488-90e4-522f701658b9"}],"groupModifiedOn":"2022-JUN-16","groupModifiedBy":"yuvarani.nagarajan@accenture.com","groupCreatedOn":"2022-MAY-10","groupCreatedBy":"admin1@SDR.com","groupEnabled":true}];
+      let params = {"groupFieldName":"studyType","groupFilterValues":[{"id":"INTERVENTIONAL","title":"INTERVENTIONAL"},{"id":"EXPANDED_ACCESS","title":"EXPANDED_ACCESS"}],"groupName":"OncologyReadWrite","permission":"READONLY","groupId":"a5e41cf7-b984-4091-90a2-4be699ad2f67"};
+      component.edit(params);    
+      expect(params).toBe(params);
+    });
+  });
+  describe('mergeCell', () => {
+    it('makes expected calls', () => {
+      component.rowData = [
+        {
+          groupFieldName: 'studyType',
+          groupFilterValues: [
+            { id: 'INTERVENTIONAL', title: 'INTERVENTIONAL' },
+            { id: 'EXPANDED_ACCESS', title: 'EXPANDED_ACCESS' },
+          ],
+          groupName: 'OncologyReadWrite',
+          permission: 'READONLY',
+          groupId: 'a5e41cf7-b984-4091-90a2-4be699ad2f67',
+        },
+        {
+          groupFieldName: 'study',
+          groupFilterValues: [
+            {
+              id: '848430c4-432f-4e2e-9e5a-e90a85144a8f',
+              title: 'Study On Parkinson disease',
+            },
+          ],
+          groupName: 'OncologyRead',
+          permission: 'READ_WRITE',
+          groupId: '0193a357-8519-4488-90e4-522f701658b9',
+        },
+        {
+          groupFieldName: 'studyType',
+          groupFilterValues: [{ id: 'OBSERVATIONAL', title: 'OBSERVATIONAL' }],
+          groupId: '0193a357-8519-4488-90e4-522f701658b9',
+        },
+      ];
+      let params = {
+        data: {
+          groupFieldName: 'studyType',
+          groupFilterValues: [
+            { id: 'INTERVENTIONAL', title: 'INTERVENTIONAL' },
+            { id: 'EXPANDED_ACCESS', title: 'EXPANDED_ACCESS' },
+          ],
+          groupName: 'OncologyReadWrite',
+          permission: 'READONLY',
+          groupId: 'a5e41cf7-b984-4091-90a2-4be699ad2f67',
+        },
+      };
+      let val = component.mergeCell(params);
+      expect(val).toBe('none');
+      params = {
+        data: {
+          groupFieldName: 'study',
+          groupFilterValues: [
+            {
+              id: '848430c4-432f-4e2e-9e5a-e90a85144a8f',
+              title: 'Study On Parkinson disease',
+            },
+          ],
+          groupName: 'OncologyRead',
+          permission: 'READ_WRITE',
+          groupId: '0193a357-8519-4488-90e4-522f701658b9',
+        },
+      };
+      val = component.mergeCell(params);
+      expect(val).toBe('border-bottom-none');
+      params = {
+        data: {
+          groupFieldName: 'studyType',
+          groupFilterValues: [{ id: 'OBSERVATIONAL', title: 'OBSERVATIONAL' }],
+          groupId: '0193a357-8519-4488-90e4-522f701658b9',
+          groupName: 'OncologyRead',
+          permission: 'READ_WRITE',
+        },
+      };
+      val = component.mergeCell(params);
+      expect(val).toBe('border-top-none');
+    });
+  });
 });

@@ -190,7 +190,7 @@ export class GroupManagementComponent implements OnInit {
       },
     });
   }
-  mergeCell(params: CellClassParams) {
+  mergeCell(params: any) {
     if (this.rowData && params.data) {
       let data = this.rowData.filter(
         (x: any, index: any) => x.groupId == params.data.groupId
@@ -213,9 +213,7 @@ export class GroupManagementComponent implements OnInit {
       return 'none';
     }
   }
-  onEditButtonClick(params: any) {
-    console.log(params);
-  }
+
   openModal(field: any) {
     this.modalRef = this.modalService.show(this.content, { class: 'modal-lg' });
     this.filterFieldList = field;
