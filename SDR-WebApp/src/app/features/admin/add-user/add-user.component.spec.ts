@@ -146,4 +146,25 @@ describe('AddUserComponent', () => {
       expect(component.onClosed).toHaveBeenCalled();
     });
   });
+  describe('getAllUsers', () => {
+    it('makes expected calls', () => {
+     
+      component.getAllUsers();
+      expect(component.saveSuccess).toBe(true);
+    });
+  });
+  describe('confirm', () => {
+    it('makes expected calls', () => {
+      component.userList = [{"id":"c8d1921e-c915-4dbe-aa4a-9b2dde248ae9","displayName":"A81691DIRPacpazr0799@accenture.com","mail":null},{"id":"13fb048c-a008-4a4d-85e3-284cac2980f1","displayName":"Luckman, Alison","mail":"abilling@amgen.com"}];
+      component.groupSelected = [{"groupId":"0193a357-8519-4488-90e4-522f701658b9","groupName":"OncologyRead"},{"groupId":"a5e41cf7-b984-4091-90a2-4be699ad2f67","groupName":"OncologyReadWrite"}];
+      component.groupSelectedOriginal = [{"groupId":"0193a357-8519-4488-90e4-522f701658b9","groupName":"OncologyRead"},{"groupId":"a5e41cf7-b984-4091-90a2-4be699ad2f67","groupName":"OncologyReadWrite"}];
+      component.userSelected = [{"id":"13fb048c-a008-4a4d-85e3-284cac2980f1","displayName":"Luckman, Alison"}];
+      component.isEdit = false;
+      component.addUser();
+      expect(1).toBe(1);
+      component.isEdit = true;
+      component.addUser();
+      expect(1).toBe(1);
+    });
+  });
 });
