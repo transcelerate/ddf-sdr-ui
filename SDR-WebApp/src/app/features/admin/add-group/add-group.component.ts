@@ -162,8 +162,8 @@ export class AddGroupComponent implements OnInit {
     if (selectedGroup) {
       this.isEdit = true;
       this.group = selectedGroup;
-        this.initialForm?.get('groupName')?.patchValue(this.group.groupName);
-        this.initialForm?.get('groupName')?.disable();
+        this.initialForm.get('groupName')?.patchValue(this.group.groupName);
+        this.initialForm.get('groupName')?.disable();
         this.initialForm.value.groupPermission = this.group.permission;
         this.initialForm
           ?.get('groupFieldName')
@@ -183,7 +183,7 @@ export class AddGroupComponent implements OnInit {
   }
 
   filterFieldSelected() {
-    let fieldName = this.initialForm?.get('groupFieldName')?.value;
+    let fieldName = this.initialForm.get('groupFieldName')?.value;
     this.isSearchSelected = fieldName.toLowerCase() === 'study';
     let index = this.findIndex();
     this.showAddButton = false;
