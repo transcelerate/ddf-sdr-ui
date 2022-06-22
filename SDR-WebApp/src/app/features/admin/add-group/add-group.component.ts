@@ -162,14 +162,13 @@ export class AddGroupComponent implements OnInit {
     if (selectedGroup) {
       this.isEdit = true;
       this.group = selectedGroup;
-      if (this.initialForm) {
-        this.initialForm?.get('groupName')?.patchValue(this.group.groupName);
-        this.initialForm?.get('groupName')?.disable();
+        this.initialForm.get('groupName')?.patchValue(this.group.groupName);
+        this.initialForm.get('groupName')?.disable();
         this.initialForm.value.groupPermission = this.group.permission;
         this.initialForm
           ?.get('groupFieldName')
           ?.patchValue(history.state.selected);
-      }
+      
 
       this.filterFieldSelected();
       let index = this.group.groupFilter.findIndex(
@@ -184,7 +183,7 @@ export class AddGroupComponent implements OnInit {
   }
 
   filterFieldSelected() {
-    let fieldName = this.initialForm?.get('groupFieldName')?.value;
+    let fieldName = this.initialForm.get('groupFieldName')?.value;
     this.isSearchSelected = fieldName.toLowerCase() === 'study';
     let index = this.findIndex();
     this.showAddButton = false;
@@ -227,7 +226,7 @@ export class AddGroupComponent implements OnInit {
     );
     return index;
   }
-  updateChecked(option: string, $event: any) {
+  updateChecked(option: string) {
     debugger;
     let index = this.findIndex();
     if (index == -1) {
@@ -307,13 +306,7 @@ export class AddGroupComponent implements OnInit {
   openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template);
   }
-  getStringValue(filter: any[]) {
-    return filter
-      .map(function (id: string) {
-        return "'" + id + "'";
-      })
-      .join(', ');
-  }
+
   openSearchData(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template);
   }

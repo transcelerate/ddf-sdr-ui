@@ -91,12 +91,7 @@ export class AddUserComponent implements OnInit {
       allowSearchFilter: true,
     };
   }
-  onItemSelect(item: any) {
-    console.log(item);
-  }
-  onSelectAll(items: any) {
-    console.log(items);
-  }
+
   addUser() {
     let groups: any = [];
     let email = this.userList.filter((elem: { id: any }) => {
@@ -131,7 +126,7 @@ export class AddUserComponent implements OnInit {
       email: email.mail || email.displayName,
       groups: groups,
     };
-    console.log(request);
+    console.log(JSON.stringify(request));
 
     this.commonMethod.postUser(request, this);
   }

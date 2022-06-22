@@ -11,6 +11,7 @@ import { MsalService } from '@azure/msal-angular';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
 import { RecentActivityComponent } from './recent-activity.component';
+import { AgGridModule } from 'ag-grid-angular';
 
 describe('RecentActivityComponent', () => {
   let component: RecentActivityComponent;
@@ -42,6 +43,7 @@ describe('RecentActivityComponent', () => {
     TestBed.configureTestingModule({
       schemas: [NO_ERRORS_SCHEMA],
       declarations: [RecentActivityComponent],
+      
       providers: [
         { provide: ChangeDetectorRef, useFactory: changeDetectorRefStub },
         { provide: ElementRef, useFactory: elementRefStub },
@@ -54,9 +56,10 @@ describe('RecentActivityComponent', () => {
         { provide: ActivatedRoute, useFactory: activatedRouteStub },
         { provide: Router, useFactory: routerStub },
       ],
-    });
+    })
     fixture = TestBed.createComponent(RecentActivityComponent);
     component = fixture.componentInstance;
+
   });
 
   it('can load instance', () => {
@@ -153,6 +156,20 @@ describe('RecentActivityComponent', () => {
         ['details', { studyId: 1, versionId: 1 }],
         { relativeTo: {} }
       );
+    });
+  });
+  describe('onGridReady', () => {
+    it('ongridready', () => {
+   
+      let param = {
+        
+        columnApi: {
+          studyVersion: 1,
+        },
+      };
+      component.onGridReady(param);
+      expect(true).toEqual(true);
+      
     });
   });
   // describe('gridValueMerge', () => {

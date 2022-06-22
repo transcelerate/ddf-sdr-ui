@@ -22,8 +22,6 @@
               [settings]="dropdownSettingsUser"
               [data]="userList"
               [(ngModel)]="userSelected"
-              (onSelect)="onItemSelect($event)"
-              (onSelectAll)="onSelectAll($event)"
               [disabled]="isEdit"
             >
             </ng-multiselect-dropdown>
@@ -42,8 +40,7 @@
               [settings]="dropdownSettings"
               [data]="groupList"
               [(ngModel)]="groupSelected"
-              (onSelect)="onItemSelect($event)"
-              (onSelectAll)="onSelectAll($event)"
+              
             >
             </ng-multiselect-dropdown>
           </div>

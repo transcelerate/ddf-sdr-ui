@@ -167,9 +167,13 @@ export class RecentActivityComponent {
   * @param params   ag grid value for each row with data.
   */
   onGridReady(params: any) {  //NOSONAR
-    this.gridApi = params.api;  //NOSONAR
+    
     this.gridColumnApi = params.columnApi;  //NOSONAR
-    params.api.sizeColumnsToFit();  //NOSONAR
+    if(params.api){
+      this.gridApi = params.api;  //NOSONAR
+      params.api?.sizeColumnsToFit();  //NOSONAR
+    }
+    
     let reqObj = {  //NOSONAR
      fromDate: moment().subtract(30, 'days'),  //NOSONAR
      toDate: moment(),  //NOSONAR
