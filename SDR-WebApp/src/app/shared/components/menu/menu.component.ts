@@ -7,7 +7,7 @@ import { DialogService } from '../../services/communication.service';
   styleUrls: ['./menu.component.scss'],
 })
 export class MenuComponent implements OnInit {
-  menuList = [
+  menuList:any = [
     {
       name: 'Home',
       link: 'home',
@@ -20,6 +20,24 @@ export class MenuComponent implements OnInit {
     },
    
   ];
+  public menuItems = [
+    {
+      
+      text: "Home",
+      link: 'home',
+      isSelected: true,
+    },
+    {
+      
+      text: 'Study',
+      isSelected: false,
+      subMenu: [
+        { text: 'SEARCH', link: 'search',},
+        { text: 'COMPARISON', link: 'search'},
+        
+      ]
+    }
+ ];
 
   constructor(private ds: DialogService, private authService: MsalService) {}
 
@@ -46,7 +64,7 @@ export class MenuComponent implements OnInit {
     });
   }
   changeActive(selectedName: String) {
-    this.menuList = this.menuList.map((elem) => {
+    this.menuList = this.menuList.map((elem:any) => {
       elem.isSelected = elem.name == selectedName;
       return elem;
     });
