@@ -90,7 +90,6 @@ export class AddGroupComponent implements OnInit {
       {
         headerName: 'Study Title',
         field: 'clinicalStudy.studyTitle',
-        checkboxSelection: true,
         tooltipField: 'clinicalStudy.studyTitle',
         headerTooltip: configList.STUDY_TITLE,
         cellRenderer: this.getStudyVersionGrid.bind(this),
@@ -114,7 +113,6 @@ export class AddGroupComponent implements OnInit {
     this.defaultColDef = {
       sortable: true,
       resizable: true,
-      checkboxSelection: true,
     };
     (this.icons = {
       sortAscending:
