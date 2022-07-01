@@ -25,14 +25,16 @@
   </button>
   <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
     <div class="navDiv">
-      <a *ngFor="let mi of menuItems;let i = index">
+      <a *ngFor="let menu of menuItems;let i = index">
        
           
-          <span class="dropdown-menu-item listStyle">{{ mi.text }}</span>
+          <a class="dropdown-menu-item listStyle"  [ngClass]="{ active: menu.isSelected }"  [href]="menu.link"
+          (click)="changeActive(menu.text)">{{ menu.text }}</a>
         
-        <div class="submenu-container" *ngIf = "mi.subMenu && mi.subMenu.length>0">
-          <span *ngFor="let sub of mi.subMenu;let j = index" class="submenu-item"
-            > {{ sub.text }}</span> 
+        <div class="submenu-container" *ngIf = "menu.subMenu && menu.subMenu.length>0">
+          <a *ngFor="let sub of menu.subMenu;let j = index" class="submenu-item"  [href]="sub.link"
+          (click)="changeActive(sub.text)"
+            > {{ sub.text }}</a> 
         </div>
       </a>
       <!-- <div class="navbar-nav" *ngFor="let menu of menuList; let i = index">

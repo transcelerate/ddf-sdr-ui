@@ -1,0 +1,130 @@
+<div class="container-fluid">
+  <h3>Usage Report</h3>
+      <br>
+   
+<form  [formGroup]="editorForm">
+    <div class="row">
+      <div class="col-4">
+        <!--left side -->
+        <div class="form-group row">
+          <label class="col-sm-4 paddingTen">Time Range:</label>
+          <div class="col-sm-8 inputDiv">
+            
+            <select
+            class="input-sm form-control"
+            formControlName="timeRange"
+            >
+              <option>
+                Last 7 days
+              </option>
+              <option>
+                Last 30 days
+              </option>
+              <option>
+                Last 60 days
+              </option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="col-4">
+        <!--left side -->
+        <div class="form-group row">
+          <label class="col-sm-5 paddingTen">Operation:</label>
+          <div class="col-sm-7">
+            <select
+            class="input-sm form-control"
+            formControlName="operation"
+            >
+              <option>
+                GET
+              </option>
+              <option>
+                POST
+              </option>
+            
+            </select>
+            
+          </div>
+        </div>
+      </div>
+      <div class="col-4">
+        <!--left side -->
+        <div class="form-group row">
+          <label class="col-sm-5 paddingTen">Response Code:</label>
+          <div class="col-sm-7">
+            <select
+            class="input-sm form-control"
+            formControlName="responseCode"
+            >
+              <option>
+                200 - success
+              </option>
+              <option>
+                201 - created
+              </option>
+              <option>
+                400 - Bad Request
+              </option>
+              <option>
+                401 - UnAuthorized Access
+              </option>
+              <option>
+                403 - Forbidden
+              </option>
+              <option>
+                404 - Not Found
+              </option>
+              <option>
+                500 - Internal Server Error
+              </option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br>
+    <div>
+      <div class="col-md-12 text-center">
+        <form>
+          <button
+            class="btn btn-primary btn-sm searchButton"
+            type="submit"
+            [disabled]="!editorForm.valid"
+            (click)="submitSearch()"
+          >
+            Search
+          </button>
+        </form>
+      </div>
+    </div>
+    <br>
+    <div class="buttonGroup" *ngIf="showGrid">
+      <div class="col-md-12">
+        <form class="downLoad">
+         
+          <button class="btn btn-primary btn-sm" type="submit" >Download</button>
+          
+        </form>
+      </div>
+    </div>
+    <div *ngIf="showGrid" class="container-fluid gridOuter search">
+
+      <ag-grid-angular
+        #agGrid
+        id="myGrid"
+      class="ag-theme-alpine auditGrid"
+      [rowData]="rowData"
+      [columnDefs]="columnDefs"
+      [rowHeight]="28"
+      [defaultColDef]="defaultColDef"
+      
+      [headerHeight]="30"
+     
+      ></ag-grid-angular>
+      
+    </div>
+    <br>
+   
+  </form>
+</div>
