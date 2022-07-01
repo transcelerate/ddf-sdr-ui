@@ -6,7 +6,7 @@
 </ng-container>
 <ng-container *ngIf="!action && isFromUser">
   <span *ngFor="let value of paramData;  let i=index">
-  <span class="oval" *ngIf="i<5" data-toggle="tooltip" [title]="value">{{value.groupName}}</span>
+  <span class="oval" *ngIf="i<5" data-toggle="tooltip" [title]="value.groupName">{{value.groupName}}</span>
   <span class="expandLink"><a *ngIf="i===5" (click)="btnClickedHandler()" >...</a></span>
 </span>
 </ng-container>
