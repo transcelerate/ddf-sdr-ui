@@ -153,7 +153,7 @@ export class AddGroupComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.ds.changeDialogState('Group Management');
+    this.ds.changeDialogState('Admin');
     this.permissionList = groupConfigList.PERMISSIONLIST;
     this.filterFieldList = groupConfigList.FILTER_FIELD.map((elem) => {
       return elem;

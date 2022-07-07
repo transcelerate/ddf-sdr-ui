@@ -38,7 +38,7 @@ export class AddUserComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.ds.changeDialogState('User Management');
+    this.ds.changeDialogState('Admin');
     this.serviceCall.getAllUserList().subscribe({
       next: (users: any) => {
         //this.userExists = true;

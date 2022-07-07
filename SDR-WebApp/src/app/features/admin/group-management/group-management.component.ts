@@ -85,7 +85,7 @@ export class GroupManagementComponent implements OnInit {
 
   ngOnInit(): void {
     let self = this;
-    this.ds.changeDialogState('Group Management');
+    this.ds.changeDialogState('Admin');
     this.gridOptions.columnDefs = [
       {
         headerName: 'Group Name',

@@ -4,7 +4,7 @@
    
 <form  [formGroup]="editorForm">
     <div class="row">
-      <div class="col-4">
+      <div class="col-3">
         <!--left side -->
         <div class="form-group row">
           <label class="col-sm-4 paddingTen">Time Range:</label>
@@ -12,80 +12,66 @@
             
             <select
             class="input-sm form-control"
-            formControlName="timeRange"
+            formControlName="days"
             >
-              <option>
-                Last 7 days
-              </option>
-              <option>
-                Last 30 days
-              </option>
-              <option>
-                Last 60 days
-              </option>
+            <option *ngFor="let field of dropDownConfig.TIMELINE;" [value]="field.value" >{{field.description}}</option>
+              
             </select>
           </div>
         </div>
       </div>
-      <div class="col-4">
+      <div class="col-3">
         <!--left side -->
         <div class="form-group row">
-          <label class="col-sm-5 paddingTen">Operation:</label>
-          <div class="col-sm-7">
+          <label class="col-sm-4 paddingTen">Operation:</label>
+          <div class="col-sm-8 inputDiv">
             <select
             class="input-sm form-control"
             formControlName="operation"
             >
-              <option>
-                GET
-              </option>
-              <option>
-                POST
-              </option>
+            <option *ngFor="let field of dropDownConfig.OPERATION;" [value]="field.value" >{{field.description}}</option>
             
             </select>
             
           </div>
         </div>
       </div>
-      <div class="col-4">
+      <div class="col-3">
         <!--left side -->
         <div class="form-group row">
           <label class="col-sm-5 paddingTen">Response Code:</label>
-          <div class="col-sm-7">
+          <div class="col-sm-7 inputDiv">
             <select
             class="input-sm form-control"
             formControlName="responseCode"
             >
-              <option>
-                200 - success
-              </option>
-              <option>
-                201 - created
-              </option>
-              <option>
-                400 - Bad Request
-              </option>
-              <option>
-                401 - UnAuthorized Access
-              </option>
-              <option>
-                403 - Forbidden
-              </option>
-              <option>
-                404 - Not Found
-              </option>
-              <option>
-                500 - Internal Server Error
-              </option>
+            <option *ngFor="let field of dropDownConfig.RESPONSE_CODE;" [value]="field.value" >{{field.description}}</option>
             </select>
           </div>
         </div>
       </div>
+      <div class="col-3">
+        <button
+        class="btn btn-primary btn-sm resetButton"
+       
+        [disabled]="!editorForm.valid"
+        (click)="clear()"
+      >
+        Reset
+      </button>
+      <button
+      class="btn btn-primary btn-sm searchButton"
+      type="submit"
+      [disabled]="!editorForm.valid"
+      (click)="submitSearch()"
+    >
+      Search
+    </button>
+      </div>
     </div>
     <br>
     <div>
-      <div class="col-md-12 text-center">
+      <!-- <div class="col-md-12 text-center">
         <form>
           <button
             class="btn btn-primary btn-sm searchButton"
@@ -96,30 +82,43 @@
             Search
           </button>
         </form>
-      </div>
+      </div> -->
     </div>
     <br>
     <div class="buttonGroup" *ngIf="showGrid">
       <div class="col-md-12">
-        <form class="downLoad">
+        <!-- <form class="downLoad">
          
           <button class="btn btn-primary btn-sm" type="submit" >Download</button>
           
-        </form>
+        </form> -->
       </div>
     </div>
-    <div *ngIf="showGrid" class="container-fluid gridOuter search">
+    <div  class="container-fluid gridOuter search">
 
       <ag-grid-angular
-        #agGrid
-        id="myGrid"
-      class="ag-theme-alpine auditGrid"
-      [rowData]="rowData"
-      [columnDefs]="columnDefs"
+         id="myGrid"
+      class="ag-theme-alpine searchGrid"
       [rowHeight]="28"
+      [columnDefs]="columnDefs"
       [defaultColDef]="defaultColDef"
-      
-      [headerHeight]="30"
+      [rowBuffer]="rowBuffer"
+      [rowSelection]="rowSelection"
+      [rowModelType]="rowModelType"
+      [cacheBlockSize]="cacheBlockSize"
+      [cacheOverflowSize]="cacheOverflowSize"
+      [maxConcurrentDatasourceRequests]="maxConcurrentDatasourceRequests"
+      [infiniteInitialRowCount]="infiniteInitialRowCount"
+      [maxBlocksInCache]="maxBlocksInCache"
+      [rowData]="rowData"
+      [icons]="icons"
+      [suppressNoRowsOverlay] = false
+      [sortingOrder]="['asc', 'desc']"
+      [overlayNoRowsTemplate]="noRowsTemplate"
+      [headerHeight] = 30
+      [tooltipShowDelay]="tooltipShowDelay"
+    
+      (gridReady)="onGridReady($event)"
      
       ></ag-grid-angular>
       

@@ -150,7 +150,7 @@ constructor(
 }
 
 ngOnInit(): void {
-  this.ds.changeDialogState('Group Management');
+  this.ds.changeDialogState('Search Study Definitions');
   
 }
 

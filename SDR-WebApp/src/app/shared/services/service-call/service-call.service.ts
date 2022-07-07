@@ -34,6 +34,9 @@ export class ServiceCall {
   getAllUsers(reqObj:any){
     return this.httpWrapperService.postData(environment.BASE_URL + ApiUrlList.ALLUSERS, reqObj);
   }
+  getUsageReport(reqObj:any){
+    return this.httpWrapperService.postData(environment.BASE_URL + ApiUrlList.USAGEREPORT, reqObj);
+  }
   postUser(reqObj:any){
     return this.httpWrapperService.postData(environment.BASE_URL + ApiUrlList.POSTUSERS, reqObj);
   }

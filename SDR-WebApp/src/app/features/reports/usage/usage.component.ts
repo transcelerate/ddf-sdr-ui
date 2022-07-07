@@ -26,7 +26,7 @@ import { map, Observable } from 'rxjs';
 export class UsageComponent implements OnInit  { state$: Observable<object>;
 
   permissionList: string[];
-  
+  dropDownConfig = configList;
   filterFieldList: any;
   isSearchSelected: any = undefined;
   filterFieldValueList: any;
@@ -40,15 +40,26 @@ export class UsageComponent implements OnInit  { state$: Observable<object>;
   public gridColumnApi: any;
   
 
+  public columnDefs;
   public defaultColDef;
-  
+  public rowBuffer: any;
+  public rowSelection;
+  public rowModelType;
+  public cacheBlockSize;
+  public cacheOverflowSize: any;
+  public maxConcurrentDatasourceRequests: any;
+  public infiniteInitialRowCount: any;
+  public maxBlocksInCache;
   public rowData: any;
   public value: any = [];
   public tooltipShowDelay = 0;
-  public isRowSelectable: any;
   BLOCK_SIZE: number = configList.BLOCK_SIZE;
   showGrid: boolean;
   icons: { sortAscending: string; sortDescending: string };
+
+
+  
+
   editorForm: FormGroup;
   initialForm: FormGroup;
   showError: boolean;
@@ -56,41 +67,7 @@ export class UsageComponent implements OnInit  { state$: Observable<object>;
   saveSuccess: boolean;
   isEdit: boolean;
     radioButton: boolean;
-    columnDefs: ColDef[]  = [
-      
-      {
-        headerName: 'Operation',
-        field: 'operation',
-        
-      },
-  
-      {
-        headerName: 'API',
-        field: 'api',
-        width:207,
-        
-      },
-      {
-        headerName: 'Sender ID',
-        field: 'emailId',
-        
-      },
-      {
-        headerName: 'Request Date',
-        field: 'requestDate',
-        
-      },
-      {
-        headerName: 'Caller IP Address',
-        field: 'callerIpAddress',
-        
-      },
-      {
-        headerName: 'Response Code',
-        field: 'responseCodeDescription',
-        
-      },
-    ];
+   
   constructor(
     public _formBuilder: FormBuilder,
     private ds: DialogService,
@@ -102,19 +79,77 @@ export class UsageComponent implements OnInit  { state$: Observable<object>;
     public activatedRoute: ActivatedRoute
   ) {
     
-   
+    this.columnDefs  = [
+      
+      {
+        headerName: 'Operation',
+        field: 'operation',
+        tooltipField:'operation',
+        sortable: true
+        
+      },
+  
+      {
+        headerName: 'API',
+        field: 'api',
+        width:207,
+        tooltipField:'api',
+        sortable: true
+        
+      },
+      {
+        headerName: 'Sender ID',
+        field: 'emailId',
+        tooltipField:'emailId',
+        sortable: false
+        
+      },
+      {
+        headerName: 'Request Date',
+        field: 'requestDate',
+        tooltipField:'requestDate',
+        sortable: true
+        
+      },
+      {
+        headerName: 'Caller IP Address',
+        field: 'callerIpAddress',
+        tooltipField:'callerIpAddress',
+        sortable: true
+      },
+      {
+        headerName: 'Response Code',
+        field: 'responseCodeDescription',
+        tooltipField:'responseCodeDescription',
+        sortable: true
+      },
+    ];
   
     this.defaultColDef = {
-      sortable: true,
+      
       resizable: true,
      
     };
+    (this.icons = {
+      sortAscending:
+        '<img src="../../../../assets/Images/alpine-icons/asc.svg" class="imgStyle">',
+      sortDescending:
+        '<img src="../../../../assets/Images/alpine-icons/desc.svg" class="imgStyle">',
+    }),
+      (this.rowBuffer = 0);
+    this.rowSelection = 'multiple';
+    this.rowModelType = 'infinite';
+    this.cacheBlockSize = this.BLOCK_SIZE;
+    this.cacheOverflowSize = 1;
+    this.maxConcurrentDatasourceRequests = 1;
+    this.infiniteInitialRowCount = 1;
+    this.maxBlocksInCache = 1000;
     
   
     
     this.editorForm = this._formBuilder.group(
       {
-        timeRange: [''],
+        days: [''],
         operation: [''],
         responseCode: [''],
       },
@@ -125,51 +160,11 @@ export class UsageComponent implements OnInit  { state$: Observable<object>;
   
   ngOnInit(): void {
     this.ds.changeDialogState('Reports');
-    let rowData =[
-
-      {
-      
-              "emailId": "yuvarani.nagarajan@accenture.com",
-      
-              "userName": "Nagarajan, Yuvarani",
-      
-              "operation": "POST",
-      
-              "api": "/studydefinitionrepository/v1/usergroups/getusers",
-      
-              "requestDate": "2022-06-30T11:28:36.621Z",
-      
-              "callerIpAddress": "183.82.177.163",
-      
-              "responseCode": "200",
-      
-              "responseCodeDescription": "200 - OK"
-      
-          },
-      
-          {
-      
-              "emailId": "yuvarani.nagarajan@accenture.com",
-      
-              "userName": "Nagarajan, Yuvarani",
-      
-              "operation": "POST",
-      
-              "api": "/studydefinitionrepository/v1/usergroups/getgroups",
-      
-              "requestDate": "2022-06-30T11:28:32.827Z",
-      
-              "callerIpAddress": "183.82.177.163",
-      
-              "responseCode": "200",
-      
-              "responseCodeDescription": "200 - OK"
-      
-          }
-      
-      ];
- this.rowData = rowData;
-    
+    this.editorForm.patchValue({
+      days:7,
+      responseCode:0
+    });
+    //this.submitSearch();
   }
   
   
@@ -206,7 +201,7 @@ export class UsageComponent implements OnInit  { state$: Observable<object>;
       const self = this;
       eDiv.innerHTML =
         '<span class="linkSpan">' +
-        params.data?.clinicalStudy.timeRange +
+        params.data?.clinicalStudy.days +
         '</span>';
   
       return eDiv;
@@ -237,60 +232,14 @@ export class UsageComponent implements OnInit  { state$: Observable<object>;
    *Validate date and fetch search results
    */
   submitSearch() {
-    if (this.editorForm?.value?.operation && this.editorForm?.value?.responseCode) {
-      const operation = new Date(this.editorForm.value.operation);
-      const responseCode = new Date(this.editorForm.value.responseCode);
-  
-      if (operation && responseCode && operation > responseCode) {
-        alert('operation is greater than responseCode...');
-        return;
-      }
-    }
-    let rowData =[
-
-      {
-      
-              "emailId": "yuvarani.nagarajan@accenture.com",
-      
-              "userName": "Nagarajan, Yuvarani",
-      
-              "operation": "POST",
-      
-              "api": "/studydefinitionrepository/v1/usergroups/getusers",
-      
-              "requestDate": "2022-06-30T11:28:36.621Z",
-      
-              "callerIpAddress": "183.82.177.163",
-      
-              "responseCode": "200",
-      
-              "responseCodeDescription": "200 - OK"
-      
-          },
-      
-          {
-      
-              "emailId": "yuvarani.nagarajan@accenture.com",
-      
-              "userName": "Nagarajan, Yuvarani",
-      
-              "operation": "POST",
-      
-              "api": "/studydefinitionrepository/v1/usergroups/getgroups",
-      
-              "requestDate": "2022-06-30T11:28:32.827Z",
-      
-              "callerIpAddress": "183.82.177.163",
-      
-              "responseCode": "200",
-      
-              "responseCodeDescription": "200 - OK"
-      
-          }
-      
-      ];
- this.rowData = rowData;
-    this.showGrid = true;
+    const reqObj = this.editorForm.value;
+    this.commonMethod.gridDataSourceForUsageReport(
+      reqObj,
+      this.gridApi,
+      this.BLOCK_SIZE,
+      this
+    );
+    
   }
   
   getSelectSearch(params: any) {
@@ -304,7 +253,7 @@ export class UsageComponent implements OnInit  { state$: Observable<object>;
       }
       this.searchList.push({
         id: params.data.clinicalStudy.studyId,
-        title: params.data.clinicalStudy.timeRange,
+        title: params.data.clinicalStudy.days,
       });
     } else {
       this.searchList = this.searchList.filter((elem: any) => {
@@ -347,9 +296,41 @@ export class UsageComponent implements OnInit  { state$: Observable<object>;
     this.modalRef?.hide();
     this.onClosed();
   }
-  
+  clear(){
+    this.editorForm.patchValue({
+      days:7,
+      responseCode:0,
+      operation:''
+    });
+    this.submitSearch();
+  }
   decline(): void {
     this.modalRef?.hide();
+  }
+  onGridReady(params: any) {
+    this.gridApi = params.api;
+    this.gridColumnApi = params.columnApi;
+    params.api.sizeColumnsToFit();
+    var defaultSortModel = [
+      {
+        colId: 'requestDate',
+        sort: 'desc',
+        sortIndex: 0,
+      },
+    ];
+    params.columnApi.applyColumnState({ state: defaultSortModel });
+    const reqObj = this.editorForm.value;
+    reqObj.sortOrder = 'desc';
+    reqObj.sortBy = 'requestdate';
+
+    this.commonMethod.gridDataSourceForUsageReport(
+      reqObj,
+      this.gridApi,
+      this.BLOCK_SIZE,
+      this
+    );
+
+    
   }
   }
   

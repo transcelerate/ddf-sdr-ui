@@ -1,5 +1,5 @@
 .gridOuter {
-    height: 180px;
+    height: 280px;
     width: 100%;
   }
   
@@ -36,11 +36,26 @@
     }
 }
 .btn-sm{
-    margin:10px;
+    margin:3px 10px;
 }
 .auditGrid{
-    height:200px
+    height:300px
 }
 .downLoad{
     text-align: end;
+}
+.paddingTen{
+    padding-right: 0px;
+    padding-top: 9px;
+}
+.inputDiv{
+    padding-left: 0px;
+}
+.resetButton{
+    // color: black;
+    // background-color: lightgrey;
+    // border-color: lightgrey;
+}
+.form-control{
+    font-size:inherit;
 }

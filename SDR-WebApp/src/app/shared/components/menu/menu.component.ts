@@ -18,12 +18,12 @@ export class MenuComponent implements OnInit {
     },
     {
       
-      text: 'Study',
+      text: 'Study Definitions',
       isSelected: false,
       name: 'Search Study Definitions',
       subMenu: [
         { text: 'SEARCH', link: 'search',name: 'Search Study Definitions',},
-        { text: 'COMPARISON', link: 'compare',name: 'Search Study Definitions',},
+        { text: 'COMPARE', link: 'compare',name: 'Search Study Definitions',},
         
       ]
     },
@@ -33,7 +33,7 @@ export class MenuComponent implements OnInit {
       isSelected: false,
       name: 'Reports',
       subMenu: [
-        { text: 'USAGE', link: 'reports',name: 'Usage'},
+        { text: 'SYSTEM USAGE', link: 'reports',name: 'Usage'},
         
       ]
     }
