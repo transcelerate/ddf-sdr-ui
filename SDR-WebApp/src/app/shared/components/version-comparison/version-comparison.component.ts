@@ -78,7 +78,7 @@ export class VersionComparisonComponent implements OnInit {
    the right side.
    */
   ngOnInit(): void {
-    document.getElementsByTagName('h2')[0].classList.add('textCenter');
+    document.getElementsByTagName('h2')[0]?.classList.add('textCenter');
     this.route.params.subscribe((params) => {
       if (Object.keys(params).length !== 0) {
         this.studyId = params['studyId'];

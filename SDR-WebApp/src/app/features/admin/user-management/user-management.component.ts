@@ -80,7 +80,7 @@ export class UserManagementComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.ds.changeDialogState('User Management');
+    this.ds.changeDialogState('Admin');
 
     this.gridOptions.columnDefs = [
       {
