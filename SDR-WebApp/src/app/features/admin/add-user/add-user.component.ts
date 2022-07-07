@@ -43,7 +43,10 @@ export class AddUserComponent implements OnInit {
       next: (users: any) => {
         //this.userExists = true;
         this.spinner.hide();
-        this.userList = users;
+        this.userList = users.map((elem: any)=>{
+          elem.toShow = (elem.mail!==null ? elem.mail:'') + '(' + elem.displayName + ')';
+          return elem;
+        });
         const selectedUser = history.state.data;
         if (selectedUser) {
           this.isEdit = true;
@@ -52,6 +55,10 @@ export class AddUserComponent implements OnInit {
           this.groupSelectedOriginal = this.groupSelected;
           this.userSelected = this.userList.filter((elem: { id: any }) => {
             return elem.id === selectedUser.oid;
+          });
+          this.userSelected = this.userSelected.map((elem: any)=>{
+            elem.toShow = (elem.mail || '') + '(' + elem.displayName + ')';
+            return elem;
           });
         }
       },
@@ -84,7 +91,7 @@ export class AddUserComponent implements OnInit {
     this.dropdownSettingsUser = {
       singleSelection: true,
       idField: 'id',
-      textField: 'displayName',
+      textField: 'toShow',
       selectAllText: 'Select All',
       unSelectAllText: 'UnSelect All',
       itemsShowLimit: 300000,
