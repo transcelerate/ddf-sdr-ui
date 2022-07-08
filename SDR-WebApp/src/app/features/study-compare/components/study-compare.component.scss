@@ -1,0 +1,36 @@
+.compareOuter{
+    border:1px solid;
+    border-radius: 7px;
+}
+.oval {
+    background-color: #ddd;
+    border: none;
+    color: black;
+    padding: 0px 10px !important;
+    text-align: center;
+    text-decoration: none;
+    display: inline-flex;
+    margin: 3px 3px;
+    border-radius: 63px;
+  }
+  .ovalText {
+    text-overflow: ellipsis;
+    max-width: 450px;
+    display: inline-block;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+  .btn-primary {
+    color: #fff;
+    background-color: coral;
+    border-color: coral;
+    
+  }
+  .paddingTop{
+    margin:7px 0px;
+  }
+  .compareButton{
+    margin-top: 20px;
+    margin-left: -27px;
+  }
+ 

@@ -1,0 +1,65 @@
+<div class="container-fluid outer" *ngIf="route.children.length === 0">
+  <h3>Study Comparison</h3>
+  <!--  <ol _ngcontent-kcl-c19="" class="breadcrumb ng-star-inserted">
+    <li _ngcontent-kcl-c19="" class="ng-star-inserted">
+      <span
+      >
+        Study Comparison    
+      </span>
+    </li>
+   <li _ngcontent-kcl-c19="" class="ng-star-inserted">
+      <span>
+        Study Details   
+      </span>
+    </li>
+    <li _ngcontent-kcl-c19="" class="ng-star-inserted">
+      <span>
+        Audit Trail  
+      </span>
+    </li> 
+    
+  </ol>-->
+  <div class="row">
+    <div class="row col-md-6">
+      <div class="col-md-5"></div>
+      <div class="row col-md-7 compareOuter">
+        <div class="col-md-9 paddingTop">
+          <span class="oval"
+            ><span class="ovalText" data-toggle="tooltip"
+              >Study_Name_1_Version_1
+            </span>
+            <strong>X</strong></span
+          >
+        </div>
+        <div class="col-md-3 paddingTop">
+          <button class="btn btn-primary btn-sm" routerLink = "search">Search</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="row col-md-7 compareOuter">
+        <div class="col-md-9 paddingTop">
+          <span class="oval"
+            ><span class="ovalText" data-toggle="tooltip"
+              >Study_Name_3_Version_2
+            </span>
+            <strong>X</strong></span
+          >
+        </div>
+        <div class="col-md-3 paddingTop">
+          <button class="btn btn-primary btn-sm" routerLink = "search">Search</button>
+        </div>
+      </div>
+      <div class="col-md-5"></div>
+    </div>
+  </div>
+  <div class="col-md-12 text-center compareButton">
+    <form>
+      <button class="btn btn-primary btn-sm searchButton" type="button" (click)="versionCompare()" >
+        Compare
+      </button>
+    </form>
+  </div>
+</div>
+<router-outlet></router-outlet>

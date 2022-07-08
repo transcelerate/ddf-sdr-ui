@@ -8,7 +8,8 @@ const ApiUrlList = {
         ALLUSERS:'usergroups/getusers',
         POSTUSERS:'usergroups/postuser',
         GETGROUPLIST:'usergroups/getgrouplist',
-        GETUSERLIST:'usergroups/listusers'
+        GETUSERLIST:'usergroups/listusers',
+        USAGEREPORT:'reports/usage'
 
 };
 export { ApiUrlList };

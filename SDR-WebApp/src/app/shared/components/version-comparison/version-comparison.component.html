@@ -1,6 +1,7 @@
-
+<div class="container-fluid">
 <app-error-component *ngIf="showError"></app-error-component>
 <div class="compareDiv">
 <!-- <ngx-monaco-diff-editor class="my-code-editor" [options]="options" [originalModel]="originalModel" [modifiedModel]="modifiedModel"></ngx-monaco-diff-editor> -->
 <ngx-monaco-diff-editor [options]="editorOptions" [original]="originalCode" [modified]="code"></ngx-monaco-diff-editor>
+</div>
 </div>

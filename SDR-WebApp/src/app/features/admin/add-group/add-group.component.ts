@@ -90,6 +90,7 @@ export class AddGroupComponent implements OnInit {
       {
         headerName: 'Study Title',
         field: 'clinicalStudy.studyTitle',
+       
         tooltipField: 'clinicalStudy.studyTitle',
         headerTooltip: configList.STUDY_TITLE,
         cellRenderer: this.getStudyVersionGrid.bind(this),
@@ -113,6 +114,7 @@ export class AddGroupComponent implements OnInit {
     this.defaultColDef = {
       sortable: true,
       resizable: true,
+     
     };
     (this.icons = {
       sortAscending:
@@ -151,7 +153,7 @@ export class AddGroupComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.ds.changeDialogState('Group Management');
+    this.ds.changeDialogState('Admin');
     this.permissionList = groupConfigList.PERMISSIONLIST;
     this.filterFieldList = groupConfigList.FILTER_FIELD.map((elem) => {
       return elem;

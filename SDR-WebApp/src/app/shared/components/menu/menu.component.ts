@@ -7,19 +7,37 @@ import { DialogService } from '../../services/communication.service';
   styleUrls: ['./menu.component.scss'],
 })
 export class MenuComponent implements OnInit {
-  menuList = [
+
+  public menuItems = [
     {
-      name: 'Home',
+      
+      text: "Home",
       link: 'home',
+      name: 'Home',
       isSelected: true,
     },
     {
-      name: 'Search Study Definitions',
-      link: 'search',
+      
+      text: 'Study Definitions',
       isSelected: false,
+      name: 'Search Study Definitions',
+      subMenu: [
+        { text: 'SEARCH', link: 'search',name: 'Search Study Definitions',},
+        { text: 'COMPARE', link: 'compare',name: 'Search Study Definitions',},
+        
+      ]
     },
-   
-  ];
+    {
+      
+      text: 'Reports',
+      isSelected: false,
+      name: 'Reports',
+      subMenu: [
+        { text: 'SYSTEM USAGE', link: 'reports',name: 'Usage'},
+        
+      ]
+    }
+ ];
 
   constructor(private ds: DialogService, private authService: MsalService) {}
 
@@ -30,23 +48,24 @@ export class MenuComponent implements OnInit {
   ngOnInit() {
     this.ds.dialogObservable.subscribe((dialogState) => {
       this.refreshStatus = dialogState !== 'Not Clicked';
-      if(this.menuList.length == 2 && localStorage.getItem('isAdmin') == 'true' ){
-        this.menuList.push( {
-          name: 'Group Management',
-          link: 'admin',
+      if(this.menuItems.length == 3 && localStorage.getItem('isAdmin') == 'true' ){
+        this.menuItems.push(  {
+      
+          text: 'MANAGE',
           isSelected: false,
-        },
-        {
-          name: 'User Management',
-          link: 'admin/userMap',
-          isSelected: false,
-        },);
+          name: 'Admin',
+          subMenu: [
+            { text: 'USER', link: 'admin/userMap',name: 'User Management',},
+            { text: 'GROUP', link: 'admin',name: 'Group Management',},
+            
+          ]
+        });
       }
       this.changeActive(dialogState);
     });
   }
   changeActive(selectedName: String) {
-    this.menuList = this.menuList.map((elem) => {
+    this.menuItems = this.menuItems.map((elem:any) => {
       elem.isSelected = elem.name == selectedName;
       return elem;
     });

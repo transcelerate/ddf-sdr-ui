@@ -74,6 +74,67 @@ export class CommonMethodsService {
     gridApi.hideOverlay();
     gridApi.setDatasource(dataSourceVar);
   }
+  gridDataSourceForUsageReport(
+    reqObj: any,
+    gridApi: any,
+    BLOCK_SIZE: number,
+    view: any
+
+  ) {
+    let dataSourceVar = {
+      getRows: (rowParams: any) => {
+        // console.log(
+        //   'asking for ' + rowParams.startRow + ' to ' + rowParams.endRow
+        // );
+
+        reqObj.pageSize = rowParams.endRow - rowParams.startRow;
+        reqObj.recordNumber = rowParams.startRow;
+        // if(reqObj.header){
+        //   reqObj.header =  this.getHeaderName(reqObj.header);
+        // } 
+        if (rowParams.sortModel.length > 0) {
+          reqObj.sortBy = this.getHeaderName(rowParams.sortModel[0].colId);
+          reqObj.sortOrder = rowParams.sortModel[0].sort;
+        }
+        this.spinner.show();
+
+        this.serviceCall.getUsageReport(reqObj).subscribe({
+          next: (data: any) => {
+            this.spinner.hide();
+            if (data.length > 0) {
+              gridApi.hideOverlay();
+              // data = data.map((elem: { selected: boolean; }) => {
+              //   elem.selected = false;
+              //   return elem;
+              // });
+              let lastRow = -1;
+              if (data.length < BLOCK_SIZE) {
+                lastRow = rowParams.startRow + data.length;
+              }
+              
+              rowParams.successCallback(data, lastRow);
+            }
+          },
+          error: (error) => {
+            if(error && error.error && error.error.statusCode == "404"){
+            rowParams.successCallback([], rowParams.startRow);
+            if(rowParams.startRow == 0){
+              gridApi.showNoRowsOverlay();
+            }
+          } else {
+            view.showError = true;
+            Array.from(document.getElementsByClassName('ag-cell') as HTMLCollectionOf<HTMLElement>).forEach(element => {
+              element.style.border='none';
+            });
+
+          }
+          },
+        });
+      },
+    };
+    gridApi.hideOverlay();
+    gridApi.setDatasource(dataSourceVar);
+  }
   gridDataSourceForUser(
     reqObj: any,
     gridApi: any,
@@ -160,6 +221,16 @@ export class CommonMethodsService {
         return 'status';
       case 'clinicalStudy.studyTag':
         return 'tag';
+        case 'operation':
+        return 'operation';
+        case 'api':
+        return 'api';
+        case 'requestDate':
+        return 'requestdate';
+        case 'callerIpAddress':
+        return 'callerip';
+        case 'responseCodeDescription':
+        return 'responsecode';
         
     }
   }

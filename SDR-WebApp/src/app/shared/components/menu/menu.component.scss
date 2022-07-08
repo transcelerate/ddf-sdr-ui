@@ -53,3 +53,66 @@
 .accordion{
     cursor: pointer;
 }
+
+a {
+    text-decoration: none;
+    display: flex;
+    justify-content: space-between;
+    cursor: pointer;
+    align-items: center;
+    color: #ffffff !important;
+  }
+  
+  
+  a:not(:last-child),
+  .submenu-item:not(:last-child) {
+   // border-bottom: 2px solid gray;
+  }
+  
+  // a:hover,
+  .submenu-item:hover {
+    background-color: coral !important;
+  }
+  
+  .dropdown-menu-container {
+    display: flex;
+    align-items: center;
+    flex-wrap: none;
+    // font-weight: bold;
+    // padding: 1rem;
+  }
+  
+  .dropdown-menu-item {
+    display: block;
+    // font-weight: bold;
+    // margin-left: .3rem;
+  }
+  
+  .submenu-container {
+    position: absolute;
+    top: 100%;
+    display: flex;
+    height: 0;
+    overflow-y: hidden;
+    transition: height 0.5s ease-out;
+    overflow: hidden;
+    flex-direction: column;
+    align-items: stretch;
+    box-sizing: border-box;
+    width: 155px;
+    word-break: keep-all;
+    z-index: 1;
+    background-color: #282A35 !important;
+    color: #f1f1f1;
+   
+  }
+  
+  a:hover .submenu-container {
+    border: 2px solid gray;
+    height: auto;
+    transition: height 0.25s linear;
+  }
+  
+  .submenu-item {
+    padding: 0.3rem 0.8rem;
+  }

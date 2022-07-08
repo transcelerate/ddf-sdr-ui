@@ -23,8 +23,19 @@ const routes: Routes = [{
     canActivate: [MsalGuard] 
   },
   { 
+    path: 'compare',  
+    loadChildren: () => import('./features/study-compare/study-compare.module').then(x => x.StudyCompareModule),
+    canActivate: [MsalGuard] 
+  },
+  { 
     path: 'admin',  
     loadChildren: () => import('./features/admin/admin.module').then(x => x.AdminModule),
+    canActivate: [MsalGuard],
+    canLoad:[AuthGuardService] 
+  },
+  { 
+    path: 'reports',  
+    loadChildren: () => import('./features/reports/reports.module').then(x => x.ReportsModule),
     canActivate: [MsalGuard],
     canLoad:[AuthGuardService] 
   },
