@@ -79,7 +79,7 @@ export class GroupManagementComponent implements OnInit {
     this.defaultColDef = {
       flex: 1,
       resizable: true,
-      minWidth: 100,
+      
     };
   }
 

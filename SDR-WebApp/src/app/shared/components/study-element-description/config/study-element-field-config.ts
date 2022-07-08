@@ -23,9 +23,10 @@ const configList = {
     { value: '200', description: '200 - OK' },
     { value: '201', description: '201 - Created' },
     { value: '400', description: '400 - BadRequest' },
-    { value: '401', description: '401 - UnAuthorized' },
+    { value: '401', description: '401 - Unauthorized' },
     { value: '403', description: '403 - Forbidden' },
     { value: '404', description: '404 - NotFound' },
+    { value: '500', description: '500 - InternalServerError' },
   ],
   OPERATION: [
     { value: 'POST', description: 'POST' },
