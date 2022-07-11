@@ -20,7 +20,7 @@ export class StudyCompareComponent implements OnInit {
       [
         'studyCompare',
         {
-          studyId: '92322b5e-3ee5-4d67-8052-a1086674a216',
+          studyId: '510384a4-a3ba-4458-a97c-b0ca368f8770',
           verA: '3',
           verB: '1',
         },
