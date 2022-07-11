@@ -27,16 +27,7 @@ export class MenuComponent implements OnInit {
         
       ]
     },
-    {
-      
-      text: 'Reports',
-      isSelected: false,
-      name: 'Reports',
-      subMenu: [
-        { text: 'SYSTEM USAGE', link: 'reports',name: 'Usage'},
-        
-      ]
-    }
+   
  ];
 
   constructor(private ds: DialogService, private authService: MsalService) {}
@@ -48,8 +39,17 @@ export class MenuComponent implements OnInit {
   ngOnInit() {
     this.ds.dialogObservable.subscribe((dialogState) => {
       this.refreshStatus = dialogState !== 'Not Clicked';
-      if(this.menuItems.length == 3 && localStorage.getItem('isAdmin') == 'true' ){
+      if(this.menuItems.length == 2 && localStorage.getItem('isAdmin') == 'true' ){
         this.menuItems.push(  {
+      
+          text: 'Reports',
+          isSelected: false,
+          name: 'Reports',
+          subMenu: [
+            { text: 'SYSTEM USAGE', link: 'reports',name: 'Usage'},
+            
+          ]
+        }, {
       
           text: 'MANAGE',
           isSelected: false,

@@ -103,12 +103,12 @@ export class AddGroupComponent implements OnInit {
       //   headerTooltip: configList.SDR_UPLOAD_VERSION,
       // },
 
-      {
-        headerName: 'Tag',
-        field: 'clinicalStudy.studyTag',
-        tooltipField: 'clinicalStudy.studyTag',
-        headerTooltip: configList.TAG,
-      },
+      // {
+      //   headerName: 'Tag',
+      //   field: 'clinicalStudy.studyTag',
+      //   tooltipField: 'clinicalStudy.studyTag',
+      //   headerTooltip: configList.TAG,
+      // },
     ];
 
     this.defaultColDef = {
@@ -349,8 +349,8 @@ export class AddGroupComponent implements OnInit {
     const reqObj = this.editorForm.value;
     reqObj.asc = false;
     reqObj.header = 'entryDateTime';
-
-    this.commonMethod.gridDataSourceForSearchStudy(
+    reqObj.groupByStudyId = 1;
+    this.commonMethod.gridDataSourceForSearchLightStudy(
       reqObj,
       this.gridApi,
       this.BLOCK_SIZE,
@@ -393,7 +393,8 @@ export class AddGroupComponent implements OnInit {
     }
     if (this.showGrid) {
       const reqObj = this.editorForm.value;
-      this.commonMethod.gridDataSourceForSearchStudy(
+      reqObj.groupByStudyId = 1;
+      this.commonMethod.gridDataSourceForSearchLightStudy(
         reqObj,
         this.gridApi,
         this.BLOCK_SIZE,
