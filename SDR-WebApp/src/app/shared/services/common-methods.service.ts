@@ -140,7 +140,8 @@ export class CommonMethodsService {
     reqObj: any,
     gridApi: any,
     BLOCK_SIZE: number,
-    view: any
+    view: any,
+    fromClear?: boolean
 
   ) {
     let dataSourceVar = {
@@ -151,10 +152,8 @@ export class CommonMethodsService {
 
         reqObj.pageSize = rowParams.endRow - rowParams.startRow;
         reqObj.recordNumber = rowParams.startRow;
-        // if(reqObj.header){
-        //   reqObj.header =  this.getHeaderName(reqObj.header);
-        // } 
-        if (rowParams.sortModel.length > 0) {
+
+      if (rowParams.sortModel.length > 0) {
           reqObj.sortBy = this.getHeaderName(rowParams.sortModel[0].colId);
           reqObj.sortOrder = rowParams.sortModel[0].sort;
         }

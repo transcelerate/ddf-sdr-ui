@@ -231,13 +231,24 @@ export class UsageComponent implements OnInit  { state$: Observable<object>;
   /**
    *Validate date and fetch search results
    */
-  submitSearch() {
+  submitSearch(isFromClear?:boolean) {
     const reqObj = this.editorForm.value;
+    if(isFromClear){
+      // reqObj.sortOrder = 'desc';
+      // reqObj.sortBy = 'requestdate';
+      this.gridApi.setSortModel([
+        {
+         colId: 'requestDate',
+         sort: 'desc' // 'asc'
+        }  
+      ])
+    }
+    
     this.commonMethod.gridDataSourceForUsageReport(
       reqObj,
       this.gridApi,
       this.BLOCK_SIZE,
-      this
+      this,isFromClear
     );
     
   }
@@ -302,7 +313,7 @@ export class UsageComponent implements OnInit  { state$: Observable<object>;
       responseCode:0,
       operation:''
     });
-    this.submitSearch();
+    this.submitSearch(true);
   }
   decline(): void {
     this.modalRef?.hide();
