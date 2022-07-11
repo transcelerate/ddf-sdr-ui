@@ -154,7 +154,9 @@ ngOnInit(): void {
   
 }
 
-
+clear(){
+  
+}
 
 
 

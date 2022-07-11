@@ -15,14 +15,16 @@
         
       </ol>
       <br>
-   
-<form  [formGroup]="editorForm">
+
+
+  <form  [formGroup]="editorForm">
     <div class="row">
-      <div class="col-4">
+      <div class="col-3">
         <!--left side -->
         <div class="form-group row">
           <label class="col-sm-4 paddingTen">Study Title:</label>
           <div class="col-sm-8 inputDiv">
+            
             <input
               type="text"
               class="input-sm paddingTen"
@@ -33,38 +35,57 @@
           </div>
         </div>
       </div>
-      <div class="col-4">
+      <div class="col-3">
         <!--left side -->
         <div class="form-group row">
-          <label class="col-sm-5 paddingTen">Modified From:</label>
-          <div class="col-sm-7">
+          <label class="col-sm-4 paddingTen">Modified From:</label>
+          <div class="col-sm-8 inputDiv">
             <input
-              type="date"
-              class="input-sm form-control"
-              formControlName="fromDate"
-              [max]="getToday()"
-            />
+            type="date"
+            class="input-sm form-control"
+            formControlName="fromDate"
+            [max]="getToday()"
+          />
+            
           </div>
         </div>
       </div>
-      <div class="col-4">
+      <div class="col-3">
         <!--left side -->
         <div class="form-group row">
           <label class="col-sm-5 paddingTen">Modified To:</label>
-          <div class="col-sm-7">
+          <div class="col-sm-7 inputDiv">
             <input
-              type="date"
-              class="input-sm form-control"
-              formControlName="toDate"
-              [max]="getToday()"
-            />
+            type="date"
+            class="input-sm form-control"
+            formControlName="toDate"
+            [max]="getToday()"
+          />
           </div>
         </div>
+      </div>
+      <div class="col-3">
+        <button
+        class="btn btn-primary btn-sm resetButton"
+       
+        [disabled]="!editorForm.valid"
+        (click)="clear()"
+      >
+        Reset
+      </button>
+      <button
+      class="btn btn-primary btn-sm searchButton"
+      type="submit"
+      [disabled]="!editorForm.valid"
+      (click)="submitSearch()"
+    >
+      Search
+    </button>
       </div>
     </div>
     <br>
     <div>
-      <div class="col-md-12 text-center">
+      <!-- <div class="col-md-12 text-center">
         <form>
           <button
             class="btn btn-primary btn-sm searchButton"
@@ -75,46 +96,50 @@
             Search
           </button>
         </form>
-      </div>
-    </div>
-    <br>
-    <div *ngIf="showGrid" class="container-fluid gridOuter search">
-      <ag-grid-angular
-        #agGrid
-        id="myGrid"
-        class="ag-theme-alpine searchGrid"
-        [rowHeight]="20"
-        [defaultColDef]="defaultColDef"
-        [rowBuffer]="rowBuffer"
-        [rowSelection]="rowSelection"
-        [rowModelType]="rowModelType"
-        [cacheBlockSize]="cacheBlockSize"
-        [cacheOverflowSize]="cacheOverflowSize"
-        [maxConcurrentDatasourceRequests]="maxConcurrentDatasourceRequests"
-        [infiniteInitialRowCount]="infiniteInitialRowCount"
-        [maxBlocksInCache]="maxBlocksInCache"
-        [rowData]="rowData"
-        [icons]="icons"
-        [suppressNoRowsOverlay]="false"
-        [sortingOrder]="['asc', 'desc']"
-        [overlayNoRowsTemplate]="noRowsTemplate"
-        [headerHeight]="24"
-        [tooltipShowDelay]="tooltipShowDelay"
-        [columnDefs]="columnDefs"
-        [gridOptions]="gridOptions"
-        (gridReady)="onGridReady($event)"
-      ></ag-grid-angular>
-      
+      </div> -->
     </div>
     <br>
     <div class="buttonGroup" *ngIf="showGrid">
-        <div class="col-md-12 text-center">
-          <form>
-           
-            <button class="btn btn-primary btn-sm" type="submit" routerLink=".." >Select</button>
-            <button class="btn btn-primary btn-sm" type="submit" routerLink=".." >Cancel</button>
-          </form>
-        </div>
+      <div class="col-md-12">
+        <!-- <form class="downLoad">
+         
+          <button class="btn btn-primary btn-sm" type="submit" >Download</button>
+          
+        </form> -->
       </div>
+    </div>
+ 
+
+      <div *ngIf="showGrid" class="container-fluid gridOuter search">
+        <ag-grid-angular
+          #agGrid
+          id="myGrid"
+          class="ag-theme-alpine searchGrid"
+          [rowHeight]="20"
+          [defaultColDef]="defaultColDef"
+          [rowBuffer]="rowBuffer"
+          [rowSelection]="rowSelection"
+          [rowModelType]="rowModelType"
+          [cacheBlockSize]="cacheBlockSize"
+          [cacheOverflowSize]="cacheOverflowSize"
+          [maxConcurrentDatasourceRequests]="maxConcurrentDatasourceRequests"
+          [infiniteInitialRowCount]="infiniteInitialRowCount"
+          [maxBlocksInCache]="maxBlocksInCache"
+          [rowData]="rowData"
+          [icons]="icons"
+          [suppressNoRowsOverlay]="false"
+          [sortingOrder]="['asc', 'desc']"
+          [overlayNoRowsTemplate]="noRowsTemplate"
+          [headerHeight]="24"
+          [tooltipShowDelay]="tooltipShowDelay"
+          [columnDefs]="columnDefs"
+          [gridOptions]="gridOptions"
+          (gridReady)="onGridReady($event)"
+        ></ag-grid-angular>
+        
+      </div>
+   
+    <br>
+   
   </form>
 </div>
