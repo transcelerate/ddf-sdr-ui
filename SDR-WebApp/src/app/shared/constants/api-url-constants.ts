@@ -1,6 +1,7 @@
 const ApiUrlList = {
         ELEMENT:'study/',
         SEARCHRESULT:'search',
+        SEARCHRESULTLIGHT:'searchstudytitle',
         AUDITTRAIL:'audittrail/',
         ALLGROUPS:'usergroups/getgroups',
         POSTGROUP:'usergroups/postgroup',

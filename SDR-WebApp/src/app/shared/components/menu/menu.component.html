@@ -27,9 +27,10 @@
     <div class="navDiv">
       <a *ngFor="let menu of menuItems;let i = index">
        
-          
-          <a class="dropdown-menu-item listStyle"  [ngClass]="{ active: menu.isSelected }"  [href]="menu.link"
-          (click)="changeActive(menu.text)">{{ menu.text }}</a>
+        <a class="dropdown-menu-item listStyle" *ngIf = "menu.link" [ngClass]="{ active: menu.isSelected }"  [href]="menu.link"
+        (click)="changeActive(menu.text)">{{ menu.text }}</a>
+          <a class="dropdown-menu-item listStyle" *ngIf = "!menu.link"  [ngClass]="{ active: menu.isSelected }"  
+          >{{ menu.text }}</a>
         
         <div class="submenu-container" *ngIf = "menu.subMenu && menu.subMenu.length>0">
           <a *ngFor="let sub of menu.subMenu;let j = index" class="submenu-item"  [href]="sub.link"
