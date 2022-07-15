@@ -24,6 +24,10 @@ export class VersionComparisonComponent implements OnInit {
   rightHeader: string;
   showheading: boolean;
   showError = false;
+  studyId2: any;
+  isFromCompare: boolean;
+  studyOneTitle: any;
+  studyTwoTitle: any;
   //   options = {
   //     theme: 'vs-dark',
   //     automaticLayout: true
@@ -82,8 +86,22 @@ export class VersionComparisonComponent implements OnInit {
     this.route.params.subscribe((params) => {
       if (Object.keys(params).length !== 0) {
         this.studyId = params['studyId'];
-        this.versionA = params['verA'];
-        this.versionB = params['verB'];
+        let verA = params['verA'];
+        let verB = params['verB'];
+       
+        if(params['studyId2']){
+          this.studyId2 = params['studyId2'];
+          this.versionA = verA;
+          this.versionB = verB;
+          this.isFromCompare = true;
+          this.studyOneTitle=params['studyOneTitle'];
+          this.studyTwoTitle=params['studyTwoTitle'];
+        } else {
+          this.versionA = Math.min(verA, verB);
+          this.versionB = Math.max(verA, verB);
+          this.studyId2 = this.studyId;
+          this.isFromCompare = false;
+        }
       }
     });
     this.editorOptions = {
@@ -105,11 +123,11 @@ export class VersionComparisonComponent implements OnInit {
     };
     this.spinner.show();
     this.serviceCall
-      .getStudyElement(this.studyId, Math.min(this.versionA, this.versionB))
+      .getStudyElement(this.studyId, this.versionA)
       .subscribe({
         next: (versionA: any) => {
           //this.leftHeader = versionA.auditTrail.studyVersion + '-' + moment(versionA.auditTrail.entryDateTime).format("DD/MM/YYYY");
-          this.leftHeader =
+          this.leftHeader = ' Version# ' +
             versionA.auditTrail.studyVersion +
             '(Modified On:' +
             versionA.auditTrail.entryDateTime +
@@ -122,17 +140,21 @@ export class VersionComparisonComponent implements OnInit {
 
           this.serviceCall
             .getStudyElement(
-              this.studyId,
-              Math.max(this.versionA, this.versionB)
+              this.studyId2,
+             this.versionB
             )
             .subscribe({
               next: (versionB: any) => {
                 this.spinner.hide();
-                this.rightHeader =
+                this.rightHeader = ' Version# ' +
                   versionB.auditTrail.studyVersion +
                   '(Modified On:' +
                   versionB.auditTrail.entryDateTime +
                   ')';
+                if(this.isFromCompare){
+                  this.leftHeader = 'Study - ' + this.studyOneTitle + this.leftHeader;
+                  this.rightHeader = 'Study - ' + this.studyTwoTitle + this.rightHeader;
+                }
                 this.code = JSON.stringify(versionB.clinicalStudy, null, '\t');
                 var interval = setInterval(() => {
                   debugger;
@@ -144,11 +166,11 @@ export class VersionComparisonComponent implements OnInit {
                   ) {
                     var div = document.createElement('div');
                     div.className = 'editorHeading';
-                    div.textContent = 'Version#' + this.leftHeader;
+                    div.textContent = this.leftHeader;
 
                     var div1 = document.createElement('div');
                     div1.className = 'editorHeading';
-                    div1.textContent = 'Version#' + this.rightHeader;
+                    div1.textContent =  this.rightHeader;
 
                     this._elementRef.nativeElement
                       .getElementsByClassName('editor original')[0]
@@ -178,6 +200,9 @@ export class VersionComparisonComponent implements OnInit {
       });
   }
   ngOnDestroy() {
-    document.getElementsByTagName('h2')[0].classList.remove('textCenter');
+    if( document.getElementsByTagName('h2').length>0){
+      document.getElementsByTagName('h2')[0].classList.remove('textCenter');
+    }
+    
   }
 }

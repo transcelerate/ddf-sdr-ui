@@ -90,13 +90,14 @@ export class CommonMethodsService {
         reqObj.pageSize = rowParams.endRow - rowParams.startRow;
         reqObj.pageNumber =
           rowParams.endRow / (rowParams.endRow - rowParams.startRow);
-        if(reqObj.header){
-          reqObj.header =  this.getHeaderName(reqObj.header);
+        if(reqObj.sortBy){
+          reqObj.sortBy =  this.getHeaderName(reqObj.sortBy);
         } 
         if (rowParams.sortModel.length > 0) {
-          reqObj.header = this.getHeaderName(rowParams.sortModel[0].colId);
-          reqObj.asc = rowParams.sortModel[0].sort === 'asc';
+          reqObj.sortBy = this.getHeaderName(rowParams.sortModel[0].colId);
+          reqObj.sortOrder = rowParams.sortModel[0].sort;
         }
+        reqObj.sortBy = reqObj.sortBy === 'SDRVersion' ? 'Version' : reqObj.sortBy;
         this.spinner.show();
 
         this.serviceCall.getSearchResultLight(reqObj).subscribe({

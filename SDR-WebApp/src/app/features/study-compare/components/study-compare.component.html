@@ -20,46 +20,50 @@
     
   </ol>-->
   <div class="row">
-    <div class="row col-md-6">
-      <div class="col-md-5"></div>
-      <div class="row col-md-7 compareOuter">
+    <div class="row col-md-5">
+      <div class="col-md-5 compare">Compare</div>
+      <div class="row col-md-7 compareOuter"> 
         <div class="col-md-9 paddingTop">
-          <span class="oval"
+          <span class="oval" *ngIf="studyOneTitle && studyOneTitle!==''"
             ><span class="ovalText" data-toggle="tooltip"
-              >Study_Name_1_Version_1
+              >{{studyOneTitle}}_{{studyOneVersion}}
             </span>
-            <strong>X</strong></span
+           </span
           >
         </div>
         <div class="col-md-3 paddingTop">
-          <button class="btn btn-primary btn-sm" routerLink = "search">Search</button>
+          <button class="btn btn-primary btn-sm" (click)="redirect('search1')">Search</button>
         </div>
       </div>
     </div>
 
-    <div class="col-md-6">
-      <div class="row col-md-7 compareOuter">
+    <div class="row col-md-4">
+      <div class="col-md-1 to">To</div>
+      <div class="row col-md-10 compareOuter"> 
         <div class="col-md-9 paddingTop">
-          <span class="oval"
+          <span class="oval"  *ngIf="studyTwoTitle && studyTwoTitle!==''"
             ><span class="ovalText" data-toggle="tooltip"
-              >Study_Name_3_Version_2
+              >{{studyTwoTitle}}_{{studyTwoVersion}}
             </span>
-            <strong>X</strong></span
+            </span
           >
         </div>
         <div class="col-md-3 paddingTop">
-          <button class="btn btn-primary btn-sm" routerLink = "search">Search</button>
+          <button class="btn btn-primary btn-sm" (click)="redirect('search2')">Search</button>
         </div>
       </div>
-      <div class="col-md-5"></div>
+      <div class="col-md-1"></div>
     </div>
-  </div>
-  <div class="col-md-12 text-center compareButton">
-    <form>
-      <button class="btn btn-primary btn-sm searchButton" type="button" (click)="versionCompare()" >
+
+    <div class="col-md-3"> <form>
+      <button class="btn btn-primary btn-sm searchButton" [disabled]="!studyTwoTitle || studyTwoTitle==='' || !studyOneTitle || studyOneTitle===''" type="button" (click)="versionCompare()" >
         Compare
       </button>
-    </form>
+      <button class="btn btn-primary btn-sm clearButton"  type="button" (click)="clear()" >
+        Clear
+      </button>
+    </form></div>
   </div>
+ 
 </div>
 <router-outlet></router-outlet>
