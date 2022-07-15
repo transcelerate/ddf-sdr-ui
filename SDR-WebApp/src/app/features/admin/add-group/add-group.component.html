@@ -179,7 +179,7 @@
   <ng-container *ngIf="searchList.length > 0 && isSearchSelected === true">
     <span *ngFor="let value of searchList; let i = index">
       <span class="oval" *ngIf="i < 7"
-        ><span class="ovalText" data-toggle="tooltip" [title]="value"
+        ><span class="ovalText" data-toggle="tooltip" [title]="value.title"
           >{{ value.title }}
         </span>
         <strong (click)="delete(value)">X</strong></span

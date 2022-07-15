@@ -67,6 +67,8 @@ groupError: boolean;
 saveSuccess: boolean;
 isEdit: boolean;
   radioButton: boolean;
+  selectedValue: any;
+  from: string | null;
 constructor(
   public _formBuilder: FormBuilder,
   private ds: DialogService,
@@ -75,6 +77,7 @@ constructor(
   public serviceCall: ServiceCall,
   private commonMethod: CommonMethodsService,
   public router: Router,
+  public route: ActivatedRoute,
   public activatedRoute: ActivatedRoute
 ) {
   this.gridOptions = <GridOptions>{
@@ -120,7 +123,7 @@ constructor(
   }),
     (this.rowBuffer = 0);
 
-  this.rowSelection = 'multiple';
+  this.rowSelection = 'single';
   this.rowModelType = 'infinite';
   this.cacheBlockSize = this.BLOCK_SIZE;
   this.cacheOverflowSize = 1;
@@ -151,14 +154,26 @@ constructor(
 
 ngOnInit(): void {
   this.ds.changeDialogState('Search Study Definitions');
+  const selectedValue = history.state.from;
+    if(selectedValue){
+      this.from = selectedValue;
+      debugger;
+    }
   
 }
 
 clear(){
-  
+  this.editorForm.setValue({
+    //nosonar
+    studyTitle: '', //nosonar     //nosonar
+    fromDate: '', //nosonar 
+    toDate: '', //nosonar
+  }); //nosonar
 }
 
-
+submit(){
+  this.router.navigate(['/compare'], {state: {data: this.selectedValue,from:this.from}});
+}
 
 getAllGroups() {
   this.saveSuccess = true;
@@ -210,10 +225,10 @@ onGridReady(params: any) {
   ];
   params.columnApi.applyColumnState({ state: defaultSortModel });
   const reqObj = this.editorForm.value;
-  reqObj.asc = false;
-  reqObj.header = 'entryDateTime';
-
-  this.commonMethod.gridDataSourceForSearchStudy(
+  reqObj.sortOrder = 'desc';
+  reqObj.sortBy = 'studyTitle';
+  reqObj.groupByStudyId = 0;
+  this.commonMethod.gridDataSourceForSearchLightStudy(
     reqObj,
     this.gridApi,
     this.BLOCK_SIZE,
@@ -256,7 +271,8 @@ submitSearch() {
   }
   if (this.showGrid) {
     const reqObj = this.editorForm.value;
-    this.commonMethod.gridDataSourceForSearchStudy(
+    reqObj.groupByStudyId = 0;
+    this.commonMethod.gridDataSourceForSearchLightStudy(
       reqObj,
       this.gridApi,
       this.BLOCK_SIZE,
@@ -268,22 +284,9 @@ submitSearch() {
 
 getSelectSearch(params: any) {
   if (params.data.selected) {
-    if (
-      this.searchList.some(
-        (elem: { id: any }) => elem.id === params.data.clinicalStudy.studyId
-      )
-    ) {
-      return;
-    }
-    this.searchList.push({
-      id: params.data.clinicalStudy.studyId,
-      title: params.data.clinicalStudy.studyTitle,
-    });
-  } else {
-    this.searchList = this.searchList.filter((elem: any) => {
-      return !(elem.id === params.data.clinicalStudy.studyId);
-    });
-  }
+  
+    this.selectedValue = params.data;
+  } 
   // let index = this.group.groupFilter.findIndex(
   //   (elem) => elem.groupFieldName.replace(/\s/g, '').toUpperCase() === 'STUDY'
   // );
