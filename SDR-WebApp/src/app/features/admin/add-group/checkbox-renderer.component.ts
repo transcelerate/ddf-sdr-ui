@@ -16,6 +16,7 @@ import {
     <input *ngIf="radio"
     type="radio"
     class="chkBox"
+    name="radAnswer"
     [checked]="params.data?.selected"
     (change)="this.refresh(this.params)"
   />{{params.selected}}

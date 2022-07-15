@@ -347,8 +347,8 @@ export class AddGroupComponent implements OnInit {
     ];
     params.columnApi.applyColumnState({ state: defaultSortModel });
     const reqObj = this.editorForm.value;
-    reqObj.asc = false;
-    reqObj.header = 'entryDateTime';
+    reqObj.sortOrder = 'desc';
+    reqObj.sortBy = 'studyTitle';
     reqObj.groupByStudyId = 1;
     this.commonMethod.gridDataSourceForSearchLightStudy(
       reqObj,
