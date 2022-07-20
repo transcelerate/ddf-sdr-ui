@@ -26,6 +26,36 @@ const studyCompareModuleRoutes: Routes = [
   {
     path: 'search',
     component: SimpleSearchComponent,
+    data: {
+      breadcrumb: 'Compare Search',
+    },
+    children: [
+      {
+        path: 'details',
+        component: StudyElementDescriptionComponent,
+        data: {
+          breadcrumb: 'Study Details',
+        },
+        children: [
+          {
+            path: 'audit',
+            component: AuditTrailComponent,
+            data: {
+              breadcrumb: 'Audit Trail',
+            },
+            children: [
+              {
+                path: 'compare',
+                component: VersionComparisonComponent,
+                data: {
+                  breadcrumb: 'Study Version Comparison',
+                },
+              },
+            ],
+          },
+        ],
+      },
+    ],
   },
 ];
 
