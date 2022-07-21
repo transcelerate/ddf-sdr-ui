@@ -12,8 +12,8 @@ export class ServiceCall {
   }
   
   getStudyElement(studyId:any ,versionId:any) { 
-   //return this.httpWrapperService.getData('https://apim-sdr-dev2-eastus.azure-api.net/sdr/697/elements');
-   return this.httpWrapperService.getData(environment.BASE_URL  +  ApiUrlList.ELEMENT + studyId + '?version=' + (versionId||''));
+    return this.httpWrapperService.getData('https://apim-sdr-dev-eastus.azure-api.net/api/v1/studydefinitions/9085f2c7-1f7a-4f71-8b48-5d24592b6f17?version=2');
+  //  return this.httpWrapperService.getData(environment.BASE_URL  +  ApiUrlList.ELEMENT + studyId + '?version=' + (versionId||''));
   }
   getAuditTrail(studyId:any) { 
     //return this.httpWrapperService.getData('https://apim-sdr-qa-eastus.azure-api.net/studydefinitionrepository/v1/audittrail/%7bstudy%7d');

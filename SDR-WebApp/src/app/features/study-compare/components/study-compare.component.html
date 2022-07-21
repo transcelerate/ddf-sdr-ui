@@ -25,7 +25,7 @@
       <div class="row col-md-7 compareOuter"> 
         <div class="col-md-9 paddingTop">
           <span class="oval" *ngIf="studyOneTitle && studyOneTitle!==''"
-            ><span class="ovalText" data-toggle="tooltip"
+            ><span class="ovalText" data-toggle="tooltip" [title]="toolTipOne"
               >{{studyOneTitle}}_{{studyOneVersion}}
             </span>
            </span
@@ -42,7 +42,7 @@
       <div class="row col-md-10 compareOuter"> 
         <div class="col-md-9 paddingTop">
           <span class="oval"  *ngIf="studyTwoTitle && studyTwoTitle!==''"
-            ><span class="ovalText" data-toggle="tooltip"
+            ><span class="ovalText" data-toggle="tooltip" [title]="toolTipTwo"
               >{{studyTwoTitle}}_{{studyTwoVersion}}
             </span>
             </span
@@ -56,12 +56,13 @@
     </div>
 
     <div class="col-md-3"> <form>
+      <button class="btn btn-primary btn-sm clearButton"  type="button" (click)="clear()" >
+        Reset
+      </button>
       <button class="btn btn-primary btn-sm searchButton" [disabled]="!studyTwoTitle || studyTwoTitle==='' || !studyOneTitle || studyOneTitle===''" type="button" (click)="versionCompare()" >
         Compare
       </button>
-      <button class="btn btn-primary btn-sm clearButton"  type="button" (click)="clear()" >
-        Clear
-      </button>
+     
     </form></div>
   </div>
  
