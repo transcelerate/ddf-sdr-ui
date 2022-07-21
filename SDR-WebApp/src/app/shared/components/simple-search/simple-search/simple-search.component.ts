@@ -207,11 +207,26 @@ getStudyVersionGrid(params: any) {
       '<span class="linkSpan">' +
       params.data?.clinicalStudy.studyTitle +
       '</span>';
-
+      eDiv.addEventListener('click', () => {
+        self.setSelectedValue(params.data);
+      });
     return eDiv;
   }
 }
 
+
+setSelectedValue(val: any) {
+  this.router.navigate(
+    [
+      'details',
+      {
+        studyId: val.clinicalStudy.studyId,
+        versionId: val.auditTrail.studyVersion,
+      },
+    ],
+    { relativeTo: this.route }
+  );
+}
 onGridReady(params: any) {
   this.gridApi = params.api;
   this.gridColumnApi = params.columnApi;

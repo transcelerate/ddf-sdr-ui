@@ -85,14 +85,15 @@ export class UsageComponent implements OnInit  { state$: Observable<object>;
         headerName: 'Operation',
         field: 'operation',
         tooltipField:'operation',
-        sortable: true
+        sortable: true,
+        width:100
         
       },
   
       {
         headerName: 'API',
         field: 'api',
-        width:207,
+        width:390,
         tooltipField:'api',
         sortable: true
         

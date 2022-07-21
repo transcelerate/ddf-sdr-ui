@@ -126,6 +126,11 @@
       <!-- form for teacher/student-->
       <div class="row">
         <div class="col-6">
+          <button class="btn btn-primary clear" (click)="clearSearch()">
+            Reset
+          </button>
+        </div>
+        <div class="col-6">
           <button
             type="submit"
             class="btn btn-primary submit"
@@ -135,11 +140,7 @@
             Search
           </button>
         </div>
-        <div class="col-6">
-          <button class="btn btn-primary clear" (click)="clearSearch()">
-            Clear
-          </button>
-        </div>
+      
       </div>
     </form>
   </div>

@@ -2,24 +2,28 @@
     border:1px solid;
     border-radius: 7px;
 }
-.oval {
-    background-color: #ddd;
-    border: none;
-    color: black;
-    padding: 0px 10px !important;
-    text-align: center;
-    text-decoration: none;
-    display: inline-flex;
-    margin: 3px 3px;
-    border-radius: 63px;
-  }
-  .ovalText {
-    text-overflow: ellipsis;
-    max-width: 450px;
-    display: inline-block;
-    overflow: hidden;
-    white-space: nowrap;
-  }
+.ovalText{
+  background-color: #ddd;
+  border: none;
+  color: black;
+  padding: 0px 10px !important;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  margin: 3px 3px;
+  border-radius: 63px;
+  text-overflow: ellipsis;
+  max-width: 160px;
+  overflow: hidden;
+  white-space: nowrap;
+}
+  // .ovalText {
+  //   text-overflow: ellipsis;
+  //   max-width: 450px;
+  //   display: inline-block;
+  //   overflow: hidden;
+  //   white-space: nowrap;
+  // }
   .btn-primary {
     color: #fff;
     background-color: #0d6efd;

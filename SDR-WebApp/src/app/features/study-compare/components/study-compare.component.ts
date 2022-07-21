@@ -17,6 +17,8 @@ export class StudyCompareComponent implements OnInit {
   studyTwoVersion: any;
   studyOneTitle: any;
   studyTwoTitle: any;
+  toolTipOne: string;
+  toolTipTwo: string;
 
   constructor(private ds: DialogService, public router: Router,
     public route: ActivatedRoute,) { }
@@ -42,11 +44,13 @@ export class StudyCompareComponent implements OnInit {
       this.studyOneId = this.searchOne.clinicalStudy.studyId;
       this.studyOneTitle = this.searchOne.clinicalStudy.studyTitle;
       this.studyOneVersion = this.searchOne.auditTrail.studyVersion;
+      this.toolTipOne = this.studyOneTitle  + '_' + this.studyOneVersion;
   } if(this.searchTwo){
     this.searchTwo = JSON.parse(this.searchTwo);
     this.studyTwoId = this.searchTwo.clinicalStudy.studyId;
     this.studyTwoTitle = this.searchTwo.clinicalStudy.studyTitle;
     this.studyTwoVersion = this.searchTwo.auditTrail.studyVersion;
+    this.toolTipTwo = this.studyTwoTitle  + '_' + this.studyTwoVersion;
   }
   }
   versionCompare() {
