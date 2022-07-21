@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
+import * as moment from 'moment';
 import { ServiceCall } from './service-call/service-call.service';
 import { configList } from '../components/study-element-description/config/study-element-field-config';
 @Injectable({
@@ -165,10 +166,10 @@ export class CommonMethodsService {
             this.spinner.hide();
             if (data.length > 0) {
               gridApi.hideOverlay();
-              // data = data.map((elem: { selected: boolean; }) => {
-              //   elem.selected = false;
-              //   return elem;
-              // });
+              data = data.map((elem: any) => {
+                elem.requestDate = moment.utc(elem.requestDate).local().format('YYYY-MM-DD HH:mm:ss');
+                return elem;
+              });
               let lastRow = -1;
               if (data.length < BLOCK_SIZE) {
                 lastRow = rowParams.startRow + data.length;
