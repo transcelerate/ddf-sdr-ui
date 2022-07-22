@@ -142,14 +142,7 @@ constructor(
     },
     { validators: this.atLeastOneValidator }
   );
-  this.initialForm = this._formBuilder.group({
-    groupName: new FormControl('', [
-      Validators.required,
-      Validators.maxLength(20),
-    ]),
-    groupPermission: new FormControl('', [Validators.required]),
-    groupFieldName: new FormControl('', [Validators.required]),
-  });
+  
 }
 
 ngOnInit(): void {
