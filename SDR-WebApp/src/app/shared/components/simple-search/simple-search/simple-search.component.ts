@@ -175,19 +175,8 @@ submit(){
   this.router.navigate(['/compare'], {state: {data: this.selectedValue,from:this.from}});
 }
 
-getAllGroups() {
-  this.saveSuccess = true;
-}
-onClosed() {
-  this.router.navigateByUrl('/admin');
-}
-openModal(template: TemplateRef<any>) {
-  this.modalRef = this.modalService.show(template);
-}
 
-openSearchData(template: TemplateRef<any>) {
-  this.modalRef = this.modalService.show(template);
-}
+
 getToday(): string {
   return new Date().toISOString().split('T')[0];
 }
@@ -231,14 +220,14 @@ onGridReady(params: any) {
   this.gridApi = params.api;
   this.gridColumnApi = params.columnApi;
   params.api.sizeColumnsToFit();
-  var defaultSortModel = [
-    {
-      colId: 'auditTrail.entryDateTime',
-      sort: 'desc',
-      sortIndex: 0,
-    },
-  ];
-  params.columnApi.applyColumnState({ state: defaultSortModel });
+  // var defaultSortModel = [
+  //   {
+  //     colId: 'auditTrail.entryDateTime',
+  //     sort: 'desc',
+  //     sortIndex: 0,
+  //   },
+  // ];
+  // params.columnApi.applyColumnState({ state: defaultSortModel });
   const reqObj = this.editorForm.value;
   reqObj.sortOrder = 'desc';
   reqObj.sortBy = 'studyTitle';
@@ -334,13 +323,6 @@ restrictChar(event: {
     (k >= 48 && k <= 57)
   );
 }
-confirm() {
-  this.modalRef?.hide();
-  this.onClosed();
-}
 
-decline(): void {
-  this.modalRef?.hide();
-}
 }
 

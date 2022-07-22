@@ -24,6 +24,11 @@ describe('StudyCompareComponent', () => {
     });
     fixture = TestBed.createComponent(StudyCompareComponent);
     component = fixture.componentInstance;
+    window.history.pushState(
+      { from: 'search1' },
+      '',
+      ''
+    );
   });
 
   it('can load instance', () => {
@@ -40,6 +45,12 @@ describe('StudyCompareComponent', () => {
       component.ngOnInit();
       expect(component.setModel).toHaveBeenCalled();
       expect(dialogServiceStub.changeDialogState).toHaveBeenCalled();
+      window.history.pushState(
+        { from: 'search2' },
+        '',
+        ''
+      );
+      component.ngOnInit();
     });
   });
 
@@ -49,6 +60,43 @@ describe('StudyCompareComponent', () => {
       spyOn(routerStub, 'navigate').and.callThrough();
       component.versionCompare();
       expect(routerStub.navigate).toHaveBeenCalled();
+    });
+  });
+
+
+  describe('clear', () => {
+    it('makes expected calls', () => {
+      component.clear();
+      component.versionCompare();
+      expect(component.studyTwoTitle).toEqual('');
+    });
+  });
+  describe('redirect', () => {
+    it('makes expected calls', () => {
+      const routerStub: Router = fixture.debugElement.injector.get(Router);
+      spyOn(routerStub, 'navigate').and.callThrough();
+      component.redirect(['/compare/search']);
+      expect(routerStub.navigate).toHaveBeenCalled();
+    });
+  });
+
+  describe('setModel', () => {
+    it('makes expected calls', () => {
+      let response = {
+        clinicalStudy: {
+          studyId: 1,
+          studyTitle: 'Test'
+        },
+        auditTrail: {
+          studyVersion: 1,
+        },
+      };
+      component.searchOne = response;
+      component.setModel();
+      expect(component.toolTipOne).toEqual('Test_1');
+      component.searchTwo = response;
+      component.setModel();
+      expect(component.toolTipTwo).toEqual('Test_1');
     });
   });
 });
