@@ -51,6 +51,11 @@ describe('SimpleSearchComponent', () => {
     });
     fixture = TestBed.createComponent(SimpleSearchComponent);
     component = fixture.componentInstance;
+    window.history.pushState(
+      { data: {from:'search1'} },
+      '',
+      ''
+    );
   });
 
   it('can load instance', () => {
@@ -262,6 +267,41 @@ describe('SimpleSearchComponent', () => {
       let val = component.getToday();
      // component.ngAfterViewInit();
       expect(typeof(val)).toEqual('string');
+    });
+  });
+  describe('getStudyVersionGrid', () => {
+    it(`getStudyVersionGrid has default value`, () => {
+      let val1 = component.getStudyVersionGrid({});
+      expect(val1).toEqual('');
+    });
+    it(`getStudyVersionGrid has default value`, () => {
+      let val = component.getStudyVersionGrid({
+        data: {
+          clinicalStudy: {
+            studyIdentifiers: [
+              {
+                id: 'f3e61d97-60d2-499c-bbbc-4f3996385627',
+                orgCode: '2.16.840.1',
+                name: 'SponsorNo',
+                idType: 'SPONSOR_ID',
+              },
+              {
+                id: '7f6d988e-507f-4898-b7aa-b25d93ef26d9',
+                orgCode: '2.16.840.1',
+                name: 'SponsorNo',
+                idType: 'SPONSOR_ID',
+              },
+            ],
+          },
+          auditTrail: {
+            entryDateTime: '2022-FEB-07',
+            entrySystemId: 'Viswesh_localHost',
+            entrySystem: 'Viswesh',
+            studyVersion: 1,
+          },
+        },
+      });
+      expect(val).not.toEqual('');
     });
   });
 

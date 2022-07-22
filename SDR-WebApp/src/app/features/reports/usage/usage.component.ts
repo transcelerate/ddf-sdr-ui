@@ -233,9 +233,7 @@ export class UsageComponent implements OnInit  { state$: Observable<object>;
     });
     this.submitSearch(true);
   }
-  decline(): void {
-    this.modalRef?.hide();
-  }
+
   onGridReady(params: any) {
     this.gridApi = params.api;
     this.gridColumnApi = params.columnApi;

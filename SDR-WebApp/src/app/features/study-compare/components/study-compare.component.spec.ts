@@ -91,10 +91,12 @@ describe('StudyCompareComponent', () => {
           studyVersion: 1,
         },
       };
-      component.searchOne = response;
+      localStorage.setItem('search1',JSON.stringify(response));
+      localStorage.setItem('search2','');
       component.setModel();
       expect(component.toolTipOne).toEqual('Test_1');
-      component.searchTwo = response;
+      localStorage.setItem('search2',JSON.stringify(response));
+      localStorage.setItem('search1','');
       component.setModel();
       expect(component.toolTipTwo).toEqual('Test_1');
     });

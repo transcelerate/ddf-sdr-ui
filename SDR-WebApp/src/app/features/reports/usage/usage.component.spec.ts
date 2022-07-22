@@ -99,14 +99,20 @@ describe('UsageComponent', () => {
   });
 
 
-
-
-
   describe('clear', () => {
     it('makes expected calls', () => {
       spyOn(component, 'submitSearch').and.callThrough();
       component.clear();
       expect(component.submitSearch).toHaveBeenCalled();
+    });
+  });
+
+
+  describe('submitSearch', () => {
+    it('makes expected calls', () => {
+      
+      component.submitSearch(true);
+      expect(true).toEqual(true);
     });
   });
 });
