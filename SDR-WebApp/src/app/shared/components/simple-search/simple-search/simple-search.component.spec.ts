@@ -42,7 +42,7 @@ describe('SimpleSearchComponent', () => {
         { provide: DialogService, useFactory: dialogServiceStub },
         { provide: BsModalService, useFactory: bsModalServiceStub },
         { provide: CommonMethodsService, useFactory: commonMethodsServiceStub },
-        { provide: FormBuilder, useFactory: formBuilderStub },
+        FormBuilder,
         { provide: NgxSpinnerService, useFactory: ngxSpinnerServiceStub },
         { provide: ServiceCall, useFactory: serviceCallStub },
         { provide: ActivatedRoute, useFactory: activatedRouteStub },
@@ -56,6 +56,11 @@ describe('SimpleSearchComponent', () => {
       '',
       ''
     );
+    component.editorForm.setValue({
+      studyTitle: 'uu',
+      fromDate: '99',
+      toDate: 'study',
+    });
   });
 
   it('can load instance', () => {
