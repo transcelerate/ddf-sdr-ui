@@ -145,7 +145,7 @@
       <div class="col-md-12 text-center">
         <form>
          
-          <button class="btn btn-primary btn-sm" type="submit" (click)="submit()" routerLink=".." >Select</button>
+          <button class="btn btn-primary btn-sm" type="submit" [disabled]="!selectedValue" (click)="submit()" routerLink=".." >Select</button>
           <button class="btn btn-primary btn-sm" type="submit" routerLink=".." >Cancel</button>
         </form>
       </div>
