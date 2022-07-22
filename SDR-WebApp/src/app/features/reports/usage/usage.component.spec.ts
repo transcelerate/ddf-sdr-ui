@@ -83,29 +83,9 @@ describe('UsageComponent', () => {
     expect(component.BLOCK_SIZE).toEqual(configList.BLOCK_SIZE);
   });
 
-  describe('openModal', () => {
-    it('makes expected calls', () => {
-      const templateRefStub: any = <any>{};
-      const bsModalServiceStub: BsModalService = fixture.debugElement.injector.get(
-        BsModalService
-      );
-      spyOn(bsModalServiceStub, 'show').and.callThrough();
-      component.openModal(templateRefStub);
-      expect(bsModalServiceStub.show).toHaveBeenCalled();
-    });
-  });
 
-  describe('openSearchData', () => {
-    it('makes expected calls', () => {
-      const templateRefStub: any = <any>{};
-      const bsModalServiceStub: BsModalService = fixture.debugElement.injector.get(
-        BsModalService
-      );
-      spyOn(bsModalServiceStub, 'show').and.callThrough();
-      component.openSearchData(templateRefStub);
-      expect(bsModalServiceStub.show).toHaveBeenCalled();
-    });
-  });
+
+ 
 
   describe('ngOnInit', () => {
     it('makes expected calls', () => {
@@ -118,22 +98,9 @@ describe('UsageComponent', () => {
     });
   });
 
-  describe('onClosed', () => {
-    it('makes expected calls', () => {
-      const routerStub: Router = fixture.debugElement.injector.get(Router);
-      spyOn(routerStub, 'navigateByUrl').and.callThrough();
-      component.onClosed();
-      expect(routerStub.navigateByUrl).toHaveBeenCalled();
-    });
-  });
 
-  describe('confirm', () => {
-    it('makes expected calls', () => {
-      spyOn(component, 'onClosed').and.callThrough();
-      component.confirm();
-      expect(component.onClosed).toHaveBeenCalled();
-    });
-  });
+
+
 
   describe('clear', () => {
     it('makes expected calls', () => {

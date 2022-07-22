@@ -172,42 +172,9 @@ export class UsageComponent implements OnInit  { state$: Observable<object>;
   
   
   
-  getAllGroups() {
-    this.saveSuccess = true;
-  }
-  onClosed() {
-    this.router.navigateByUrl('/admin');
-  }
-  openModal(template: TemplateRef<any>) {
-    this.modalRef = this.modalService.show(template);
-  }
   
-  openSearchData(template: TemplateRef<any>) {
-    this.modalRef = this.modalService.show(template);
-  }
-  getToday(): string {
-    return new Date().toISOString().split('T')[0];
-  }
-  /**
-   * Construct Study Version Grid
-   * @param params   ag grid value for each row with data.
-   * @returns Return Html Link tag.
-   */
-  getStudyVersionGrid(params: any) {
-    if (!params.data) {
-      return '';
-    } else {
-      const eDiv = document.createElement('span');
-      // tslint:disable-next-line:no-this-assignment
-      const self = this;
-      eDiv.innerHTML =
-        '<span class="linkSpan">' +
-        params.data?.clinicalStudy.days +
-        '</span>';
   
-      return eDiv;
-    }
-  }
+
   
 
   /**
@@ -254,60 +221,10 @@ export class UsageComponent implements OnInit  { state$: Observable<object>;
     
   }
   
-  getSelectSearch(params: any) {
-    if (params.data.selected) {
-      if (
-        this.searchList.some(
-          (elem: { id: any }) => elem.id === params.data.clinicalStudy.studyId
-        )
-      ) {
-        return;
-      }
-      this.searchList.push({
-        id: params.data.clinicalStudy.studyId,
-        title: params.data.clinicalStudy.days,
-      });
-    } else {
-      this.searchList = this.searchList.filter((elem: any) => {
-        return !(elem.id === params.data.clinicalStudy.studyId);
-      });
-    }
-    // let index = this.group.groupFilter.findIndex(
-    //   (elem) => elem.groupFieldName.replace(/\s/g, '').toUpperCase() === 'STUDY'
-    // );
-    // if (index !== -1) {
-    //   this.addRule();
-    // }
+ 
   
-    // this.showAddButton = this.isSearchSelected && this.searchList.length > 0;
-    // console.log(this.searchList);
   
-  }
-  
-  /**
-   *  Logic to restrict special char on typing
-   *  @param event Keyboard event on typing.
-   */
-  restrictChar(event: {
-    charCode: number;
-    which: number;
-    preventDefault: () => void;
-  }) {
-    var k;
-    k = event.charCode; //         k = event.keyCode;  (Both can be used)
-    return (
-      (k > 64 && k < 91) ||
-      (k > 96 && k < 123) ||
-      k == 8 ||
-      k == 32 ||
-      k == 46 ||
-      (k >= 48 && k <= 57)
-    );
-  }
-  confirm() {
-    this.modalRef?.hide();
-    this.onClosed();
-  }
+ 
   clear(){
     this.editorForm.patchValue({
       days:7,
