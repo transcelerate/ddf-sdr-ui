@@ -42,11 +42,12 @@
       <strong>{{ selectedUser.email }}</strong> ?
     </p>
 
+    
+    <button type="button" class="btn btn-primary" (click)="decline()">
+      No
+    </button>
     <button type="button" class="btn btn-primary" (click)="confirm()">
       Yes
-    </button>
-    <button type="button" class="btn btn-default" (click)="decline()">
-      No
     </button>
   </div>
 </ng-template>

@@ -254,6 +254,7 @@ describe('SimpleSearchComponent', () => {
         commonMethodsServiceStub,
         'gridDataSourceForSearchLightStudy'
       ).and.callThrough();
+      component.showGrid = true;
       component.submitSearch();
       expect(
         commonMethodsServiceStub.gridDataSourceForSearchLightStudy
