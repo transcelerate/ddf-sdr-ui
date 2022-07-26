@@ -32,7 +32,7 @@
     <div class="modal-body text-center confirmModal">
       <p *ngIf="!isGroupSingleValue">Are you sure you want to delete the selected rule from <strong>{{selectedGroup}}</strong> ?</p>
       <p *ngIf="isGroupSingleValue">Are you sure you want to delete the group <strong>{{selectedGroup}}</strong> ?</p>
+      <button type="button" class="btn btn-primary" (click)="decline()" >No</button>
       <button type="button" class="btn btn-primary" (click)="confirm()" >Yes</button>
-      <button type="button" class="btn btn-default" (click)="decline()" >No</button>
     </div>
   </ng-template>

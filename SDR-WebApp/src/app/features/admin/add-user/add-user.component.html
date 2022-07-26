@@ -51,6 +51,13 @@
   <div class="col-md-12 text-center">
     <form>
       <button
+      class="btn btn-primary btn-sm searchButton"
+      type="submit"
+      (click)="openSearchData(confirmation)"
+    >
+      Cancel
+    </button>
+      <button
         class="btn btn-primary btn-sm searchButton"
         type="submit"
         [disabled]="groupSelected.length === 0 || userSelected.length === 0"
@@ -59,13 +66,7 @@
       {{isEdit ? 'Update' : 'Add'}}
       </button>
      
-      <button
-        class="btn btn-primary btn-sm searchButton"
-        type="submit"
-        (click)="openSearchData(confirmation)"
-      >
-        Cancel
-      </button>
+     
     </form>
   </div>
 </div>
@@ -73,11 +74,12 @@
   <div class="modal-body text-center confirmModal">
     <p>Are you sure you want to cancel?</p>
 
+  
+    <button type="button" class="btn btn-primary" (click)="decline()">
+      No
+    </button>
     <button type="button" class="btn btn-primary" (click)="confirm()">
       Yes
-    </button>
-    <button type="button" class="btn btn-default" (click)="decline()">
-      No
     </button>
   </div>
 </ng-template>

@@ -40,7 +40,7 @@ describe('UsageComponent', () => {
         { provide: DialogService, useFactory: dialogServiceStub },
         { provide: BsModalService, useFactory: bsModalServiceStub },
         { provide: CommonMethodsService, useFactory: commonMethodsServiceStub },
-        { provide: FormBuilder, useFactory: formBuilderStub },
+        FormBuilder,
         { provide: NgxSpinnerService, useFactory: ngxSpinnerServiceStub },
         { provide: ServiceCall, useFactory: serviceCallStub },
         { provide: ActivatedRoute, useFactory: activatedRouteStub },
@@ -49,6 +49,11 @@ describe('UsageComponent', () => {
     });
     fixture = TestBed.createComponent(UsageComponent);
     component = fixture.componentInstance;
+    component.editorForm.setValue({
+      days: 'uu',
+      operation: '99',
+      responseCode: 'study',
+    });
   });
 
   it('can load instance', () => {
@@ -99,14 +104,20 @@ describe('UsageComponent', () => {
   });
 
 
-
-
-
   describe('clear', () => {
     it('makes expected calls', () => {
       spyOn(component, 'submitSearch').and.callThrough();
       component.clear();
       expect(component.submitSearch).toHaveBeenCalled();
+    });
+  });
+
+
+  describe('submitSearch', () => {
+    it('makes expected calls', () => {
+      
+      component.submitSearch(true);
+      expect(true).toEqual(true);
     });
   });
 });

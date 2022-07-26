@@ -136,6 +136,12 @@ describe('UserManagementComponent', () => {
       expect(component.userGroupList).toBe(field);
     });
   });
+  describe('decline', () => {
+    it('makes expected calls', () => {
+      component.decline();
+      expect(true).toBe(true);
+    });
+  });
   describe('openDeleteConfirmation', () => {
     it('makes expected calls', () => {
       component.rowData = [

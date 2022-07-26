@@ -63,6 +63,8 @@ export class MenuComponent implements OnInit {
       }
       this.changeActive(dialogState);
     });
+    localStorage.setItem('search1','');
+    localStorage.setItem('search2','');
   }
   changeActive(selectedName: String) {
     this.menuItems = this.menuItems.map((elem:any) => {
