@@ -240,8 +240,9 @@
           (click)="openModal(template)"
           >Rules</span
         >
-        <button class="btn btn-primary btn-sm" type="submit" [disabled]="!showContent  || !initialForm.valid || this.groupError" (click)="saveGroup()">Save Group</button>
         <button class="btn btn-primary btn-sm" type="submit" (click)="openSearchData(confirmation)">Cancel</button>
+        <button class="btn btn-primary btn-sm" type="submit" [disabled]="!showContent  || !initialForm.valid || this.groupError" (click)="saveGroup()">Save Group</button>
+        
       </form>
     </div>
   </div>
@@ -249,8 +250,8 @@
 <ng-template #confirmation>
   <div class="modal-body text-center confirmModal">
     <p >Are you sure you want to cancel?</p>
-   
+    <button type="button" class="btn btn-primary" (click)="decline()" >No</button>
     <button type="button" class="btn btn-primary" (click)="confirm()" >Yes</button>
-    <button type="button" class="btn btn-default" (click)="decline()" >No</button>
+    
   </div>
 </ng-template>

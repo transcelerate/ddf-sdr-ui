@@ -24,7 +24,7 @@ describe('AddGroupComponent', () => {
     const bsModalServiceStub = () => ({ show: (template: any) => ({}) });
     const commonMethodsServiceStub = () => ({
       postGroup: (group: any, arg1: any) => ({}),
-      gridDataSourceForSearchStudy: (
+      gridDataSourceForSearchLightStudy: (
         reqObj: any,
         gridApi: any,
         bLOCK_SIZE: any,
@@ -434,7 +434,7 @@ describe('AddGroupComponent', () => {
         fixture.debugElement.injector.get(CommonMethodsService);
       spyOn(
         commonMethodsServiceStub,
-        'gridDataSourceForSearchStudy'
+        'gridDataSourceForSearchLightStudy'
       ).and.callThrough();
       component.showGrid = true;
       component.editorForm.patchValue({
@@ -443,7 +443,7 @@ describe('AddGroupComponent', () => {
       });
       component.submitSearch();
       expect(
-        commonMethodsServiceStub.gridDataSourceForSearchStudy
+        commonMethodsServiceStub.gridDataSourceForSearchLightStudy
       ).toHaveBeenCalled();
     });
   });

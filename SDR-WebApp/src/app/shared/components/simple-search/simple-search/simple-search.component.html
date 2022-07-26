@@ -28,7 +28,7 @@
             
             <input
               type="text"
-              class="input-sm paddingTen"
+              class="input-sm paddingTen textField"
               formControlName="studyTitle"
               maxlength="20"
               (keypress)="restrictChar($event)"
@@ -69,7 +69,7 @@
         <button
         class="btn btn-primary btn-sm resetButton"
        
-        [disabled]="!editorForm.valid"
+       
         (click)="clear()"
       >
         Reset
@@ -145,8 +145,10 @@
       <div class="col-md-12 text-center">
         <form>
          
-          <button class="btn btn-primary btn-sm" type="submit" [disabled]="!selectedValue" (click)="submit()" routerLink=".." >Select</button>
+          
+          
           <button class="btn btn-primary btn-sm" type="submit" routerLink=".." >Cancel</button>
+          <button class="btn btn-primary btn-sm" type="submit" [disabled]="!selectedValue" (click)="submit()" routerLink=".." >Select</button>
         </form>
       </div>
     </div>
