@@ -258,7 +258,7 @@ export class SearchFormComponent implements OnInit {
       //     return obj['studyIdentifierScope'] === configList.SPONSORKEY;
       //   }
       // );
-      let value = params.data.clinicalStudy.uuidentifiers.filter(
+      let value = params.data.clinicalStudy.studyIdentifiers.filter(
         (obj: any) => {
           return obj['studyIdentifierScope'].filter((elem: any) => {
             return elem.decode === configList.SPONSORKEY;
