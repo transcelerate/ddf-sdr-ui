@@ -57,7 +57,7 @@ export class RecentActivityComponent {
         tooltipField: 'studyTitle',
       },
       {
-        headerName: 'Last Modified Date',
+        headerName: 'Last Modified',
         field: 'auditTrail.entryDateTime',
         width: 100,
       },
@@ -119,7 +119,7 @@ export class RecentActivityComponent {
         '<span class="linkSpan"><a>' +
         params.data?.clinicalStudy.studyTitle +
         '&nbsp;<span>_Version ' +
-        params.data?.auditTrail.studyVersion +
+        params.data?.auditTrail.SDRUploadVersion +
         '</span> </a></span>';
       eDiv.addEventListener('click', () => {
         self.setSelectedValue(params.data);
@@ -141,8 +141,8 @@ export class RecentActivityComponent {
       [
         'details',
         {
-          studyId: val.clinicalStudy.studyId,
-          versionId: val.auditTrail.studyVersion,
+          studyId: val.clinicalStudy.uuid,
+          versionId: val.auditTrail.SDRUploadVersion,
         },
       ],
       { relativeTo: this.route }

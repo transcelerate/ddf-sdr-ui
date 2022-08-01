@@ -19,7 +19,7 @@ export class StudyCompareComponent implements OnInit {
   studyTwoTitle: any;
   toolTipOne: string;
   toolTipTwo: string;
-
+  showError = false;
   constructor(private ds: DialogService, public router: Router,
     public route: ActivatedRoute,) { }
 
@@ -41,16 +41,16 @@ export class StudyCompareComponent implements OnInit {
     this.searchTwo = localStorage.getItem('search2');
     if(this.searchOne){
       this.searchOne = JSON.parse(this.searchOne);
-      this.studyOneId = this.searchOne.clinicalStudy.studyId;
+      this.studyOneId = this.searchOne.clinicalStudy.uuid;
       this.studyOneTitle = this.searchOne.clinicalStudy.studyTitle;
-      this.studyOneVersion = this.searchOne.auditTrail.studyVersion;
-      this.toolTipOne = this.studyOneTitle  + '_' + this.studyOneVersion;
+      this.studyOneVersion = this.searchOne.auditTrail.SDRUploadVersion;
+      this.toolTipOne = this.studyOneTitle  + '_Version' + this.studyOneVersion;
   } if(this.searchTwo){
     this.searchTwo = JSON.parse(this.searchTwo);
-    this.studyTwoId = this.searchTwo.clinicalStudy.studyId;
+    this.studyTwoId = this.searchTwo.clinicalStudy.uuid;
     this.studyTwoTitle = this.searchTwo.clinicalStudy.studyTitle;
-    this.studyTwoVersion = this.searchTwo.auditTrail.studyVersion;
-    this.toolTipTwo = this.studyTwoTitle  + '_' + this.studyTwoVersion;
+    this.studyTwoVersion = this.searchTwo.auditTrail.SDRUploadVersion;
+    this.toolTipTwo = this.studyTwoTitle  + '_Version' + this.studyTwoVersion;
   }
   }
   versionCompare() {

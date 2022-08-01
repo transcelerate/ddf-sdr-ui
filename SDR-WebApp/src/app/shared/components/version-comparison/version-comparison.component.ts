@@ -126,9 +126,9 @@ export class VersionComparisonComponent implements OnInit {
       .getStudyElement(this.studyId, this.versionA)
       .subscribe({
         next: (versionA: any) => {
-          //this.leftHeader = versionA.auditTrail.studyVersion + '-' + moment(versionA.auditTrail.entryDateTime).format("DD/MM/YYYY");
+          //this.leftHeader = versionA.auditTrail.SDRUploadVersion + '-' + moment(versionA.auditTrail.entryDateTime).format("DD/MM/YYYY");
           this.leftHeader = ' Version# ' +
-            versionA.auditTrail.studyVersion +
+            versionA.auditTrail.SDRUploadVersion +
             '(Modified On:' +
             versionA.auditTrail.entryDateTime +
             ')';
@@ -147,7 +147,7 @@ export class VersionComparisonComponent implements OnInit {
               next: (versionB: any) => {
                 this.spinner.hide();
                 this.rightHeader = ' Version# ' +
-                  versionB.auditTrail.studyVersion +
+                  versionB.auditTrail.SDRUploadVersion +
                   '(Modified On:' +
                   versionB.auditTrail.entryDateTime +
                   ')';

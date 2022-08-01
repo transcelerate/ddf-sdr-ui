@@ -1,7 +1,7 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { DialogService } from 'src/app/shared/services/communication.service';
 import { CheckboxRenderer } from 'src/app/features/admin/add-group/checkbox-renderer.component';
-import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+import { BsModalService, BsModalRef, ModalOptions } from 'ngx-bootstrap/modal';
 import { configList } from 'src/app/shared/components/study-element-description/config/study-element-field-config';
 import { CommonMethodsService } from 'src/app/shared/services/common-methods.service';
 import {
@@ -22,6 +22,7 @@ import { AlertComponent } from 'ngx-bootstrap/alert';
 import { ServiceCall } from 'src/app/shared/services/service-call/service-call.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { map, Observable } from 'rxjs';
+import { ModalComponentComponent } from '../../modal-component/modal-component.component';
 @Component({
   selector: 'app-simple-search',
   templateUrl: './simple-search.component.html',
@@ -69,6 +70,7 @@ isEdit: boolean;
   radioButton: boolean;
   selectedValue: any;
   from: string | null;
+  bsModalRef?: BsModalRef;
 constructor(
   public _formBuilder: FormBuilder,
   private ds: DialogService,
@@ -78,7 +80,7 @@ constructor(
   private commonMethod: CommonMethodsService,
   public router: Router,
   public route: ActivatedRoute,
-  public activatedRoute: ActivatedRoute
+  public activatedRoute: ActivatedRoute,
 ) {
   this.gridOptions = <GridOptions>{
     enableSorting: true,
@@ -95,20 +97,19 @@ constructor(
       headerTooltip: configList.STUDY_TITLE,
       cellRenderer: this.getStudyVersionGrid.bind(this),
     },
-
+    {
+      headerName: 'Sponsor ID',
+      cellRenderer: this.commonMethod.getSponsorIdGrid.bind(this, 'sponsor'),
+      headerTooltip: configList.SPONSOR_ID,
+    },
     {
       headerName: 'SDR Upload Version',
-      field: 'auditTrail.studyVersion',
-      tooltipField: 'auditTrail.studyVersion',
+      field: 'auditTrail.SDRUploadVersion',
+      tooltipField: 'auditTrail.SDRUploadVersion',
       headerTooltip: configList.SDR_UPLOAD_VERSION,
     },
 
-    {
-      headerName: 'Tag',
-      field: 'clinicalStudy.studyTag',
-      tooltipField: 'clinicalStudy.studyTag',
-      headerTooltip: configList.TAG,
-    },
+    
   ];
 
   this.defaultColDef = {
@@ -139,6 +140,7 @@ constructor(
       studyTitle: [''],
       fromDate: [''],
       toDate: [''],
+      studyId: [''],
     },
     { validators: this.atLeastOneValidator }
   );
@@ -154,21 +156,46 @@ ngOnInit(): void {
     }
   
 }
-
+ /**
+   * Construct multiple values for sponsor id and interventional model
+   * @param params   ag grid value of that particular row for which link is clicked.
+   * @param type  Denotes for which value is the link clicked either for sponsor id or interventional model.
+   */
+ 
 clear(){
   this.editorForm.setValue({
     //nosonar
     studyTitle: '', //nosonar     //nosonar
     fromDate: '', //nosonar 
-    toDate: '', //nosonar
+    toDate: '', 
+    studyId:'',//nosonar
   }); //nosonar
+  this.showGrid = false;
 }
 
 submit(){
   this.router.navigate(['/compare'], {state: {data: this.selectedValue,from:this.from}});
 }
 
-
+  /**
+   * Modal for multiple sponsor id and interventional model
+   * @param val   ag grid value of that particular row for which link is clicked.
+   * @param type  Denotes for which value is the link clicked either for sponsor id or interventional model.
+   */
+   openModal(val: any, type: any) {
+    const initialState: ModalOptions = {
+      initialState: {
+        list: val,
+        title:
+        'Sponsor Id List',
+      },
+    };
+    this.bsModalRef = this.modalService.show(
+      ModalComponentComponent,
+      initialState
+    );
+    this.bsModalRef.content.closeBtnName = 'Close';
+  }
 
 getToday(): string {
   return new Date().toISOString().split('T')[0];
@@ -202,8 +229,8 @@ setSelectedValue(val: any) {
     [
       'details',
       {
-        studyId: val.clinicalStudy.studyId,
-        versionId: val.auditTrail.studyVersion,
+        studyId: val.clinicalStudy.uuid,
+        versionId: val.auditTrail.SDRUploadVersion,
       },
     ],
     { relativeTo: this.route }
