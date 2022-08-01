@@ -3,7 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { ColDef, GridApi, GridReadyEvent } from 'ag-grid-community';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ServiceCall } from '../../services/service-call/service-call.service';
-
+import * as moment from 'moment';
 @Component({
   selector: 'app-audit-trail',
   templateUrl: './audit-trail.component.html',
@@ -26,27 +26,10 @@ export class AuditTrailComponent implements OnInit {
       suppressSizeToFit: false,
       width: 150,
     },
-    {
-      headerName: 'System',
-      field: 'entrySystem',
-      suppressSizeToFit: false,
-      width: 170,
-    },
+
     {
       headerName: 'SDR Record Version',
-      field: 'studyVersion',
-      suppressSizeToFit: false,
-      width: 150,
-    },
-    {
-      headerName: 'Tag',
-      field: 'studyTag',
-      suppressSizeToFit: false,
-      width: 150,
-    },
-    {
-      headerName: 'Status',
-      field: 'studyStatus',
+      field: 'SDRUploadVersion',
       suppressSizeToFit: false,
       width: 150,
     },
@@ -121,9 +104,14 @@ export class AuditTrailComponent implements OnInit {
       next: (audit: any) => {
         //this.userExists = true;
         this.spinner.hide();
-
-        this.studyId = audit.studyId;
-        this.rowData = audit.auditTrail;
+        this.rowData = audit.auditTrail.map((elem: any) => {
+          elem.entryDateTime = moment
+            .utc(elem.entryDateTime)
+            .local()
+            .format('YYYY-MM-DD HH:mm:ss');
+            return elem;
+        });
+        this.studyId = audit.uuid;
       },
       error: (error) => {
         this.showError = true;
@@ -207,9 +195,9 @@ export class AuditTrailComponent implements OnInit {
   setRadio(selectedVal: any, from: string) {
     let disableField = from === 'A' ? 'B' : 'A';
     if (from == 'A') {
-      this.versionA = selectedVal.studyVersion;
+      this.versionA = selectedVal.SDRUploadVersion;
     } else {
-      this.versionB = selectedVal.studyVersion;
+      this.versionB = selectedVal.SDRUploadVersion;
     }
     let domElement = this._elementRef.nativeElement.getElementsByClassName(
       'radio' + disableField

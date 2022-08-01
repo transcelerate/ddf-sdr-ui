@@ -1,3 +1,4 @@
+<app-error-component *ngIf="showError"></app-error-component>
 <div class="container-fluid outer" *ngIf="route.children.length === 0">
   <h3>Study Comparison</h3>
   <!--  <ol _ngcontent-kcl-c19="" class="breadcrumb ng-star-inserted">
@@ -26,7 +27,7 @@
         <div class="col-md-9 paddingTop">
           <span class="oval" *ngIf="studyOneTitle && studyOneTitle!==''"
             ><span class="ovalText" data-toggle="tooltip" [title]="toolTipOne"
-              >{{studyOneTitle}}_{{studyOneVersion}}
+              >{{studyOneTitle}}_Version{{studyOneVersion}}
             </span>
            </span
           >
@@ -43,7 +44,7 @@
         <div class="col-md-9 paddingTop">
           <span class="oval"  *ngIf="studyTwoTitle && studyTwoTitle!==''"
             ><span class="ovalText" data-toggle="tooltip" [title]="toolTipTwo"
-              >{{studyTwoTitle}}_{{studyTwoVersion}}
+              >{{studyTwoTitle}}_Version{{studyTwoVersion}}
             </span>
             </span
           >

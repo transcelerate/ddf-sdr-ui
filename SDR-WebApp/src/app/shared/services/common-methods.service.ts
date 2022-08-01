@@ -3,15 +3,147 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import * as moment from 'moment';
 import { ServiceCall } from './service-call/service-call.service';
 import { configList } from '../components/study-element-description/config/study-element-field-config';
+import { BsModalRef, BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
+import { ModalComponentComponent } from '../components/modal-component/modal-component.component';
 @Injectable({
   providedIn: 'root',
 })
 export class CommonMethodsService {
+  bsModalRef: BsModalRef;
   constructor(
     private spinner: NgxSpinnerService,
-    public serviceCall: ServiceCall
+    public serviceCall: ServiceCall,
+    private modalService: BsModalService
   ) {}
-   
+  getSponsorIdGrid(type: any, params: any) {
+    let value;
+    let self = this;
+    if (!params.data) {
+      return '';
+    } else {
+      if (type === 'sponsor') {
+        value = params?.data?.clinicalStudy?.studyIdentifiers?.filter(
+          (obj: any) => {
+            if (
+              obj['studyIdentifierScope']?.organisationType?.decode ===
+              configList.SPONSORKEY
+            ) {
+              return obj['studyIdentifierScope'];
+            }
+          }
+        );
+        console.log(value);
+        console.log(type);
+      } else if (type === 'intervention') {
+        if (
+          params.data &&
+          params?.data?.clinicalStudy?.studyDesigns &&
+          params?.data?.clinicalStudy?.studyDesigns.length > 0
+        ) {
+          value = [];
+          let studyDesigns = params?.data?.clinicalStudy?.studyDesigns;
+          studyDesigns.forEach((element: any) => {
+            if (
+              element.interventionModel &&
+              element.interventionModel.length > 0
+            ) {
+              element.interventionModel.forEach((item: any) => {
+                if (item.decode && item.decode != '') {
+                  value.push(item);
+                }
+              });
+            }
+          });
+        }
+      } else if (type === 'indication') {
+        if (
+          params.data &&
+          params?.data?.clinicalStudy?.studyDesigns &&
+          params?.data?.clinicalStudy?.studyDesigns.length > 0
+        ) {
+          value = [];
+          let studyDesigns = params?.data?.clinicalStudy?.studyDesigns;
+          studyDesigns.forEach((element: any) => {
+            if (
+              element.studyIndications &&
+              element.studyIndications.length > 0
+            ) {
+              element.studyIndications.forEach((item: any) => {
+                if (item.indicationDesc && item.indicationDesc != '') {
+                  value.push(item);
+                }
+              });
+            }
+          });
+        }
+      }
+      if (value && value.length > 1) {
+        var val =
+          type === 'sponsor'
+            ? value.map((elem: any) => {
+                return elem.studyIdentifierScope.organisationIdentifier;
+              })
+            : type === 'intervention'
+            ? value.map((elem: { decode: any }) => {
+                return elem.decode;
+              })
+            : value.map((elem: { indicationDesc: any }) => {
+                return elem.indicationDesc;
+              });
+        val = [...new Set(val)];
+      }
+      if (val && val.length > 1) {
+        console.log(val);
+        const eDiv = document.createElement('a');
+        // tslint:disable-next-line:no-this-assignment
+     let self = this;
+        var htmlTag = '<span class="linkSpan"> ' + val[0] + '</span>';
+        eDiv.innerHTML = htmlTag;
+        eDiv.title = val[0];
+        eDiv.addEventListener('click', () => {
+          self.openModal(val, type);
+        });
+        return eDiv;
+      } else {
+        if (value && value.length > 0) {
+          const eDiv = document.createElement('a');
+          console.log(value);
+          if (type === 'sponsor') {
+            val = value[0].studyIdentifierScope.organisationIdentifier || '';
+          } else if (type === 'intervention') {
+            val = value[0].decode || '';
+          } else {
+            val = value[0].indicationDesc || '';
+          }
+          var htmlTag = '<span> ' + val + '</span>';
+          eDiv.innerHTML = htmlTag;
+          eDiv.title = val;
+          return eDiv;
+        } else {
+          return '';
+        }
+      }
+    }
+  }
+   /**
+   * Modal for multiple sponsor id and interventional model
+   * @param val   ag grid value of that particular row for which link is clicked.
+   * @param type  Denotes for which value is the link clicked either for sponsor id or interventional model.
+   */
+    openModal(val: any, type: any) {
+      const initialState: ModalOptions = {
+        initialState: {
+          list: val,
+          title:
+            type === 'sponsor' ? 'Sponsor Id List' : 'Intervention Model List',
+        },
+      };
+      this.bsModalRef = this.modalService.show(
+        ModalComponentComponent,
+        initialState
+      );
+      this.bsModalRef.content.closeBtnName = 'Close';
+    }
 // @SONAR_STOP@
   gridDataSourceForSearchStudy(
     reqObj: any,
@@ -43,8 +175,9 @@ export class CommonMethodsService {
             this.spinner.hide();
             if (data.length > 0) {
               gridApi.hideOverlay();
-              data = data.map((elem: { selected: boolean; }) => {
+              data = data.map((elem: any) => {
                 elem.selected = false;
+                elem.auditTrail.entryDateTime = moment.utc(elem.auditTrail.entryDateTime).local().format('YYYY-MM-DD HH:mm:ss');
                 return elem;
               });
               let lastRow = -1;
@@ -278,7 +411,7 @@ export class CommonMethodsService {
         return 'LastModifiedBySystem';
       case 'auditTrail.entryDateTime':
         return 'LastModifiedDate';
-      case 'auditTrail.studyVersion':
+      case 'auditTrail.SDRUploadVersion':
         return 'SDRVersion';
       case 'clinicalStudy.studyStatus':
         return 'status';
@@ -298,12 +431,12 @@ export class CommonMethodsService {
     }
   }
   getSponsorDetails(studyelement: any){
-    let sponsorObject = studyelement.clinicalStudy.studyIdentifiers.filter((obj: { [x: string]: string; }) => {
+    let sponsorObject = studyelement.clinicalStudy.uuidentifiers.filter((obj: { [x: string]: string; }) => {
       return obj['idType'] === configList.SPONSORKEY
     });
     return {
       'studyId':sponsorObject.length > 0 ? sponsorObject[0][configList.SPONSORID_KEY] : '',
-      'versionId':studyelement.auditTrail.studyVersion
+      'versionId':studyelement.auditTrail.SDRUploadVersion
     }
 
   }
