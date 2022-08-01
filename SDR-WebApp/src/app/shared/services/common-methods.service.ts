@@ -431,7 +431,7 @@ export class CommonMethodsService {
     }
   }
   getSponsorDetails(studyelement: any){
-    let sponsorObject = studyelement.clinicalStudy.uuidentifiers.filter((obj: { [x: string]: string; }) => {
+    let sponsorObject = studyelement.clinicalStudy.studyIdentifiers.filter((obj: { [x: string]: string; }) => {
       return obj['idType'] === configList.SPONSORKEY
     });
     return {
