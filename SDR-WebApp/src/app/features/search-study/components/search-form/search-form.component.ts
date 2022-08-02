@@ -91,13 +91,13 @@ export class SearchFormComponent implements OnInit {
       },
       {
         headerName: 'Sponsor ID',
-        cellRenderer: this.getSponsorIdGrid.bind(this, 'sponsor'),
+        cellRenderer: this.commonMethod.getSponsorIdGrid.bind(this, 'sponsor'),
         headerTooltip: configList.SPONSOR_ID,
       },
       {
         headerName: 'SDR Upload Version',
-        field: 'auditTrail.studyVersion',
-        tooltipField: 'auditTrail.studyVersion',
+        field: 'auditTrail.SDRUploadVersion',
+        tooltipField: 'auditTrail.SDRUploadVersion',
         headerTooltip: configList.SDR_UPLOAD_VERSION,
       },
       {
@@ -106,46 +106,50 @@ export class SearchFormComponent implements OnInit {
         tooltipField: 'auditTrail.entryDateTime',
         headerTooltip: configList.LAST_MODIFIED_DATE,
       },
-     
-      {
-        headerName: 'Tag',
-        field: 'clinicalStudy.studyTag',
-        tooltipField: 'clinicalStudy.studyTag',
-        headerTooltip: configList.TAG,
-      },
-      {
-        headerName: 'Status',
-        field: 'clinicalStudy.studyStatus',
-        tooltipField: 'clinicalStudy.studyStatus',
-        headerTooltip: configList.STATUS,
-      },
+
+      // {
+      //   headerName: 'Tag',
+      //   field: 'clinicalStudy.studyTag',
+      //   tooltipField: 'clinicalStudy.studyTag',
+      //   headerTooltip: configList.TAG,
+      // },
+      // {
+      //   headerName: 'Status',
+      //   field: 'clinicalStudy.studyStatus',
+      //   tooltipField: 'clinicalStudy.studyStatus',
+      //   headerTooltip: configList.STATUS,
+      // },
       {
         headerName: 'Indication',
 
         headerTooltip: configList.INDICATION,
-        cellRenderer: this.getIndication,
+        cellRenderer: this.commonMethod.getSponsorIdGrid.bind(
+          this,
+          'indication'
+        ),
       },
       {
         headerName: 'Intervention Model',
         // headerTooltip: 'Intervention Model',
         // valueGetter: this.getIntervention,
-        cellRenderer: this.getSponsorIdGrid.bind(this, 'intervention'),
+        cellRenderer: this.commonMethod.getSponsorIdGrid.bind(
+          this,
+          'intervention'
+        ),
         headerTooltip: configList.INTERVENTION,
       },
       {
         headerName: 'Phase',
-        field: 'clinicalStudy.studyPhase',
-        tooltipField: 'clinicalStudy.studyPhase',
+        field: 'clinicalStudy.studyPhase.decode',
+        tooltipField: 'clinicalStudy.studyPhase.decode',
         headerTooltip: configList.PHASE,
       },
-      {
-        headerName: 'Last Modified by System',
-        field: 'auditTrail.entrySystem',
-        tooltipField: 'auditTrail.entrySystem',
-        headerTooltip: configList.LAST_MODIFIED_SYSTEM,
-      },
-     
-     
+      // {
+      //   headerName: 'Last Modified by System',
+      //   field: 'auditTrail.entrySystem',
+      //   tooltipField: 'auditTrail.entrySystem',
+      //   headerTooltip: configList.LAST_MODIFIED_SYSTEM,
+      // },
     ];
 
     this.defaultColDef = {
@@ -217,11 +221,23 @@ export class SearchFormComponent implements OnInit {
    * @param type  Denotes for which value is the link clicked either for sponsor id or interventional model.
    */
   openModal(val: any, type: any) {
+    let title;
+    switch (type) {
+      case 'sponsor':
+        title = 'Sponsor Id List';
+        break;
+      case 'indication':
+        title = 'Indication List';
+        break;
+      case 'intervention':
+        title = 'Intervention Model List';
+        break;
+    }
     const initialState: ModalOptions = {
       initialState: {
         list: val,
         title:
-          type === 'sponsor' ? 'Sponsor Id List' : 'Intervention Model List',
+          title
       },
     };
     this.bsModalRef = this.modalService.show(
@@ -237,9 +253,16 @@ export class SearchFormComponent implements OnInit {
    */
   getSponsorId(params: any) {
     if (params.data) {
+      // let value = params.data.clinicalStudy.uuidentifiers.filter(
+      //   (obj: { [x: string]: string }) => {
+      //     return obj['studyIdentifierScope'] === configList.SPONSORKEY;
+      //   }
+      // );
       let value = params.data.clinicalStudy.studyIdentifiers.filter(
-        (obj: { [x: string]: string }) => {
-          return obj['idType'] === configList.SPONSORKEY;
+        (obj: any) => {
+          return obj['studyIdentifierScope'].filter((elem: any) => {
+            return elem.decode === configList.SPONSORKEY;
+          });
         }
       );
       if (value.length > 0) {
@@ -272,85 +295,7 @@ export class SearchFormComponent implements OnInit {
       return eDiv;
     }
   }
-  /**
-   * Construct multiple values for sponsor id and interventional model
-   * @param params   ag grid value of that particular row for which link is clicked.
-   * @param type  Denotes for which value is the link clicked either for sponsor id or interventional model.
-   */
-  getSponsorIdGrid(type: any, params: any) {
-    if (!params.data) {
-      return '';
-    } else {
-      if (type === 'sponsor') {
-        var value = params.data.clinicalStudy.studyIdentifiers.filter(
-          (obj: { [x: string]: string }) => {
-            return obj['idType'] === configList.SPONSORKEY;
-          }
-        );
-      } else {
-        var value: any = [];
 
-        if (
-          params.data &&
-          params?.data?.clinicalStudy?.studyDesigns &&
-          params?.data?.clinicalStudy?.studyDesigns.length > 0
-        ) {
-          let studyDesigns = params?.data?.clinicalStudy?.studyDesigns;
-          studyDesigns.forEach((element: any) => {
-            if (
-              element.investigationalInterventions &&
-              element.investigationalInterventions.length > 0
-            ) {
-              element.investigationalInterventions.forEach((item: any) => {
-                if (item.interventionModel && item.interventionModel != '') {
-                  value.push(item);
-                }
-              });
-            }
-          });
-        }
-      }
-      if (value && value.length > 1) {
-        var val =
-          type === 'sponsor'
-            ? value.map((elem: { orgCode: any }) => {
-                return elem.orgCode;
-              })
-            : value.map((elem: { interventionModel: any }) => {
-                return elem.interventionModel;
-              });
-        val = [...new Set(val)];
-      }
-      if (val && val.length > 1) {
-        const eDiv = document.createElement('a');
-        // tslint:disable-next-line:no-this-assignment
-        const self = this;
-        var htmlTag = '<span class="linkSpan"> ' + val[0] + '</span>';
-        eDiv.innerHTML = htmlTag;
-        eDiv.title = val[0];
-        eDiv.addEventListener('click', () => {
-          self.openModal(val, type);
-        });
-        return eDiv;
-      } else {
-        if (value && value.length > 0) {
-          const eDiv = document.createElement('a');
-
-          if (type === 'sponsor') {
-            val = value[0][configList.SPONSORID_KEY] || '';
-          } else {
-            val = value[0].interventionModel || '';
-          }
-          var htmlTag = '<span> ' + val + '</span>';
-          eDiv.innerHTML = htmlTag;
-          eDiv.title = val;
-          return eDiv;
-        } else {
-          return '';
-        }
-      }
-    }
-  }
   /**
    * Redirect to details page on click of Study Title link
    * @param val   ag grid value of that particular row for which link is clicked.
@@ -360,8 +305,8 @@ export class SearchFormComponent implements OnInit {
       [
         'details',
         {
-          studyId: val.clinicalStudy.studyId,
-          versionId: val.auditTrail.studyVersion,
+          studyId: val.clinicalStudy.uuid,
+          versionId: val.auditTrail.SDRUploadVersion,
         },
       ],
       { relativeTo: this.route }

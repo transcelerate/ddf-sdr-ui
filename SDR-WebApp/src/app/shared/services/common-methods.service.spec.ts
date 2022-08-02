@@ -88,7 +88,7 @@ describe('CommonMethodsService', () => {
       expect(service.getHeaderName('auditTrail.entryDateTime')).toEqual('LastModifiedDate');
     });
     it('tests SDRVersion', () => {
-      expect(service.getHeaderName('auditTrail.studyVersion')).toEqual('SDRVersion');
+      expect(service.getHeaderName('auditTrail.SDRUploadVersion')).toEqual('SDRVersion');
     });
     it('tests status', () => {
       expect(service.getHeaderName('clinicalStudy.studyStatus')).toEqual('status');

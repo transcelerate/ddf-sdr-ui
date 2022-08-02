@@ -98,8 +98,8 @@ export class AddGroupComponent implements OnInit {
 
       // {
       //   headerName: 'SDR Upload Version',
-      //   field: 'auditTrail.studyVersion',
-      //   tooltipField: 'auditTrail.studyVersion',
+      //   field: 'auditTrail.SDRUploadVersion',
+      //   tooltipField: 'auditTrail.SDRUploadVersion',
       //   headerTooltip: configList.SDR_UPLOAD_VERSION,
       // },
 
@@ -408,18 +408,18 @@ export class AddGroupComponent implements OnInit {
     if (params.data.selected) {
       if (
         this.searchList.some(
-          (elem: { id: any }) => elem.id === params.data.clinicalStudy.studyId
+          (elem: { id: any }) => elem.id === params.data.clinicalStudy.uuid
         )
       ) {
         return;
       }
       this.searchList.push({
-        id: params.data.clinicalStudy.studyId,
+        id: params.data.clinicalStudy.uuid,
         title: params.data.clinicalStudy.studyTitle,
       });
     } else {
       this.searchList = this.searchList.filter((elem: any) => {
-        return !(elem.id === params.data.clinicalStudy.studyId);
+        return !(elem.id === params.data.clinicalStudy.uuid);
       });
     }
     // let index = this.group.groupFilter.findIndex(

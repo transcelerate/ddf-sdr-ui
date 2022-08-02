@@ -1,3 +1,4 @@
+<app-error-component *ngIf="showError"></app-error-component>
 <div  *ngIf="route.children.length === 0">
 <div class="container-fluid">
     <ol _ngcontent-kcl-c19="" class="breadcrumb ng-star-inserted">
@@ -35,6 +36,23 @@
             />
           </div>
         </div>
+        </div>
+        <div class="col-3">
+        <div class="form-group row">
+          <label for="studyId" class="col-sm-4 paddingTen"
+            >Sponsor Id:</label
+          >
+          <div class="col-sm-8 inputDiv">
+            
+            <input
+              type="text"
+              (keypress)="restrictChar($event)"
+              class="input-sm"
+              formControlName="studyId"
+            />
+          </div>
+        </div>
+
       </div>
       <div class="col-3">
         <!--left side -->
@@ -65,26 +83,27 @@
           </div>
         </div>
       </div>
-      <div class="col-3 buttonClass">
-        <button
-        class="btn btn-primary btn-sm resetButton"
-       
-       
-        (click)="clear()"
-      >
-        Reset
-      </button>
-      <button
-      class="btn btn-primary btn-sm searchButton"
-      type="submit"
-      [disabled]="!editorForm.valid"
-      (click)="submitSearch()"
-    >
-      Search
-    </button>
-      </div>
+   
     </div>
     <br>
+    <div class="buttonClass">
+      <button
+      class="btn btn-primary btn-sm resetButton"
+     
+     
+      (click)="clear()"
+    >
+      Reset
+    </button>
+    <button
+    class="btn btn-primary btn-sm searchButton"
+    type="submit"
+    [disabled]="!editorForm.valid"
+    (click)="submitSearch()"
+  >
+    Search
+  </button>
+    </div>
     <div>
       <!-- <div class="col-md-12 text-center">
         <form>
