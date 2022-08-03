@@ -115,8 +115,8 @@ describe('RecentActivityComponent', () => {
           auditTrail: {
             entryDateTime: '2022-FEB-07',
             entrySystemId: 'Viswesh_localHost',
-            entrySystem: 'Viswesh',
-            studyVersion: 1,
+           
+            SDRUploadVersion: 1,
           },
         },
       });
@@ -144,10 +144,10 @@ describe('RecentActivityComponent', () => {
       let spy = spyOn(router, 'navigate');
       let param = {
         clinicalStudy: {
-          studyId: 1,
+          uuid: 1,
         },
         auditTrail: {
-          studyVersion: 1,
+          SDRUploadVersion: 1,
         },
       };
       component.setSelectedValue(param);

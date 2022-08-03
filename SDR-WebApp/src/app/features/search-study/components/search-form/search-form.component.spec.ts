@@ -122,7 +122,7 @@ describe('SearchFormComponent', () => {
           "auditTrail":{
              "entryDateTime":"2022-FEB-07",
              "entrySystemId":"Viswesh_localHost",
-             "entrySystem":"Viswesh",
+             
              "studyVersion":1
           }
        }
@@ -155,7 +155,7 @@ describe('SearchFormComponent', () => {
           "auditTrail":{
              "entryDateTime":"2022-FEB-07",
              "entrySystemId":"Viswesh_localHost",
-             "entrySystem":"Viswesh",
+             
              "studyVersion":1
           }
        }
@@ -188,7 +188,7 @@ describe('SearchFormComponent', () => {
           "auditTrail":{
              "entryDateTime":"2022-FEB-07",
              "entrySystemId":"Viswesh_localHost",
-             "entrySystem":"Viswesh",
+             
              "studyVersion":1
           }
        }
@@ -222,7 +222,7 @@ describe('SearchFormComponent', () => {
         "auditTrail":{
            "entryDateTime":"2022-FEB-07",
            "entrySystemId":"Viswesh_localHost",
-           "entrySystem":"Viswesh",
+           
            "studyVersion":1
         }
      }
@@ -248,8 +248,14 @@ describe('SearchFormComponent', () => {
   });
   describe('_filter', () => {
     it('makes expected calls', () => {
-      let arrayValue = ["CROSS_OVER","FACTORIAL","PARALLEL","SEQUENTIAL","SINGLE_GROUP"]
-      let val = component._filter("CROSS_OVER","interventionModel",arrayValue);
+      let arrayValue =  [
+        "CROSS-OVER",
+        "FACTORIAL",
+        "PARALLEL",
+        "SEQUENTIAL",
+        "SINGLE GROUP"
+    ];
+      let val = component._filter("CROSS-OVER","interventionModel",arrayValue);
       component.onServerFailCallback('params');
       expect(val).toEqual([ ]);
     });

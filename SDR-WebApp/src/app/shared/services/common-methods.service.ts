@@ -407,16 +407,13 @@ export class CommonMethodsService {
         return 'InterventionModel';
       case 'clinicalStudy.studyPhase':
         return 'Phase';
-      case 'auditTrail.entrySystem':
-        return 'LastModifiedBySystem';
+      // case 'auditTrail.entrySystem':
+      //   return 'LastModifiedBySystem';
       case 'auditTrail.entryDateTime':
         return 'LastModifiedDate';
       case 'auditTrail.SDRUploadVersion':
         return 'SDRVersion';
-      case 'clinicalStudy.studyStatus':
-        return 'status';
-      case 'clinicalStudy.studyTag':
-        return 'tag';
+    
         case 'operation':
         return 'operation';
         case 'api':

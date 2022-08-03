@@ -194,7 +194,7 @@ describe('AddGroupComponent', () => {
       let params = {
         data: {
           clinicalStudy: {
-            studyId: '1a9aee0f-a43d-447d-b15f-4c8a557c41fd',
+            uuid: '1a9aee0f-a43d-447d-b15f-4c8a557c41fd',
             studyTitle: 'Study On Parkinson disease',
             studyType: 'INTERVENTIONAL',
             studyPhase: 'PHASE_1_TRIAL',
@@ -259,13 +259,25 @@ describe('AddGroupComponent', () => {
           },
           auditTrail: {
             entryDateTime: '2022-JUN-20',
-            entrySystem: 'entrySystem',
-            studyVersion: 1,
+            SDRUploadVersion: 1,
           },
           selected: true,
         },
       };
-      component.searchList = [{"id":"955ee34b-0a2f-457c-b569-c81734d4b855","title":"Multiple_Fields"},{"id":"521ece46-4409-4164-84db-f0ba4d435d63","title":"Study Number One"},{"id":"848430c4-432f-4e2e-9e5a-e90a85144a8f","title":"Study On Parkinson disease"}];
+      component.searchList = [
+        {
+          id: '955ee34b-0a2f-457c-b569-c81734d4b855',
+          title: 'Multiple_Fields',
+        },
+        {
+          id: '521ece46-4409-4164-84db-f0ba4d435d63',
+          title: 'Study Number One',
+        },
+        {
+          id: '848430c4-432f-4e2e-9e5a-e90a85144a8f',
+          title: 'Study On Parkinson disease',
+        },
+      ];
       component.delete(params);
       expect(component.addRule).toHaveBeenCalled();
     });
@@ -273,6 +285,243 @@ describe('AddGroupComponent', () => {
   describe('getSelectSearch', () => {
     it('makes expected calls', () => {
       spyOn(component, 'addRule').and.callThrough();
+      let params = {
+        data: {
+          clinicalStudy: {
+            uuid: '1a9aee0f-a43d-447d-b15f-4c8a557c41fd',
+            studyTitle: 'Study On Parkinson disease',
+            studyType: 'INTERVENTIONAL',
+            studyPhase: 'PHASE_1_TRIAL',
+            studyStatus: 'Draft',
+            studyTag: '2.0Draft',
+            studyIdentifiers: [
+              {
+                id: 'd645f5cc-6866-4a82-bb03-e8d57c7f9c68',
+                orgCode: '2.16.840.1.113883.3.1982',
+                name: 'ClinicalTrials.gov',
+                idType: 'REGISTRY_STUDY',
+              },
+              {
+                id: '1f46b767-65d5-463e-ba1a-3cfcea1e4d78',
+                orgCode: '2.16.840.1.113883.3.1152',
+                name: 'ClinicalTrials.gov',
+                idType: 'SPONSOR_ID',
+              },
+            ],
+            studyProtocolReferences: null,
+            studyDesigns: [
+              {
+                studyDesignId: null,
+                trialIntentType: null,
+                trialType: null,
+                plannedWorkflows: null,
+                studyPopulations: null,
+                studyCells: null,
+                investigationalInterventions: [
+                  {
+                    id: 'ecf1daaa-b8b4-4c59-8d5c-504836cb0244',
+                    description: 'Ibuprofen 200mg',
+                    interventionModel: 'SEQUENTIAL',
+                    status: 'A Status',
+                    coding: [
+                      {
+                        code: '26929004',
+                        codeSystem: 'SNOMED-CT',
+                        codeSystemVersion: '4.0.6.4',
+                        decode: "Alzheimer's disease (disorder)",
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+            objectives: null,
+            studyIndications: [
+              {
+                id: '8a09a40e-8049-43c3-9652-1db196c12e8f',
+                description: "Alzheimer's disease",
+                coding: [
+                  {
+                    code: '26929004',
+                    codeSystem: 'SNOMED-CT',
+                    codeSystemVersion: '4.0.6.4',
+                    decode: "Alzheimer's disease (disorder)",
+                  },
+                ],
+              },
+            ],
+          },
+          auditTrail: {
+            entryDateTime: '2022-JUN-20',
+
+            SDRUploadVersion: 1,
+          },
+          selected: true,
+        },
+      };
+      component.getSelectSearch(params);
+      expect(component.addRule).toHaveBeenCalled();
+      params.data.selected = false;
+      component.getSelectSearch(params);
+      expect(component.addRule).toHaveBeenCalled();
+      params = {
+        data: {
+          clinicalStudy: {
+            uuid: '955ee34b-0a2f-457c-b569-c81734d4b855',
+            studyTitle: 'Multiple_Fields',
+            studyType: 'PATIENT_registry',
+            studyPhase: 'PHASE_1_TRIAL',
+            studyStatus: 'this is a study status',
+            studyTag: '1.0Draft',
+            studyIdentifiers: [
+              {
+                id: 'a7b028fa-debc-4d3a-bae5-a6255bbeaffa',
+                orgCode: '2.16.840.1.113883.3.1077',
+                name: 'ClinicalTrials.gov',
+                idType: 'REGISTRY_STUDY',
+              },
+              {
+                id: '168821c8-ef1a-4561-bcdc-549ba050ff35',
+                orgCode: '2.16.840.1.113883.3.1077',
+                name: 'ClinicalTrials.gov',
+                idType: 'SPONSOR_ID',
+              },
+            ],
+            studyProtocolReferences: null,
+            studyDesigns: [
+              {
+                studyDesignId: null,
+                trialIntentType: null,
+                trialType: null,
+                plannedWorkflows: null,
+                studyPopulations: null,
+                studyCells: null,
+                investigationalInterventions: [
+                  {
+                    id: '5e14848b-05b8-449d-afd1-6541c206b036',
+                    description: 'Ibuprofen 200mg',
+                    interventionModel: 'SEQUENTIAL',
+                    status: 'A Status',
+                    coding: [
+                      {
+                        code: '26929004',
+                        codeSystem: 'SNOMED-CT',
+                        codeSystemVersion: '4.0.6.4',
+                        decode: "Alzheimer's disease (disorder)",
+                      },
+                    ],
+                  },
+                  {
+                    id: 'b221d6de-19ef-4e59-b057-3f537ea3185f',
+                    description: 'Ibuprofen 200mg',
+                    interventionModel: 'PARALLEL',
+                    status: 'A Status',
+                    coding: [
+                      {
+                        code: '26929004',
+                        codeSystem: 'SNOMED-CT',
+                        codeSystemVersion: '4.0.6.4',
+                        decode: "Alzheimer's disease (disorder)",
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+            objectives: null,
+            studyIndications: [
+              {
+                id: '6c14c104-4c71-4fa9-96be-5e88c2cc911b',
+                description: "Alzheimer's disease",
+                coding: [
+                  {
+                    code: '26929004',
+                    codeSystem: 'SNOMED-CT',
+                    codeSystemVersion: '4.0.6.4',
+                    decode: "Alzheimer's disease (disorder)",
+                  },
+                ],
+              },
+              {
+                id: 'bc1d73b3-9976-42e2-8dc7-9dd8e7bceb36',
+                description: 'Amnesia disease',
+                coding: [
+                  {
+                    code: '26929004',
+                    codeSystem: 'SNOMED-CT',
+                    codeSystemVersion: '4.0.6.4',
+                    decode: "Alzheimer's disease (disorder)",
+                  },
+                ],
+              },
+            ],
+          },
+          auditTrail: {
+            entryDateTime: '2022-JUN-17',
+            
+            SDRUploadVersion: 1,
+          },
+          selected: true,
+        },
+      };
+      component.searchList = [
+        {
+          id: '955ee34b-0a2f-457c-b569-c81734d4b855',
+          title: 'Multiple_Fields',
+        },
+        {
+          id: '521ece46-4409-4164-84db-f0ba4d435d63',
+          title: 'Study Number One',
+        },
+        {
+          id: '848430c4-432f-4e2e-9e5a-e90a85144a8f',
+          title: 'Study On Parkinson disease',
+        },
+      ];
+      component.getSelectSearch(params);
+      expect(component.addRule).toHaveBeenCalled();
+    });
+  });
+
+  describe('addRule', () => {
+    it('makes expected calls', () => {
+      spyOn(component, 'findIndex').and.callThrough();
+      spyOn(component, 'checkSave').and.callThrough();
+      component.isSearchSelected = true;
+      component.addRule();
+      expect(component.findIndex).toHaveBeenCalled();
+      expect(component.checkSave).toHaveBeenCalled();
+    });
+  });
+
+  describe('getToday', () => {
+    it('makes expected calls', () => {
+      let val = component.getToday();
+      // component.ngAfterViewInit();
+      expect(typeof val).toEqual('string');
+    });
+  });
+  describe('restrictChar', () => {
+    it('makes expected calls', () => {
+      const event = document.createEvent('KeyboardEvent');
+      let val = component.restrictChar(event);
+      expect(val).toEqual(false);
+    });
+  });
+  describe('restrictChar', () => {
+    it('makes expected calls', () => {
+      const event = document.createEvent('KeyboardEvent');
+      let val = component.restrictChar(event);
+      expect(val).toEqual(false);
+    });
+  });
+  describe('getStudyVersionGrid', () => {
+    it('makes expected calls', () => {
+      let val = component.getStudyVersionGrid('');
+      // component.ngAfterViewInit();
+      expect(val).toEqual('');
+    });
+    it('makes expected calls', () => {
       let params = {
         data: {
           clinicalStudy: {
@@ -339,72 +588,12 @@ describe('AddGroupComponent', () => {
               },
             ],
           },
-          auditTrail: {
-            entryDateTime: '2022-JUN-20',
-            entrySystem: 'entrySystem',
-            studyVersion: 1,
-          },
-          selected: true,
+          auditTrail: { entryDateTime: '2022-JUN-20', studyVersion: 1 },
+          selected: false,
         },
       };
-      component.getSelectSearch(params);
-      expect(component.addRule).toHaveBeenCalled();
-      params.data.selected = false;
-      component.getSelectSearch(params);
-      expect(component.addRule).toHaveBeenCalled();
-      params ={
-        data:{"clinicalStudy":{"studyId":"955ee34b-0a2f-457c-b569-c81734d4b855","studyTitle":"Multiple_Fields","studyType":"PATIENT_registry","studyPhase":"PHASE_1_TRIAL","studyStatus":"this is a study status","studyTag":"1.0Draft","studyIdentifiers":[{"id":"a7b028fa-debc-4d3a-bae5-a6255bbeaffa","orgCode":"2.16.840.1.113883.3.1077","name":"ClinicalTrials.gov","idType":"REGISTRY_STUDY"},{"id":"168821c8-ef1a-4561-bcdc-549ba050ff35","orgCode":"2.16.840.1.113883.3.1077","name":"ClinicalTrials.gov","idType":"SPONSOR_ID"}],"studyProtocolReferences":null,"studyDesigns":[{"studyDesignId":null,"trialIntentType":null,"trialType":null,"plannedWorkflows":null,"studyPopulations":null,"studyCells":null,"investigationalInterventions":[{"id":"5e14848b-05b8-449d-afd1-6541c206b036","description":"Ibuprofen 200mg","interventionModel":"SEQUENTIAL","status":"A Status","coding":[{"code":"26929004","codeSystem":"SNOMED-CT","codeSystemVersion":"4.0.6.4","decode":"Alzheimer's disease (disorder)"}]},{"id":"b221d6de-19ef-4e59-b057-3f537ea3185f","description":"Ibuprofen 200mg","interventionModel":"PARALLEL","status":"A Status","coding":[{"code":"26929004","codeSystem":"SNOMED-CT","codeSystemVersion":"4.0.6.4","decode":"Alzheimer's disease (disorder)"}]}]}],"objectives":null,"studyIndications":[{"id":"6c14c104-4c71-4fa9-96be-5e88c2cc911b","description":"Alzheimer's disease","coding":[{"code":"26929004","codeSystem":"SNOMED-CT","codeSystemVersion":"4.0.6.4","decode":"Alzheimer's disease (disorder)"}]},{"id":"bc1d73b3-9976-42e2-8dc7-9dd8e7bceb36","description":"Amnesia disease","coding":[{"code":"26929004","codeSystem":"SNOMED-CT","codeSystemVersion":"4.0.6.4","decode":"Alzheimer's disease (disorder)"}]}]},"auditTrail":{"entryDateTime":"2022-JUN-17","entrySystem":"entrySystem","studyVersion":1},"selected":true}
-      }
-      component.searchList = [{"id":"955ee34b-0a2f-457c-b569-c81734d4b855","title":"Multiple_Fields"},{"id":"521ece46-4409-4164-84db-f0ba4d435d63","title":"Study Number One"},{"id":"848430c4-432f-4e2e-9e5a-e90a85144a8f","title":"Study On Parkinson disease"}];
-      component.getSelectSearch(params);
-      expect(component.addRule).toHaveBeenCalled();
-    });
-  });
-
-  describe('addRule', () => {
-    it('makes expected calls', () => {
-      spyOn(component, 'findIndex').and.callThrough();
-      spyOn(component, 'checkSave').and.callThrough();
-      component.isSearchSelected  = true;
-      component.addRule();
-      expect(component.findIndex).toHaveBeenCalled();
-      expect(component.checkSave).toHaveBeenCalled();
-    });
-  });
-
-  describe('getToday', () => {
-    it('makes expected calls', () => {
-      let val = component.getToday();
-     // component.ngAfterViewInit();
-      expect(typeof(val)).toEqual('string');
-    });
-  });
-  describe('restrictChar', () => {
-    it('makes expected calls', () => {
-      const event = document.createEvent('KeyboardEvent');;
-      let val = component.restrictChar(event);
-      expect(val).toEqual(false);
-    });
-  });
-  describe('restrictChar', () => {
-    it('makes expected calls', () => {
-      const event = document.createEvent('KeyboardEvent');;
-      let val = component.restrictChar(event);
-      expect(val).toEqual(false);
-    });
-  });
-  describe('getStudyVersionGrid', () => {
-    it('makes expected calls', () => {
-      let val = component.getStudyVersionGrid('');
-     // component.ngAfterViewInit();
-      expect(val).toEqual('');
-    });
-    it('makes expected calls', () => {
-      let params = {
-        data:{"clinicalStudy":{"studyId":"1a9aee0f-a43d-447d-b15f-4c8a557c41fd","studyTitle":"Study On Parkinson disease","studyType":"INTERVENTIONAL","studyPhase":"PHASE_1_TRIAL","studyStatus":"Draft","studyTag":"2.0Draft","studyIdentifiers":[{"id":"d645f5cc-6866-4a82-bb03-e8d57c7f9c68","orgCode":"2.16.840.1.113883.3.1982","name":"ClinicalTrials.gov","idType":"REGISTRY_STUDY"},{"id":"1f46b767-65d5-463e-ba1a-3cfcea1e4d78","orgCode":"2.16.840.1.113883.3.1152","name":"ClinicalTrials.gov","idType":"SPONSOR_ID"}],"studyProtocolReferences":null,"studyDesigns":[{"studyDesignId":null,"trialIntentType":null,"trialType":null,"plannedWorkflows":null,"studyPopulations":null,"studyCells":null,"investigationalInterventions":[{"id":"ecf1daaa-b8b4-4c59-8d5c-504836cb0244","description":"Ibuprofen 200mg","interventionModel":"SEQUENTIAL","status":"A Status","coding":[{"code":"26929004","codeSystem":"SNOMED-CT","codeSystemVersion":"4.0.6.4","decode":"Alzheimer's disease (disorder)"}]}]}],"objectives":null,"studyIndications":[{"id":"8a09a40e-8049-43c3-9652-1db196c12e8f","description":"Alzheimer's disease","coding":[{"code":"26929004","codeSystem":"SNOMED-CT","codeSystemVersion":"4.0.6.4","decode":"Alzheimer's disease (disorder)"}]}]},"auditTrail":{"entryDateTime":"2022-JUN-20","entrySystem":"entrySystem","studyVersion":1},"selected":false}
-      }
       let val = component.getStudyVersionGrid(params);
-     // component.ngAfterViewInit();
+      // component.ngAfterViewInit();
       expect(true).toEqual(true);
     });
   });
@@ -482,7 +671,7 @@ describe('AddGroupComponent', () => {
       component.validateGroupName(event);
 
       expect(serviceCallStub.checkGroup).toHaveBeenCalled();
-     event = {
+      event = {
         target: {
           value: '',
         },
