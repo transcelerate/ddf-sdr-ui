@@ -165,3 +165,15 @@ And this file is not committed, as it is ignored in `.gitignore` file.
 - Study Details page(URL: /#/details;studyId="")
 - Audit page(URL: /#/details/audit;studyId="")
 - Version Comparison page(URL: /#/details/audit/compare;studyId="";versionA="";versionB="")
+
+## Requirements to Contribute and Propose Changes
+
+Before participating, you must acknowledge the Contribution License Agreement (CLA).
+
+To acknowledge the CLA, follow these instructions:
+- Click [here](https://github.com/transcelerate/ddf-home/blob/main/contributing.md) to download and carefully read the CLA.
+- Print the document.
+- Complete and sign the document.
+- Scan and email a PDF version of the completed and signed document to [DDF@transceleratebiopharmainc.com](mailto:DDF@transceleratebiopharmainc.com?subject=Signed%20CLA).
+
+NOTE: Keep a copy for your records.
