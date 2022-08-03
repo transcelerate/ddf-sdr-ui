@@ -55,7 +55,7 @@ describe('AuditTrailComponent', () => {
   });
 
   it(`columnDefs has default value`, () => {
-    expect(component.columnDefs.length).toEqual(8);
+    expect(component.columnDefs.length).toEqual(5);
   });
 
   // it(`rowData has default value`, () => {
