@@ -267,7 +267,6 @@ export class GroupManagementComponent implements OnInit {
     this.modalRef?.hide();
   }
   edit(params: any){
-    console.log(params);
     let selectedGroup = this.responseData.filter(
       (x: any, index: any) => x.groupId == params.groupId
     );

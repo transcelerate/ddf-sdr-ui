@@ -78,7 +78,7 @@ export class StudyCompareComponent implements OnInit {
     localStorage.setItem('search2','');
   }
   redirect(from:any){
-    this.router.navigate(['/compare/search'], {state: {from:from}});
+    this.router.navigate(['/comparison/search'], {state: {from:from}});
   }
 
 

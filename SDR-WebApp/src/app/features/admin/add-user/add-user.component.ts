@@ -50,7 +50,6 @@ export class AddUserComponent implements OnInit {
         const selectedUser = history.state.data;
         if (selectedUser) {
           this.isEdit = true;
-          console.log(selectedUser);
           this.groupSelected = selectedUser.groups;
           this.groupSelectedOriginal = this.groupSelected;
           this.userSelected = this.userList.filter((elem: { id: any }) => {
@@ -133,7 +132,6 @@ export class AddUserComponent implements OnInit {
       email: email.mail || email.displayName,
       groups: groups,
     };
-    console.log(JSON.stringify(request));
 
     this.commonMethod.postUser(request, this);
   }
