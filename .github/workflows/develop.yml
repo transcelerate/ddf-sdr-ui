@@ -100,20 +100,20 @@ jobs:
          cd ${{ github.workspace }}/SDR-WebApp/dist/SDR-WebApp
          ls
          
-#     - name: 'Copy Files to: ${{ github.workspace }}'
-#       # Copying the artifacts generated after build to github default workspace
-#       run: |
-#        # For checking the contents after copying the artifacts to default directory
-#        cp -R '${{ github.workspace }}/SDR-WebApp/dist/SDR-WebApp' '${{ github.workspace }}'
-#        cd  ${{ github.workspace }}
-#        ls     
+    - name: 'Copy Files to: ${{ github.workspace }}'
+      # Copying the artifacts generated after build to github default workspace
+      run: |
+       # For checking the contents after copying the artifacts to default directory
+       cp -R '${{ github.workspace }}/SDR-WebApp/dist/SDR-WebApp' '${{ github.workspace }}'
+       cd  ${{ github.workspace }}
+       ls     
       
-#     - name: 'Publish Artifact: Artifact'
-#       uses: actions/upload-artifact@v2
-#       # To publish the artifact
-#       with:
-#         path: '${{ github.workspace }}/SDR-WebApp/dist/**'
-#         name: Build-Artifact
+    - name: 'Publish Artifact: Artifact'
+      uses: actions/upload-artifact@v2
+      # To publish the artifact
+      with:
+        path: '${{ github.workspace }}/SDR-WebApp/dist/**'
+        name: Build-Artifact
     
     
 ######################---------------Jasmine Test Cases-----------------------#############################
