@@ -54,7 +54,7 @@ describe('CommonMethodsService', () => {
         "auditTrail":{
            "entryDateTime":"2022-FEB-07",
            "entrySystemId":"Viswesh_localHost",
-           "entrySystem":"Viswesh",
+           
            "studyVersion":1
         }
      };
@@ -65,38 +65,38 @@ describe('CommonMethodsService', () => {
      })
     });
   });
-  describe('getHeaderName', () => {
-    it('tests studyTitle', () => {
-      expect(service.getHeaderName('clinicalStudy.studyTitle')).toEqual('studyTitle');
-    });
-    it('tests SponsorId', () => {
-      expect(service.getHeaderName('0')).toEqual('SponsorId');
-    });
-    it('tests Indication', () => {
-      expect(service.getHeaderName('1')).toEqual('Indication');
-    });
-    it('tests InterventionModel', () => {
-      expect(service.getHeaderName('2')).toEqual('InterventionModel');
-    });
-    it('tests Phase', () => {
-      expect(service.getHeaderName('clinicalStudy.studyPhase')).toEqual('Phase');
-    });
-    it('tests LastModifiedBySystem', () => {
-      expect(service.getHeaderName('auditTrail.entrySystem')).toEqual('LastModifiedBySystem');
-    });
-    it('tests LastModifiedDate', () => {
-      expect(service.getHeaderName('auditTrail.entryDateTime')).toEqual('LastModifiedDate');
-    });
-    it('tests SDRVersion', () => {
-      expect(service.getHeaderName('auditTrail.SDRUploadVersion')).toEqual('SDRVersion');
-    });
-    it('tests status', () => {
-      expect(service.getHeaderName('clinicalStudy.studyStatus')).toEqual('status');
-    });
-    it('tests tag', () => {
-      expect(service.getHeaderName('clinicalStudy.studyTag')).toEqual('tag');
-    });
-  });
+  // describe('getHeaderName', () => {
+  //   it('tests studyTitle', () => {
+  //     expect(service.getHeaderName('clinicalStudy.studyTitle')).toEqual('studyTitle');
+  //   });
+  //   it('tests SponsorId', () => {
+  //     expect(service.getHeaderName('0')).toEqual('SponsorId');
+  //   });
+  //   it('tests Indication', () => {
+  //     expect(service.getHeaderName('1')).toEqual('Indication');
+  //   });
+  //   it('tests InterventionModel', () => {
+  //     expect(service.getHeaderName('2')).toEqual('InterventionModel');
+  //   });
+  //   it('tests Phase', () => {
+  //     expect(service.getHeaderName('clinicalStudy.studyPhase')).toEqual('Phase');
+  //   });
+  //   // it('tests LastModifiedBySystem', () => {
+  //   //   expect(service.getHeaderName('auditTrail.entrySystem')).toEqual('LastModifiedBySystem');
+  //   // });
+  //   it('tests LastModifiedDate', () => {
+  //     expect(service.getHeaderName('auditTrail.entryDateTime')).toEqual('LastModifiedDate');
+  //   });
+  //   it('tests SDRVersion', () => {
+  //     expect(service.getHeaderName('auditTrail.SDRUploadVersion')).toEqual('SDRVersion');
+  //   });
+  //   it('tests status', () => {
+  //     expect(service.getHeaderName('clinicalStudy.studyStatus')).toEqual('status');
+  //   });
+  //   it('tests tag', () => {
+  //     expect(service.getHeaderName('clinicalStudy.studyTag')).toEqual('tag');
+  //   });
+  // });
   // describe('gridDataSourceForSearchStudy',() => {
   //   let reqObj = {"studyTitle":"","briefTitle":"","interventionModel":"","fromDate":"2022-02-01","studyId":"","phase":"","indication":"","toDate":"","asc":false,"header":"entryDateTime"};
   //   let gridApi = new GridOptions();

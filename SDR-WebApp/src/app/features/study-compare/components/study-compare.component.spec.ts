@@ -84,21 +84,21 @@ describe('StudyCompareComponent', () => {
     it('makes expected calls', () => {
       let response = {
         clinicalStudy: {
-          studyId: 1,
+          uuid: 1,
           studyTitle: 'Test'
         },
         auditTrail: {
-          studyVersion: 1,
+          SDRUploadVersion: 1,
         },
       };
       localStorage.setItem('search1',JSON.stringify(response));
       localStorage.setItem('search2','');
       component.setModel();
-      expect(component.toolTipOne).toEqual('Test_1');
+      expect(component.toolTipOne).toEqual('Test_Version1');
       localStorage.setItem('search2',JSON.stringify(response));
       localStorage.setItem('search1','');
       component.setModel();
-      expect(component.toolTipTwo).toEqual('Test_1');
+      expect(component.toolTipTwo).toEqual('Test_Version1');
     });
   });
 });

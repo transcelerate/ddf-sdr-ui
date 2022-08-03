@@ -140,7 +140,7 @@ describe('SimpleSearchComponent', () => {
       let params = {
         data: {
           clinicalStudy: {
-            studyId: '1a9aee0f-a43d-447d-b15f-4c8a557c41fd',
+            uuid: '1a9aee0f-a43d-447d-b15f-4c8a557c41fd',
             studyTitle: 'Study On Parkinson disease',
             studyType: 'INTERVENTIONAL',
             studyPhase: 'PHASE_1_TRIAL',
@@ -205,8 +205,8 @@ describe('SimpleSearchComponent', () => {
           },
           auditTrail: {
             entryDateTime: '2022-JUN-20',
-            entrySystem: 'entrySystem',
-            studyVersion: 1,
+           
+            SDRUploadVersion: 1,
           },
           selected: true,
         },
@@ -222,10 +222,10 @@ describe('SimpleSearchComponent', () => {
       let spy = spyOn(router, 'navigate');
       let param = {
         clinicalStudy: {
-          studyId: 1,
+          uuid: 1,
         },
         auditTrail: {
-          studyVersion: 1,
+          SDRUploadVersion: 1,
         },
       };
       component.setSelectedValue(param);
@@ -302,8 +302,8 @@ describe('SimpleSearchComponent', () => {
           auditTrail: {
             entryDateTime: '2022-FEB-07',
             entrySystemId: 'Viswesh_localHost',
-            entrySystem: 'Viswesh',
-            studyVersion: 1,
+            
+            SDRUploadVersion: 1,
           },
         },
       });
