@@ -100,20 +100,20 @@ jobs:
          cd ${{ github.workspace }}/SDR-WebApp/dist/SDR-WebApp
          ls
          
-    - name: 'Copy Files to: ${{ github.workspace }}'
-      # Copying the artifacts generated after build to github default workspace
-      run: |
-       # For checking the contents after copying the artifacts to default directory
-       cp -R '${{ github.workspace }}/SDR-WebApp/dist/SDR-WebApp' '${{ github.workspace }}'
-       cd  ${{ github.workspace }}
-       ls     
+#     - name: 'Copy Files to: ${{ github.workspace }}'
+#       # Copying the artifacts generated after build to github default workspace
+#       run: |
+#        # For checking the contents after copying the artifacts to default directory
+#        cp -R '${{ github.workspace }}/SDR-WebApp/dist/SDR-WebApp' '${{ github.workspace }}'
+#        cd  ${{ github.workspace }}
+#        ls     
       
-    - name: 'Publish Artifact: Artifact'
-      uses: actions/upload-artifact@v2
-      # To publish the artifact
-      with:
-        path: '${{ github.workspace }}/SDR-WebApp/dist/**'
-        name: Build-Artifact
+#     - name: 'Publish Artifact: Artifact'
+#       uses: actions/upload-artifact@v2
+#       # To publish the artifact
+#       with:
+#         path: '${{ github.workspace }}/SDR-WebApp/dist/**'
+#         name: Build-Artifact
     
     
 ######################---------------Jasmine Test Cases-----------------------#############################
@@ -122,6 +122,7 @@ jobs:
       # Running the jasmine test cases
       run: |
           cd '${{ github.workspace }}/SDR-WebApp'
+          npm install karma-jasmine --save-dev
           ng test --reporters junit --watch=false --browsers ChromeHeadless || true
 
           
