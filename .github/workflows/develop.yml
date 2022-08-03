@@ -79,6 +79,7 @@ jobs:
          npm install -g sonarqube-scanner
          npm install ngx-bootstrap@8.0.0
          npm install rxjs@7.4.0
+         npm install karma-jasmine@4.0.0
   
     - name: npm install
       # Install the other dependecies for the SDR-WebApp project
@@ -121,6 +122,7 @@ jobs:
       # Running the jasmine test cases
       run: |
           cd '${{ github.workspace }}/SDR-WebApp'
+          npm install karma-jasmine --save-dev
           ng test --reporters junit --watch=false --browsers ChromeHeadless || true
 
           
