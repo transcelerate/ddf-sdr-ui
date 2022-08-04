@@ -31,6 +31,8 @@ export class BreadcrumbComponent implements OnInit {
       return 'home';
     } else if(window.location.href.indexOf('comparison')!=-1){
       return 'comparison';
+    }else if(window.location.href.indexOf('addGroup')!=-1){
+      return 'admin/';
     }else{
       return 'search';
     }

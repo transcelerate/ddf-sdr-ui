@@ -90,7 +90,7 @@ export class AddGroupComponent implements OnInit {
       {
         headerName: 'Study Title',
         field: 'clinicalStudy.studyTitle',
-       
+
         tooltipField: 'clinicalStudy.studyTitle',
         headerTooltip: configList.STUDY_TITLE,
         cellRenderer: this.getStudyVersionGrid.bind(this),
@@ -114,7 +114,6 @@ export class AddGroupComponent implements OnInit {
     this.defaultColDef = {
       sortable: true,
       resizable: true,
-     
     };
     (this.icons = {
       sortAscending:
@@ -162,13 +161,12 @@ export class AddGroupComponent implements OnInit {
     if (selectedGroup) {
       this.isEdit = true;
       this.group = selectedGroup;
-        this.initialForm.get('groupName')?.patchValue(this.group.groupName);
-        this.initialForm.get('groupName')?.disable();
-        this.initialForm.value.groupPermission = this.group.permission;
-        this.initialForm
-          ?.get('groupFieldName')
-          ?.patchValue(history.state.selected);
-      
+      this.initialForm.get('groupName')?.patchValue(this.group.groupName);
+      this.initialForm.get('groupName')?.disable();
+      this.initialForm.value.groupPermission = this.group.permission;
+      this.initialForm
+        ?.get('groupFieldName')
+        ?.patchValue(history.state.selected);
 
       this.filterFieldSelected();
       let index = this.group.groupFilter.findIndex(
@@ -328,7 +326,9 @@ export class AddGroupComponent implements OnInit {
         '<span class="linkSpan">' +
         params.data?.clinicalStudy.studyTitle +
         '</span>';
-
+      eDiv.addEventListener('click', () => {
+        self.setSelectedValue(params.data);
+      });
       return eDiv;
     }
   }
@@ -402,7 +402,18 @@ export class AddGroupComponent implements OnInit {
     }
     this.showGrid = true;
   }
-
+  setSelectedValue(val: any) {
+    this.router.navigate(
+      [
+        'details',
+        {
+          studyId: val.clinicalStudy.uuid,
+          versionId: val.auditTrail.SDRUploadVersion,
+        },
+      ],
+      { relativeTo: this.activatedRoute }
+    );
+  }
   getSelectSearch(params: any) {
     if (params.data.selected) {
       if (
