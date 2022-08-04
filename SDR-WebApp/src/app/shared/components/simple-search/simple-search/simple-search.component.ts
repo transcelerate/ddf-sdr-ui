@@ -174,7 +174,7 @@ clear(){
 }
 
 submit(){
-  this.router.navigate(['/compare'], {state: {data: this.selectedValue,from:this.from}});
+  this.router.navigate(['/comparison'], {state: {data: this.selectedValue,from:this.from}});
 }
 
   /**
@@ -249,6 +249,14 @@ onGridReady(params: any) {
   // ];
   // params.columnApi.applyColumnState({ state: defaultSortModel });
   const reqObj = this.editorForm.value;
+  var defaultSortModel = [
+    {
+      colId: 'clinicalStudy.studyTitle',
+      sort: 'desc',
+      sortIndex: 0,
+    },
+  ];
+  params.columnApi.applyColumnState({ state: defaultSortModel });
   reqObj.sortOrder = 'desc';
   reqObj.sortBy = 'studyTitle';
   reqObj.groupByStudyId = 0;

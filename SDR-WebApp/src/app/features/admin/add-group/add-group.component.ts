@@ -208,7 +208,6 @@ export class AddGroupComponent implements OnInit {
             : false,
         value: elem,
       }));
-      console.log(this.filterFieldValueList);
       if (
         index != -1 &&
         this.group.groupFilter[index].groupFilterValues.length > 0
@@ -340,7 +339,7 @@ export class AddGroupComponent implements OnInit {
     params.api.sizeColumnsToFit();
     var defaultSortModel = [
       {
-        colId: 'auditTrail.entryDateTime',
+        colId: 'clinicalStudy.studyTitle',
         sort: 'desc',
         sortIndex: 0,
       },
@@ -461,7 +460,6 @@ export class AddGroupComponent implements OnInit {
       return;
     }
     this.groupError = false;
-    console.log(event.target.value);
     this.spinner.show();
     this.serviceCall.checkGroup(event.target.value).subscribe({
       next: (data: any) => {

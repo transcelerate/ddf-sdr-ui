@@ -23,7 +23,7 @@ const routes: Routes = [{
     canActivate: [MsalGuard] 
   },
   { 
-    path: 'compare',  
+    path: 'comparison',  
     loadChildren: () => import('./features/study-compare/study-compare.module').then(x => x.StudyCompareModule),
     canActivate: [MsalGuard] 
   },
