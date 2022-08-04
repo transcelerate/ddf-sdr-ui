@@ -1,5 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AuditTrailComponent } from 'src/app/shared/components/audit-trail/audit-trail.component';
+import { StudyElementDescriptionComponent } from 'src/app/shared/components/study-element-description/study-element-description.component';
+import { VersionComparisonComponent } from 'src/app/shared/components/version-comparison/version-comparison.component';
 import { AddGroupComponent } from './add-group/add-group.component';
 import { AddUserComponent } from './add-user/add-user.component';
 
@@ -14,18 +17,45 @@ const adminModuleRoutes: Routes = [
   {
     path: 'addGroup',
     component: AddGroupComponent,
+    data: {
+      breadcrumb: 'Group',
+    },
+    children: [
+      {
+        path: 'details',
+        component: StudyElementDescriptionComponent,
+        data: {
+          breadcrumb: 'Study Details',
+        },
+        children: [
+          {
+            path: 'audit',
+            component: AuditTrailComponent,
+            data: {
+              breadcrumb: 'Audit Trail',
+            },
+            children: [
+              {
+                path: 'compare',
+                component: VersionComparisonComponent,
+                data: {
+                  breadcrumb: 'Study Version Comparison',
+                },
+              },
+            ],
+          },
+        ],
+      },
+    ],
   },
   {
     path: 'userMap',
     component: UserManagementComponent,
-
   },
   {
     path: 'userMap/addUser',
     component: AddUserComponent,
-
   },
- 
 ];
 
 @NgModule({
