@@ -1,257 +1,282 @@
 <app-error-component *ngIf="showError"></app-error-component>
-<alert *ngIf="saveSuccess" type="success" dismissOnTimeout="1000" (onClosed)="onClosed()">
-  <strong>Group Name saved successfully</strong> 
-</alert>
-<div class="container-fluid">
-  <h2 *ngIf="!isEdit">Add Group</h2>
-  <h2 *ngIf="isEdit">Edit Group</h2>
-  <form class="initial-container" [formGroup]="initialForm">
-    <div class="row">
-      <div class="col-4">
-        <!--left side -->
-        <div class="form-group row">
-          <label class="col-sm-4 paddingTen">Group Name:<span>*</span></label>
-          <div class="col-sm-8 inputDiv">
-            <input
-              type="text"
-              formControlName="groupName"
-              maxlength="20"
-              (keypress)="restrictChar($event)"
-              class="input-sm paddingTen"
-              (blur)="validateGroupName($event)"
-            />
-            <div *ngIf="groupError" class="groupError">
-              Group Name Already Exists
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-4">
-        <!--left side -->
-        <div class="form-group row">
-          <label class="col-sm-5 paddingTen"
-            >Group Permission:<span>*</span></label
-          >
-          <div class="col-sm-7">
-            <select
-              class="form-control input-sm"
-              [(ngModel)]="group.permission"
-              name="permission"
-              formControlName="groupPermission"
-            >
-              <option *ngFor="let title of permissionList" [value]="title">
-                {{ title }}
-              </option>
-            </select>
-          </div>
-        </div>
-      </div>
-      <div class="col-4">
-        <!--left side -->
-        <div class="form-group row">
-          <label class="col-sm-5 paddingTen"
-            >Group Filter Field:<span>*</span></label
-          >
-          <div class="col-sm-7">
-            <select
-              class="form-control input-sm"
-              formControlName="groupFieldName"
-              (change)="filterFieldSelected()"
-            >
-              <option *ngFor="let elem of filterFieldList" [value]="elem.id">
-                {{ elem.title }}
-              </option>
-            </select>
-          </div>
-        </div>
-      </div>
-    </div>
-  </form>
-  <form *ngIf="isSearchSelected === false">
-    <div class="row">
-      <div class="col-4">
-        <!--left side -->
-        <div class="form-group row">
-          <label class="col-sm-4 paddingTen">Filter Value:<span>*</span></label>
-          <div class="col-sm-8 checkbox">
-            <div *ngFor="let option of filterFieldValueList">
+<div *ngIf="activatedRoute.children.length === 0">
+  <alert
+    *ngIf="saveSuccess"
+    type="success"
+    dismissOnTimeout="1000"
+    (onClosed)="onClosed()"
+  >
+    <strong>Group Name saved successfully</strong>
+  </alert>
+  <div class="container-fluid">
+    <h2 *ngIf="!isEdit">Add Group</h2>
+    <h2 *ngIf="isEdit">Edit Group</h2>
+    <form class="initial-container" [formGroup]="initialForm">
+      <div class="row">
+        <div class="col-4">
+          <!--left side -->
+          <div class="form-group row">
+            <label class="col-sm-4 paddingTen">Group Name:<span>*</span></label>
+            <div class="col-sm-8 inputDiv">
               <input
-                type="checkbox"
-                [value]="option.value"
-                [checked]="option.isSelected"
-                (change)="updateChecked(option.value)"
-              />{{ option.value }}
+                type="text"
+                formControlName="groupName"
+                maxlength="20"
+                (keypress)="restrictChar($event)"
+                class="input-sm paddingTen"
+                (blur)="validateGroupName($event)"
+              />
+              <div *ngIf="groupError" class="groupError">
+                Group Name Already Exists
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-4">
+          <!--left side -->
+          <div class="form-group row">
+            <label class="col-sm-5 paddingTen"
+              >Group Permission:<span>*</span></label
+            >
+            <div class="col-sm-7">
+              <select
+                class="form-control input-sm"
+                [(ngModel)]="group.permission"
+                name="permission"
+                formControlName="groupPermission"
+              >
+                <option *ngFor="let title of permissionList" [value]="title">
+                  {{ title }}
+                </option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="col-4">
+          <!--left side -->
+          <div class="form-group row">
+            <label class="col-sm-5 paddingTen"
+              >Group Filter Field:<span>*</span></label
+            >
+            <div class="col-sm-7">
+              <select
+                class="form-control input-sm"
+                formControlName="groupFieldName"
+                (change)="filterFieldSelected()"
+              >
+                <option *ngFor="let elem of filterFieldList" [value]="elem.id">
+                  {{ elem.title }}
+                </option>
+              </select>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  </form>
-  <form *ngIf="isSearchSelected === true" [formGroup]="editorForm">
-    <div class="row">
-      <div class="col-4">
-        <!--left side -->
-        <div class="form-group row">
-          <label class="col-sm-4 paddingTen">Study Title:</label>
-          <div class="col-sm-8 inputDiv">
-            <input
-              type="text"
-              class="input-sm paddingTen"
-              formControlName="studyTitle"
-              maxlength="20"
-              (keypress)="restrictChar($event)"
-            />
+    </form>
+    <form *ngIf="isSearchSelected === false">
+      <div class="row">
+        <div class="col-4">
+          <!--left side -->
+          <div class="form-group row">
+            <label class="col-sm-4 paddingTen"
+              >Filter Value:<span>*</span></label
+            >
+            <div class="col-sm-8 checkbox">
+              <div *ngFor="let option of filterFieldValueList">
+                <input
+                  type="checkbox"
+                  [value]="option.value"
+                  [checked]="option.isSelected"
+                  (change)="updateChecked(option.value)"
+                />{{ option.value }}
+              </div>
+            </div>
           </div>
         </div>
       </div>
-      <div class="col-4">
-        <!--left side -->
-        <div class="form-group row">
-          <label class="col-sm-5 paddingTen">Modified From:</label>
-          <div class="col-sm-7">
-            <input
-              type="date"
-              class="input-sm form-control"
-              formControlName="fromDate"
-              [max]="getToday()"
-            />
+    </form>
+    <form *ngIf="isSearchSelected === true" [formGroup]="editorForm">
+      <div class="row">
+        <div class="col-4">
+          <!--left side -->
+          <div class="form-group row">
+            <label class="col-sm-4 paddingTen">Study Title:</label>
+            <div class="col-sm-8 inputDiv">
+              <input
+                type="text"
+                class="input-sm paddingTen"
+                formControlName="studyTitle"
+                maxlength="20"
+                (keypress)="restrictChar($event)"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="col-4">
+          <!--left side -->
+          <div class="form-group row">
+            <label class="col-sm-5 paddingTen">Modified From:</label>
+            <div class="col-sm-7">
+              <input
+                type="date"
+                class="input-sm form-control"
+                formControlName="fromDate"
+                [max]="getToday()"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="col-4">
+          <!--left side -->
+          <div class="form-group row">
+            <label class="col-sm-5 paddingTen">Modified To:</label>
+            <div class="col-sm-7">
+              <input
+                type="date"
+                class="input-sm form-control"
+                formControlName="toDate"
+                [max]="getToday()"
+              />
+            </div>
           </div>
         </div>
       </div>
-      <div class="col-4">
-        <!--left side -->
-        <div class="form-group row">
-          <label class="col-sm-5 paddingTen">Modified To:</label>
-          <div class="col-sm-7">
-            <input
-              type="date"
-              class="input-sm form-control"
-              formControlName="toDate"
-              [max]="getToday()"
-            />
-          </div>
+      <div>
+        <div class="col-md-12 text-center">
+          <form>
+            <button
+              class="btn btn-primary btn-sm searchButton"
+              type="submit"
+              [disabled]="!editorForm.valid"
+              (click)="submitSearch()"
+            >
+              Search
+            </button>
+          </form>
         </div>
       </div>
-    </div>
-    <div>
+      <div *ngIf="showGrid" class="container-fluid gridOuter search">
+        <ag-grid-angular
+          #agGrid
+          id="myGrid"
+          class="ag-theme-alpine searchGrid"
+          [rowHeight]="20"
+          [defaultColDef]="defaultColDef"
+          [rowBuffer]="rowBuffer"
+          [rowSelection]="rowSelection"
+          [rowModelType]="rowModelType"
+          [cacheBlockSize]="cacheBlockSize"
+          [cacheOverflowSize]="cacheOverflowSize"
+          [maxConcurrentDatasourceRequests]="maxConcurrentDatasourceRequests"
+          [infiniteInitialRowCount]="infiniteInitialRowCount"
+          [maxBlocksInCache]="maxBlocksInCache"
+          [rowData]="rowData"
+          [icons]="icons"
+          [suppressNoRowsOverlay]="false"
+          [sortingOrder]="['asc', 'desc']"
+          [overlayNoRowsTemplate]="noRowsTemplate"
+          [headerHeight]="24"
+          [tooltipShowDelay]="tooltipShowDelay"
+          [columnDefs]="columnDefs"
+          [gridOptions]="gridOptions"
+          (gridReady)="onGridReady($event)"
+        ></ag-grid-angular>
+      </div>
+    </form>
+    <ng-container *ngIf="searchList.length > 0 && isSearchSelected === true">
+      <span *ngFor="let value of searchList; let i = index">
+        <span class="oval" *ngIf="i < 7"
+          ><span class="ovalText" data-toggle="tooltip" [title]="value.title"
+            >{{ value.title }}
+          </span>
+          <strong (click)="delete(value)">X</strong></span
+        >
+        <span class="expandLink"
+          ><a *ngIf="i === 7" (click)="openSearchData(content)">...</a></span
+        >
+      </span>
+    </ng-container>
+    <ng-template #template>
+      <div class="modal-header">
+        <h4 class="modal-title pull-left">Rules</h4>
+        <button
+          type="button"
+          class="btn-close close pull-right"
+          aria-label="Close"
+          (click)="modalRef?.hide()"
+        >
+          <span aria-hidden="true" class="visually-hidden">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div *ngFor="let value of group.groupFilter">
+          <div>
+            <strong>{{ value.groupFieldName }}:</strong>
+          </div>
+          <span class="oval" *ngFor="let filter of value.groupFilterValues"
+            >{{ filter.title }}
+          </span>
+        </div>
+      </div>
+    </ng-template>
+    <ng-template #content>
+      <div class="modal-header">
+        <h2 class="modal-title pull-left">Rule / Selected Value(s)</h2>
+        <button
+          type="button"
+          class="btn-close close pull-right"
+          aria-label="Close"
+          (click)="modalRef?.hide()"
+        >
+          <span aria-hidden="true" class="visually-hidden">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <span *ngFor="let value of searchList; let i = index">
+          <span class="oval"
+            >{{ value.title }}<strong (click)="delete(value)">X</strong></span
+          >
+        </span>
+      </div>
+    </ng-template>
+    <div class="buttonGroup">
       <div class="col-md-12 text-center">
         <form>
-          <button
-            class="btn btn-primary btn-sm searchButton"
-            type="submit"
-            [disabled]="!editorForm.valid"
-            (click)="submitSearch()"
+          <span
+            *ngIf="showContent"
+            class="currentRule"
+            (click)="openModal(template)"
+            >Rules</span
           >
-            Search
+          <button
+            class="btn btn-primary btn-sm"
+            type="submit"
+            (click)="openSearchData(confirmation)"
+          >
+            Cancel
+          </button>
+          <button
+            class="btn btn-primary btn-sm"
+            type="submit"
+            [disabled]="!showContent || !initialForm.valid || this.groupError"
+            (click)="saveGroup()"
+          >
+            Save Group
           </button>
         </form>
       </div>
     </div>
-    <div *ngIf="showGrid" class="container-fluid gridOuter search">
-      <ag-grid-angular
-        #agGrid
-        id="myGrid"
-        class="ag-theme-alpine searchGrid"
-        [rowHeight]="20"
-        [defaultColDef]="defaultColDef"
-        [rowBuffer]="rowBuffer"
-        [rowSelection]="rowSelection"
-        [rowModelType]="rowModelType"
-        [cacheBlockSize]="cacheBlockSize"
-        [cacheOverflowSize]="cacheOverflowSize"
-        [maxConcurrentDatasourceRequests]="maxConcurrentDatasourceRequests"
-        [infiniteInitialRowCount]="infiniteInitialRowCount"
-        [maxBlocksInCache]="maxBlocksInCache"
-        [rowData]="rowData"
-        [icons]="icons"
-        [suppressNoRowsOverlay]="false"
-        [sortingOrder]="['asc', 'desc']"
-        [overlayNoRowsTemplate]="noRowsTemplate"
-        [headerHeight]="24"
-        [tooltipShowDelay]="tooltipShowDelay"
-        [columnDefs]="columnDefs"
-        [gridOptions]="gridOptions"
-        (gridReady)="onGridReady($event)"
-      ></ag-grid-angular>
-      
-    </div>
-  </form>
-  <ng-container *ngIf="searchList.length > 0 && isSearchSelected === true">
-    <span *ngFor="let value of searchList; let i = index">
-      <span class="oval" *ngIf="i < 7"
-        ><span class="ovalText" data-toggle="tooltip" [title]="value.title"
-          >{{ value.title }}
-        </span>
-        <strong (click)="delete(value)">X</strong></span
-      >
-      <span class="expandLink"
-        ><a *ngIf="i === 7" (click)="openSearchData(content)">...</a></span
-      >
-    </span>
-  </ng-container>
-  <ng-template #template>
-    <div class="modal-header">
-      <h4 class="modal-title pull-left">Rules</h4>
-      <button
-        type="button"
-        class="btn-close close pull-right"
-        aria-label="Close"
-        (click)="modalRef?.hide()"
-      >
-        <span aria-hidden="true" class="visually-hidden">&times;</span>
-      </button>
-    </div>
-    <div class="modal-body">
-      <div *ngFor="let value of group.groupFilter" >
-        <div><strong>{{ value.groupFieldName }}:</strong></div>
-        <span class="oval" *ngFor="let filter of value.groupFilterValues"
-          >{{ filter.title }}
-      </span>
-      </div>
-    </div>
-  </ng-template>
-  <ng-template #content>
-    <div class="modal-header">
-      <h2 class="modal-title pull-left">Rule / Selected Value(s)</h2>
-      <button
-        type="button"
-        class="btn-close close pull-right"
-        aria-label="Close"
-        (click)="modalRef?.hide()"
-      >
-        <span aria-hidden="true" class="visually-hidden">&times;</span>
-      </button>
-    </div>
-    <div class="modal-body">
-      <span *ngFor="let value of searchList; let i = index">
-        <span class="oval"
-          >{{ value.title
-          }}<strong (click)="delete(value)">X</strong></span
-        >
-      </span>
-    </div>
-  </ng-template>
-  <div class="buttonGroup">
-    <div class="col-md-12 text-center">
-      <form>
-        <span
-          *ngIf="showContent"
-          class="currentRule"
-          (click)="openModal(template)"
-          >Rules</span
-        >
-        <button class="btn btn-primary btn-sm" type="submit" (click)="openSearchData(confirmation)">Cancel</button>
-        <button class="btn btn-primary btn-sm" type="submit" [disabled]="!showContent  || !initialForm.valid || this.groupError" (click)="saveGroup()">Save Group</button>
-        
-      </form>
-    </div>
   </div>
+  <ng-template #confirmation>
+    <div class="modal-body text-center confirmModal">
+      <p>Are you sure you want to cancel?</p>
+      <button type="button" class="btn btn-primary" (click)="decline()">
+        No
+      </button>
+      <button type="button" class="btn btn-primary" (click)="confirm()">
+        Yes
+      </button>
+    </div>
+  </ng-template>
 </div>
-<ng-template #confirmation>
-  <div class="modal-body text-center confirmModal">
-    <p >Are you sure you want to cancel?</p>
-    <button type="button" class="btn btn-primary" (click)="decline()" >No</button>
-    <button type="button" class="btn btn-primary" (click)="confirm()" >Yes</button>
-    
-  </div>
-</ng-template>
+<router-outlet></router-outlet>

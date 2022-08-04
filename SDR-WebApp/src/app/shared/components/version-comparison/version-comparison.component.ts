@@ -134,7 +134,7 @@ export class VersionComparisonComponent implements OnInit {
             moment
                   .utc(versionA.auditTrail.entryDateTime)
                   .local()
-                  .format('YYYY-MM-DD HH:mm:ss');
+                  .format('YYYY-MM-DD HH:mm:ss')
              +
             ')';
           this.originalCode = JSON.stringify(
@@ -154,11 +154,10 @@ export class VersionComparisonComponent implements OnInit {
                 this.rightHeader = ' Version# ' +
                   versionB.auditTrail.SDRUploadVersion +
                   '(Modified On:' +
-                  '(Modified On:' +
                   moment
                         .utc(versionB.auditTrail.entryDateTime)
                         .local()
-                        .format('YYYY-MM-DD HH:mm:ss');
+                        .format('YYYY-MM-DD HH:mm:ss')
                    +
                   ')';
                 if(this.isFromCompare){
