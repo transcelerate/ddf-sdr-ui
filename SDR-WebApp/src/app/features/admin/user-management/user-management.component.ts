@@ -125,7 +125,6 @@ export class UserManagementComponent implements OnInit {
       elem.isActive = false;
       return elem;
     });
-    console.log(this.selectedUser);
     this.commonMethod.postUser(this.selectedUser,this);
   }
 
@@ -160,7 +159,6 @@ export class UserManagementComponent implements OnInit {
     );
   }
   edit(params: any){
-    console.log(params);
     this.router.navigate(['admin/userMap/addUser'], {state: {data: params}});
     //this.router.navigateByUrl('admin/addGroup', { state: { data: params } });
   }

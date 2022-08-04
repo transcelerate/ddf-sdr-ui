@@ -1,5 +1,6 @@
 import { Component, OnInit, ElementRef } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import * as moment from 'moment';
 // import { DiffEditorModel } from 'ngx-monaco-editor';
 import {
   MonacoEditorConstructionOptions,
@@ -130,7 +131,11 @@ export class VersionComparisonComponent implements OnInit {
           this.leftHeader = ' Version# ' +
             versionA.auditTrail.SDRUploadVersion +
             '(Modified On:' +
-            versionA.auditTrail.entryDateTime +
+            moment
+                  .utc(versionA.auditTrail.entryDateTime)
+                  .local()
+                  .format('YYYY-MM-DD HH:mm:ss');
+             +
             ')';
           this.originalCode = JSON.stringify(
             versionA.clinicalStudy,
@@ -149,7 +154,12 @@ export class VersionComparisonComponent implements OnInit {
                 this.rightHeader = ' Version# ' +
                   versionB.auditTrail.SDRUploadVersion +
                   '(Modified On:' +
-                  versionB.auditTrail.entryDateTime +
+                  '(Modified On:' +
+                  moment
+                        .utc(versionB.auditTrail.entryDateTime)
+                        .local()
+                        .format('YYYY-MM-DD HH:mm:ss');
+                   +
                   ')';
                 if(this.isFromCompare){
                   this.leftHeader = 'Study - ' + this.studyOneTitle + this.leftHeader;

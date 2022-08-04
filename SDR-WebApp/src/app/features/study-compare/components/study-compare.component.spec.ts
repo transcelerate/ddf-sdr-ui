@@ -75,7 +75,7 @@ describe('StudyCompareComponent', () => {
     it('makes expected calls', () => {
       const routerStub: Router = fixture.debugElement.injector.get(Router);
       spyOn(routerStub, 'navigate').and.callThrough();
-      component.redirect(['/compare/search']);
+      component.redirect(['/comparison/search']);
       expect(routerStub.navigate).toHaveBeenCalled();
     });
   });

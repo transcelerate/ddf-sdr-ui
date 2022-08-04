@@ -23,7 +23,7 @@ export class MenuComponent implements OnInit {
       name: 'Search Study Definitions',
       subMenu: [
         { text: 'SEARCH', link: 'search',name: 'Search Study Definitions',},
-        { text: 'COMPARE', link: 'compare',name: 'Search Study Definitions',},
+        { text: 'COMPARE', link: 'comparison',name: 'Search Study Definitions',},
         
       ]
     },

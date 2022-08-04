@@ -60,7 +60,7 @@ export class AuditTrailComponent implements OnInit {
     tag: string;
     status: string;
     entryDateTime: string;
-    studyVersion: any;
+    SDRUploadVersion: any;
   }[];
   gridApi: any;
   gridColumnApi: any;
@@ -138,7 +138,7 @@ export class AuditTrailComponent implements OnInit {
     const self = this;
     eDiv.innerHTML =
       '<label class="container-radio"><input type="radio" name="compareA" class="radioA ' +
-      params.data?.studyVersion +
+      params.data?.SDRUploadVersion +
       'A"> <span class="checkmark"></span></label>';
     eDiv.addEventListener('click', () => {
       self.setRadio(params.data, 'A');
@@ -155,7 +155,7 @@ export class AuditTrailComponent implements OnInit {
     const self = this;
     eDiv.innerHTML =
       '<label class="container-radio"><input type="radio"  name="compareB" class="radioB ' +
-      params.data?.studyVersion +
+      params.data?.SDRUploadVersion +
       'B"><span class="checkmark"></span></label>';
     eDiv.addEventListener('click', () => {
       self.setRadio(params.data, 'B');
@@ -207,11 +207,11 @@ export class AuditTrailComponent implements OnInit {
     }
     if (
       this._elementRef.nativeElement.getElementsByClassName(
-        selectedVal.studyVersion + disableField
+        selectedVal.SDRUploadVersion + disableField
       )[0]
     )
       this._elementRef.nativeElement
-        .getElementsByClassName(selectedVal.studyVersion + disableField)[0]
+        .getElementsByClassName(selectedVal.SDRUploadVersion + disableField)[0]
         .setAttribute('disabled', true);
     //this.disableButton = ! (typeof(this.versionA) == 'number' && typeof(this.versionB) == 'number')
     this.disableButton = this.versionA === '' || this.versionB === '';

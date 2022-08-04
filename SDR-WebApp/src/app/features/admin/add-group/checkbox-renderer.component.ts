@@ -29,7 +29,6 @@ export class CheckboxRenderer implements AgRendererComponent {
 
   agInit(params: any): void {
     this.params = params;
-    console.log(this.params);
     this.radio = params.context.componentParent.radioButton;
   }
 
