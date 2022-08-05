@@ -3,12 +3,13 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { ServiceCall } from './service-call/service-call.service';
 import { CommonMethodsService } from './common-methods.service';
 import { AgGridModule } from 'ag-grid-angular';
+import { BsModalService } from 'ngx-bootstrap/modal';
 
 describe('CommonMethodsService', () => {
   let service: CommonMethodsService;
 
   beforeEach(() => {
-    
+    const bsModalServiceStub = {  };
     const ngxSpinnerServiceStub = () => ({
       show: () => ({}),
       hide: () => ({})
@@ -20,7 +21,8 @@ describe('CommonMethodsService', () => {
       providers: [
         CommonMethodsService,
         { provide: NgxSpinnerService, useFactory: ngxSpinnerServiceStub },
-        { provide: ServiceCall, useFactory: serviceCallStub }
+        { provide: ServiceCall, useFactory: serviceCallStub },
+        { provide: BsModalService, useValue: bsModalServiceStub },
       ],
       imports: [
         AgGridModule.withComponents([])

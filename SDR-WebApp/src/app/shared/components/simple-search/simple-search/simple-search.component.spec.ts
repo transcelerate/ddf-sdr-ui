@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { TemplateRef } from '@angular/core';
 import { DialogService } from 'src/app/shared/services/communication.service';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { CommonMethodsService } from 'src/app/shared/services/common-methods.service';
@@ -18,8 +17,11 @@ describe('SimpleSearchComponent', () => {
 
   beforeEach(() => {
     const dialogServiceStub = () => ({ changeDialogState: (string: any) => ({}) });
-    const bsModalServiceStub = () => ({ show: (template: any) => ({}) });
+    const bsModalServiceStub = () => ({
+      show: (modalComponentComponent: any, initialState: any) => ({})
+    });
     const commonMethodsServiceStub = () => ({
+      getSponsorIdGrid: { bind: () => ({}) },
       gridDataSourceForSearchLightStudy: (
         reqObj: any,
         gridApi: any,
@@ -31,10 +33,7 @@ describe('SimpleSearchComponent', () => {
     const ngxSpinnerServiceStub = () => ({});
     const serviceCallStub = () => ({});
     const activatedRouteStub = () => ({});
-    const routerStub = () => ({
-      navigate: (array: any, object: any) => ({}),
-      navigateByUrl: (string: any) => ({})
-    });
+    const routerStub = () => ({ navigate: (array: any, object: any) => ({}) });
     TestBed.configureTestingModule({
       schemas: [NO_ERRORS_SCHEMA],
       declarations: [SimpleSearchComponent],
@@ -51,16 +50,7 @@ describe('SimpleSearchComponent', () => {
     });
     fixture = TestBed.createComponent(SimpleSearchComponent);
     component = fixture.componentInstance;
-    window.history.pushState(
-      { data: {from:'search1'} },
-      '',
-      ''
-    );
-    component.editorForm.setValue({
-      studyTitle: 'uu',
-      fromDate: '99',
-      toDate: 'study',
-    });
+    
   });
 
   it('can load instance', () => {
@@ -91,30 +81,6 @@ describe('SimpleSearchComponent', () => {
     expect(component.BLOCK_SIZE).toEqual(configList.BLOCK_SIZE);
   });
 
-  // describe('openModal', () => {
-  //   it('makes expected calls', () => {
-  //     const templateRefStub: any = <any>{};
-  //     const bsModalServiceStub: BsModalService = fixture.debugElement.injector.get(
-  //       BsModalService
-  //     );
-  //     spyOn(bsModalServiceStub, 'show').and.callThrough();
-  //     component.openModal(templateRefStub);
-  //     expect(bsModalServiceStub.show).toHaveBeenCalled();
-  //   });
-  // });
-
-  // describe('openSearchData', () => {
-  //   it('makes expected calls', () => {
-  //     const templateRefStub: any = <any>{};
-  //     const bsModalServiceStub: BsModalService = fixture.debugElement.injector.get(
-  //       BsModalService
-  //     );
-  //     spyOn(bsModalServiceStub, 'show').and.callThrough();
-  //     component.openSearchData(templateRefStub);
-  //     expect(bsModalServiceStub.show).toHaveBeenCalled();
-  //   });
-  // });
-
   describe('ngOnInit', () => {
     it('makes expected calls', () => {
       const dialogServiceStub: DialogService = fixture.debugElement.injector.get(
@@ -132,6 +98,23 @@ describe('SimpleSearchComponent', () => {
       spyOn(routerStub, 'navigate').and.callThrough();
       component.submit();
       expect(routerStub.navigate).toHaveBeenCalled();
+    });
+  });
+
+  describe('submitSearch', () => {
+    it('makes expected calls', () => {
+      const commonMethodsServiceStub: CommonMethodsService = fixture.debugElement.injector.get(
+        CommonMethodsService
+      );
+      spyOn(
+        commonMethodsServiceStub,
+        'gridDataSourceForSearchLightStudy'
+      ).and.callThrough();
+      component.showGrid = true;
+      component.submitSearch();
+      expect(
+        commonMethodsServiceStub.gridDataSourceForSearchLightStudy
+      ).toHaveBeenCalled();
     });
   });
   describe('getSelectSearch', () => {
@@ -235,32 +218,6 @@ describe('SimpleSearchComponent', () => {
       );
     });
   });
-
-  // describe('onClosed', () => {
-  //   it('makes expected calls', () => {
-  //     const routerStub: Router = fixture.debugElement.injector.get(Router);
-  //     spyOn(routerStub, 'navigateByUrl').and.callThrough();
-  //     component.onClosed();
-  //     expect(routerStub.navigateByUrl).toHaveBeenCalled();
-  //   });
-  // });
-
-  describe('submitSearch', () => {
-    it('makes expected calls', () => {
-      const commonMethodsServiceStub: CommonMethodsService = fixture.debugElement.injector.get(
-        CommonMethodsService
-      );
-      spyOn(
-        commonMethodsServiceStub,
-        'gridDataSourceForSearchLightStudy'
-      ).and.callThrough();
-      component.showGrid = true;
-      component.submitSearch();
-      expect(
-        commonMethodsServiceStub.gridDataSourceForSearchLightStudy
-      ).toHaveBeenCalled();
-    });
-  });
   describe('restrictChar', () => {
     it('makes expected calls', () => {
       const event = document.createEvent('KeyboardEvent');;
@@ -310,12 +267,4 @@ describe('SimpleSearchComponent', () => {
       expect(val).not.toEqual('');
     });
   });
-
-  // describe('confirm', () => {
-  //   it('makes expected calls', () => {
-  //     spyOn(component, 'onClosed').and.callThrough();
-  //     component.confirm();
-  //     expect(component.onClosed).toHaveBeenCalled();
-  //   });
-  // });
 });
