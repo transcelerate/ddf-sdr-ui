@@ -18,7 +18,7 @@ const studyCompareModuleRoutes: Routes = [
         path: 'studyCompare',
         component: VersionComparisonComponent,
         data: {
-          breadcrumb: 'Study Version Comparison',
+          breadcrumb: 'Study Comparison',
         },
       },
     ],
