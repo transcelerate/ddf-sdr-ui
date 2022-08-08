@@ -32,7 +32,7 @@ export class StudyCompareComponent implements OnInit {
       } else {
         localStorage.setItem('search2',JSON.stringify(selectedValue));
       }
-      debugger;
+      
     }
     this.setModel();
   }

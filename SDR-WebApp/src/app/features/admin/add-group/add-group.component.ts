@@ -224,7 +224,7 @@ export class AddGroupComponent implements OnInit {
     return index;
   }
   updateChecked(option: string) {
-    debugger;
+    
     let index = this.findIndex();
     if (index == -1) {
       this.group.groupFilter.push(this.groupList);
@@ -475,7 +475,7 @@ export class AddGroupComponent implements OnInit {
     this.serviceCall.checkGroup(event.target.value).subscribe({
       next: (data: any) => {
         this.spinner.hide();
-        debugger;
+        
         if (data.isExists) {
           this.groupError = true;
         }

@@ -76,6 +76,7 @@ describe('SearchFormComponent', () => {
         commonMethodsServiceStub,
         'gridDataSourceForSearchStudy'
       ).and.callThrough();
+      component.showGrid = true;
       component.submitSearch();
       expect(
         commonMethodsServiceStub.gridDataSourceForSearchStudy
@@ -95,7 +96,7 @@ describe('SearchFormComponent', () => {
       spyOn(serviceCallStub, 'readConfigFile').and.callThrough();
       spyOn(dialogServiceStub, 'changeDialogState').and.callThrough();
       component.ngOnInit();
-      expect(component._filter).toHaveBeenCalled();
+     
       expect(serviceCallStub.readConfigFile).toHaveBeenCalled();
       expect(dialogServiceStub.changeDialogState).toHaveBeenCalled();
     });
