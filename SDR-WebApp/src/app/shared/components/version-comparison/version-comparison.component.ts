@@ -166,7 +166,7 @@ export class VersionComparisonComponent implements OnInit {
                 }
                 this.code = JSON.stringify(versionB.clinicalStudy, null, '\t');
                 var interval = setInterval(() => {
-                  debugger;
+                  
                   if (
                     this._elementRef.nativeElement.getElementsByClassName(
                       'editor original'

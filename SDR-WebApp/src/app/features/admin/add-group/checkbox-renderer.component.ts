@@ -33,7 +33,7 @@ export class CheckboxRenderer implements AgRendererComponent {
   }
 
   afterGuiAttached(params?: IAfterGuiAttachedParams): void {
-    debugger;
+    
   }
 
   refresh(params: any): boolean {

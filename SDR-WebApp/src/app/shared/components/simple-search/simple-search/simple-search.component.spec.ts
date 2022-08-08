@@ -50,7 +50,12 @@ describe('SimpleSearchComponent', () => {
     });
     fixture = TestBed.createComponent(SimpleSearchComponent);
     component = fixture.componentInstance;
-    
+     window.history.pushState(
+      { data: {from:'search1'} },
+      '',
+      ''
+    );
+
   });
 
   it('can load instance', () => {
