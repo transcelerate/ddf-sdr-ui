@@ -115,7 +115,7 @@ export class UserManagementComponent implements OnInit {
     };
   }
   openModal(field: any) {
-    debugger;
+    
     this.modalRef = this.modalService.show(this.content, { class: 'modal-lg' });
     this.userGroupList = field;
   }
@@ -133,7 +133,7 @@ export class UserManagementComponent implements OnInit {
   }
 
   openDeleteConfirmation(field: any) {
-    debugger;
+    
     this.showError = false;
     this.modalRef = this.modalService.show(this.confirmation);
     this.selectedUser = field;

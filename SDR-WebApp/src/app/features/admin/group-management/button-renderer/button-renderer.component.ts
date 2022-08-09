@@ -32,7 +32,7 @@ export class BtnCellRenderer implements ICellRendererAngularComp, OnDestroy {
   }
 
   btnClickedHandler() {
-    debugger;
+    
     this.componentParent.openModal(
       this.params.data.groupFilterValues || this.params.data.groups
     );

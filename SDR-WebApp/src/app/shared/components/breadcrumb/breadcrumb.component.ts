@@ -69,7 +69,7 @@ export class BreadcrumbComponent implements OnInit {
     //In the routeConfig the complete path is not available,
     //so we rebuild it each time
     const nextUrl = path ? `${url}/${path}` : url;
-    debugger;
+    
     let returnPath;
     switch(window.location.href){
 
