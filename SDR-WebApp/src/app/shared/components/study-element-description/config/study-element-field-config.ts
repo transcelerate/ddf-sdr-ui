@@ -27,6 +27,8 @@ const configList = {
     { value: '403', description: '403 - Forbidden' },
     { value: '404', description: '404 - NotFound' },
     { value: '500', description: '500 - InternalServerError' },
+    { value: '415', description: '415 - UnsupportedMediaType' },
+    { value: '503', description: '503 - ServiceUnavailable' },
   ],
   OPERATION: [
     { value: 'POST', description: 'POST' },
