@@ -9,7 +9,7 @@ const dashboardModuleRoutes: Routes = [
     path: '',
     component: RecentActivityComponent,
     data: {
-        breadcrumb: 'Home',
+        breadcrumb: 'Recent Activity',
         //url:'home'
     },
     children: [

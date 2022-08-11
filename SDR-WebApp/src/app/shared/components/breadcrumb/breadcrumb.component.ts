@@ -26,7 +26,18 @@ export class BreadcrumbComponent implements OnInit {
       this.breadcrumbs = this.buildBreadCrumb(this.activatedRoute.root);
     })
   }
+  findPath(){
+    if(window.location.href.indexOf('home')!=-1){
+      return 'home';
+    } else if(window.location.href.indexOf('comparison')!=-1){
+      return 'comparison';
+    }else if(window.location.href.indexOf('addGroup')!=-1){
+      return 'admin/';
+    }else{
+      return 'search';
+    }
 
+  }
   /**
    * Recursively build breadcrumb according to activated route.
    * @param route
@@ -58,7 +69,12 @@ export class BreadcrumbComponent implements OnInit {
     //In the routeConfig the complete path is not available,
     //so we rebuild it each time
     const nextUrl = path ? `${url}/${path}` : url;
-    let baseUrl =  window.location.href.indexOf('home') == -1 ? 'search': 'home';
+    
+    let returnPath;
+    switch(window.location.href){
+
+    }
+    let baseUrl =  this.findPath();
     const breadcrumb: IBreadCrumb = {
         label: label,
         url: baseUrl + nextUrl,

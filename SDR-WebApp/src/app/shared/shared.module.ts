@@ -5,10 +5,11 @@ import { CustomTooltipComponent } from './components/custom-tooltip/custom-toolt
 import { AuditTrailComponent } from './components/audit-trail/audit-trail.component';
 import { VersionComparisonComponent } from './components/version-comparison/version-comparison.component';
 import { ModalComponentComponent } from './components/modal-component/modal-component.component';
+import { SimpleSearchComponent } from './components/simple-search/simple-search/simple-search.component';
 
 @NgModule({
     imports: [SharedModuleConstants.MODULE_IMPORTS],
-    declarations: [SharedModuleConstants.MODULE_COMPONENTS, CustomTooltipComponent, AuditTrailComponent, VersionComparisonComponent, ModalComponentComponent],
+    declarations: [SharedModuleConstants.MODULE_COMPONENTS, CustomTooltipComponent, AuditTrailComponent, VersionComparisonComponent, ModalComponentComponent, SimpleSearchComponent],
     providers: [SharedModuleConstants.MODULE_PROVIDERS],
     entryComponents: [SharedModuleConstants.ENTRY_COMPONENTS],
     exports: [SharedModuleConstants.MODULE_EXPORTS]

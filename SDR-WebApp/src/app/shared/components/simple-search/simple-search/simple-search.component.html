@@ -1,0 +1,177 @@
+<app-error-component *ngIf="showError"></app-error-component>
+<div  *ngIf="route.children.length === 0">
+<div class="container-fluid">
+    <ol _ngcontent-kcl-c19="" class="breadcrumb ng-star-inserted">
+        <li _ngcontent-kcl-c19="" class="ng-star-inserted">
+          <span routerLink=".." 
+          >
+            Study Comparison    
+          </span>
+        </li>
+       <li _ngcontent-kcl-c19="" class="ng-star-inserted">
+          <span>
+            Select Study  
+          </span>
+        </li>
+      
+        
+      </ol>
+      <br>
+
+
+  <form  [formGroup]="editorForm">
+    <div class="row">
+      <div class="col-3">
+        <!--left side -->
+        <div class="form-group row">
+          <label class="col-sm-4 paddingTen">Study Title:</label>
+          <div class="col-sm-8 inputDiv">
+            
+            <input
+              type="text"
+              class="input-sm paddingTen textField"
+              formControlName="studyTitle"
+              maxlength="20"
+              (keypress)="restrictChar($event)"
+            />
+          </div>
+        </div>
+        </div>
+        <div class="col-3">
+        <div class="form-group row">
+          <label for="studyId" class="col-sm-4 paddingTen"
+            >Sponsor Id:</label
+          >
+          <div class="col-sm-8 inputDiv">
+            
+            <input
+              type="text"
+              (keypress)="restrictChar($event)"
+              class="input-sm"
+              formControlName="studyId"
+            />
+          </div>
+        </div>
+
+      </div>
+      <div class="col-3">
+        <!--left side -->
+        <div class="form-group row">
+          <label class="col-sm-4 paddingTen">Modified From:</label>
+          <div class="col-sm-8 inputDiv">
+            <input
+            type="date"
+            class="input-sm form-control"
+            formControlName="fromDate"
+            [max]="getToday()"
+          />
+            
+          </div>
+        </div>
+      </div>
+      <div class="col-3">
+        <!--left side -->
+        <div class="form-group row">
+          <label class="col-sm-5 paddingTen">Modified To:</label>
+          <div class="col-sm-7 inputDiv">
+            <input
+            type="date"
+            class="input-sm form-control"
+            formControlName="toDate"
+            [max]="getToday()"
+          />
+          </div>
+        </div>
+      </div>
+   
+    </div>
+    <br>
+    <div class="buttonClass">
+      <button
+      class="btn btn-primary btn-sm resetButton"
+     
+     
+      (click)="clear()"
+    >
+      Reset
+    </button>
+    <button
+    class="btn btn-primary btn-sm searchButton"
+    type="submit"
+    [disabled]="!editorForm.valid"
+    (click)="submitSearch()"
+  >
+    Search
+  </button>
+    </div>
+    <div>
+      <!-- <div class="col-md-12 text-center">
+        <form>
+          <button
+            class="btn btn-primary btn-sm searchButton"
+            type="submit"
+            [disabled]="!editorForm.valid"
+            (click)="submitSearch()"
+          >
+            Search
+          </button>
+        </form>
+      </div> -->
+    </div>
+    <br>
+    <div class="buttonGroup" *ngIf="showGrid">
+      <div class="col-md-12">
+        <!-- <form class="downLoad">
+         
+          <button class="btn btn-primary btn-sm" type="submit" >Download</button>
+          
+        </form> -->
+      </div>
+    </div>
+ 
+
+      <div *ngIf="showGrid" class="container-fluid gridOuter search">
+        <ag-grid-angular
+          #agGrid
+          id="myGrid"
+          class="ag-theme-alpine searchGrid"
+          [rowHeight]="20"
+          [defaultColDef]="defaultColDef"
+          [rowBuffer]="rowBuffer"
+          [rowSelection]="rowSelection"
+          [rowModelType]="rowModelType"
+          [cacheBlockSize]="cacheBlockSize"
+          [cacheOverflowSize]="cacheOverflowSize"
+          [maxConcurrentDatasourceRequests]="maxConcurrentDatasourceRequests"
+          [infiniteInitialRowCount]="infiniteInitialRowCount"
+          [maxBlocksInCache]="maxBlocksInCache"
+          [rowData]="rowData"
+          [icons]="icons"
+          [suppressNoRowsOverlay]="false"
+          [sortingOrder]="['asc', 'desc']"
+          [overlayNoRowsTemplate]="noRowsTemplate"
+          [headerHeight]="24"
+          [tooltipShowDelay]="tooltipShowDelay"
+          [columnDefs]="columnDefs"
+          [gridOptions]="gridOptions"
+          (gridReady)="onGridReady($event)"
+        ></ag-grid-angular>
+        
+      </div>
+   
+    <br>
+    <div class="buttonGroup" *ngIf="showGrid">
+      <div class="col-md-12 text-center">
+        <form>
+         
+          
+          
+          <button class="btn btn-primary btn-sm" type="submit" routerLink=".." >Cancel</button>
+          <button class="btn btn-primary btn-sm" type="submit" [disabled]="!selectedValue" (click)="submit()" routerLink=".." >Select</button>
+        </form>
+      </div>
+    </div>
+  </form>
+</div>
+</div>
+<router-outlet></router-outlet>

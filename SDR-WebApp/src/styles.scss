@@ -50,13 +50,14 @@ body {
   overflow-x: hidden;
 }
 .ag-tooltip {
-  background-color: #0f1014;
-  color: #999eab;
+  background-color: white;
+  color: black;
   border-radius: 2px;
-  padding: 5px;
+  padding: 2px 5px;
   border-width: 1px;
   border-style: solid;
   border-color: #545454;
+  font-size: smaller;
 }
 .ag-header-cell,
 .ag-header-group-cell {
@@ -99,11 +100,11 @@ body {
   }
   .ag-header-icon {
     text-align: left;
-   // margin-left: -13px;
+    // margin-left: -13px;
   }
   .ag-header-cell-text {
-   // min-width: 80px;
-    max-width: 80px;
+    // min-width: 80px;
+    // max-width: 80px;
   }
 }
 .auditDiv {
@@ -114,11 +115,11 @@ body {
   }
   .ag-header-icon {
     text-align: left;
-    margin-left: -13px;
+    margin-left: 25px;
   }
   .ag-header-cell-text {
     min-width: 80px;
-    max-width: 90px;
+    max-width: 150px;
   }
 }
 
@@ -172,7 +173,7 @@ body {
 .checkmark {
   position: absolute;
   top: -9px;
-  right: 48px;
+  right: 137px;
   height: 20px;
   width: 23px;
   // background-color: #eee;
@@ -224,6 +225,74 @@ body {
 .diffViewport {
   min-height: 64px !important;
 }
+.navbar-nav {
+  flex-direction: row;
+}
+.border-bottom-none {
+  border-bottom-style: none;
+}
+.border-top-none {
+  border-top-style: none;
+}
+.border-none {
+  border-bottom-style: none;
+  border-top-style: none;
+}
+.multiselect-dropdown .dropdown-btn .selected-item-container .selected-item {
+  border: 1px solid #ddd !important;
+  margin-right: 4px;
+  background: #ddd !important;
+  padding: 0 5px;
+  color: #000 !important;
+  border-radius: 2px;
+  float: left;
+  max-width: 100% !important;
+  margin: 2px;
+  a {
+    color: #000 !important;
+  }
+}
 
+.multiselect-item-checkbox input[type="checkbox"]:checked + div:before {
+  background: #0d6efd !important;
+}
+
+.multiselect-item-checkbox input[type="checkbox"] + div:before {
+  border: 2px solid #0d6efd !important;
+}
+@media (min-width: 576px) {
+  .modal-dialog {
+    max-width: 700px !important;
+    margin: 1.75rem auto;
+  }
+}
+.admin {
+  a {
+    cursor: pointer;
+    margin-top: 30px;
+    margin: -5% 96%;
+    display: block;
+  }
+}
+.admin-user {
+  a {
+    margin: -4% 96%;
+  }
+}
+input[type="text"]:disabled { 
+  background-color: #eceeef !important;
+}
+select{
+  -webkit-appearance: listbox !important
+  }
+button{
+  border-radius: 5px;
+  color: #fff;
+  background-color: #0d6efd !important;
+  border-color: #0d6efd !important;
+}
+.modal-body .btn{
+  margin:0 5px;
+}
 // html, body { height: 100%; }
 // body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

@@ -33,17 +33,17 @@ describe('HeaderComponent', () => {
     expect(component.refreshStatus).toEqual(false);
   });
 
-  describe('logout', () => {
-    it('makes expected calls', () => {
-      const msalServiceStub: MsalService = fixture.debugElement.injector.get(
-        MsalService
-      );
-      spyOn(msalServiceStub, 'logout').and.callThrough();
-      component.logout();
-      msalServiceStub.logout();
-      expect(msalServiceStub.logout).toHaveBeenCalled();
-    });
-  });
+  // describe('logout', () => {
+  //   it('makes expected calls', () => {
+  //     const msalServiceStub: MsalService = fixture.debugElement.injector.get(
+  //       MsalService
+  //     );
+  //     spyOn(msalServiceStub, 'logout').and.callThrough();
+  //     component.logout();
+  //     msalServiceStub.logout();
+  //     expect(msalServiceStub.logout).toHaveBeenCalled();
+  //   });
+  // });
 
   describe("ngOnInit", () => {
     it("makes expected calls", () => {

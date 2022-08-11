@@ -24,14 +24,14 @@ export class HeaderComponent implements OnInit {
    /*
   Logout logic 
   */
-  async logout() {
-    //this.authService.logoutRedirect();
-    let homeAccountId:any = localStorage.getItem('homeAccountId');
-    const currentAccount:any = this.authService.instance.getAccountByHomeId(
-      homeAccountId
-    );
-    await this.authService.instance.logout({ logoutHint: currentAccount?.idTokenClaims.login_hint});
-  }
+  // async logout() {
+  //   //this.authService.logoutRedirect();
+  //   let homeAccountId:any = localStorage.getItem('homeAccountId');
+  //   const currentAccount:any = this.authService.instance.getAccountByHomeId(
+  //     homeAccountId
+  //   );
+  //   await this.authService.instance.logout({ logoutHint: currentAccount?.idTokenClaims.login_hint});
+  // }
 
  
 }

@@ -3,15 +3,15 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { ColDef, GridApi, GridReadyEvent } from 'ag-grid-community';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ServiceCall } from '../../services/service-call/service-call.service';
-
+import * as moment from 'moment';
 @Component({
   selector: 'app-audit-trail',
   templateUrl: './audit-trail.component.html',
   styleUrls: ['./audit-trail.component.scss'],
 })
-/*
-Audit Trail component 
-*/
+/**
+ *Audit Trail component
+ */
 export class AuditTrailComponent implements OnInit {
   studyId: any;
   versionA: any;
@@ -26,27 +26,10 @@ export class AuditTrailComponent implements OnInit {
       suppressSizeToFit: false,
       width: 150,
     },
+
     {
-      headerName: 'System',
-      field: 'entrySystem',
-      suppressSizeToFit: false,
-      width: 170,
-    },
-    {
-      headerName: '(SDR) Record Version',
-      field: 'studyVersion',
-      suppressSizeToFit: false,
-      width: 150,
-    },
-    {
-      headerName: 'Tag',
-      field: 'studyTag',
-      suppressSizeToFit: false,
-      width: 150,
-    },
-    {
-      headerName: 'Status',
-      field: 'studyStatus',
+      headerName: 'SDR Record Version',
+      field: 'SDRUploadVersion',
       suppressSizeToFit: false,
       width: 150,
     },
@@ -77,7 +60,7 @@ export class AuditTrailComponent implements OnInit {
     tag: string;
     status: string;
     entryDateTime: string;
-    studyVersion: any;
+    SDRUploadVersion: any;
   }[];
   gridApi: any;
   gridColumnApi: any;
@@ -100,9 +83,9 @@ export class AuditTrailComponent implements OnInit {
       resizable: true,
     };
   }
-  /*
-get the studyId from study details page
-*/
+  /**
+   *get the studyId from study details page
+   */
   ngOnInit(): void {
     var view = this;
     this.route.params.subscribe((params) => {
@@ -121,9 +104,14 @@ get the studyId from study details page
       next: (audit: any) => {
         //this.userExists = true;
         this.spinner.hide();
-
-        this.studyId = audit.studyId;
-        this.rowData = audit.auditTrail;
+        this.rowData = audit.auditTrail.map((elem: any) => {
+          elem.entryDateTime = moment
+            .utc(elem.entryDateTime)
+            .local()
+            .format('YYYY-MM-DD HH:mm:ss');
+            return elem;
+        });
+        this.studyId = audit.uuid;
       },
       error: (error) => {
         this.showError = true;
@@ -141,15 +129,16 @@ get the studyId from study details page
       },
     });
   }
-  /*
-Logic to generate radio button html element for A column
-*/
+  /**
+   *Logic to generate radio button html element for A column
+   * @param params   ag grid value for each row with data.
+   */
   generateCompareA(params: any) {
     const eDiv = document.createElement('div');
     const self = this;
     eDiv.innerHTML =
       '<label class="container-radio"><input type="radio" name="compareA" class="radioA ' +
-      params.data?.studyVersion +
+      params.data?.SDRUploadVersion +
       'A"> <span class="checkmark"></span></label>';
     eDiv.addEventListener('click', () => {
       self.setRadio(params.data, 'A');
@@ -157,15 +146,16 @@ Logic to generate radio button html element for A column
 
     return eDiv;
   }
-  /*
-Logic to generate radio button html element for B column
-*/
+  /**
+   *Logic to generate radio button html element for B column
+   * @param params   ag grid value for each row with data.
+   */
   generateCompareB(params: any) {
     const eDiv = document.createElement('div');
     const self = this;
     eDiv.innerHTML =
       '<label class="container-radio"><input type="radio"  name="compareB" class="radioB ' +
-      params.data?.studyVersion +
+      params.data?.SDRUploadVersion +
       'B"><span class="checkmark"></span></label>';
     eDiv.addEventListener('click', () => {
       self.setRadio(params.data, 'B');
@@ -175,9 +165,10 @@ Logic to generate radio button html element for B column
   }
   /* istanbul ignore next */
   // @SONAR_STOP@
-  /*
-AG Grid initialization for Audit table
-*/
+  /**
+   *This method will be called on initialization of ag grid
+   * @param params   ag grid value for each row with data.
+   */
   onGridReady(params: {
     api: { sizeColumnsToFit: () => void };
     columnApi: any;
@@ -196,17 +187,17 @@ AG Grid initialization for Audit table
   }
   /* istanbul ignore end */
   // @SONAR_START@
-  /*
-on selection of radio button, we disable the corresponding other radio button to revent using same version for comparison.
-@Param selectedVal : radio button selected
-@Param from : from which column button is selected
-*/
+  /**
+   *on selection of radio button, we disable the corresponding other radio button to revent using same version for comparison.
+   *@param selectedVal : radio button selected
+   *@param from : from which column button is selected
+   */
   setRadio(selectedVal: any, from: string) {
     let disableField = from === 'A' ? 'B' : 'A';
     if (from == 'A') {
-      this.versionA = selectedVal.studyVersion;
+      this.versionA = selectedVal.SDRUploadVersion;
     } else {
-      this.versionB = selectedVal.studyVersion;
+      this.versionB = selectedVal.SDRUploadVersion;
     }
     let domElement = this._elementRef.nativeElement.getElementsByClassName(
       'radio' + disableField
@@ -216,18 +207,18 @@ on selection of radio button, we disable the corresponding other radio button to
     }
     if (
       this._elementRef.nativeElement.getElementsByClassName(
-        selectedVal.studyVersion + disableField
+        selectedVal.SDRUploadVersion + disableField
       )[0]
     )
       this._elementRef.nativeElement
-        .getElementsByClassName(selectedVal.studyVersion + disableField)[0]
+        .getElementsByClassName(selectedVal.SDRUploadVersion + disableField)[0]
         .setAttribute('disabled', true);
     //this.disableButton = ! (typeof(this.versionA) == 'number' && typeof(this.versionB) == 'number')
     this.disableButton = this.versionA === '' || this.versionB === '';
   }
- /*
-on clcik of version compare this method will be triggered which will redirect to version compare page
-*/
+  /**
+   *on clcik of version compare this method will be triggered which will redirect to version compare page
+   */
   versionCompare() {
     this.router.navigate(
       [

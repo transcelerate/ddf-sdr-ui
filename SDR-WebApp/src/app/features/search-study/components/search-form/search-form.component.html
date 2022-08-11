@@ -16,6 +16,7 @@
                 type="text"
                 (keypress)="restrictChar($event)"
                 class="input-sm"
+                maxlength="20"
                 formControlName="studyTitle"
               />
             </div>
@@ -126,6 +127,11 @@
       <!-- form for teacher/student-->
       <div class="row">
         <div class="col-6">
+          <button class="btn btn-primary clear" (click)="clearSearch()">
+            Reset
+          </button>
+        </div>
+        <div class="col-6">
           <button
             type="submit"
             class="btn btn-primary submit"
@@ -135,11 +141,7 @@
             Search
           </button>
         </div>
-        <div class="col-6">
-          <button class="btn btn-primary clear" (click)="clearSearch()">
-            Clear
-          </button>
-        </div>
+      
       </div>
     </form>
   </div>
@@ -163,9 +165,12 @@
       [icons]="icons"
       [suppressNoRowsOverlay] = false
       [sortingOrder]="['asc', 'desc']"
-      (gridReady)="onGridReady($event)"
       [overlayNoRowsTemplate]="noRowsTemplate"
-      [headerHeight] = 74
+      [headerHeight] = 35
+      [tooltipShowDelay]="tooltipShowDelay"
+    
+      (gridReady)="onGridReady($event)"
+     
     ></ag-grid-angular>
   </div>
 </div>

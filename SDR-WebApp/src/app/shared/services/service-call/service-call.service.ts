@@ -12,8 +12,8 @@ export class ServiceCall {
   }
   
   getStudyElement(studyId:any ,versionId:any) { 
-   //return this.httpWrapperService.getData('https://apim-sdr-dev2-eastus.azure-api.net/sdr/697/elements');
-   return this.httpWrapperService.getData(environment.BASE_URL  +  ApiUrlList.ELEMENT + studyId + '?version=' + (versionId||''));
+   // return this.httpWrapperService.getData('https://apim-sdr-dev-eastus.azure-api.net/api/v1/studydefinitions/9085f2c7-1f7a-4f71-8b48-5d24592b6f17?version=2');
+    return this.httpWrapperService.getData(environment.BASE_URL  +  ApiUrlList.ELEMENT + studyId + '?sdruploadversion=' + (versionId||''));
   }
   getAuditTrail(studyId:any) { 
     //return this.httpWrapperService.getData('https://apim-sdr-qa-eastus.azure-api.net/studydefinitionrepository/v1/audittrail/%7bstudy%7d');
@@ -21,6 +21,33 @@ export class ServiceCall {
    }
   getSearchResult(reqObj:any){
     return this.httpWrapperService.postData(environment.BASE_URL + ApiUrlList.SEARCHRESULT, reqObj);
+  }
+  getSearchResultLight(reqObj:any){
+    return this.httpWrapperService.postData(environment.BASE_URL + ApiUrlList.SEARCHRESULTLIGHT, reqObj);
+  }
+  getAllGroups(reqObj:any){
+    return this.httpWrapperService.postData(environment.BASE_URL + ApiUrlList.ALLGROUPS, reqObj);
+  }
+  postGroup(reqObj:any){
+    return this.httpWrapperService.postData(environment.BASE_URL + ApiUrlList.POSTGROUP, reqObj);
+  }
+  checkGroup(groupName:any){
+    return this.httpWrapperService.getData(environment.BASE_URL + ApiUrlList.CHECKGROUP + groupName);
+  }
+  getAllUsers(reqObj:any){
+    return this.httpWrapperService.postData(environment.BASE_URL + ApiUrlList.ALLUSERS, reqObj);
+  }
+  getUsageReport(reqObj:any){
+    return this.httpWrapperService.postData(environment.BASE_URL + ApiUrlList.USAGEREPORT, reqObj);
+  }
+  postUser(reqObj:any){
+    return this.httpWrapperService.postData(environment.BASE_URL + ApiUrlList.POSTUSERS, reqObj);
+  }
+  getAllGroupList(){
+    return this.httpWrapperService.getData(environment.BASE_URL + ApiUrlList.GETGROUPLIST);
+  }
+  getAllUserList(){
+    return this.httpWrapperService.getData(environment.BASE_URL + ApiUrlList.GETUSERLIST);
   }
 
   readConfigFile() {

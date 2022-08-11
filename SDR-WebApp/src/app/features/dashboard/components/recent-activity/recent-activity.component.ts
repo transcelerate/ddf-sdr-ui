@@ -1,23 +1,17 @@
 import {
-  ChangeDetectorRef,
   Component,
-  ElementRef,
-  OnInit,
   ViewChild,
 } from '@angular/core';
-import { IGetRowsParams } from 'ag-grid';
 import * as moment from 'moment';
 import { configList } from '../../../../shared/components/study-element-description/config/study-element-field-config';
-import { filter, Observable, Subject, takeUntil } from 'rxjs';
+import { filter, Subject, takeUntil } from 'rxjs';
 import { ServiceCall } from '../../../../shared/services/service-call/service-call.service';
 import { MenuComponent } from 'src/app/shared/components/menu/menu.component';
 import { DialogService } from '../../../../shared/services/communication.service';
-import { NgxSpinnerService } from 'ngx-spinner';
 import { CommonMethodsService } from '../../../../shared/services/common-methods.service';
-import { environment } from 'src/environments/environment';
-import { MsalBroadcastService, MsalService } from '@azure/msal-angular';
+import { MsalBroadcastService } from '@azure/msal-angular';
 import { EventMessage, EventType } from '@azure/msal-browser';
-import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 @Component({
   selector: 'app-recent-activity',
   templateUrl: './recent-activity.component.html',
@@ -47,13 +41,9 @@ export class RecentActivityComponent {
   showStudyElement: boolean = false;
   showError = false;
   constructor(
-    private spinner: NgxSpinnerService,
-    private ref: ChangeDetectorRef,
     public serviceCall: ServiceCall,
     private ds: DialogService,
-    private _elementRef: ElementRef,
     private commonMethod: CommonMethodsService,
-    private authService: MsalService,
     private msalBroadcastService: MsalBroadcastService,
     public router: Router,
     public route: ActivatedRoute
@@ -67,7 +57,7 @@ export class RecentActivityComponent {
         tooltipField: 'studyTitle',
       },
       {
-        headerName: 'Last Modified Date',
+        headerName: 'Last Modified',
         field: 'auditTrail.entryDateTime',
         width: 100,
       },
@@ -86,8 +76,9 @@ export class RecentActivityComponent {
     this.infiniteInitialRowCount = 1;
     this.maxBlocksInCache = 1000;
   }
-  /*
-  To get home account id after login for silent logout
+  /**
+   * Called on initialization of component
+  * To get 'homeAccountId' after login for silent logout
   */
   ngOnInit() {
     this.msalBroadcastService.msalSubject$
@@ -100,18 +91,22 @@ export class RecentActivityComponent {
       )
       .subscribe((result: any) => {
 
-
         if (result?.payload?.accessToken){
           localStorage.setItem('token', result?.payload?.accessToken);
           localStorage.setItem('homeAccountId', result?.payload?.account?.homeAccountId);
+          let isAdmin:any = result?.payload?.account?.idTokenClaims?.roles?.indexOf('org.admin') >= 0;
+          localStorage.setItem('isAdmin', isAdmin);
         }
-
+        this.ds.changeDialogState('Home');
       });
-    this.ds.changeDialogState('Home');
+    
   }
 
-   /*
-  To constuct recent widget first column
+  /**
+  *Logic to form Studytitle with version as link
+  *This method will be called for each row from ag grid
+  * @param params   ag grid value for each row with data.
+  * @returns Return Html Link tag. 
   */
   getStudyVersionGrid(params: any) {
     if (!params.data) {
@@ -124,7 +119,7 @@ export class RecentActivityComponent {
         '<span class="linkSpan"><a>' +
         params.data?.clinicalStudy.studyTitle +
         '&nbsp;<span>_Version ' +
-        params.data?.auditTrail.studyVersion +
+        params.data?.auditTrail.SDRUploadVersion +
         '</span> </a></span>';
       eDiv.addEventListener('click', () => {
         self.setSelectedValue(params.data);
@@ -133,8 +128,12 @@ export class RecentActivityComponent {
       return eDiv;
     }
   }
-   /*
-  Redirect to details page on click of link
+  
+
+    /**
+  *Gets trriggered on click of eack link in Recent activity widget row.
+  *Redirect to details page on click of link.
+  * @param val   clinicalStudy value for the selected row.
   */
   setSelectedValue(val: any) {
     this.showStudyElement = true;
@@ -142,41 +141,39 @@ export class RecentActivityComponent {
       [
         'details',
         {
-          studyId: val.clinicalStudy.studyId,
-          versionId: val.auditTrail.studyVersion,
+          studyId: val.clinicalStudy.uuid,
+          versionId: val.auditTrail.SDRUploadVersion,
         },
       ],
       { relativeTo: this.route }
     );
   }
-   /*
-  show grid 
+   /**
+ * show grid 
   */
-  showGrid(event: any) {
-    if (event) {
-      this.showStudyElement = false;
-    }
-  }
-  ngAfterViewInit() {
-    //this.ds.setStatus(true);
-    this.showStudyElement = false;
-  }
-  gridValueMerge(params: any) {
-    if (params && params.data) {
-      return {
-        studyId: params.data.studyId,
-        version: params.data.version || 'NA',
-        studyTitle: params.data.studyTitle,
-      };
-    } else {
-      return '';
-    }
-  }
-/* istanbul ignore next */
+  // showGrid(event: any) {
+  //   if (event) {
+  //     this.showStudyElement = false;
+  //   }
+  // }
+  // ngAfterViewInit() {
+  //   //this.ds.setStatus(true);
+  //   this.showStudyElement = false;
+  // }
+
+/** istanbul ignore next */
+/**
+  *This method will be called on initialization of ag grid
+  * @param params   ag grid value for each row with data.
+  */
   onGridReady(params: any) {  //NOSONAR
-    this.gridApi = params.api;  //NOSONAR
+    
     this.gridColumnApi = params.columnApi;  //NOSONAR
-    params.api.sizeColumnsToFit();  //NOSONAR
+    if(params.api){
+      this.gridApi = params.api;  //NOSONAR
+      params.api?.sizeColumnsToFit();  //NOSONAR
+    }
+    
     let reqObj = {  //NOSONAR
      fromDate: moment().subtract(30, 'days'),  //NOSONAR
      toDate: moment(),  //NOSONAR
@@ -188,5 +185,5 @@ export class RecentActivityComponent {
       this  //NOSONAR
     );  //NOSONAR
   }  //NOSONAR
-  /* istanbul ignore end */
+  /** istanbul ignore end */
 }

@@ -1,16 +1,63 @@
-<nav class="navbar" id="menu"  *ngIf = "refreshStatus">
-    <ul class="navbar-nav">
+<!-- <nav class="navbar navbar-default" id="menu"  *ngIf = "refreshStatus">
+    <ul class="nav navbar-nav ">
       <li  *ngFor="let menu of menuList" class="nav-item">
         <a class="nav-link" [ngClass]="{'active': menu.isSelected}" [href]=menu.link (click)="changeActive(menu.name)">{{menu.name}}</a>
       </li>
-      <!-- <li class="nav-item">
-        <a class="nav-link" href="home">Search Study Definitions</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="home">Reports</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="home">Study Versions Comparison</a>
-      </li> -->
+     
     </ul>
-  </nav>
+  </nav> -->
+
+<nav
+  class="navbar navbar-expand-lg navbar-light bg-light"
+  *ngIf="refreshStatus"
+>
+  <!-- <a class="navbar-brand" href="#">Navbar</a> -->
+  <button
+    class="navbar-toggler"
+    type="button"
+    data-toggle="collapse"
+    data-target="#navbarNavAltMarkup"
+    aria-controls="navbarNavAltMarkup"
+    aria-expanded="false"
+    aria-label="Toggle navigation"
+  >
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+    <div class="navDiv">
+      <a *ngFor="let menu of menuItems;let i = index">
+       
+        <a class="dropdown-menu-item listStyle" *ngIf = "menu.link" [ngClass]="{ active: menu.isSelected }"  [href]="menu.link"
+        (click)="changeActive(menu.text)">{{ menu.text }}</a>
+          <a class="dropdown-menu-item listStyle" *ngIf = "!menu.link"  [ngClass]="{ active: menu.isSelected }"  
+          >{{ menu.text }}</a>
+        
+        <div class="submenu-container" *ngIf = "menu.subMenu && menu.subMenu.length>0">
+          <a *ngFor="let sub of menu.subMenu;let j = index" class="submenu-item"  [href]="sub.link"
+          (click)="changeActive(sub.text)"
+            > {{ sub.text }}</a> 
+        </div>
+      </a>
+      <!-- <div class="navbar-nav" *ngFor="let menu of menuList; let i = index">
+        <button mat-button [matMenuTriggerFor]="menu">
+          <a
+            class="nav-item nav-link listStyle"
+            [ngClass]="{ active: menu.isSelected }"
+            [href]="menu.link"
+            (click)="changeActive(menu.name)"
+            >{{ menu.name }}</a
+          >
+        </button>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item>Item 1</button>
+          <button mat-menu-item>Item 2</button>
+        </mat-menu>
+        
+      </div> -->
+    </div>
+  </div>
+  <div class="accordion" id="accordionExample" (click)="logout()">
+    <span class="listStyle"> Logout</span>
+    <!-- <img src="../../../../assets/Images/alpine-icons/sign-out.svg" class="imgStyleHeader" title="Log Out" > -->
+  </div>
+</nav>

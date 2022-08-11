@@ -1,0 +1,56 @@
+.compareOuter{
+    border:1px solid;
+    border-radius: 7px;
+}
+.ovalText{
+  background-color: #ddd;
+  border: none;
+  color: black;
+  padding: 0px 10px !important;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  margin: 3px 3px;
+  border-radius: 63px;
+  text-overflow: ellipsis;
+  max-width: 160px;
+  overflow: hidden;
+  white-space: nowrap;
+}
+  // .ovalText {
+  //   text-overflow: ellipsis;
+  //   max-width: 450px;
+  //   display: inline-block;
+  //   overflow: hidden;
+  //   white-space: nowrap;
+  // }
+  .btn-primary {
+    color: #fff;
+    background-color: #0d6efd;
+    border-color: #0d6efd;
+    
+  }
+  .paddingTop{
+    margin:7px 0px;
+  }
+  .compareButton{
+    margin-top: 20px;
+    margin-left: -27px;
+  }
+  .compare{
+    text-align: center;
+    padding: 13px 0px 0px 79px;
+    font-weight: bold;
+  }
+  .to{
+    text-align: center;
+    padding: 16px 50px 0px 7px;
+    font-weight: bold;
+  }
+  .searchButton{
+    margin:8px -5px;
+  }
+  .clearButton{
+    margin:8px 20px;
+  }
+ 

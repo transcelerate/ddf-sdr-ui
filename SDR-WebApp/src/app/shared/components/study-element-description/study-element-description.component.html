@@ -1,6 +1,6 @@
 <!-- <span class="linkSpan" (click)="backButtonClicked()">back</span> -->
 <!-- <h2><b>StudyId {{sponsorStudyId}} Version {{sponsorVersionId}} - Details</b></h2> -->
-
+<div class="container-fluid">
 <h2 *ngIf="!showError">
   <strong>{{ finalVal.accordianName }} <span *ngIf="route.children.length === 0">Version {{ sponsorVersionId }}</span></strong>
 </h2>
@@ -68,7 +68,7 @@
   </div>
 </div>
 <router-outlet></router-outlet>
-
+</div>
 <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
 <!-- * * * * * * * * * * * The content above * * * * * * * * * * * -->
 <!-- * * * * * * * * * * is only a placeholder * * * * * * * * * * -->

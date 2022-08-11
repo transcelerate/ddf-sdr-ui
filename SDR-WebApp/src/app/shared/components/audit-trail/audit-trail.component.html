@@ -4,7 +4,7 @@
     <button
     *ngIf="!showError"
       [disabled]="disableButton"
-      class="versionButtonAudit"
+      class="btn  versionButtonAudit"
       (click)="versionCompare()"
     >
       Version Comparison
@@ -21,7 +21,7 @@
       [defaultColDef]="defaultColDef"
       [icons]="icons"
       [sortingOrder]="['asc', 'desc']"
-      [headerHeight]="60"
+      [headerHeight]="35"
       [overlayNoRowsTemplate]="overlayNoRowsTemplate"
       (gridReady)="onGridReady($event)"
     >

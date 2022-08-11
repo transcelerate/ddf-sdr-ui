@@ -1,0 +1,53 @@
+<app-error-component *ngIf="showError"></app-error-component>
+<div class="container-fluid gridOuter search">
+  <div class="buttonDiv ng-star-inserted">
+    <button class="newButton" routerLink="addUser">Add New User Mapping</button>
+  </div>
+  <div class="">
+    <ag-grid-angular
+      #agGrid
+      id="myGrid"
+      class="ag-theme-alpine searchGrid admin admin-user"
+      [headerHeight]="40"
+      [rowHeight]="30"
+      [frameworkComponents]="frameworkComponents"
+      [gridOptions]="gridOptions"
+      (gridReady)="onGridReady($event)"
+    ></ag-grid-angular>
+  </div>
+</div>
+<ng-template #content>
+  <div class="modal-header">
+    <h2 class="modal-title pull-left">Groups</h2>
+    <button
+      type="button"
+      class="btn-close close pull-right"
+      aria-label="Close"
+      (click)="modalRef?.hide()"
+    >
+      <span aria-hidden="true" class="visually-hidden">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <span *ngFor="let value of userGroupList; let i = index">
+      <span class="oval">{{ value.groupName }}</span>
+    </span>
+  </div>
+</ng-template>
+
+<ng-template #confirmation>
+  <div class="modal-body text-center confirmModal">
+    <p>
+      Are you sure you want to delete the selected user mapping
+      <strong>{{ selectedUser.email }}</strong> ?
+    </p>
+
+    
+    <button type="button" class="btn btn-primary" (click)="decline()">
+      No
+    </button>
+    <button type="button" class="btn btn-primary" (click)="confirm()">
+      Yes
+    </button>
+  </div>
+</ng-template>

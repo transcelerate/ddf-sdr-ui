@@ -1,4 +1,4 @@
-import { Component, OnInit, TemplateRef  } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
 import { BsModalService, BsModalRef, ModalOptions } from 'ngx-bootstrap/modal';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
@@ -46,6 +46,7 @@ export class SearchFormComponent implements OnInit {
   public maxBlocksInCache;
   public rowData: any;
   public value: any = [];
+  public tooltipShowDelay = 0;
   BLOCK_SIZE: number = configList.BLOCK_SIZE;
   showGrid: boolean;
   icons: { sortAscending: string; sortDescending: string };
@@ -85,61 +86,70 @@ export class SearchFormComponent implements OnInit {
         headerName: 'Study Title',
         field: 'clinicalStudy.studyTitle',
         tooltipField: 'clinicalStudy.studyTitle',
-        headerTooltip: 'Study Title',
+        headerTooltip: configList.STUDY_TITLE,
         cellRenderer: this.getStudyVersionGrid.bind(this),
       },
       {
         headerName: 'Sponsor ID',
-        cellRenderer: this.getSponsorIdGrid.bind(this,'sponsor'),
+        cellRenderer: this.commonMethod.getSponsorIdGrid.bind(this, 'sponsor'),
+        headerTooltip: configList.SPONSOR_ID,
       },
       {
-        headerName: 'Tag',
-        field: 'clinicalStudy.studyTag',
-        tooltipField: 'clinicalStudy.studyTag',
-        headerTooltip: 'Tag',
-      },
-      {
-        headerName: 'Status',
-        field: 'clinicalStudy.studyStatus',
-        tooltipField: 'clinicalStudy.studyStatus',
-        headerTooltip: 'Status',
-      },
-      {
-        headerName: 'Indication',
-
-        headerTooltip: 'Indication',
-        valueGetter: this.getIndication,
-      },
-      {
-        headerName: 'Intervention Model',
-        // headerTooltip: 'Intervention Model',
-        // valueGetter: this.getIntervention,
-        cellRenderer: this.getSponsorIdGrid.bind(this,'intervention'),
-      },
-      {
-        headerName: 'Phase',
-        field: 'clinicalStudy.studyPhase',
-        tooltipField: 'clinicalStudy.studyPhase',
-        headerTooltip: 'Phase',
+        headerName: 'SDR Upload Version',
+        field: 'auditTrail.SDRUploadVersion',
+        tooltipField: 'auditTrail.SDRUploadVersion',
+        headerTooltip: configList.SDR_UPLOAD_VERSION,
       },
       {
         headerName: 'Last Modified Date',
         field: 'auditTrail.entryDateTime',
         tooltipField: 'auditTrail.entryDateTime',
-        headerTooltip: 'Last Modified Date',
+        headerTooltip: configList.LAST_MODIFIED_DATE,
+      },
+
+      // {
+      //   headerName: 'Tag',
+      //   field: 'clinicalStudy.studyTag',
+      //   tooltipField: 'clinicalStudy.studyTag',
+      //   headerTooltip: configList.TAG,
+      // },
+      // {
+      //   headerName: 'Status',
+      //   field: 'clinicalStudy.studyStatus',
+      //   tooltipField: 'clinicalStudy.studyStatus',
+      //   headerTooltip: configList.STATUS,
+      // },
+      {
+        headerName: 'Indication',
+
+        headerTooltip: configList.INDICATION,
+        cellRenderer: this.commonMethod.getSponsorIdGrid.bind(
+          this,
+          'indication'
+        ),
       },
       {
-        headerName: 'Last Modified by System',
-        field: 'auditTrail.entrySystem',
-        tooltipField: 'auditTrail.entrySystem',
-        headerTooltip: 'Last Modified by System',
+        headerName: 'Intervention Model',
+        // headerTooltip: 'Intervention Model',
+        // valueGetter: this.getIntervention,
+        cellRenderer: this.commonMethod.getSponsorIdGrid.bind(
+          this,
+          'intervention'
+        ),
+        headerTooltip: configList.INTERVENTION,
       },
       {
-        headerName: 'SDR Version',
-        field: 'auditTrail.studyVersion',
-        tooltipField: 'auditTrail.studyVersion',
-        headerTooltip: 'SDR Version',
+        headerName: 'Phase',
+        field: 'clinicalStudy.studyPhase.decode',
+        tooltipField: 'clinicalStudy.studyPhase.decode',
+        headerTooltip: configList.PHASE,
       },
+      // {
+      //   headerName: 'Last Modified by System',
+      //   field: 'auditTrail.entrySystem',
+      //   tooltipField: 'auditTrail.entrySystem',
+      //   headerTooltip: configList.LAST_MODIFIED_SYSTEM,
+      // },
     ];
 
     this.defaultColDef = {
@@ -161,25 +171,33 @@ export class SearchFormComponent implements OnInit {
     this.infiniteInitialRowCount = 1;
     this.maxBlocksInCache = 1000;
   }
-   /*
-  Getting value for intervention model 
-  */
+  /**
+   * Getting value for intervention model
+   * @param params   ag grid value for each row with data.
+   * @returns Return interventionModel value for that particular row.
+   */
   getIntervention(params: any) {
     let val = '';
     if (
       params.data &&
       params?.data?.clinicalStudy?.studyDesigns &&
       params?.data?.clinicalStudy?.studyDesigns.length > 0 &&
-      params?.data?.clinicalStudy?.studyDesigns[0].investigationalInterventions &&
-      params?.data?.clinicalStudy?.studyDesigns[0].investigationalInterventions.length > 0
+      params?.data?.clinicalStudy?.studyDesigns[0]
+        .investigationalInterventions &&
+      params?.data?.clinicalStudy?.studyDesigns[0].investigationalInterventions
+        .length > 0
     ) {
-      val = params?.data?.clinicalStudy?.studyDesigns[0].investigationalInterventions[0].interventionModel || '';
+      val =
+        params?.data?.clinicalStudy?.studyDesigns[0]
+          .investigationalInterventions[0].interventionModel || '';
     }
     return val;
   }
-   /*
-  Getting value for study indication
-  */
+  /**
+   * Getting value for study indication
+   * @param params   ag grid value for each row with data.
+   * @returns Return Html Link tag.
+   */
   getIndication(params: any) {
     let val = '';
     if (
@@ -189,42 +207,76 @@ export class SearchFormComponent implements OnInit {
     ) {
       val = params?.data?.clinicalStudy?.studyIndications[0].description || '';
     }
-    return val;
+    const eDiv = document.createElement('span');
+    // tslint:disable-next-line:no-this-assignment
+    const self = this;
+    eDiv.innerHTML = '<span >' + val + '</span>';
+    eDiv.title = val;
+
+    return eDiv;
   }
-   /*
-  Modal for multiple sponsor id and interventional model
-  */
-  openModal(val:any, type: any) {
-   
+  /**
+   * Modal for multiple sponsor id and interventional model
+   * @param val   ag grid value of that particular row for which link is clicked.
+   * @param type  Denotes for which value is the link clicked either for sponsor id or interventional model.
+   */
+  openModal(val: any, type: any) {
+    let title;
+    switch (type) {
+      case 'sponsor':
+        title = 'Sponsor Id List';
+        break;
+      case 'indication':
+        title = 'Indication List';
+        break;
+      case 'intervention':
+        title = 'Intervention Model List';
+        break;
+    }
     const initialState: ModalOptions = {
       initialState: {
         list: val,
-        title: type === 'sponsor' ? 'Sponsor Id List' : 'Intervention Model List'
-      }
+        title:
+          title
+      },
     };
-    this.bsModalRef = this.modalService.show(ModalComponentComponent, initialState);
+    this.bsModalRef = this.modalService.show(
+      ModalComponentComponent,
+      initialState
+    );
     this.bsModalRef.content.closeBtnName = 'Close';
   }
- /*
-  Getting value for sponsor id
-  */
-getSponsorId(params: any) {
+  /**
+   * Getting value for sponsor id from json which has Id Type as SPONSOR_ID
+   * @param params   ag grid value for each row with data.
+   * @returns Return string which contains sponsor id value.
+   */
+  getSponsorId(params: any) {
     if (params.data) {
+      // let value = params.data.clinicalStudy.uuidentifiers.filter(
+      //   (obj: { [x: string]: string }) => {
+      //     return obj['studyIdentifierScope'] === configList.SPONSORKEY;
+      //   }
+      // );
       let value = params.data.clinicalStudy.studyIdentifiers.filter(
-        (obj: { [x: string]: string }) => {
-          return obj['idType'] === configList.SPONSORKEY;
+        (obj: any) => {
+          return obj['studyIdentifierScope'].filter((elem: any) => {
+            return elem.decode === configList.SPONSORKEY;
+          });
         }
-      )
-      if(value.length>0){
+      );
+      if (value.length > 0) {
         return value[0][configList.SPONSORID_KEY];
       } else {
         return '';
       }
     }
   }
-   /*
-  Construct Study Version Grid
-  */
+  /**
+   * Construct Study Version Grid
+   * @param params   ag grid value for each row with data.
+   * @returns Return Html Link tag.
+   */
   getStudyVersionGrid(params: any) {
     if (!params.data) {
       return '';
@@ -243,106 +295,30 @@ getSponsorId(params: any) {
       return eDiv;
     }
   }
-   /*
-  Construct multiple values for sponsor id and interventional model 
-  */
-  getSponsorIdGrid(type: any,params: any) {
-    if (!params.data) {
-      return '';
-    } else {
-      if(type === 'sponsor'){
-        var value = params.data.clinicalStudy.studyIdentifiers.filter(
-          (obj: { [x: string]: string }) => {
-            return obj['idType'] === configList.SPONSORKEY;
-          }
-        )
-        
-      }
-      else{
-        var value:any= [];
 
-        if (
-          params.data &&
-          params?.data?.clinicalStudy?.studyDesigns &&
-          params?.data?.clinicalStudy?.studyDesigns.length > 0
-        ) {
-          let studyDesigns = params?.data?.clinicalStudy?.studyDesigns;
-          studyDesigns.forEach((element: any) => {
-            if(element.investigationalInterventions && element.investigationalInterventions .length>0 ){
-              element.investigationalInterventions.forEach((item: any) => {
-                if(item.interventionModel &&  item.interventionModel!= ''){
-                  value.push(item);
-                }
-                
-              });
-              
-            }
-          });
-         
-        }
-        
-      }
-      if(value && value.length>1){
-       var val = type === 'sponsor' ? value.map((elem: { orgCode: any; })=>{return elem.orgCode}) : value.map((elem: { interventionModel: any; })=>{return elem.interventionModel});
-        val = [...new Set(val)];
-      }
-      if(val && val.length>1){
-        const eDiv = document.createElement('a');
-        // tslint:disable-next-line:no-this-assignment
-        const self = this;
-        var htmlTag =  '<span class="linkSpan"> ' + val[0] + '</span>';
-        eDiv.innerHTML = htmlTag;
-          eDiv.addEventListener('click', () => {
-            self.openModal(val,type);
-          });
-        return eDiv
-      } else {
-        if(value && value.length>0){
-          if(type === 'sponsor'){
-            return value[0][configList.SPONSORID_KEY] || '';
-          } else {
-           return value[0].interventionModel || '';
-          }
-        } else {
-          return '';
-        }
-        
-        
-      }
-      
-     
-     
-     
-
-    }
-  }
-   /*
-  Redirect to details page
-  */
+  /**
+   * Redirect to details page on click of Study Title link
+   * @param val   ag grid value of that particular row for which link is clicked.
+   */
   setSelectedValue(val: any) {
     this.router.navigate(
       [
         'details',
         {
-          studyId: val.clinicalStudy.studyId,
-          versionId: val.auditTrail.studyVersion,
+          studyId: val.clinicalStudy.uuid,
+          versionId: val.auditTrail.SDRUploadVersion,
         },
       ],
       { relativeTo: this.route }
     );
-   
   }
-  showGridUpdate(event: any) {
-    if (event) {
-      
-      this.showStudyElement = false;
-    }
-  }
+
   /* istanbul ignore next */
-// @SONAR_STOP@
- /*
-  Validation to enable search button
-  */
+  // @SONAR_STOP@
+  /**
+   *  Validation to enable search button
+   * @param control Formgroup object
+   */
   public atLeastOneValidator: any = (control: FormGroup): any => {
     let controls = control.controls;
     if (controls) {
@@ -359,10 +335,10 @@ getSponsorId(params: any) {
     }
   };
   /* istanbul ignore end */
-// @SONAR_START@
- /*
- Validate date and fetch search results
-  */
+  // @SONAR_START@
+  /**
+   *Validate date and fetch search results
+   */
   submitSearch() {
     if (this.editorForm?.value?.fromDate && this.editorForm?.value?.toDate) {
       const fromDate = new Date(this.editorForm.value.fromDate);
@@ -385,31 +361,33 @@ getSponsorId(params: any) {
     this.showGrid = true;
   }
   /* istanbul ignore next */
- /*
-  On click of clear button clear search value
-  */
-  clearSearch() {  //nosonar
-    this.editorForm.setValue({  //nosonar
-      studyTitle: '',     //nosonar     //nosonar
-      interventionModel: '',   //nosonar
-      fromDate: '',      //nosonar
-      studyId: '',      //nosonar
-      phase: '',        //nosonar
-      indication: '',    //nosonar
-      toDate: '',        //nosonar
-    });             //nosonar
-    this.showGrid = false;     //nosonar
-  }         //nosonar
+  /**
+   * On click of clear button clear search value
+   */
+  clearSearch() {
+    //nosonar
+    this.editorForm.setValue({
+      //nosonar
+      studyTitle: '', //nosonar     //nosonar
+      interventionModel: '', //nosonar
+      fromDate: '', //nosonar
+      studyId: '', //nosonar
+      phase: '', //nosonar
+      indication: '', //nosonar
+      toDate: '', //nosonar
+    }); //nosonar
+    this.showGrid = false; //nosonar
+  } //nosonar
   /* istanbul ignore end */
- /*
- Get today's date
-  */
+  /**
+   * Get today's date
+   */
   getToday(): string {
     return new Date().toISOString().split('T')[0];
   }
-   /*
-  Logic to form dropdowns for studyphase, intervention Model
-  */
+  /**
+   *  Logic to form dropdowns for studyphase, intervention Model
+   */
   ngOnInit(): void {
     this.ds.changeDialogState('Search Study Definitions');
     this.dropDownValues = this.serviceCall.readConfigFile();
@@ -426,11 +404,21 @@ getSponsorId(params: any) {
       )
     );
   }
+  /**
+   *  Logic to form dropdowns for studyphase, intervention Model
+   */
   ngAfterViewInit() {
     this.editorForm.patchValue({
       studyTitle: '',
     });
   }
+  /**
+   *  Filter logic to show relevant value in the drop down as user types
+   *  @param value Value typed in the textfield.
+   *  @param type Denotes which type Phase or intervention model.
+   *  @param arrayValue List of all values for the type.
+   *  @return Return filtered array value which match the keywords typed in textfield.
+   */
   public _filter(value: any, type: string, arrayValue: any) {
     const filterValue = value[type]?.toLowerCase();
 
@@ -438,9 +426,10 @@ getSponsorId(params: any) {
       option.toLowerCase().includes(filterValue)
     );
   }
-   /*
-  Logic to restrict char on text key
-  */
+  /**
+   *  Logic to restrict special char on typing
+   *  @param event Keyboard event on typing.
+   */
   restrictChar(event: {
     charCode: number;
     which: number;
@@ -457,11 +446,19 @@ getSponsorId(params: any) {
       (k >= 48 && k <= 57)
     );
   }
+  /**
+   *  Method is called on ag grid server rendering failure
+   *  @param params ag grid value for each row with data.
+   */
   onServerFailCallback = (params: any) => {
     console.error('onServerFailCallback', params);
   };
   /* istanbul ignore next */
-// @SONAR_STOP@
+  // @SONAR_STOP@
+  /**
+   *  This method is triggered on ag grid initialization.
+   *  @param params ag grid value for each row with data.
+   */
   onGridReady(params: any) {
     this.gridApi = params.api;
     this.gridColumnApi = params.columnApi;
@@ -488,5 +485,5 @@ getSponsorId(params: any) {
     this.gridApi.addEventListener('failCallback', this.onServerFailCallback);
   }
   /* istanbul ignore end */
-// @SONAR_START@
+  // @SONAR_START@
 }

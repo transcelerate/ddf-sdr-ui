@@ -12,6 +12,7 @@ import { AppComponent } from './app.component';
 import { AgGridModule } from 'ag-grid-angular';
 // import { MonacoEditorModule } from 'ngx-monaco-editor';
 import { MonacoEditorModule } from '@materia-ui/ngx-monaco-editor';
+import { AuthGuardService } from './auth-guard.service';
 export class AppModuleConstants {
   static MODULE_IMPORTS = [
     BrowserAnimationsModule,
@@ -44,7 +45,8 @@ export class AppModuleConstants {
     },
     MsalGuard,
     MsalService,
-    MsalBroadcastService
+    MsalBroadcastService,
+    AuthGuardService
   ];
 
   static MODULE_DECLARATION = [
@@ -73,15 +75,16 @@ export function MSALInstanceFactory():IPublicClientApplication{
             //console.log(message);
           },
           logLevel: LogLevel.Verbose,
-          piiLoggingEnabled: false
-        }
+          piiLoggingEnabled: false,
+        },
+        allowRedirectInIframe: true
       }
     });
 }
 export const protectedResources = {
   profileApi: {
     endpoint: environment.BASE_URL,
-    scopes: [environment.Audiance],
+    scopes: [environment.Audience],
  
     
     //scopes: ["api://Enter_the_Application_Id_of_Service_Here/.default"],
@@ -106,7 +109,7 @@ export function MSALGuardConfigFactory():MsalGuardConfiguration{
   return {
     interactionType: InteractionType.Redirect,
     authRequest:{
-      scopes:[environment.Audiance],
+      scopes:[environment.Audience],
     },
   };
 }

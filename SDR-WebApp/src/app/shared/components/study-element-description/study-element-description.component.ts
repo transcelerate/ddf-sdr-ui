@@ -28,9 +28,9 @@ import { Router, ActivatedRoute } from '@angular/router';
   templateUrl: './study-element-description.component.html',
   styleUrls: ['./study-element-description.component.scss'],
 })
-/*
-Study Element Details component 
-*/
+/**
+ *Study Element Details component
+ */
 export class StudyElementDescriptionComponent implements OnInit {
   @Output() backClicked = new EventEmitter();
   cloginDisplay = false;
@@ -54,9 +54,9 @@ export class StudyElementDescriptionComponent implements OnInit {
     public router: Router,
     public route: ActivatedRoute
   ) {}
-  /*
-get the studyId and version id from rcent activity page or search page from routing
-*/
+  /**
+   *get the studyId and version id from rcent activity page or search page from routing
+   */
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
       if (Object.keys(params).length !== 0) {
@@ -79,9 +79,10 @@ get the studyId and version id from rcent activity page or search page from rout
     this.getstudyelement();
   }
 
- /*
-to create attribute which is key value pair that get showed as table in right side
-*/
+  /**
+   *to create attribute which is key value pair that get showed as table in right side
+   *@param elem clinical study object which has only key value pair without child object
+   */
   createAttribute(elem: any) {
     if (typeof elem[1] !== 'object' || elem[1] == null) {
       let attribute: Attribute = new Attribute();
@@ -90,14 +91,14 @@ to create attribute which is key value pair that get showed as table in right si
         : elem[0];
       attribute.value = elem[1];
       return attribute;
-
     }
     return;
   }
 
-   /*
-to create child acordian structure if elem has child objects and not in the format of key value pair
-*/
+  /**
+   *to create child acordian structure if elem has child objects and not in the format of key value pair
+   *@param elem clinical study object which has child object
+   */
   createsubAccordian(objectVal: any) {
     if (typeof objectVal[1] === 'object' && objectVal[1] !== null) {
       let accordian = new Accordian();
@@ -121,9 +122,9 @@ to create child acordian structure if elem has child objects and not in the form
     }
     return;
   }
- /*
-to get study details from api based on study id and version id
-*/
+  /**
+   *to get study details from api based on study id and version id
+   */
   getstudyelement(): void {
     this.spinner.show();
     this.serviceCall.getStudyElement(this.studyId, this.versionId).subscribe({
@@ -158,9 +159,10 @@ to get study details from api based on study id and version id
       },
     });
   }
- /*
- TO highlight the text on click of the tree 
-  */
+  /**
+   *To highlight the text on click of the tree
+   *@param val text which user clicks on the tree structure
+   */
   setHighLighted(val: any) {
     val.forEach((elem: Accordian) => {
       elem.isHighlighted = false;
@@ -169,9 +171,12 @@ to get study details from api based on study id and version id
       }
     });
   }
-   /*
-  TO show table contents on click of value on the tree
-  */
+  /**
+   *To show table contents on click of value on the tree
+   *@param val text which user clicks on the tree structure
+   *@param fromTitle Is the value clicked from user is the static study title
+   *@param field Object for the text which user clicks on the tree structure
+   */
   showTableContent(val: any, fromTitle?: boolean, field?: Accordian) {
     this.setHighLighted(this.finalVal.subAccordianList);
     this.finalVal.isHighlighted = false;
@@ -199,12 +204,12 @@ to get study details from api based on study id and version id
       });
     }
   }
-  backButtonClicked() {
-    this.backClicked.emit(true);
-  }
-   /*
-  Navigate to audit trail 
-  */
+  // backButtonClicked() {
+  //   this.backClicked.emit(true);
+  // }
+  /**
+   *Navigate to audit trail page
+   */
   auditTrail() {
     this.router.navigate(
       [
@@ -220,9 +225,9 @@ to get study details from api based on study id and version id
       { relativeTo: this.route }
     );
   }
-   /*
-  to set Localstorage for study and version id so page can be retrieved on refresh
-  */
+  /**
+   *to set Localstorage for study and version id so page can be retrieved on refresh
+   */
   ngOnDestroy() {
     localStorage.setItem('studyId', this.studyId);
     localStorage.setItem('versionId', this.versionId);
