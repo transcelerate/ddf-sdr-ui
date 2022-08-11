@@ -11,9 +11,11 @@
 
 Study Definition Repository (SDR) Reference Implementation is TransCelerate’s vision to catalyze industry-level transformation, enabling digital exchange of study definition information by collaborating with technology providers and standards bodies to create a sustainable open-source Study Definition Repository.
 
-Using this Angular project, user can connect with SDR data, to view the study documents, search certain documents by giving search criteria, to view the audit details of search study, and also user can compare differences between two versions of the document.
+Using this Angular project, user can connect with SDR data, to view the study documents, search certain documents by giving search criteria, to view the audit details of search study,to compare differences between two versions of the document and also to compare  two different study documents.
 
-This [Process Flow Document](https://github.com/transcelerate/ddf-sdr-platform/blob/main/documents/MVP%20Process%20Flows%20(final).pdf) provides information regarding user interface functions and system interactions with the SDR at a high level. Please also refer to the [DDF SDR UI User Guide](documents/ddf-sdr-user-guide-ui-v2.0.pdf) to get started, and the [DDF SDR RI UI Demo video](https://www.youtube.com/watch?v=223OgGvERRw&list=PLMXS-Xt7Ou1KNUF-HQKQRRzqfPQEXWb1u&index=6).  
+Admin users can access System Usage Report which lists all the API calls made to the SDR application for a given duration and also access group and user management features which provides the ability to group users and associate them with specific study or group of studies in order to limit access for users only to those study definitions.
+
+This [Process Flow Document](https://github.com/transcelerate/ddf-sdr-platform/blob/main/documents/MVP%20Process%20Flows%20(final).pdf) provides information regarding user interface functions and system interactions with the SDR at a high level. Please also refer to the [DDF SDR UI User Guide](documents/ddf-sdr-user-guide-ui-v3.0.pdf) to get started, and the [DDF SDR RI UI Demo video](https://www.youtube.com/watch?v=223OgGvERRw&list=PLMXS-Xt7Ou1KNUF-HQKQRRzqfPQEXWb1u&index=6).  
 
 **NOTES:** 
 - These materials and information are provided by TransCelerate Biopharma Inc. AS IS.  Any party using or relying on this information and these materials do so entirely at their own risk.  Neither TransCelerate nor its members will bear any responsibility or liability for any harm, including indirect or consequential harm, that a user may incur from use or misuse of this information or materials.
@@ -101,9 +103,9 @@ The solution has the following structure:
 ```
 **core** - contains files related to core angular structure - app.component.ts, app.module.ts, app-routing.module.ts.
 
-**features** - contains application feature modules - dashboard,login,search-study.
+**features** - contains application feature modules - dashboard,login,search-study,admin,reports,study-compare.
 
-**shared** - contains application shared modules - audit-trail, breadcrumb, error-component, footer, header, menu, modal-component, study-element-description, version-comparison.
+**shared** - contains application shared modules - audit-trail, breadcrumb, error-component, footer, header, menu, modal-component, study-element-description, version-comparison, simple-search.
 
 **environment.ts** - contains files to configure service URLs and other environment specific secrets.
 
@@ -148,10 +150,16 @@ And this file is not committed, as it is ignored in `.gitignore` file.
 **Application Features:**
 - After successful login, user will be navigated to home screen 
 - Home screen will have *Recent activity widget*, showing list of study documents updated in last 30 days.
-- On click of Search menu, user will be navigated to *Search page* to search specific study documents based on certain study parameters.
+- On click of *Study Definitions -> Search*, user will be navigated to *Search page* to search specific study documents based on certain study parameters.
 - On click of any Study document, user will be navigated to *Study details page*.
 - From Study details page, user  can click  "View History / Audit Trail" to view the complete audit trail data for the study document
 - In *Audit trail page*, user  can select any two versions and click on "Version Comparison" to compare the changes.
+- On click of *Study Definitions -> Compare*, user will be navigated to *Compare page* to select two study documents based on certain study parameters and to compare the changes.
+- On click of *Reports->System Usage*, user will be navigated to *System Usage Report* to view lists of all the API calls made to the SDR application for a given duration.
+- On click of *Manage -> Group*, user will be navigated to *Group Management* to view lists of all groups created.
+- On click of Add Group button from group management screen, user will be navigated to *Add Group* to create or edit new groups.
+- On click of *Manage -> User*, user will be navigated to *User Management* to view lists of all User association with groups created.
+- On click of Add User button from user management screen, user will be navigated to *Add User* to create or edit User association with groups.
 - User will be logged out from application on click of logout link in the header.
 
 **URL List**
@@ -165,6 +173,10 @@ And this file is not committed, as it is ignored in `.gitignore` file.
 - Study Details page(URL: /#/details;studyId="")
 - Audit page(URL: /#/details/audit;studyId="")
 - Version Comparison page(URL: /#/details/audit/compare;studyId="";versionA="";versionB="")
+- Study Compare page(URL: /comparison)
+- System Usage Report(URL: /reports)
+- User Management page(URL: /admin/userMap)
+- Group Management page(URL: /admin)
 
 ## Requirements to Contribute and Propose Changes
 
