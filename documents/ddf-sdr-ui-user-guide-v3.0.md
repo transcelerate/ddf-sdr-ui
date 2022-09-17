@@ -70,5 +70,42 @@ ii.	Select “Current user” option and click next.
   ii.	Navigate to File → Import Items. Browse to the .pfx<br>
   iii.	Select System in the Keychain drop-down and click Add.<br> 
   iv.	Enter the admin password to authorize the changes.<br> 
-  v.	Enter the password that was given when the client certificate (.Pfx) file was generated and click Modify Keychain.<br> 
- 
+  v.	Enter the password that was given when the client certificate (.Pfx) file was generated and click Modify Keychain.
+  
+## Definitions and Acronyms
+  |Term / Abbreviation	|Definition|
+  |-----|-----|
+|API|	Application Programming Interface|
+|DDF|	Digital Data Flow|
+|SDR|	Study Definition Repository|
+|URL|	Uniform Resource Locator|
+  
+# SDR General UI features
+SDR UI Implementation has following features.
+## Login
+This feature allows the user to login to the application.
+### NAVIGATION STEPS:
+i.	Launch the SDR website.
+  
+  <p align="center"> <img width="382" alt="login-page"  src="images for ui user guide/login-page.png">
+
+ii.	On click of login link, user is redirected to provide credentials as shown below.
+    
+  <p align="center"> <img width="382" alt="sign-in-page"  src="images for ui user guide/sign-in-page.png">
+
+iii.	On successful authentication, user is redirected to the Home Page. When prompted user must select the environment specific client certificate.
+      
+<p align="center"> <img width="382" alt="selection-of-certificate"  src="images for ui user guide/selection-of-certificate.png">
+
+## Recent Activity Widget
+On the Home Page, the Recent Activity Widget screen shows the list of Study Definitions modified over the last 30 days, with most recently modified definitions on the top. The top 20 documents are listed first and the remaining come into view as the user scrolls.
+        
+ <p align="center"> <img width="382" alt="recent-activity-widget"  src="images for ui user guide/recent-activity-widget.png">
+
+## Search Study Definitions
+### NAVIGATION STEPS:
+i.	On click of Search Study Definitions in the left menu, user can navigate to search page, where it allows user to search specific study with certain search parameters.
+          
+ <p align="center"> <img width="382" alt="search-study-page"  src="images for ui user guide/search-study-page.png">
+
+ii.	On entering the search parameters, click on Search to get the matching study definitions. At least one search parameter is mandatory.  Below is the list of search parameters:
