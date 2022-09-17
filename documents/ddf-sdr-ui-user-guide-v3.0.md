@@ -181,13 +181,13 @@ vii.	User can go back to the study comparison screen by clicking on the breadcru
   This section explains the features available to a SDR Administative user only. The menu options for these features are not visible to a non-admin user in the main menu.
  ## System Usage Report
    The System Usage Report lists all the API calls made to the SDR application for a given duration. Information is limited to the endpoint called,  the HTTP Operation, Sender ID, the calling IP address, HTTP response code and request date.
-     ### NAVIGATION STEPS:
-i.	On click of System Usage option in the Reports menu as shown in below screenshot, system usage report screen will be loaded. By default the report is loaded for the last 7 days.
-     
-  <p align="center"> <img width="382" alt="system-usage-page"  src="images for ui user guide/system-usage-page.png">
-    
-ii.	User can change the duration of the report generated to see system usage for last 30 days or last 60 days as well.<br> 
-iii.The results can be further filtered by Response code to see only success or failures or a specific HTTP response status code.<br>
+  ### NAVIGATION STEPS:
+  i.	On click of System Usage option in the Reports menu as shown in below screenshot, system usage report screen will be loaded. By default the report is loaded for the last 7 days.
+
+ <p align="center"> <img width="382" alt="system-usage-page"  src="images for ui user guide/system-usage-page.png">
+  
+ii. User can change the duration of the report generated to see system usage for last 30 days or last 60 days as well.<br> 
+iii. The results can be further filtered by Response code to see only success or failures or a specific HTTP response status code.<br>
 iv.	The report columns in the grid are sorted in descending order of Request date. All except Sender ID columns in the result grid are sortable. 
 
 # Group and User Management
