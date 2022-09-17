@@ -19,14 +19,14 @@
   - [Group Management](#group-management)
   - [User Management](#user-management)
   
-  # Introduction
+ # Introduction
   ## Overview
   The UI application of the SDR Reference Implementation allows the user to view and search Study Definitions. The UI features include -
   - List Study Definitions and Details
   - Search Study Definitions
   - View Audit Trail for a Study
   - Compare Study Versions
- ## Scope of Document
+  ## Scope of Document
  This document details the list of UI features available in Study Definition Repository and provides steps for navigation. The technical design and implementation of these features is out of scope.
  ## Intended Audience
  The document is a guide for users/vendors who want to view and search the study definitions using SDR UI.
@@ -81,7 +81,7 @@ ii.	Select “Current user” option and click next.
 |URL|	Uniform Resource Locator|
   
 # SDR General UI features
-SDR UI Implementation has following features.
+  SDR UI Implementation has following features.
 ## Login
 This feature allows the user to login to the application.
 ### NAVIGATION STEPS:
@@ -120,14 +120,14 @@ ii.	On entering the search parameters, click on Search to get the matching study
 |Modified To|	Date Picker|
 |Indication|	Plain Text. Allows alphanumeric characters only.|
    
- iii.	Columns in the search results are sortable (ascending/descending).<>br
+iii.	Columns in the search results are sortable (ascending/descending).<br>
 iv.	The top 20 documents are listed first, and the remaining results come into view as the user scrolls.<br>
 v.	For multi values field like Sponsor Id and Interventional Model, the first value from the list will be displayed as a link. On clicking the link all the values are displayed in the modal. If there is only one value, it will be displayed as text.
    
    <p align="center"> <img width="382" alt="multiple-value-popup"  src="images for ui user guide/multiple-value-popup.png">
 
 ## Study Details
-     On click of any study title link from either Recent Activity widget or from Search results, study details page will be displayed, grouped by sections. User can expand each section to view detailed information as shown below.
+   On click of any study title link from either Recent Activity widget or from Search results, study details page will be displayed, grouped by sections. User can expand each section to view detailed information as shown below.
      
   <p align="center"> <img width="382" alt="study-details-page-from-home"  src="images for ui user guide/study-details-page-from-home.png">
 
@@ -178,9 +178,9 @@ vii.	User can go back to the study comparison screen by clicking on the breadcru
    <p align="center"> <img width="382" alt="logout-screen"  src="images for ui user guide/logout-screen.png">
 
 # SDR Administrative UI features
-     This section explains the features available to a SDR Administative user only. The menu options for these features are not visible to a non-admin user in the main menu.
+  This section explains the features available to a SDR Administative user only. The menu options for these features are not visible to a non-admin user in the main menu.
  ## System Usage Report
-     The System Usage Report lists all the API calls made to the SDR application for a given duration. Information is limited to the endpoint called,  the HTTP Operation, Sender ID, the calling IP address, HTTP response code and request date.
+   The System Usage Report lists all the API calls made to the SDR application for a given duration. Information is limited to the endpoint called,  the HTTP Operation, Sender ID, the calling IP address, HTTP response code and request date.
      ### NAVIGATION STEPS:
 i.	On click of System Usage option in the Reports menu as shown in below screenshot, system usage report screen will be loaded. By default the report is loaded for the last 7 days.
      
@@ -191,14 +191,14 @@ iii.The results can be further filtered by Response code to see only success or 
 iv.	The report columns in the grid are sorted in descending order of Request date. All except Sender ID columns in the result grid are sortable. 
 
 # Group and User Management
-    The group and user management features provide the ability to group users and associate them with specific study or group of studies in order to limit access for users only to those study definitions. The creation of groups and setting their criteria as well as associating users to these groups can be done only by an Admin user in the SDR application.
-    ## Group Management
-    ### NAVIGATION STEPS:
+  The group and user management features provide the ability to group users and associate them with specific study or group of studies in order to limit access for users only to those study definitions. The creation of groups and setting their criteria as well as associating users to these groups can be done only by an Admin user in the SDR application.
+   ## Group Management
+   ### NAVIGATION STEPS:
 i.	An admin user can navigate to the Group Management screen from the Manage main menu.<br>
 ii.	On the Group Management screen, user can Add new groups as well as edit existing groups.<br>
 iii.	By default the list of existing groups are displayed on the home screen of Group Management.
     
-  <p align="center"> <img width="382" alt="group-management-page"  src="images for ui user guide/group-management-page.png">
+ <p align="center"> <img width="382" alt="group-management-page"  src="images for ui user guide/group-management-page.png">
 
 iv.	For adding a new group user can click on Add New Group button. User is then redirected to create a new Group.
     
@@ -230,7 +230,7 @@ xv.	Note that, when a user creates a new study the group mapping is required to 
 xvi.	Also note that, any user having association with at least one group where they have READ & WRITE persmissions can create a new study in SDR. If user belongs to groups which are configured to have only READ permissions, user cannot add/edit study definitions.
   
 ## User Management
-  This screen allows admin users to map existing users in the system to Groups. Note that this screen is not to onboard or provision access to new users to SDR system.
+ This screen allows admin users to map existing users in the system to Groups. Note that this screen is not to onboard or provision access to new users to SDR system.
   ### NAVIGATION STEPS:
 i.	An admin user can navigate to the User Management screen from the Manage main menu by selecting User option.
 
