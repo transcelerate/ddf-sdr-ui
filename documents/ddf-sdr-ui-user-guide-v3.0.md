@@ -154,7 +154,7 @@ ii.	User can navigate between the pages using the breadcrumb navigation.
   ### NAVIGATION STEPS:
 i.	On click of Compare option in the Study Definitions menu as shown in below screenshot, study comparison page will be loaded. This screen allows the user to do a side-by-side comparison of two different study definitions.
 
-  <p align="center"> <img width="382" alt="study-comparison-page"  src="images for ui user guide/study-comparison-page.png">
+  <p align="center"> <img width="382" alt="study-compare-page"  src="images for ui user guide/study-compare-page.png">
 
 ii.	User can search any two studies to compare by using the search feature on the left and right sides of the compare. At any point, only two studies can be compared.<br>
 iii.	Once the user clicks on search, user is shown a screen to select a study by providing a criteria and finding the relevant study for comparison. The user can search the study by Study title, Sponsor ID and modified date range. 
