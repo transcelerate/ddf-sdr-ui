@@ -169,7 +169,7 @@ iv.	Once  the relevant study is found on search, user can click Select to add to
 
 v.	Once two studies have been searched and selected on the left and right comparison boxes, user can click Compare.<br>
 vi.	The application loads a side-by-side content comparison of the study definition JSONs. The comparison highlights the differences and user can scroll through comparison or directly jump to a difference by clicking the comparison highlights on the scrollbar.<br>
-SS4
+SS4<br>
 vii.	User can go back to the study comparison screen by clicking on the breadcrumb navigation. 
 
 ## Logout
