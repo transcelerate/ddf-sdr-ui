@@ -145,7 +145,7 @@ iii.	User can compare any two versions by selecting the corresponding radio butt
 ## Version Comparison
   ### NAVIGATION STEPS:
 
-i.	On click of Version Comparison in the audit trail screen (as shown in Figure 16), version comparison page will be loaded. This screen allows the user to compare two versions of the same study.<br>
+i.	On click of Version Comparison in the audit trail screen (as shown in above Figure ), version comparison page will be loaded. This screen allows the user to compare two versions of the same study.<br>
 ii.	User can navigate between the pages using the breadcrumb navigation.
 
 <p align="center"> <img width="382" alt="version-comparison-page"  src="images/ui-user-guide/version-comparison-page.png">
@@ -204,7 +204,7 @@ iv.	For adding a new group user can click on Add New Group button. User is then 
     
  <p align="center"> <img width="382" alt="add-group-page"  src="images/ui-user-guide/add-group-page.png">   
 
-v. Groups should have a distinct name throughout the system. Only AlphaNumeric characters are allowed in the name with a maximum length of 20 characters.
+v. Groups should have a distinct name throughout the system. Only AlphaNumeric characters are allowed in the name with a maximum length of 20 characters.<br>
 vi. The Group Permissions allow the admin user to set the access privilege for users belonging to this group i.e. users can either READ or READ & WRITE the studies associated with this group.
  
 <p align="center"> <img width="382" alt="add-group-page-2"  src="images/ui-user-guide/add-group-page-2.png"> 
