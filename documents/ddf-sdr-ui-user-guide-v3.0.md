@@ -16,8 +16,8 @@
 - [SDR Administrative UI features](#sdr-administrative-ui-features)
   - [System Usage Report](#system-usage-report)
   - [Group and User Management](#group-and-user-management)
-  - [Group Management](#group-management)
-  - [User Management](#user-management)
+    - [Group Management](#group-management)
+    - [User Management](#user-management)
   
  # Introduction
   ## Overview
@@ -32,9 +32,10 @@
  The document is a guide for users/vendors who want to view and search the study definitions using SDR UI.
  ## Prerequisites
  - User should be part of Azure Active Directory of SDR Azure subscription.
- - Certificate Installation for accessing SDR User Interface 
+ - Installation of client certificate for accessing SDR User Interface<br>
+
 Below are the steps for certificate installation on the local PC for accessing the SDR User Interface.
-### NAVIGATION STEPS:
+#### NAVIGATION STEPS:
 i.	Double click the .pfx certificate file.
 
 ii.	Select “Current user” option and click next.
@@ -65,7 +66,7 @@ ii.	Select “Current user” option and click next.
 
 <p align="center"> <img width="382" alt="credintial-required-prompt"  src="images/ui-user-guide/credintial-required-prompt.png">
 
-  ### STEPS TO IMPORT CERTIFICATE ON MACOS
+  #### STEPS TO IMPORT CERTIFICATE ON MACOS:
   i.	Open Keychain Access Manager.<br>
   ii.	Navigate to File → Import Items. Browse to the .pfx<br>
   iii.	Select System in the Keychain drop-down and click Add.<br> 
@@ -84,7 +85,7 @@ ii.	Select “Current user” option and click next.
   SDR UI Implementation has following features.
 ## Login
 This feature allows the user to login to the application.
-### NAVIGATION STEPS:
+#### NAVIGATION STEPS:
 i.	Launch the SDR website.
   
   <p align="center"> <img width="382" alt="login-page"  src="images/ui-user-guide/login-page.png">
@@ -103,7 +104,7 @@ On the Home Page, the Recent Activity Widget screen shows the list of Study Defi
  <p align="center"> <img width="382" alt="recent-activity-widget"  src="images/ui-user-guide/recent-activity-widget.png">
 
 ## Search Study Definitions
-### NAVIGATION STEPS:
+#### NAVIGATION STEPS:
 i.	On click of Search Study Definitions in the left menu, user can navigate to search page, where it allows user to search specific study with certain search parameters.
           
  <p align="center"> <img width="382" alt="search-study-page"  src="images/ui-user-guide/search-study-page.png">
@@ -134,7 +135,7 @@ v.	For multi values field like Sponsor Id and Interventional Model, the first va
 <p align="center"> <img width="382" alt="study-details-page-from-search-grid"  src="images/ui-user-guide/study-details-page-from-search-grid.png">
 
 ## Audit Trail
-  ### NAVIGATION STEPS:
+  #### NAVIGATION STEPS:
 
 i.	On click of View History / Audit Trail on the Study details page, audit trail page for the study will be loaded. This screen allows the user to view the audit history for the study definition selected.<br>
 ii.	Columns in the results are sortable (ascending/descending).<br>
@@ -143,7 +144,7 @@ iii.	User can compare any two versions by selecting the corresponding radio butt
 <p align="center"> <img width="382" alt="audit-trail-page"  src="images/ui-user-guide/audit-trail-page.png">
 
 ## Version Comparison
-  ### NAVIGATION STEPS:
+  #### NAVIGATION STEPS:
 
 i.	On click of Version Comparison in the audit trail screen (as shown in above Figure ), version comparison page will be loaded. This screen allows the user to compare two versions of the same study.<br>
 ii.	User can navigate between the pages using the breadcrumb navigation.
@@ -151,7 +152,7 @@ ii.	User can navigate between the pages using the breadcrumb navigation.
 <p align="center"> <img width="382" alt="version-comparison-page"  src="images/ui-user-guide/version-comparison-page.png">
 
 ## Study Comparison
-  ### NAVIGATION STEPS:
+  #### NAVIGATION STEPS:
 i.	On click of Compare option in the Study Definitions menu as shown in below screenshot, study comparison page will be loaded. This screen allows the user to do a side-by-side comparison of two different study definitions.
 
   <p align="center"> <img width="382" alt="study-compare-page"  src="images/ui-user-guide/study-compare-page.png">
@@ -181,7 +182,7 @@ vii.	User can go back to the study comparison screen by clicking on the breadcru
   This section explains the features available to a SDR Administative user only. The menu options for these features are not visible to a non-admin user in the main menu.
  ## System Usage Report
    The System Usage Report lists all the API calls made to the SDR application for a given duration. Information is limited to the endpoint called,  the HTTP Operation, Sender ID, the calling IP address, HTTP response code and request date.
-  ### NAVIGATION STEPS:
+  #### NAVIGATION STEPS:
   i.	On click of System Usage option in the Reports menu as shown in below screenshot, system usage report screen will be loaded. By default the report is loaded for the last 7 days.
 
  <p align="center"> <img width="382" alt="system-usage-page"  src="images/ui-user-guide/system-usage-page.png">
@@ -193,7 +194,7 @@ iv.	The report columns in the grid are sorted in descending order of Request dat
 # Group and User Management
   The group and user management features provide the ability to group users and associate them with specific study or group of studies in order to limit access for users only to those study definitions. The creation of groups and setting their criteria as well as associating users to these groups can be done only by an Admin user in the SDR application.
    ## Group Management
-   ### NAVIGATION STEPS:
+   #### NAVIGATION STEPS:
 i.	An admin user can navigate to the Group Management screen from the Manage main menu.<br>
 ii.	On the Group Management screen, user can Add new groups as well as edit existing groups.<br>
 iii.	By default the list of existing groups are displayed on the home screen of Group Management.
@@ -231,7 +232,7 @@ xvi.	Also note that, any user having association with at least one group where t
   
 ## User Management
  This screen allows admin users to map existing users in the system to Groups. Note that this screen is not to onboard or provision access to new users to SDR system.
-  ### NAVIGATION STEPS:
+  #### NAVIGATION STEPS:
 i.	An admin user can navigate to the User Management screen from the Manage main menu by selecting User option.
 
 <p align="center"> <img width="382" alt="group-management-page-2"  src="images/ui-user-guide/group-management-page-2.png">   
