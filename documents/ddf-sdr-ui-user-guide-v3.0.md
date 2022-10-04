@@ -170,7 +170,6 @@ iv.	Once  the relevant study is found on search, user can click Select to add to
 
 v.	Once two studies have been searched and selected on the left and right comparison boxes, user can click Compare.<br>
 vi.	The application loads a side-by-side content comparison of the study definition JSONs. The comparison highlights the differences and user can scroll through comparison or directly jump to a difference by clicking the comparison highlights on the scrollbar.<br>
-SS4<br>
 vii.	User can go back to the study comparison screen by clicking on the breadcrumb navigation. 
 
 ## Logout
@@ -237,15 +236,15 @@ i.	An admin user can navigate to the User Management screen from the Manage main
 
 <p align="center"> <img width="382" alt="group-management-page-2"  src="images/ui-user-guide/group-management-page-2.png">   
   
- s feature allows  the admin user to associate users to one or more groups. By default the existing list of user mappings are loaded on the home screen of this feature.<br>
-ii.	To create a new user mapping, admin can click on Add New User Mapping.
+ii.	This feature allows  the admin user to associate users to one or more groups. By default the existing list of user mappings are loaded on the home screen of this feature.<br>
+iii.	To create a new user mapping, admin can click on Add New User Mapping.
 
 <p align="center"> <img width="382" alt="add-user-page"  src="images/ui-user-guide/add-user-page.png">  
  
-iii.	On Add User screen, admin can search and select a user to whom a group association needs to be added.<br> 
-iv.	Once the user is selected, in the Group dropdown one or more groups can be selected and on clicking Add the mapping can be saved.
+iv.	On Add User screen, admin can search and select a user to whom a group association needs to be added.<br> 
+v.	Once the user is selected, in the Group dropdown one or more groups can be selected and on clicking Add the mapping can be saved.
  
 <p align="center"> <img width="382" alt="add-user-page-2"  src="images/ui-user-guide/add-user-page-2.png"> 
   
-v.	To edit the group association for a specific user, admin can click edit on that user in the mappings table and add/remove group associations.<br>
-vi.	Group associations can be deleted from the mappings table which will remove all group associations & revoke access for user to all data in the system.
+vi.	To edit the group association for a specific user, admin can click edit on that user in the mappings table and add/remove group associations.<br>
+vii.	Group associations can be deleted from the mappings table which will remove all group associations & revoke access for user to all data in the system.
