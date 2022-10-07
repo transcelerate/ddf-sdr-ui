@@ -25,7 +25,7 @@ const dashboardModuleRoutes: Routes = [
             path: 'audit',
             component: AuditTrailComponent,
             data: {
-                breadcrumb: 'Audit Trail',
+                breadcrumb: 'Revision History',
                 //url:'home/details/audit'
             },
             children: [

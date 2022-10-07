@@ -32,7 +32,7 @@ const adminModuleRoutes: Routes = [
             path: 'audit',
             component: AuditTrailComponent,
             data: {
-              breadcrumb: 'Audit Trail',
+              breadcrumb: 'Revision History',
             },
             children: [
               {
