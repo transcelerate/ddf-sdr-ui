@@ -185,6 +185,21 @@ jobs:
       with: 
         app-name: ${{ env.AZURE_WEBAPP_NAME }} # Replace with your app name
         package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
+        
+        
+    - name: Azure Container Registry Login
+      uses: Azure/docker-login@v1
+      with:
+        # Container registry username
+        username: sdrapitest # default is 
+        # Container registry password
+        password: HC4qVrtPlLwxcSg0dQ7q6zu3At0G/LQ/ # default is 
+        # Container registry server url
+        login-server: sdrapitest.azurecr.io # default is https://index.docker.io/v1/
+    - run: |
+        docker build . -t sdrapitest.azurecr.io/sampleapp:${{ github.sha }}
+        docker push sdrapitest.azurecr.io/sampleapp:${{ github.sha }}
+        
 
 
 
