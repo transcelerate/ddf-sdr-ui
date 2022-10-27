@@ -198,6 +198,7 @@ jobs:
         login-server: sdrapitest.azurecr.io # default is https://index.docker.io/v1/
     - run: |
         cd ${{ github.workspace }}/SDR-WebApp/dist/SDR-WebApp
+        ls
         docker build ${{ github.workspace }} -t sdrapitest.azurecr.io/sampleapp:${{ github.sha }}
         docker push sdrapitest.azurecr.io/sampleapp:${{ github.sha }}
         
