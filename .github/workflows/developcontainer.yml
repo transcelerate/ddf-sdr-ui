@@ -200,8 +200,14 @@ jobs:
         cp '${{ github.workspace }}/Dockerfile' '${{ github.workspace }}/SDR-WebApp/dist/SDR-WebApp'
         cd ${{ github.workspace }}/SDR-WebApp/dist/SDR-WebApp
         ls
-        docker build . -t sdrapitest.azurecr.io/sampleapp:${{ github.sha }}
-        docker push sdrapitest.azurecr.io/sampleapp:${{ github.sha }}
+        docker build . -t sdrapitest.azurecr.io/sampleapp:latest
+        docker push sdrapitest.azurecr.io/sampleapp:latest
+        
+    - uses: azure/webapps-deploy@v2
+      with:
+        app-name: 'myapp'
+        publish-profile: 'apps-sdr-test-eastus'
+        images: 'sdrapitest.azurecr.io/sampleapp:latest'
         
 
 
