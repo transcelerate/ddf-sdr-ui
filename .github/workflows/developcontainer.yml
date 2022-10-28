@@ -191,23 +191,22 @@ jobs:
       uses: Azure/docker-login@v1
       with:
         # Container registry username
-        username: sdrapitest # default is 
+        username: ${{ secrets.ACR_USERNAME }} # default is 
         # Container registry password
-        password: HC4qVrtPlLwxcSg0dQ7q6zu3At0G/LQ/ # default is 
+        password: ${{ secrets.ACR_PASSWORD }} # default is 
         # Container registry server url
-        login-server: sdrapitest.azurecr.io # default is https://index.docker.io/v1/
+        login-server: ${{ secrets.ACR_NAME }} # default is https://index.docker.io/v1/
     - run: |
         cp '${{ github.workspace }}/Dockerfile' '${{ github.workspace }}/SDR-WebApp/dist/SDR-WebApp'
         cd ${{ github.workspace }}/SDR-WebApp/dist/SDR-WebApp
         ls
-        docker build . -t sdrapitest.azurecr.io/sampleapp:latest
-        docker push sdrapitest.azurecr.io/sampleapp:latest
+        docker build . -t ${{ secrets.ACR_NAME }}/sdruibuild:latest
+        docker push ${{ secrets.ACR_NAME }}/sdruibuild:latest
         
     - uses: azure/webapps-deploy@v2
       with:
-        app-name: 'apps-sdr-test-eastus'
-        # publish-profile: 'apps-sdr-test-eastus'
-        images: 'sdrapitest.azurecr.io/sampleapp:latest'
+        app-name: ${{ secrets.AZURE_WEBAPP_NAME }}
+        images: '${{ secrets.ACR_NAME }}/sdruibuild:latest'
         
 
 
