@@ -1,3 +1,3 @@
-FROM nginx
+FROM nginx:latest
 COPY . /usr/share/nginx/html
-CMD ls -l
+EXPOSE 80
