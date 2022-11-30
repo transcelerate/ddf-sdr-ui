@@ -1,8 +1,8 @@
 const ApiUrlList = {
-        ELEMENT:'api/v1/studydefinitions/',
+        ELEMENT:'api/ui/v1/studydefinitions/',
         SEARCHRESULT:'api/ui/v1/search',
         SEARCHRESULTLIGHT:'api/ui/v1/searchstudytitle',
-        AUDITTRAIL:'api/v1/audittrail/',
+        AUDITTRAIL:'api/ui/v1/audittrail/',
         ALLGROUPS:'api/ui/admin/v1/usergroups/getgroups',
         POSTGROUP:'api/ui/admin/v1/usergroups/postgroup',
         CHECKGROUP:'api/ui/admin/v1/usergroups/checkgroupname?groupName=',
