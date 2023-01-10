@@ -4,6 +4,7 @@ import { StudyElementDescriptionComponent } from 'src/app/shared/components/stud
 import { RecentActivityComponent } from './components/recent-activity/recent-activity.component';
 import { AuditTrailComponent } from 'src/app/shared/components/audit-trail/audit-trail.component';
 import { VersionComparisonComponent } from 'src/app/shared/components/version-comparison/version-comparison.component';
+import { SoaComponent } from 'src/app/features/soa/soa.component';
 const dashboardModuleRoutes: Routes = [
   {
     path: '',
@@ -38,6 +39,13 @@ const dashboardModuleRoutes: Routes = [
                 },
               },
             ],
+          },
+          {
+            path:'soa',
+            component: SoaComponent,
+            data:{
+              breadcrumb:'SoA Matrix'
+            }
           },
         ],
       },

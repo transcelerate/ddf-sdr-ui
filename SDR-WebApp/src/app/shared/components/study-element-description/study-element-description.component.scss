@@ -95,6 +95,16 @@ h2 {
   border: 1px solid gray;
 }
 
+.soaButton {
+  @extend .versionButton;
+  right: 150px;
+  top: -28px;
+}
+
+.soaButton[disabled] {
+  opacity: 0.65;
+}
+
 .buttonDiv {
   position: relative;
 }
