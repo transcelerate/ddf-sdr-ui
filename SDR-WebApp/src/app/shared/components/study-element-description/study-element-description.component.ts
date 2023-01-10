@@ -53,7 +53,7 @@ export class StudyElementDescriptionComponent implements OnInit {
     private commonMethod: CommonMethodsService,
     public router: Router,
     public route: ActivatedRoute
-  ) {}
+  ) { }
   /**
    *get the studyId and version id from rcent activity page or search page from routing
    */
@@ -219,7 +219,29 @@ export class StudyElementDescriptionComponent implements OnInit {
             this.studyId ||
             this.finalVal.attributeList.filter(
               (elem) => elem.name == 'studyId'
+            )[0].value
+        }
+      ],
+      { relativeTo: this.route }
+    );
+  }
+  /**
+     *Navigate to SoA matrix page
+     */
+  soaMatrix() {
+    this.router.navigate(
+      [
+        'soa',
+        {
+          // this may not be required. To be revisited
+          studyId:
+            this.studyId ||
+            this.finalVal.attributeList.filter(
+              (elem) => elem.name == 'studyId'
             )[0].value,
+          versionId: this.finalVal.attributeList.filter(
+            (elem) => elem.name == 'studyVersion'
+          )[0].value
         },
       ],
       { relativeTo: this.route }
