@@ -1,75 +1,91 @@
 li {
-    padding-left: 1em;
-    text-indent: -1em;
-  }
-  
-  li:before {
-    content: "+";
-    font-size:12pt;
-    font-weight: bolder;
-    //padding-right: 5px;
-    
-  }
-  .isSelected:before {
-    content: "-" !important;
-   // padding-right: 5px;
-  }
+  padding-left: 1em;
+  text-indent: -1em;
+}
 
-  ul {
-    list-style: none;
-    margin-left: 0;
-    padding-left: 0;
-  }
-  .studyElement{
-    height: 350px;
-    overflow-x: auto;
-    //margin: 13px 0px;
-  }
-  .container{
-    margin-left: 5px;
-    font-size: 14px;
-  }
-  .titleName{
-    white-space: nowrap;
-    width: 100%;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-  .box{
-   // box-sizing: border-box;
-   // border: 3px solid transparent;
-    background-clip:padding-box;
-  }
-  .outerDiv{
-   // margin: -13px -2px;
-  }
-  .border{
+li:before {
+  content: "+";
+  font-size: 12pt;
+  font-weight: bolder;
+  //padding-right: 5px;
+
+}
+
+.isSelected:before {
+  content: "-" !important;
+  // padding-right: 5px;
+}
+
+ul {
+  list-style: none;
+  margin-left: 0;
+  padding-left: 0;
+}
+
+.studyElement {
+  height: 350px;
+  overflow-x: auto;
+  //margin: 13px 0px;
+}
+
+.container {
+  margin-left: 5px;
+  font-size: 14px;
+}
+
+.titleName {
+  white-space: nowrap;
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.box {
+  // box-sizing: border-box;
+  // border: 3px solid transparent;
+  background-clip: padding-box;
+}
+
+.outerDiv {
+  // margin: -13px -2px;
+}
+
+.border {
   //  border:1px solid;
-  }
-  
-table, th, td {
-  border:2px solid black;
 }
+
+table,
+th,
+td {
+  border: 2px solid black;
+}
+
 table {
-  border-bottom:0;
-  border-left:0;
+  border-bottom: 0;
+  border-left: 0;
 }
-td, th {
-  border-top:0;
-  border-right:0;
-  padding:10px;
-  min-width:100px;
+
+td,
+th {
+  border-top: 0;
+  border-right: 0;
+  padding: 10px;
+  min-width: 100px;
 }
-.activeSelected{
+
+.activeSelected {
   font-weight: bolder;
 }
-h2{
-  margin:0px;
+
+h2 {
+  margin: 0px;
 }
-.textCenter{
+
+.textCenter {
   //text-align: center;
-  display:none;
-} 
+  display: none;
+}
+
 .versionButton {
   position: absolute;
   right: -11px;
@@ -78,13 +94,11 @@ h2{
   color: white;
   border: 1px solid gray;
 }
+
 .buttonDiv {
   position: relative;
 }
 
-.titleSpacing{
- // margin-left: 40%;
+.titleSpacing {
+  // margin-left: 40%;
 }
-
-
-  
