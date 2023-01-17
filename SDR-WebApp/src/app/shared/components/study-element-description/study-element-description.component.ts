@@ -242,7 +242,7 @@ export class StudyElementDescriptionComponent implements OnInit {
               (elem) => elem.name == 'studyId'
             )[0].value,
           // Additionally adding version to fetch from local storage. TO-DO: See unit test failures
-          versionId: this.finalVal.attributeList.filter(
+          versionId: this.versionId || this.finalVal.attributeList.filter(
             (elem) => elem.name == 'studyVersion'
           )[0].value
         }
