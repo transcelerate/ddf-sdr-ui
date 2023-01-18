@@ -43,7 +43,7 @@ describe('RecentActivityComponent', () => {
     TestBed.configureTestingModule({
       schemas: [NO_ERRORS_SCHEMA],
       declarations: [RecentActivityComponent],
-      
+
       providers: [
         { provide: ChangeDetectorRef, useFactory: changeDetectorRefStub },
         { provide: ElementRef, useFactory: elementRefStub },
@@ -115,8 +115,9 @@ describe('RecentActivityComponent', () => {
           auditTrail: {
             entryDateTime: '2022-FEB-07',
             entrySystemId: 'Viswesh_localHost',
-           
+
             SDRUploadVersion: 1,
+            'usdm-version': '2.0'
           },
         },
       });
@@ -148,28 +149,29 @@ describe('RecentActivityComponent', () => {
         },
         auditTrail: {
           SDRUploadVersion: 1,
+          'usdm-version': '2.0'
         },
       };
       component.setSelectedValue(param);
       expect(component.showStudyElement).toEqual(true);
       expect(spy).toHaveBeenCalledWith(
-        ['details', { studyId: 1, versionId: 1 }],
+        ['details', { studyId: 1, versionId: 1, usdmVersion: '2.0' }],
         { relativeTo: {} }
       );
     });
   });
   describe('onGridReady', () => {
     it('ongridready', () => {
-   
+
       let param = {
-        
+
         columnApi: {
           studyVersion: 1,
         },
       };
       component.onGridReady(param);
       expect(true).toEqual(true);
-      
+
     });
   });
   // describe('gridValueMerge', () => {

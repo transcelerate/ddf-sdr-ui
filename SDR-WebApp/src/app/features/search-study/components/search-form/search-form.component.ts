@@ -301,12 +301,14 @@ export class SearchFormComponent implements OnInit {
    * @param val   ag grid value of that particular row for which link is clicked.
    */
   setSelectedValue(val: any) {
+    localStorage.setItem(val.clinicalStudy.uuid + '_' + val.auditTrail.SDRUploadVersion + '_links', JSON.stringify(val.links))
     this.router.navigate(
       [
         'details',
         {
           studyId: val.clinicalStudy.uuid,
           versionId: val.auditTrail.SDRUploadVersion,
+          usdmVersion: val.auditTrail['usdm-version']
         },
       ],
       { relativeTo: this.route }
