@@ -5,6 +5,14 @@ import { ServiceCall } from './service-call/service-call.service';
 import { configList } from '../components/study-element-description/config/study-element-field-config';
 import { BsModalRef, BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
 import { ModalComponentComponent } from '../components/modal-component/modal-component.component';
+
+export interface StudyQuery {
+  studyId: any;
+  version: any;
+  callback: (url: any) => void;
+  errorCallback: (err: any) => void;
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -14,7 +22,7 @@ export class CommonMethodsService {
     private spinner: NgxSpinnerService,
     public serviceCall: ServiceCall,
     private modalService: BsModalService
-  ) {}
+  ) { }
   getSponsorIdGrid(type: any, params: any) {
     let value;
     let self = this;
@@ -79,13 +87,13 @@ export class CommonMethodsService {
         var val =
           type === 'sponsor'
             ? value.map((elem: any) => {
-                return elem.studyIdentifierScope.organisationIdentifier;
-              })
+              return elem.studyIdentifierScope.organisationIdentifier;
+            })
             : type === 'intervention'
-            ? value.map((elem: { decode: any }) => {
+              ? value.map((elem: { decode: any }) => {
                 return elem.decode;
               })
-            : value.map((elem: { indicationDesc: any }) => {
+              : value.map((elem: { indicationDesc: any }) => {
                 return elem.indicationDesc;
               });
         val = [...new Set(val)];
@@ -507,5 +515,23 @@ export class CommonMethodsService {
         //   });
       },
     });
+  }
+
+  getStudies(query: Required<StudyQuery>) {
+    const localStorageKey = query.studyId + '_' + query.version + '_links'
+    var links: any = localStorage.getItem(localStorageKey);
+    if (!links) {
+      this.serviceCall.getStudyLinks(query.studyId, query.version).subscribe({
+        next: (p: any) => {
+          localStorage.setItem(localStorageKey, JSON.stringify(p.links));
+          query.callback(p.links.studyDefinitions);
+        },
+        error: query.errorCallback,
+      });
+    }
+    else {
+      var parsedLinks = JSON.parse(links);
+      query.callback(parsedLinks.studyDefinitions);
+    }
   }
 }
