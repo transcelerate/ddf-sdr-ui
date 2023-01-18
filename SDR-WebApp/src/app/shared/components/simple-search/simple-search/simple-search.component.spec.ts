@@ -218,7 +218,7 @@ describe('SimpleSearchComponent', () => {
       };
       component.setSelectedValue(param);
       expect(spy).toHaveBeenCalledWith(
-        ['details', { studyId: 1, versionId: 1 }],
+        ['details', { studyId: 1, versionId: 1, usdmVersion: undefined }],
         { relativeTo: {} }
       );
     });
