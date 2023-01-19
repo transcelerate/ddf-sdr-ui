@@ -18,6 +18,9 @@ export class AuditTrailComponent implements OnInit {
   versionB: any;
   disableButton = true;
   showError = false;
+  studyVersion: any;
+  usdmVerA: any;
+  usdmVerB: any;
   public overlayNoRowsTemplate = '<span></span>';
   columnDefs: ColDef[] = [
     {
@@ -94,12 +97,14 @@ export class AuditTrailComponent implements OnInit {
       this.disableButton = true;
       if (Object.keys(params).length !== 0) {
         this.studyId = params['studyId'];
+        this.studyVersion = params['studyVersion'];
       }
     });
     this.studyId = this.studyId
       ? this.studyId
       : localStorage.getItem('studyId');
     this.spinner.show();
+    // this.serviceCall.getAuditTrailWithVersion(this.studyId, this.usdmVersion, this.getURL()).subscribe({
     this.serviceCall.getAuditTrail(this.studyId).subscribe({
       next: (audit: any) => {
         //this.userExists = true;
@@ -109,9 +114,9 @@ export class AuditTrailComponent implements OnInit {
             .utc(elem.entryDateTime)
             .local()
             .format('YYYY-MM-DD HH:mm:ss');
-            return elem;
+          return elem;
         });
-        this.studyId = audit.uuid;
+        this.studyId = audit.studyId;
       },
       error: (error) => {
         this.showError = true;
@@ -129,10 +134,11 @@ export class AuditTrailComponent implements OnInit {
       },
     });
   }
+
   /**
-   *Logic to generate radio button html element for A column
-   * @param params   ag grid value for each row with data.
-   */
+ *Logic to generate radio button html element for A column
+ * @param params   ag grid value for each row with data.
+ */
   generateCompareA(params: any) {
     const eDiv = document.createElement('div');
     const self = this;
@@ -196,8 +202,12 @@ export class AuditTrailComponent implements OnInit {
     let disableField = from === 'A' ? 'B' : 'A';
     if (from == 'A') {
       this.versionA = selectedVal.SDRUploadVersion;
+      this.usdmVerA = selectedVal['usdm-version'];
+      localStorage.setItem(this.studyId + '_' + this.versionA + '_links', JSON.stringify(selectedVal.links));
     } else {
       this.versionB = selectedVal.SDRUploadVersion;
+      this.usdmVerB = selectedVal['usdm-version'];
+      localStorage.setItem(this.studyId + '_' + this.versionB + '_links', JSON.stringify(selectedVal.links));
     }
     let domElement = this._elementRef.nativeElement.getElementsByClassName(
       'radio' + disableField
@@ -227,6 +237,8 @@ export class AuditTrailComponent implements OnInit {
           studyId: this.studyId,
           verA: this.versionA,
           verB: this.versionB,
+          usdmVerA: this.usdmVerA,
+          usdmVerB: this.usdmVerB,
         },
       ],
       { relativeTo: this.route }

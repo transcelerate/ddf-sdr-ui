@@ -101,6 +101,10 @@ h2 {
   top: -28px;
 }
 
+.soaButton[disabled] {
+  opacity: 0.65;
+}
+
 .buttonDiv {
   position: relative;
 }

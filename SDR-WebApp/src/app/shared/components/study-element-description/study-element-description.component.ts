@@ -23,6 +23,7 @@ import * as mockJson from './config/SDR-StudySample-GET.json';
 import { configList } from './config/study-element-field-config';
 import { CommonMethodsService } from '../../services/common-methods.service';
 import { Router, ActivatedRoute } from '@angular/router';
+import { analyzeAndValidateNgModules } from '@angular/compiler';
 @Component({
   selector: 'app-study-element-description',
   templateUrl: './study-element-description.component.html',
@@ -44,13 +45,15 @@ export class StudyElementDescriptionComponent implements OnInit {
   studyId: any;
   versionId: any;
   showError = false;
+  isValidUSDMVersion = false;
+  usdmVersion: any;
   constructor(
     private el: ElementRef,
     private authService: MsalService,
     private spinner: NgxSpinnerService,
     private msalBroadcastService: MsalBroadcastService,
     private serviceCall: ServiceCall,
-    private commonMethod: CommonMethodsService,
+    private commonMethods: CommonMethodsService,
     public router: Router,
     public route: ActivatedRoute
   ) { }
@@ -62,10 +65,12 @@ export class StudyElementDescriptionComponent implements OnInit {
       if (Object.keys(params).length !== 0) {
         this.studyId = params['studyId'];
         this.versionId = params['versionId'];
+        this.usdmVersion = params['usdmVersion'];
       }
       if (this.studyId && this.versionId) {
         localStorage.setItem('studyId', this.studyId);
         localStorage.setItem('versionId', this.versionId);
+        localStorage.setItem('usdmVersion', this.usdmVersion);
       }
     });
 
@@ -76,6 +81,9 @@ export class StudyElementDescriptionComponent implements OnInit {
     this.versionId = this.versionId
       ? this.versionId
       : localStorage.getItem('versionId');
+    this.usdmVersion = this.usdmVersion
+      ? this.usdmVersion
+      : localStorage.getItem('usdmVersion');
     this.getstudyelement();
   }
 
@@ -127,15 +135,32 @@ export class StudyElementDescriptionComponent implements OnInit {
    */
   getstudyelement(): void {
     this.spinner.show();
-    this.serviceCall.getStudyElement(this.studyId, this.versionId).subscribe({
+    this.commonMethods.getStudies({
+      studyId: this.studyId,
+      version: this.versionId,
+      callback: (url: any) => this.getStudyElementUsingLink(url),
+      errorCallback: (err: any) => {
+        this.showError = true;
+        this.finalVal = new Accordian();
+        this.spinner.hide();
+      }
+    });
+  }
+
+  getStudyElementUsingLink(url: any) {
+    this.serviceCall.getStudyElementWithVersion(this.usdmVersion, url).subscribe({
+      //this.serviceCall.getStudyElement(this.studyId, this.versionId).subscribe({
       next: (studyelement: any) => {
         this.spinner.hide();
-        let sponsorDetails = this.commonMethod.getSponsorDetails(studyelement);
+        let sponsorDetails = this.commonMethods.getSponsorDetails(studyelement);
 
         this.sponsorVersionId = sponsorDetails.versionId;
-
         this.finalVal.attributeList = [];
         this.finalVal.subAccordianList = [];
+
+        // To check if SoA Matrix needs to be enabled. 
+        // TO-Do add another AND condition to check if link exists but study designs dont exist
+        this.isValidUSDMVersion = typeof studyelement['links']?.SoA === 'string';
 
         Object.entries(studyelement['clinicalStudy']).forEach((elem) => {
           this.finalVal.accordianName =
@@ -159,6 +184,7 @@ export class StudyElementDescriptionComponent implements OnInit {
       },
     });
   }
+
   /**
    *To highlight the text on click of the tree
    *@param val text which user clicks on the tree structure
@@ -247,11 +273,13 @@ export class StudyElementDescriptionComponent implements OnInit {
       { relativeTo: this.route }
     );
   }
+
   /**
    *to set Localstorage for study and version id so page can be retrieved on refresh
    */
   ngOnDestroy() {
     localStorage.setItem('studyId', this.studyId);
     localStorage.setItem('versionId', this.versionId);
+    localStorage.setItem('usdmVersion', this.usdmVersion);
   }
 }
