@@ -105,8 +105,13 @@ export class VersionComparisonComponent implements OnInit {
           this.studyOneTitle = params['studyOneTitle'];
           this.studyTwoTitle = params['studyTwoTitle'];
         } else {
-          this.versionA = Math.min(verA, verB);
-          this.versionB = Math.max(verA, verB);
+          this.versionA = Math.min(verA, verB).toString();
+          this.versionB = Math.max(verA, verB).toString();
+          if (this.versionA !== verA) {
+            this.usdmVerA = params['usdmVerB'];
+            this.usdmVerB = params['usdmVerA'];
+          }
+
           this.studyId2 = this.studyId;
           this.isFromCompare = false;
         }

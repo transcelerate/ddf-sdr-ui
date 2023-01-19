@@ -8,6 +8,11 @@
   <div class="col-sm-12" *ngIf="route.children.length === 0">
     <app-error-component *ngIf="showError"></app-error-component>
     <div class="buttonDiv" *ngIf="!showError">
+      <button (click)="soaMatrix()" class="soaButton" [disabled]="!isValidUSDMVersion">
+        View SoA Matrix
+      </button>
+    </div>
+    <div class="buttonDiv" *ngIf="!showError">
       <button (click)="auditTrail()" class="versionButton">
         View Revision History
       </button>

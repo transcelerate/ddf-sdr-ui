@@ -23,6 +23,7 @@ import * as mockJson from './config/SDR-StudySample-GET.json';
 import { configList } from './config/study-element-field-config';
 import { CommonMethodsService } from '../../services/common-methods.service';
 import { Router, ActivatedRoute } from '@angular/router';
+import { analyzeAndValidateNgModules } from '@angular/compiler';
 @Component({
   selector: 'app-study-element-description',
   templateUrl: './study-element-description.component.html',
@@ -44,6 +45,7 @@ export class StudyElementDescriptionComponent implements OnInit {
   studyId: any;
   versionId: any;
   showError = false;
+  isValidUSDMVersion = false;
   usdmVersion: any;
   constructor(
     private el: ElementRef,
@@ -156,6 +158,11 @@ export class StudyElementDescriptionComponent implements OnInit {
         this.finalVal.attributeList = [];
         this.finalVal.subAccordianList = [];
 
+        // To check if SoA Matrix needs to be enabled. 
+        // TO-Do add another AND condition to check if link exists but study designs dont exist
+
+        this.isValidUSDMVersion = typeof (this.getSoALink()) === 'string';
+
         Object.entries(studyelement['clinicalStudy']).forEach((elem) => {
           this.finalVal.accordianName =
             studyelement['clinicalStudy'].studyTitle;
@@ -177,6 +184,28 @@ export class StudyElementDescriptionComponent implements OnInit {
         this.spinner.hide();
       },
     });
+  }
+
+  getSoALink() {
+    const localStorageKey = this.studyId + '_' + this.versionId + '_links'
+    var links: any = localStorage.getItem(localStorageKey);
+    if (!links) {
+      this.serviceCall.getStudyLinks(this.studyId, this.versionId).subscribe({
+        next: (p: any) => {
+          localStorage.setItem(localStorageKey, JSON.stringify(p.links));
+          return p.links.SoA;
+        },
+        error: (error) => {
+          this.showError = true;
+          this.finalVal = new Accordian();
+          this.spinner.hide();
+        },
+      });
+    }
+    else {
+      var parsedLinks = JSON.parse(links);
+      return parsedLinks.SoA;
+    }
   }
 
   /**
@@ -239,12 +268,30 @@ export class StudyElementDescriptionComponent implements OnInit {
             this.studyId ||
             this.finalVal.attributeList.filter(
               (elem) => elem.name == 'studyId'
+            )[0].value
+        }
+      ],
+      { relativeTo: this.route }
+    );
+  }
+  /**
+     *Navigate to SoA matrix page
+     */
+  soaMatrix() {
+    this.router.navigate(
+      [
+        'soa',
+        {
+          // this may not be required. To be revisited
+          studyId:
+            this.studyId ||
+            this.finalVal.attributeList.filter(
+              (elem) => elem.name == 'studyId'
             )[0].value,
-          // Additionally adding version to fetch from local storage. TO-DO: See unit test failures
-          versionId: this.versionId || this.finalVal.attributeList.filter(
+          versionId: this.finalVal.attributeList.filter(
             (elem) => elem.name == 'studyVersion'
           )[0].value
-        }
+        },
       ],
       { relativeTo: this.route }
     );
