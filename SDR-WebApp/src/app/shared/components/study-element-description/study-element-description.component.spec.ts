@@ -271,7 +271,8 @@ describe('StudyElementDescriptionComponent', () => {
     const msalServiceStub = () => ({});
     const serviceCallStub = () => ({
       getStudyElement: (studyId: any, versionId: any) => ({ subscribe: {} }),
-      getStudyElementWithVersion: (usdmVersion: any, url: any) => ({ subscribe: {} })
+      getStudyElementWithVersion: (usdmVersion: any, url: any) => ({ subscribe: {} }),
+      getStudyLinks: (studyId: any, versionId: any) => ({ subscribe: {} })
     });
 
     const ngxSpinnerServiceStub = () => ({
@@ -362,6 +363,12 @@ describe('StudyElementDescriptionComponent', () => {
         }
       );
 
+      spyOn<ServiceCall, any>(serviceCallStub, 'getStudyLinks').and.callFake(
+        () => {
+          return of(clinicalStudy);
+        }
+      );
+
       spyOn(ngxSpinnerServiceStub, 'show').and.callThrough();
       spyOn(ngxSpinnerServiceStub, 'hide').and.callThrough();
       spyOn(commonMethodsServiceStub, 'getSponsorDetails').and.callThrough();
@@ -371,6 +378,7 @@ describe('StudyElementDescriptionComponent', () => {
       //expect(serviceCallStub.getStudyElement).toHaveBeenCalled();
       expect(serviceCallStub.getStudyElementWithVersion).toHaveBeenCalled();
       //expect(serviceCallStub.getStudyElement).toHaveBeenCalled();
+      //expect(component.getSoALink).toHaveBeenCalled();
       expect(component.createAttribute).toHaveBeenCalled();
       expect(component.createsubAccordian).toHaveBeenCalled();
       expect(component.showTableContent).toHaveBeenCalled();

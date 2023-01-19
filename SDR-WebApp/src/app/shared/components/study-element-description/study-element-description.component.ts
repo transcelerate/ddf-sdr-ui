@@ -160,7 +160,8 @@ export class StudyElementDescriptionComponent implements OnInit {
 
         // To check if SoA Matrix needs to be enabled. 
         // TO-Do add another AND condition to check if link exists but study designs dont exist
-        this.isValidUSDMVersion = typeof studyelement['links']?.SoA === 'string';
+
+        this.isValidUSDMVersion = typeof (this.getSoALink()) === 'string';
 
         Object.entries(studyelement['clinicalStudy']).forEach((elem) => {
           this.finalVal.accordianName =
@@ -183,6 +184,28 @@ export class StudyElementDescriptionComponent implements OnInit {
         this.spinner.hide();
       },
     });
+  }
+
+  getSoALink() {
+    const localStorageKey = this.studyId + '_' + this.versionId + '_links'
+    var links: any = localStorage.getItem(localStorageKey);
+    if (!links) {
+      this.serviceCall.getStudyLinks(this.studyId, this.versionId).subscribe({
+        next: (p: any) => {
+          localStorage.setItem(localStorageKey, JSON.stringify(p.links));
+          return p.links.SoA;
+        },
+        error: (error) => {
+          this.showError = true;
+          this.finalVal = new Accordian();
+          this.spinner.hide();
+        },
+      });
+    }
+    else {
+      var parsedLinks = JSON.parse(links);
+      return parsedLinks.SoA;
+    }
   }
 
   /**
