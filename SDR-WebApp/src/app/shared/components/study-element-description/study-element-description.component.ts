@@ -268,12 +268,6 @@ export class StudyElementDescriptionComponent implements OnInit {
             this.studyId ||
             this.finalVal.attributeList.filter(
               (elem) => elem.name == 'studyId'
-            )[0].value,
-          // Additionally adding version to fetch from local storage. TO-DO: See unit test failures
-          versionId:
-            this.versionId
-            || this.finalVal.attributeList.filter(
-              (elem) => elem.name == 'studyVersion'
             )[0].value
         }
       ],
@@ -294,13 +288,9 @@ export class StudyElementDescriptionComponent implements OnInit {
             this.finalVal.attributeList.filter(
               (elem) => elem.name == 'studyId'
             )[0].value,
-          // Additionally adding version to fetch from local storage. TO-DO: See unit test failures
-          versionId:
-            this.versionId ||
-            this.finalVal.attributeList.filter(
-              (elem) => elem.name == 'studyVersion'
-            )[0].value,
-          usdmVersion: this.usdmVersion
+          versionId: this.finalVal.attributeList.filter(
+            (elem) => elem.name == 'studyVersion'
+          )[0].value
         },
       ],
       { relativeTo: this.route }
