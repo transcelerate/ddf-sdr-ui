@@ -153,7 +153,6 @@ export class StudyElementDescriptionComponent implements OnInit {
         let sponsorDetails = this.commonMethods.getSponsorDetails(studyelement);
 
         this.sponsorVersionId = sponsorDetails.versionId;
-
         this.finalVal.attributeList = [];
         this.finalVal.subAccordianList = [];
 
