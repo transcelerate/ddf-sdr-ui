@@ -1,8 +1,8 @@
 const configList = {
   NAME: 'Item',
-  KEYTOHIDE: ['id', 'studyDesignId', 'studyId','uuid','workflowId'],
+  KEYTOHIDE: ['id', 'studyId', 'uuid'],
   EXCEPTIONFIELD: [''],
-  SPONSORKEY: 'Clinical Study Sponsor',
+  SPONSORKEYS: ['Clinical Study Sponsor', 'Sponsor_ID'],
   HEADING: 'Study Details',
   SPONSORID_KEY: 'orgCode',
   BLOCK_SIZE: 20,

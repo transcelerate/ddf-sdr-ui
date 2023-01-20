@@ -261,7 +261,7 @@ export class SearchFormComponent implements OnInit {
       let value = params.data.clinicalStudy.studyIdentifiers.filter(
         (obj: any) => {
           return obj['studyIdentifierScope'].filter((elem: any) => {
-            return elem.decode === configList.SPONSORKEY;
+            return configList.SPONSORKEYS.findIndex((p) => p.toLowerCase() === elem.decode.toLowerCase()) > -1;
           });
         }
       );
