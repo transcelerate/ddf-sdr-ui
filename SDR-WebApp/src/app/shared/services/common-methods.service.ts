@@ -32,10 +32,8 @@ export class CommonMethodsService {
       if (type === 'sponsor') {
         value = params?.data?.clinicalStudy?.studyIdentifiers?.filter(
           (obj: any) => {
-            if (
-              obj['studyIdentifierScope']?.organisationType?.decode ===
-              configList.SPONSORKEY
-            ) {
+            const decode = obj['studyIdentifierScope']?.organisationType?.decode;
+            if (configList.SPONSORKEYS.find((p) => p.toLowerCase() === decode.toLowerCase())) {
               return obj['studyIdentifierScope'];
             }
           }
@@ -459,7 +457,8 @@ export class CommonMethodsService {
   getSponsorDetails(studyelement: any) {
     let sponsorObject = studyelement.clinicalStudy.studyIdentifiers.filter(
       (obj: { [x: string]: string }) => {
-        return obj['idType'] === configList.SPONSORKEY;
+        const decode = obj['idType']?.toLowerCase();
+        return configList.SPONSORKEYS.findIndex((p) => p.toLowerCase() === decode) > -1;
       }
     );
     return {
