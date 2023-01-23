@@ -9,6 +9,7 @@ import { ModalComponentComponent } from '../components/modal-component/modal-com
 export interface StudyQuery {
   studyId: any;
   version: any;
+  linkName: string;
   callback: (url: any) => void;
   errorCallback: (err: any) => void;
 }
@@ -516,22 +517,21 @@ export class CommonMethodsService {
       },
     });
   }
-
-  getStudies(query: Required<StudyQuery>) {
+  getStudyLink(query: Required<StudyQuery>) {
     const localStorageKey = query.studyId + '_' + query.version + '_links'
     var links: any = localStorage.getItem(localStorageKey);
     if (!links) {
       this.serviceCall.getStudyLinks(query.studyId, query.version).subscribe({
         next: (p: any) => {
           localStorage.setItem(localStorageKey, JSON.stringify(p.links));
-          query.callback(p.links.studyDefinitions);
+          query.callback(p.links[query.linkName]);
         },
         error: query.errorCallback,
       });
     }
     else {
       var parsedLinks = JSON.parse(links);
-      query.callback(parsedLinks.studyDefinitions);
+      query.callback(parsedLinks[query.linkName]);
     }
   }
 }

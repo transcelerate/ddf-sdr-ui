@@ -43,6 +43,12 @@ export class ServiceCall {
     //return this.httpWrapperService.getData('https://apim-sdr-qa-eastus.azure-api.net/studydefinitionrepository/v1/audittrail/%7bstudy%7d');
     return this.httpWrapperService.getData(environment.BASE_URL + CommonApiUrlList.AUDITTRAIL.replace('{studyId}', studyId));
   }
+
+  getSoAMatrix(usdmVersion: any, soaURL: string) {
+    // return this.httpWrapperService.getData('https://apim-sdr-dev-eastus.azure-api.net/api/ui/v2/studydefinitions/9352b5ba-4a94-46c9-8809-b8aeea0dd45e/studydesigns/soa');
+    return this.httpWrapperService.getData(environment.BASE_URL + 'api/ui' + soaURL, this.getHttpOptions(usdmVersion));
+  }
+
   getSearchResult(reqObj: any) {
     return this.httpWrapperService.postData(environment.BASE_URL + CommonApiUrlList.SEARCHRESULT, reqObj);
   }

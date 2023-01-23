@@ -3,6 +3,7 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { SoaComponent } from './soa.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ServiceCall } from 'src/app/shared/services/service-call/service-call.service';
+import { CommonMethodsService } from 'src/app/shared/services/common-methods.service';
 
 describe('SoaComponent', () => {
   let component: SoaComponent;
@@ -12,6 +13,14 @@ describe('SoaComponent', () => {
     const routerStub = () => ({ navigate: (array: any, object: any) => ({}) });
     const activatedRouteStub = () => ({
       params: { subscribe: (f: (arg0: {}) => any) => f({}) },
+    });
+    const commonMethodsServiceStub = () => ({
+      getStudyLink: (
+        studyId: any,
+        version: any,
+        linkName: string,
+        callback: (url: any) => ({}),
+        errorCallback: (err: any) => ({})) => ({ showError: true }),
     });
     const serviceCallStub = () => ({
       getStudyElement: (studyId: any, versionId: any) => ({ subscribe: {} }),
@@ -24,6 +33,7 @@ describe('SoaComponent', () => {
         { provide: ServiceCall, useFactory: serviceCallStub },
         { provide: Router, useFactory: routerStub },
         { provide: ActivatedRoute, useFactory: activatedRouteStub },
+        { provide: CommonMethodsService, useFactory: commonMethodsServiceStub },
       ]
     })
       .compileComponents();
