@@ -1,1 +1,47 @@
-<p>No data to display.</p>
+<div class="soa-container">
+  <tabset #tabset1 customClass="soa-tab-container">
+    <tab
+      *ngFor="let tab of tabs.studyDesigns"
+      customClass="study-design-container"
+      heading="{{ tab.studyDesignId }}"
+    >
+      <div class="study-design-tab-section">
+        <tabset #tabset2 *ngIf="tab.studyWorkflows">
+          <tab
+            customClass="workflow-container"
+            *ngFor="let item of tab.studyWorkflows"
+            heading="{{ item.workFlowId }}"
+          >
+            <div
+              class="table-responsive soa-table"
+              *ngIf="activeStudyDesignId && activeWorkFlowId"
+            >
+              <table class="table table-bordered">
+                <thead class="soa-table-thead">
+                  <tr>
+                    <th></th>
+                    <ng-container *ngFor="let content of item.workFlowSoA.SoA">
+                      <th>{{ content.encounterName }}</th>
+                    </ng-container>
+                  </tr>
+                </thead>
+                <tbody class="soa-table-tbody">
+                  <tr *ngFor="let rowEl of item.workFlowSoA.orderOfActivities">
+                    <td>{{ rowEl }}</td>
+                    <td *ngFor="let activity of item.workFlowSoA.SoA">
+                      <ng-container
+                        *ngFor="let itemActivity of activity.activities"
+                      >
+                        <span *ngIf="rowEl === itemActivity"> X </span>
+                      </ng-container>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </tab>
+        </tabset>
+      </div>
+    </tab>
+  </tabset>
+</div>
