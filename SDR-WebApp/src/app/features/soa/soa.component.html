@@ -3,14 +3,14 @@
     <tab
       *ngFor="let tab of tabs.studyDesigns"
       customClass="study-design-container"
-      heading="{{ tab.studyDesignId }}"
+      heading="{{ tab.studyDesignName }}"
     >
       <div class="study-design-tab-section">
         <tabset #tabset2 *ngIf="tab.studyWorkflows">
           <tab
             customClass="workflow-container"
             *ngFor="let item of tab.studyWorkflows"
-            heading="{{ item.workFlowId }}"
+            heading="{{ item.workflowDescription }}"
           >
             <div
               class="table-responsive soa-table"
@@ -32,7 +32,7 @@
                       <ng-container
                         *ngFor="let itemActivity of activity.activities"
                       >
-                        <span *ngIf="rowEl === itemActivity"> X </span>
+                        <span *ngIf="rowEl === itemActivity"><b> X</b></span>
                       </ng-container>
                     </td>
                   </tr>
