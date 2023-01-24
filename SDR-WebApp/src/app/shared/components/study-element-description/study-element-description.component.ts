@@ -135,9 +135,10 @@ export class StudyElementDescriptionComponent implements OnInit {
    */
   getstudyelement(): void {
     this.spinner.show();
-    this.commonMethods.getStudies({
+    this.commonMethods.getStudyLink({
       studyId: this.studyId,
       version: this.versionId,
+      linkName: configList.STUDY_DEFINITION_LINK,
       callback: (url: any) => this.getStudyElementUsingLink(url),
       errorCallback: (err: any) => {
         this.showError = true;
@@ -290,7 +291,8 @@ export class StudyElementDescriptionComponent implements OnInit {
             )[0].value,
           versionId: this.finalVal.attributeList.filter(
             (elem) => elem.name == 'studyVersion'
-          )[0].value
+          )[0].value,
+          usdmVersion: this.usdmVersion
         },
       ],
       { relativeTo: this.route }
