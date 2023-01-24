@@ -31,6 +31,8 @@ export class SoaComponent implements OnInit {
         this.usdmVersion = params['usdmVersion'];
       }
     });
+
+    this.getSoADetails();
   }
 
   getSoADetails() {
@@ -49,7 +51,8 @@ export class SoaComponent implements OnInit {
 
   getSoADetailsUsingLink(url: any): void {
     this.serviceCall.getSoAMatrix(this.usdmVersion, url).subscribe({
-      next: (studyelement: any) => {
+      next: (soa: any) => {
+        this.spinner.hide();
         // To-DO: Call binding logic here
       }, error: (error) => {
         this.showError = true;
