@@ -1,10 +1,10 @@
-<div class="no-study-blocks-container" *ngIf="tabs.studyDesigns && tabs.studyDesigns.length === 0">
+<div class="no-study-blocks-container" *ngIf="tabs && tabs.studyDesigns && tabs.studyDesigns.length === 0">
   No Study Designs to display SoA Matrix
 </div>
 
 <div
   class="soa-container"
-  *ngIf="tabs.studyDesigns && tabs.studyDesigns.length > 0"
+  *ngIf="tabs && tabs.studyDesigns && tabs.studyDesigns.length > 0"
 >
   <tabset #tabset1 customClass="soa-tab-container">
     <tab
@@ -27,7 +27,6 @@
             </ng-template>
             <div
               class="table-responsive soa-table"
-              *ngIf="activeStudyDesignId && activeWorkFlowId"
             >
               <table class="table table-bordered">
                 <thead class="soa-table-thead">

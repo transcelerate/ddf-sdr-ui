@@ -16,8 +16,6 @@ export class SoaComponent implements OnInit {
   versionId: any;
   tabs: any;
   selectedTab: boolean = false;
-  activeStudyDesignId: string = 'SD01';
-  activeWorkFlowId: string = 'WF01';
   usdmVersion: any;
   showError = false;
   constructor(
@@ -52,14 +50,6 @@ export class SoaComponent implements OnInit {
         this.spinner.hide();
       },
     });
-  }
-
-  getStudyDesignData(tab: any) {
-    this.activeStudyDesignId = tab.studyDesignId;
-  }
-
-  getWorkFlowData(item: any) {
-    this.activeWorkFlowId = item.workFlowId;
   }
 
   getSoADetailsUsingLink(url: any): void {
