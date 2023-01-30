@@ -1,1 +1,59 @@
-<p>No data to display.</p>
+<div class="no-study-blocks-container" *ngIf="tabs && tabs.studyDesigns && tabs.studyDesigns.length === 0">
+  No Study Designs to display SoA Matrix
+</div>
+
+<div
+  class="soa-container"
+  *ngIf="tabs && tabs.studyDesigns && tabs.studyDesigns.length > 0"
+>
+  <tabset #tabset1 customClass="soa-tab-container">
+    <tab
+      *ngFor="let tab of tabs.studyDesigns"
+      customClass="study-design-container"
+    >
+      <ng-template tabHeading>
+        <span title="{{ tab.studyDesignName }}">{{ tab.studyDesignName }}</span>
+      </ng-template>
+      <div class="study-design-tab-section">
+        <tabset #tabset2 *ngIf="tab.studyWorkflows">
+          <tab
+            customClass="workflow-container"
+            *ngFor="let item of tab.studyWorkflows"
+          >
+            <ng-template tabHeading>
+              <span title="{{ item.workflowDescription }}">
+                {{ item.workflowDescription }}
+              </span>
+            </ng-template>
+            <div
+              class="table-responsive soa-table"
+            >
+              <table class="table table-bordered">
+                <thead class="soa-table-thead">
+                  <tr>
+                    <th class="first-block"></th>
+                    <ng-container *ngFor="let content of item.workFlowSoA.SoA">
+                      <th>{{ content.encounterName }}</th>
+                    </ng-container>
+                  </tr>
+                </thead>
+                <tbody class="soa-table-tbody">
+                  <tr *ngFor="let rowEl of item.workFlowSoA.orderOfActivities">
+                    <td class="tbody-first-cols">{{ rowEl }}</td>
+                    <td *ngFor="let activity of item.workFlowSoA.SoA">
+                      <ng-container
+                        *ngFor="let itemActivity of activity.activities"
+                      >
+                        <span *ngIf="rowEl === itemActivity"><b> X</b></span>
+                      </ng-container>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </tab>
+        </tabset>
+      </div>
+    </tab>
+  </tabset>
+</div>

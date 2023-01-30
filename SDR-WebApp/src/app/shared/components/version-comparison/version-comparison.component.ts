@@ -10,6 +10,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { filter, take } from 'rxjs';
 import { ServiceCall } from '../../services/service-call/service-call.service';
 import { CommonMethodsService } from '../../services/common-methods.service';
+import { configList } from '../study-element-description/config/study-element-field-config';
 
 @Component({
   selector: 'app-version-comparison',
@@ -135,9 +136,10 @@ export class VersionComparisonComponent implements OnInit {
       },
     };
     this.spinner.show();
-    this.commonMethods.getStudies({
+    this.commonMethods.getStudyLink({
       studyId: this.studyId,
       version: this.versionA,
+      linkName: configList.STUDY_DEFINITION_LINK,
       callback: (url: any) => this.getStudyUsingLinks(url),
       errorCallback: (err: any) => {
         this.showError = true;
@@ -168,9 +170,10 @@ export class VersionComparisonComponent implements OnInit {
             '\t'
           );
 
-          this.commonMethods.getStudies({
+          this.commonMethods.getStudyLink({
             studyId: this.studyId2,
             version: this.versionB,
+            linkName: configList.STUDY_DEFINITION_LINK,
             callback: (url: any) => this.getStudy2UsingLinks(url),
             errorCallback: (err: any) => {
               this.showError = true;
