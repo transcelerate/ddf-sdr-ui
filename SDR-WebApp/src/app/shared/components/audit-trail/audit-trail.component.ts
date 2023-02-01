@@ -4,6 +4,7 @@ import { ColDef, GridApi, GridReadyEvent } from 'ag-grid-community';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ServiceCall } from '../../services/service-call/service-call.service';
 import * as moment from 'moment';
+import { StudyElementDescriptionComponent } from '../study-element-description/study-element-description.component';
 @Component({
   selector: 'app-audit-trail',
   templateUrl: './audit-trail.component.html',
@@ -79,12 +80,14 @@ export class AuditTrailComponent implements OnInit {
     public route: ActivatedRoute,
     private serviceCall: ServiceCall,
     private spinner: NgxSpinnerService,
-    private _elementRef: ElementRef
+    private _elementRef: ElementRef,
+    private parentComponent: StudyElementDescriptionComponent
   ) {
     this.defaultColDef = {
       sortable: true,
       resizable: true,
     };
+    this.parentComponent.checkLocationPath();
   }
   /**
    *get the studyId from study details page

@@ -1,11 +1,11 @@
-import { Component, ElementRef, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { CommonMethodsService } from 'src/app/shared/services/common-methods.service';
 import { ServiceCall } from '../../shared/services/service-call/service-call.service';
 // import { tabs } from './sample-data';
 import { configList } from 'src/app/shared/components/study-element-description/config/study-element-field-config';
-
+import { StudyElementDescriptionComponent } from 'src/app/shared/components/study-element-description/study-element-description.component';
 @Component({
   selector: 'app-soa',
   templateUrl: './soa.component.html',
@@ -23,8 +23,11 @@ export class SoaComponent implements OnInit {
     public route: ActivatedRoute,
     private serviceCall: ServiceCall,
     private spinner: NgxSpinnerService,
-    private commonMethods: CommonMethodsService
-  ) {}
+    private commonMethods: CommonMethodsService,
+    private parentComponent: StudyElementDescriptionComponent
+  ) {
+    this.parentComponent.checkLocationPath();
+  }
 
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
@@ -63,6 +66,18 @@ export class SoaComponent implements OnInit {
         this.showError = true;
         this.spinner.hide();
       },
+    });
+  }
+
+  findDuplicate(index: number, eachActivity: string, activitiesArray: string[]) {
+    return activitiesArray.find((checkColor, checkIndex) => {
+      let isDuplicate = checkIndex != index && eachActivity == checkColor;
+      if(isDuplicate){
+
+        console.log(index, eachActivity, activitiesArray);
+      }
+      
+      return isDuplicate;
     });
   }
 }

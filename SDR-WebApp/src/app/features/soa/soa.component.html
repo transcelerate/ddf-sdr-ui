@@ -1,4 +1,7 @@
-<div class="no-study-blocks-container" *ngIf="tabs && tabs.studyDesigns && tabs.studyDesigns.length === 0">
+<div
+  class="no-study-blocks-container"
+  *ngIf="tabs && tabs.studyDesigns && tabs.studyDesigns.length === 0"
+>
   No Study Designs to display SoA Matrix
 </div>
 
@@ -15,7 +18,16 @@
         <span title="{{ tab.studyDesignName }}">{{ tab.studyDesignName }}</span>
       </ng-template>
       <div class="study-design-tab-section">
-        <tabset #tabset2 *ngIf="tab.studyWorkflows">
+        <div
+          class="no-workflows-container"
+          *ngIf="tab.studyWorkflows.length === 0"
+        >
+          No Workflows to display SoA Matrix
+        </div>
+        <tabset
+          #tabset2
+          *ngIf="tab.studyWorkflows && tab.studyWorkflows.length > 0"
+        >
           <tab
             customClass="workflow-container"
             *ngFor="let item of tab.studyWorkflows"
@@ -25,9 +37,7 @@
                 {{ item.workflowDescription }}
               </span>
             </ng-template>
-            <div
-              class="table-responsive soa-table"
-            >
+            <div class="table-responsive soa-table">
               <table class="table table-bordered">
                 <thead class="soa-table-thead">
                   <tr>
@@ -42,9 +52,33 @@
                     <td class="tbody-first-cols">{{ rowEl }}</td>
                     <td *ngFor="let activity of item.workFlowSoA.SoA">
                       <ng-container
-                        *ngFor="let itemActivity of activity.activities"
+                        *ngFor="
+                          let itemActivity of activity.activities;
+                          let i = index
+                        "
                       >
-                        <span *ngIf="rowEl === itemActivity"><b> X</b></span>
+                        <span *ngIf="rowEl === itemActivity"
+                          ><b
+                            title="{{
+                              findDuplicate(
+                                i,
+                                itemActivity,
+                                activity.activities
+                              )
+                                ? 'Duplicate entries found'
+                                : ''
+                            }}"
+                            [class.duplicate]="
+                              findDuplicate(
+                                i,
+                                itemActivity,
+                                activity.activities
+                              )
+                            "
+                          >
+                            X</b
+                          ></span
+                        >
                       </ng-container>
                     </td>
                   </tr>
