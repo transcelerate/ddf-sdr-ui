@@ -1,20 +1,10 @@
 import {
   Component,
-  ElementRef,
   EventEmitter,
-  Input,
+  OnDestroy,
   OnInit,
   Output,
 } from '@angular/core';
-import { MsalBroadcastService, MsalService } from '@azure/msal-angular';
-import {
-  EventMessage,
-  EventType,
-  InteractionStatus,
-  AuthenticationResult,
-  PublicClientApplication,
-} from '@azure/msal-browser';
-import { filter } from 'rxjs/operators';
 // import { Studyelement } from '../models/studyelement';
 import { ServiceCall } from '../../services/service-call/service-call.service';
 import { Attribute, Accordian } from './model';
@@ -23,7 +13,6 @@ import * as mockJson from './config/SDR-StudySample-GET.json';
 import { configList } from './config/study-element-field-config';
 import { CommonMethodsService } from '../../services/common-methods.service';
 import { Router, ActivatedRoute } from '@angular/router';
-import { analyzeAndValidateNgModules } from '@angular/compiler';
 @Component({
   selector: 'app-study-element-description',
   templateUrl: './study-element-description.component.html',
@@ -32,7 +21,7 @@ import { analyzeAndValidateNgModules } from '@angular/compiler';
 /**
  *Study Element Details component
  */
-export class StudyElementDescriptionComponent implements OnInit {
+export class StudyElementDescriptionComponent implements OnInit, OnDestroy {
   @Output() backClicked = new EventEmitter();
   cloginDisplay = false;
   finalVal = new Accordian();
@@ -47,16 +36,14 @@ export class StudyElementDescriptionComponent implements OnInit {
   showError = false;
   isValidUSDMVersion = false;
   usdmVersion: any;
+  soaNavigationBoolean: boolean = false;
   constructor(
-    private el: ElementRef,
-    private authService: MsalService,
     private spinner: NgxSpinnerService,
-    private msalBroadcastService: MsalBroadcastService,
     private serviceCall: ServiceCall,
     private commonMethods: CommonMethodsService,
     public router: Router,
-    public route: ActivatedRoute
-  ) { }
+    public route: ActivatedRoute,
+  ) {}
   /**
    *get the studyId and version id from rcent activity page or search page from routing
    */
@@ -85,6 +72,10 @@ export class StudyElementDescriptionComponent implements OnInit {
       ? this.usdmVersion
       : localStorage.getItem('usdmVersion');
     this.getstudyelement();
+  }
+
+  checkLocationPath(isSoa: boolean): void {
+    this.soaNavigationBoolean = isSoa;
   }
 
   /**
@@ -144,51 +135,54 @@ export class StudyElementDescriptionComponent implements OnInit {
         this.showError = true;
         this.finalVal = new Accordian();
         this.spinner.hide();
-      }
+      },
     });
   }
 
   getStudyElementUsingLink(url: any) {
-    this.serviceCall.getStudyElementWithVersion(this.usdmVersion, url).subscribe({
-      //this.serviceCall.getStudyElement(this.studyId, this.versionId).subscribe({
-      next: (studyelement: any) => {
-        this.spinner.hide();
-        let sponsorDetails = this.commonMethods.getSponsorDetails(studyelement);
+    this.serviceCall
+      .getStudyElementWithVersion(this.usdmVersion, url)
+      .subscribe({
+        //this.serviceCall.getStudyElement(this.studyId, this.versionId).subscribe({
+        next: (studyelement: any) => {
+          this.spinner.hide();
+          let sponsorDetails =
+            this.commonMethods.getSponsorDetails(studyelement);
 
-        this.sponsorVersionId = sponsorDetails.versionId;
-        this.finalVal.attributeList = [];
-        this.finalVal.subAccordianList = [];
+          this.sponsorVersionId = sponsorDetails.versionId;
+          this.finalVal.attributeList = [];
+          this.finalVal.subAccordianList = [];
 
-        // To check if SoA Matrix needs to be enabled. 
-        // TO-Do add another AND condition to check if link exists but study designs dont exist
+          // To check if SoA Matrix needs to be enabled.
+          // TO-Do add another AND condition to check if link exists but study designs dont exist
 
-        this.isValidUSDMVersion = typeof (this.getSoALink()) === 'string';
+          this.isValidUSDMVersion = typeof this.getSoALink() === 'string';
 
-        Object.entries(studyelement['clinicalStudy']).forEach((elem) => {
-          this.finalVal.accordianName =
-            studyelement['clinicalStudy'].studyTitle;
-          let attributeList = this.createAttribute(elem);
-          if (typeof attributeList === 'object') {
-            this.finalVal.attributeList.push(attributeList);
-          }
-          let accordianList = this.createsubAccordian(elem);
+          Object.entries(studyelement['clinicalStudy']).forEach((elem) => {
+            this.finalVal.accordianName =
+              studyelement['clinicalStudy'].studyTitle;
+            let attributeList = this.createAttribute(elem);
+            if (typeof attributeList === 'object') {
+              this.finalVal.attributeList.push(attributeList);
+            }
+            let accordianList = this.createsubAccordian(elem);
 
-          if (typeof accordianList === 'object') {
-            this.finalVal.subAccordianList.push(accordianList);
-          }
-        });
-        this.showTableContent(this.finalVal, false, this.finalVal);
-      },
-      error: (error) => {
-        this.showError = true;
-        this.finalVal = new Accordian();
-        this.spinner.hide();
-      },
-    });
+            if (typeof accordianList === 'object') {
+              this.finalVal.subAccordianList.push(accordianList);
+            }
+          });
+          this.showTableContent(this.finalVal, false, this.finalVal);
+        },
+        error: (error) => {
+          this.showError = true;
+          this.finalVal = new Accordian();
+          this.spinner.hide();
+        },
+      });
   }
 
   getSoALink() {
-    const localStorageKey = this.studyId + '_' + this.versionId + '_links'
+    const localStorageKey = this.studyId + '_' + this.versionId + '_links';
     var links: any = localStorage.getItem(localStorageKey);
     if (!links) {
       this.serviceCall.getStudyLinks(this.studyId, this.versionId).subscribe({
@@ -202,8 +196,7 @@ export class StudyElementDescriptionComponent implements OnInit {
           this.spinner.hide();
         },
       });
-    }
-    else {
+    } else {
       var parsedLinks = JSON.parse(links);
       return parsedLinks.SoA;
     }
@@ -269,15 +262,15 @@ export class StudyElementDescriptionComponent implements OnInit {
             this.studyId ||
             this.finalVal.attributeList.filter(
               (elem) => elem.name == 'studyId'
-            )[0].value
-        }
+            )[0].value,
+        },
       ],
       { relativeTo: this.route }
     );
   }
   /**
-     *Navigate to SoA matrix page
-     */
+   *Navigate to SoA matrix page
+   */
   soaMatrix() {
     this.router.navigate(
       [
@@ -292,7 +285,7 @@ export class StudyElementDescriptionComponent implements OnInit {
           versionId: this.finalVal.attributeList.filter(
             (elem) => elem.name == 'studyVersion'
           )[0].value,
-          usdmVersion: this.usdmVersion
+          usdmVersion: this.usdmVersion,
         },
       ],
       { relativeTo: this.route }
