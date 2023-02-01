@@ -43,7 +43,7 @@ export class StudyElementDescriptionComponent implements OnInit, OnDestroy {
     private commonMethods: CommonMethodsService,
     public router: Router,
     public route: ActivatedRoute,
-  ) {}
+  ) { }
   /**
    *get the studyId and version id from rcent activity page or search page from routing
    */
@@ -184,7 +184,7 @@ export class StudyElementDescriptionComponent implements OnInit, OnDestroy {
   getSoALink() {
     const localStorageKey = this.studyId + '_' + this.versionId + '_links';
     var links: any = localStorage.getItem(localStorageKey);
-    if (!links) {
+    if (!links || links === 'undefined') {
       this.serviceCall.getStudyLinks(this.studyId, this.versionId).subscribe({
         next: (p: any) => {
           localStorage.setItem(localStorageKey, JSON.stringify(p.links));
@@ -282,9 +282,7 @@ export class StudyElementDescriptionComponent implements OnInit, OnDestroy {
             this.finalVal.attributeList.filter(
               (elem) => elem.name == 'studyId'
             )[0].value,
-          versionId: this.finalVal.attributeList.filter(
-            (elem) => elem.name == 'studyVersion'
-          )[0].value,
+          versionId: this.versionId,
           usdmVersion: this.usdmVersion,
         },
       ],
