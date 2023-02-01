@@ -1,7 +1,6 @@
 import {
   Component,
   EventEmitter,
-  Inject,
   OnDestroy,
   OnInit,
   Output,
@@ -14,7 +13,6 @@ import * as mockJson from './config/SDR-StudySample-GET.json';
 import { configList } from './config/study-element-field-config';
 import { CommonMethodsService } from '../../services/common-methods.service';
 import { Router, ActivatedRoute } from '@angular/router';
-import { DOCUMENT } from '@angular/common';
 @Component({
   selector: 'app-study-element-description',
   templateUrl: './study-element-description.component.html',
@@ -45,7 +43,6 @@ export class StudyElementDescriptionComponent implements OnInit, OnDestroy {
     private commonMethods: CommonMethodsService,
     public router: Router,
     public route: ActivatedRoute,
-    @Inject(DOCUMENT) public document: Document
   ) {}
   /**
    *get the studyId and version id from rcent activity page or search page from routing
@@ -77,11 +74,8 @@ export class StudyElementDescriptionComponent implements OnInit, OnDestroy {
     this.getstudyelement();
   }
 
-  checkLocationPath(): void {
-    this.soaNavigationBoolean = false;
-    if (this.document.location.pathname.includes('soa')) {
-      this.soaNavigationBoolean = true;
-    }
+  checkLocationPath(isSoa: boolean): void {
+    this.soaNavigationBoolean = isSoa;
   }
 
   /**

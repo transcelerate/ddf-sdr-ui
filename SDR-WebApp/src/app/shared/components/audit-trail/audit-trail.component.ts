@@ -87,7 +87,7 @@ export class AuditTrailComponent implements OnInit {
       sortable: true,
       resizable: true,
     };
-    this.parentComponent.checkLocationPath();
+    this.parentComponent.checkLocationPath(false);
   }
   /**
    *get the studyId from study details page

@@ -26,7 +26,7 @@ export class SoaComponent implements OnInit {
     private commonMethods: CommonMethodsService,
     private parentComponent: StudyElementDescriptionComponent
   ) {
-    this.parentComponent.checkLocationPath();
+    this.parentComponent.checkLocationPath(true);
   }
 
   ngOnInit(): void {
@@ -69,7 +69,11 @@ export class SoaComponent implements OnInit {
     });
   }
 
-  findDuplicate(index: number, eachActivity: string, activitiesArray: string[]) {
+  findDuplicate(
+    index: number,
+    eachActivity: string,
+    activitiesArray: string[]
+  ) {
     return activitiesArray.find((checkColor, checkIndex) => {
       let isDuplicate = checkIndex != index && eachActivity == checkColor;
       return isDuplicate;
