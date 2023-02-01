@@ -72,11 +72,6 @@ export class SoaComponent implements OnInit {
   findDuplicate(index: number, eachActivity: string, activitiesArray: string[]) {
     return activitiesArray.find((checkColor, checkIndex) => {
       let isDuplicate = checkIndex != index && eachActivity == checkColor;
-      if(isDuplicate){
-
-        console.log(index, eachActivity, activitiesArray);
-      }
-      
       return isDuplicate;
     });
   }
