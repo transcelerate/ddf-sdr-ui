@@ -265,6 +265,15 @@ describe('StudyElementDescriptionComponent', () => {
     }
   };
 
+  const links = {
+    "links":
+    {
+      "studyDefinitions": "/v2/studydefinitions/9352b5ba-4a94-46c9-8809-b8aeea0dd45e?sdruploadversion=0",
+      "auditTrail": "/studydefinitions/9352b5ba-4a94-46c9-8809-b8aeea0dd45e/audittrail",
+      "SoA": "/v2/studydefinitions/9352b5ba-4a94-46c9-8809-b8aeea0dd45e/studydesigns/soa"
+    }
+  }
+
   beforeEach(() => {
     const elementRefStub = () => ({});
     const msalBroadcastServiceStub = () => ({});
@@ -281,9 +290,10 @@ describe('StudyElementDescriptionComponent', () => {
     });
     const commonMethodsServiceStub = () => ({
       getSponsorDetails: (studyelement: any) => ({ versionId: {} }),
-      getStudies: (
+      getStudyLink: (
         studyId: any,
         version: any,
+        linkName: string,
         callback: (url: any) => ({}),
         errorCallback: (err: any) => ({})) => ({ showError: true }),
     });
@@ -356,6 +366,7 @@ describe('StudyElementDescriptionComponent', () => {
       spyOn(component, 'createAttribute').and.callThrough();
       spyOn(component, 'createsubAccordian').and.callThrough();
       spyOn(component, 'showTableContent').and.callThrough();
+      spyOn(component, 'getSoALink').and.callThrough();
 
       spyOn<ServiceCall, any>(serviceCallStub, 'getStudyElementWithVersion').and.callFake(
         () => {
@@ -365,20 +376,20 @@ describe('StudyElementDescriptionComponent', () => {
 
       spyOn<ServiceCall, any>(serviceCallStub, 'getStudyLinks').and.callFake(
         () => {
-          return of(clinicalStudy);
+          return of(links);
         }
       );
 
       spyOn(ngxSpinnerServiceStub, 'show').and.callThrough();
       spyOn(ngxSpinnerServiceStub, 'hide').and.callThrough();
       spyOn(commonMethodsServiceStub, 'getSponsorDetails').and.callThrough();
-      spyOn(commonMethodsServiceStub, 'getStudies').and.callFake((query) => query.callback("Study URL"));
+      spyOn(commonMethodsServiceStub, 'getStudyLink').and.callFake((query) => query.callback("Study URL"));
       //component.backButtonClicked();
       component.getstudyelement();
       //expect(serviceCallStub.getStudyElement).toHaveBeenCalled();
       expect(serviceCallStub.getStudyElementWithVersion).toHaveBeenCalled();
       //expect(serviceCallStub.getStudyElement).toHaveBeenCalled();
-      //expect(component.getSoALink).toHaveBeenCalled();
+      expect(component.getSoALink).toHaveBeenCalled();
       expect(component.createAttribute).toHaveBeenCalled();
       expect(component.createsubAccordian).toHaveBeenCalled();
       expect(component.showTableContent).toHaveBeenCalled();
@@ -386,7 +397,7 @@ describe('StudyElementDescriptionComponent', () => {
       expect(ngxSpinnerServiceStub.show).toHaveBeenCalled();
       expect(ngxSpinnerServiceStub.hide).toHaveBeenCalled();
       expect(commonMethodsServiceStub.getSponsorDetails).toHaveBeenCalled();
-      expect(commonMethodsServiceStub.getStudies).toHaveBeenCalled();
+      expect(commonMethodsServiceStub.getStudyLink).toHaveBeenCalled();
     });
 
     it('error call ', () => {
@@ -396,7 +407,7 @@ describe('StudyElementDescriptionComponent', () => {
         fixture.debugElement.injector.get(ServiceCall);
       const errorSubject = new Subject();
       spyOn<ServiceCall, any>(serviceCallStub, 'getStudyElementWithVersion').and.callFake(() => errorSubject);
-      spyOn(commonMethodsServiceStub, 'getStudies').and.callFake((query) => query.callback("Study URL"));
+      spyOn(commonMethodsServiceStub, 'getStudyLink').and.callFake((query) => query.callback("Study URL"));
       errorSubject.error('error');
       component.getstudyelement();
       expect(component.showError).toEqual(true);

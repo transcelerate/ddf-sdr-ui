@@ -6,7 +6,9 @@ import { ActivatedRoute } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ServiceCall } from '../../services/service-call/service-call.service';
 import { AuditTrailComponent } from './audit-trail.component';
-import { Observable, of, throwError } from 'rxjs';
+import { of, throwError } from 'rxjs';
+import { StudyElementDescriptionComponent } from '../study-element-description/study-element-description.component';
+import { CommonMethodsService } from '../../services/common-methods.service';
 
 describe('AuditTrailComponent', () => {
   let component: AuditTrailComponent;
@@ -31,6 +33,15 @@ describe('AuditTrailComponent', () => {
     const serviceCallStub = () => ({
       getAuditTrail: (studyId: any) => ({ subscribe: (f: (arg0: {}) => any) => f({}) })
     });
+    const commonMethodsServiceStub = () => ({
+      getSponsorDetails: (studyelement: any) => ({ versionId: {} }),
+      getStudyLink: (
+        studyId: any,
+        version: any,
+        linkName: string,
+        callback: (url: any) => ({}),
+        errorCallback: (err: any) => ({})) => ({ showError: true }),
+    });
     TestBed.configureTestingModule({
       schemas: [NO_ERRORS_SCHEMA],
       declarations: [AuditTrailComponent],
@@ -39,7 +50,9 @@ describe('AuditTrailComponent', () => {
         { provide: Router, useFactory: routerStub },
         { provide: ActivatedRoute, useFactory: activatedRouteStub },
         { provide: NgxSpinnerService, useFactory: ngxSpinnerServiceStub },
-        { provide: ServiceCall, useFactory: serviceCallStub }
+        { provide: ServiceCall, useFactory: serviceCallStub },
+        { provide: CommonMethodsService, useFactory: commonMethodsServiceStub },
+        StudyElementDescriptionComponent
       ]
     });
     fixture = TestBed.createComponent(AuditTrailComponent);

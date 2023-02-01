@@ -13,6 +13,8 @@ import { AgGridModule } from 'ag-grid-angular';
 // import { MonacoEditorModule } from 'ngx-monaco-editor';
 import { MonacoEditorModule } from '@materia-ui/ngx-monaco-editor';
 import { AuthGuardService } from './auth-guard.service';
+import { SoaComponent } from './features/soa/soa.component';
+import { TabsModule } from 'ngx-bootstrap/tabs';
 export class AppModuleConstants {
   static MODULE_IMPORTS = [
     BrowserAnimationsModule,
@@ -24,6 +26,7 @@ export class AppModuleConstants {
     MsalModule,
     AgGridModule.withComponents([]),
     MonacoEditorModule,
+    TabsModule.forRoot(),
   ];
 
   static MODULE_PROVIDERS = [{
@@ -51,6 +54,7 @@ export class AppModuleConstants {
 
   static MODULE_DECLARATION = [
     AppComponent,
+    SoaComponent
   ];
 
 }

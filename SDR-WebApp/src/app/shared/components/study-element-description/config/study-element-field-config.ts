@@ -1,6 +1,6 @@
 const configList = {
   NAME: 'Item',
-  KEYTOHIDE: ['id', 'studyId', 'uuid'],
+  KEYTOHIDE: ['id', 'studyDesignId', 'studyId', 'uuid', 'workflowId'],
   EXCEPTIONFIELD: [''],
   SPONSORKEYS: ['Clinical Study Sponsor', 'Sponsor_ID'],
   HEADING: 'Study Details',
@@ -39,5 +39,7 @@ const configList = {
     { value: '30', description: 'Last 30 days' },
     { value: '60', description: 'Last 60 days' },
   ],
+  SOA_LINK: 'SoA',
+  STUDY_DEFINITION_LINK: 'studyDefinitions'
 };
 export { configList };

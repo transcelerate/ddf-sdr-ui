@@ -131,8 +131,8 @@ body {
 }
 body {
   ::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
+    width: 9px;
+    height: 9px;
   }
   ::-webkit-scrollbar-track {
     border-radius: 10px;
@@ -290,6 +290,12 @@ button{
   color: #fff;
   background-color: #0d6efd !important;
   border-color: #0d6efd !important;
+}
+button:disabled{
+  background-color: #c1c1c1 !important;
+  color: black !important;
+  opacity: .45 !important;
+  border-color: #c1c1c1 !important;
 }
 .modal-body .btn{
   margin:0 5px;

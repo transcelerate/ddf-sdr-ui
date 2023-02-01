@@ -1,0 +1,106 @@
+.soa-container {
+  border: 1px solid hsl(0deg 0% 77%);
+  border-radius: 4px;
+  margin: 20px 0px !important;
+  .study-design-tab-section {
+    border: 1px solid hsl(0deg 0% 77%);
+    border-radius: 4px;
+    margin: 20px 30px;
+    .soa-table {
+      margin: 20px 30px;
+      border: 1px solid;
+      overflow-y: auto !important;
+      max-height: 98vh;
+      .table-bordered {
+        border: 1px solid;
+        border-collapse: separate;
+        border-spacing: 2px;
+        margin-bottom: 0px;
+        :not(caption) > * > * {
+          border-width: 1px;
+        }
+        .soa-table-thead {
+          tr {
+            th {
+              background-color: hsl(0deg 0% 84%);
+              text-align: center;
+              width: 25vw;
+              position: sticky;
+              z-index: 1;
+              top: 0;
+            }
+            .first-block {
+              position: sticky;
+              left: 0;
+              top: 0;
+              z-index: 2;
+            }
+          }
+        }
+        .soa-table-tbody {
+          tr {
+            td {
+              text-align: center;
+              vertical-align: middle;
+              background-color: white;
+            }
+
+            td.tbody-first-cols {
+              left: 0;
+              position: sticky;
+              z-index: 1;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+::ng-deep .tab-container ul {
+  background-color: hsl(0deg 0% 91%);
+  border: 1px solid hsl(0deg 0% 87%);
+  margin: 3px;
+  border-radius: 4px;
+}
+::ng-deep .study-design-container {
+  .nav-link {
+    background-color: white;
+    border: 1px solid hsl(0deg 0% 77%);
+    margin: 4px 4px 0px;
+    color: #212529;
+    width: 160px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    text-align: center;
+  }
+  .nav-link.active {
+    color: #fff;
+    background-color: hsl(16deg 100% 66%);
+    border-color: hsl(222deg 100% 50%);
+  }
+}
+
+::ng-deep .workflow-container .nav-link.active {
+  color: #fff;
+  background-color: hsl(16deg 100% 66%);
+  border-color: hsl(222deg 100% 50%);
+  margin: 4px 4px 0px;
+}
+
+.no-study-blocks-container {
+  text-align: center;
+  margin-top: 80px;
+  font-weight: 500;
+}
+
+.no-workflows-container {
+  text-align: center;
+  font-weight: 500;
+  margin: 10px;
+}
+
+.duplicate {
+  color: red;
+  cursor: pointer;
+}

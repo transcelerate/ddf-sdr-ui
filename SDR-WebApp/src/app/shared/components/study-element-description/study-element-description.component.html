@@ -2,7 +2,7 @@
 <!-- <h2><b>StudyId {{sponsorStudyId}} Version {{sponsorVersionId}} - Details</b></h2> -->
 <div class="container-fluid">
   <h2 *ngIf="!showError">
-    <strong>{{ finalVal.accordianName }} <span *ngIf="route.children.length === 0">Version {{ sponsorVersionId
+    <strong>{{ finalVal.accordianName }} <span *ngIf="(route.children.length === 0) || soaNavigationBoolean">Version {{ sponsorVersionId
         }}</span></strong>
   </h2>
   <div class="col-sm-12" *ngIf="route.children.length === 0">
