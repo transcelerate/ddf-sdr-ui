@@ -4,7 +4,9 @@
 >
   No Study Designs to display SoA Matrix
 </div>
-
+<ng-template #dataError>
+  <div class="no-workflows-container">Insufficient data to generate SoA Matrix</div>
+</ng-template>
 <div
   class="soa-container"
   *ngIf="tabs && tabs.studyDesigns && tabs.studyDesigns.length > 0"
@@ -22,70 +24,75 @@
           class="no-workflows-container"
           *ngIf="tab.studyWorkflows.length === 0"
         >
-          No Workflows to display SoA Matrix
+          Insufficient data to generate SoA Matrix
         </div>
         <tabset
           #tabset2
           *ngIf="tab.studyWorkflows && tab.studyWorkflows.length > 0"
         >
-          <tab
-            customClass="workflow-container"
-            *ngFor="let item of tab.studyWorkflows"
-          >
-            <ng-template tabHeading>
-              <span title="{{ item.workflowDescription }}">
-                {{ item.workflowDescription }}
-              </span>
-            </ng-template>
-            <div class="table-responsive soa-table">
-              <table class="table table-bordered">
-                <thead class="soa-table-thead">
-                  <tr>
-                    <th class="first-block"></th>
-                    <ng-container *ngFor="let content of item.workFlowSoA.SoA">
-                      <th>{{ content.encounterName }}</th>
-                    </ng-container>
-                  </tr>
-                </thead>
-                <tbody class="soa-table-tbody">
-                  <tr *ngFor="let rowEl of item.workFlowSoA.orderOfActivities">
-                    <td class="tbody-first-cols">{{ rowEl }}</td>
-                    <td *ngFor="let activity of item.workFlowSoA.SoA">
-                      <ng-container
-                        *ngFor="
-                          let itemActivity of activity.activities;
-                          let i = index
-                        "
+          <ng-container *ngFor="let item of tab.studyWorkflows">
+            <ng-container *ngIf="item.workFlowSoA !== null; else dataError">
+              <tab customClass="workflow-container">
+                <ng-template tabHeading>
+                  <span title="{{ item.workflowDescription }}">
+                    {{ item.workflowDescription }}
+                  </span>
+                </ng-template>
+                <div class="table-responsive soa-table">
+                  <table class="table table-bordered">
+                    <thead class="soa-table-thead">
+                      <tr>
+                        <th class="first-block"></th>
+                        <ng-container
+                          *ngFor="let content of item.workFlowSoA.SoA"
+                        >
+                          <th>{{ content.encounterName }}</th>
+                        </ng-container>
+                      </tr>
+                    </thead>
+                    <tbody class="soa-table-tbody">
+                      <tr
+                        *ngFor="let rowEl of item.workFlowSoA.orderOfActivities"
                       >
-                        <span *ngIf="rowEl === itemActivity"
-                          ><b
-                            title="{{
-                              findDuplicate(
-                                i,
-                                itemActivity,
-                                activity.activities
-                              )
-                                ? 'Duplicate entries found'
-                                : ''
-                            }}"
-                            [class.duplicate]="
-                              findDuplicate(
-                                i,
-                                itemActivity,
-                                activity.activities
-                              )
+                        <td class="tbody-first-cols">{{ rowEl }}</td>
+                        <td *ngFor="let activity of item.workFlowSoA.SoA">
+                          <ng-container
+                            *ngFor="
+                              let itemActivity of activity.activities;
+                              let i = index
                             "
                           >
-                            X</b
-                          ></span
-                        >
-                      </ng-container>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </tab>
+                            <span *ngIf="rowEl === itemActivity"
+                              ><b
+                                title="{{
+                                  findDuplicate(
+                                    i,
+                                    itemActivity,
+                                    activity.activities
+                                  )
+                                    ? 'Duplicate entries found'
+                                    : ''
+                                }}"
+                                [class.duplicate]="
+                                  findDuplicate(
+                                    i,
+                                    itemActivity,
+                                    activity.activities
+                                  )
+                                "
+                              >
+                                X</b
+                              ></span
+                            >
+                          </ng-container>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </tab>
+            </ng-container>
+          </ng-container>
         </tabset>
       </div>
     </tab>
