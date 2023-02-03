@@ -23,7 +23,7 @@ export class CommonMethodsService {
     private spinner: NgxSpinnerService,
     public serviceCall: ServiceCall,
     private modalService: BsModalService
-  ) { }
+  ) {}
   getSponsorIdGrid(type: any, params: any) {
     let value;
     let self = this;
@@ -33,8 +33,13 @@ export class CommonMethodsService {
       if (type === 'sponsor') {
         value = params?.data?.clinicalStudy?.studyIdentifiers?.filter(
           (obj: any) => {
-            const decode = obj['studyIdentifierScope']?.organisationType?.decode;
-            if (configList.SPONSORKEYS.find((p) => p.toLowerCase() === decode.toLowerCase())) {
+            const decode =
+              obj['studyIdentifierScope']?.organisationType?.decode;
+            if (
+              configList.SPONSORKEYS.find(
+                (p) => p.toLowerCase() === decode.toLowerCase()
+              )
+            ) {
               return obj['studyIdentifierScope'];
             }
           }
@@ -86,13 +91,13 @@ export class CommonMethodsService {
         var val =
           type === 'sponsor'
             ? value.map((elem: any) => {
-              return elem.studyIdentifierScope.organisationIdentifier;
-            })
+                return elem.studyIdentifierScope.organisationIdentifier;
+              })
             : type === 'intervention'
-              ? value.map((elem: { decode: any }) => {
+            ? value.map((elem: { decode: any }) => {
                 return elem.decode;
               })
-              : value.map((elem: { indicationDesc: any }) => {
+            : value.map((elem: { indicationDesc: any }) => {
                 return elem.indicationDesc;
               });
         val = [...new Set(val)];
@@ -418,6 +423,8 @@ export class CommonMethodsService {
         return 'SponsorId';
       case 'auditTrail.SDRUploadVersion':
         return 'version';
+      case 'auditTrail.usdm-version':
+        return 'usdm-version';
     }
   }
   /* istanbul ignore end */
@@ -453,13 +460,18 @@ export class CommonMethodsService {
         return 'callerip';
       case 'responseCodeDescription':
         return 'responsecode';
+      case 'auditTrail.usdm-version':
+        return 'usdm-version';
     }
   }
   getSponsorDetails(studyelement: any) {
     let sponsorObject = studyelement.clinicalStudy.studyIdentifiers.filter(
       (obj: { [x: string]: string }) => {
         const decode = obj['idType']?.toLowerCase();
-        return configList.SPONSORKEYS.findIndex((p) => p.toLowerCase() === decode) > -1;
+        return (
+          configList.SPONSORKEYS.findIndex((p) => p.toLowerCase() === decode) >
+          -1
+        );
       }
     );
     return {
@@ -517,7 +529,7 @@ export class CommonMethodsService {
     });
   }
   getStudyLink(query: Required<StudyQuery>) {
-    const localStorageKey = query.studyId + '_' + query.version + '_links'
+    const localStorageKey = query.studyId + '_' + query.version + '_links';
     var links: any = localStorage.getItem(localStorageKey);
     if (!links) {
       this.serviceCall.getStudyLinks(query.studyId, query.version).subscribe({
@@ -527,8 +539,7 @@ export class CommonMethodsService {
         },
         error: query.errorCallback,
       });
-    }
-    else {
+    } else {
       var parsedLinks = JSON.parse(links);
       query.callback(parsedLinks[query.linkName]);
     }

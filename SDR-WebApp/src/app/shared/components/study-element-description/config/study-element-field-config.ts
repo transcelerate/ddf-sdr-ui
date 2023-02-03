@@ -18,6 +18,7 @@ const configList = {
   INDICATION: 'Indication',
   INTERVENTION: 'Intervention Model',
   PHASE: 'Phase',
+  USDM_VERSION: 'USDM Version',
   LAST_MODIFIED_SYSTEM: 'Last Modified by System',
   RESPONSE_CODE: [
     { value: '200', description: '200 - OK' },

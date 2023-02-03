@@ -89,7 +89,7 @@ export class SimpleSearchComponent implements OnInit {
     this.gridOptions.columnDefs = [
       {
         cellRendererFramework: CheckboxRenderer,
-        width: 20,
+        width: 30,
       },
       {
         headerName: 'Study Title',
@@ -109,7 +109,12 @@ export class SimpleSearchComponent implements OnInit {
         tooltipField: 'auditTrail.SDRUploadVersion',
         headerTooltip: configList.SDR_UPLOAD_VERSION,
       },
-
+      {
+        headerName: 'USDM Version',
+        field: 'auditTrail.usdm-version',
+        tooltipField: 'auditTrail.usdm-version',
+        headerTooltip: configList.USDM_VERSION,
+      },
 
     ];
 
