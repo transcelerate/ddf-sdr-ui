@@ -5,7 +5,9 @@
   No Study Designs to display SoA Matrix
 </div>
 <ng-template #dataError>
-  <div class="no-workflows-container">Insufficient data to generate SoA Matrix</div>
+  <div class="no-workflows-container">
+    Insufficient data to generate SoA Matrix
+  </div>
 </ng-template>
 <div
   class="soa-container"
@@ -31,13 +33,13 @@
           *ngIf="tab.studyWorkflows && tab.studyWorkflows.length > 0"
         >
           <ng-container *ngFor="let item of tab.studyWorkflows">
-            <ng-container *ngIf="item.workFlowSoA !== null; else dataError">
-              <tab customClass="workflow-container">
-                <ng-template tabHeading>
-                  <span title="{{ item.workflowDescription }}">
-                    {{ item.workflowDescription }}
-                  </span>
-                </ng-template>
+            <tab customClass="workflow-container">
+              <ng-template tabHeading>
+                <span title="{{ item.workflowDescription }}">
+                  {{ item.workflowDescription }}
+                </span>
+              </ng-template>
+              <ng-container *ngIf="item.workFlowSoA !== null; else dataError">
                 <div class="table-responsive soa-table">
                   <table class="table table-bordered">
                     <thead class="soa-table-thead">
@@ -90,8 +92,8 @@
                     </tbody>
                   </table>
                 </div>
-              </tab>
-            </ng-container>
+              </ng-container>
+            </tab>
           </ng-container>
         </tabset>
       </div>
