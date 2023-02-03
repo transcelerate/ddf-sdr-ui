@@ -144,6 +144,12 @@ export class SearchFormComponent implements OnInit {
         tooltipField: 'clinicalStudy.studyPhase.decode',
         headerTooltip: configList.PHASE,
       },
+      {
+        headerName: 'USDM Version',
+        field: 'auditTrail.usdm-version',
+        tooltipField: 'auditTrail.usdm-version',
+        headerTooltip: configList.USDM_VERSION,
+      },
       // {
       //   headerName: 'Last Modified by System',
       //   field: 'auditTrail.entrySystem',
