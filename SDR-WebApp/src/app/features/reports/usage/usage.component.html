@@ -1,76 +1,78 @@
 <app-error-component *ngIf="showError"></app-error-component>
 <div class="container-fluid">
   <h3>Usage Report</h3>
-      <br>
-   
-<form  [formGroup]="editorForm">
-    <div class="row">
+
+  <form [formGroup]="editorForm">
+    <div class="row usage-report-form">
       <div class="col-3">
         <!--left side -->
-        <div class="form-group row">
-          <label class="col-sm-4 paddingTen">Duration:</label>
+        <div class="form-group row usage-report-elements">
+          <label class="col-sm-4">Duration:</label>
           <div class="col-sm-8 inputDiv">
-            
-            <select
-            class="input-sm form-control"
-            formControlName="days"
-            >
-            <option *ngFor="let field of dropDownConfig.TIMELINE;" [value]="field.value" >{{field.description}}</option>
-              
+            <select class="input-sm form-control" formControlName="days">
+              <option
+                *ngFor="let field of dropDownConfig.TIMELINE"
+                [value]="field.value"
+              >
+                {{ field.description }}
+              </option>
             </select>
           </div>
         </div>
       </div>
       <div class="col-3">
         <!--left side -->
-        <div class="form-group row">
-          <label class="col-sm-4 paddingTen">Operation:</label>
+        <div class="form-group row usage-report-elements">
+          <label class="col-sm-4">Operation:</label>
           <div class="col-sm-8 inputDiv">
-            <select
-            class="input-sm form-control"
-            formControlName="operation"
-            >
-            <option *ngFor="let field of dropDownConfig.OPERATION;" [value]="field.value" >{{field.description}}</option>
-            
+            <select class="input-sm form-control" formControlName="operation">
+              <option
+                *ngFor="let field of dropDownConfig.OPERATION"
+                [value]="field.value"
+              >
+                {{ field.description }}
+              </option>
             </select>
-            
           </div>
         </div>
       </div>
       <div class="col-3">
         <!--left side -->
-        <div class="form-group row">
-          <label class="col-sm-5 paddingTen">Response Code:</label>
+        <div class="form-group row usage-report-elements">
+          <label class="col-sm-5">Response Code:</label>
           <div class="col-sm-7 inputDiv">
             <select
-            class="input-sm form-control"
-            formControlName="responseCode"
+              class="input-sm form-control"
+              formControlName="responseCode"
             >
-            <option *ngFor="let field of dropDownConfig.RESPONSE_CODE;" [value]="field.value" >{{field.description}}</option>
+              <option
+                *ngFor="let field of dropDownConfig.RESPONSE_CODE"
+                [value]="field.value"
+              >
+                {{ field.description }}
+              </option>
             </select>
           </div>
         </div>
       </div>
       <div class="col-3">
         <button
-        class="btn btn-primary btn-sm resetButton"
-       
-        [disabled]="!editorForm.valid"
-        (click)="clear()"
-      >
-        Reset
-      </button>
-      <button
-      class="btn btn-primary btn-sm searchButton"
-      type="submit"
-      [disabled]="!editorForm.valid"
-      (click)="submitSearch()"
-    >
-      Search
-    </button>
+          class="btn btn-primary btn-sm resetButton"
+          [disabled]="!editorForm.valid"
+          (click)="clear()"
+        >
+          Reset
+        </button>
+        <button
+          class="btn btn-primary btn-sm searchButton"
+          type="submit"
+          [disabled]="!editorForm.valid"
+          (click)="submitSearch()"
+        >
+          Search
+        </button>
       </div>
     </div>
-    <br>
     <div>
       <!-- <div class="col-md-12 text-center">
         <form>
@@ -85,7 +87,7 @@
         </form>
       </div> -->
     </div>
-    <br>
+    <br />
     <div class="buttonGroup" *ngIf="showGrid">
       <div class="col-md-12">
         <!-- <form class="downLoad">
@@ -95,36 +97,30 @@
         </form> -->
       </div>
     </div>
-    <div  class="container-fluid gridOuter search">
-
-      <ag-grid-angular
-         id="myGrid"
-      class="ag-theme-alpine searchGrid"
-      [rowHeight]="28"
-      [columnDefs]="columnDefs"
-      [defaultColDef]="defaultColDef"
-      [rowBuffer]="rowBuffer"
-      [rowSelection]="rowSelection"
-      [rowModelType]="rowModelType"
-      [cacheBlockSize]="cacheBlockSize"
-      [cacheOverflowSize]="cacheOverflowSize"
-      [maxConcurrentDatasourceRequests]="maxConcurrentDatasourceRequests"
-      [infiniteInitialRowCount]="infiniteInitialRowCount"
-      [maxBlocksInCache]="maxBlocksInCache"
-      [rowData]="rowData"
-      [icons]="icons"
-      [suppressNoRowsOverlay] = false
-      [sortingOrder]="['asc', 'desc']"
-      [overlayNoRowsTemplate]="noRowsTemplate"
-      [headerHeight] = 30
-      [tooltipShowDelay]="tooltipShowDelay"
-    
-      (gridReady)="onGridReady($event)"
-     
-      ></ag-grid-angular>
-      
-    </div>
-    <br>
-   
   </form>
+</div>
+<div class="container-fluid gridOuter search">
+  <ag-grid-angular
+    id="myGrid"
+    class="ag-theme-alpine searchGrid"
+    [rowHeight]="28"
+    [columnDefs]="columnDefs"
+    [defaultColDef]="defaultColDef"
+    [rowBuffer]="rowBuffer"
+    [rowSelection]="rowSelection"
+    [rowModelType]="rowModelType"
+    [cacheBlockSize]="cacheBlockSize"
+    [cacheOverflowSize]="cacheOverflowSize"
+    [maxConcurrentDatasourceRequests]="maxConcurrentDatasourceRequests"
+    [infiniteInitialRowCount]="infiniteInitialRowCount"
+    [maxBlocksInCache]="maxBlocksInCache"
+    [rowData]="rowData"
+    [icons]="icons"
+    [suppressNoRowsOverlay]="false"
+    [sortingOrder]="['asc', 'desc']"
+    [overlayNoRowsTemplate]="noRowsTemplate"
+    [headerHeight]="30"
+    [tooltipShowDelay]="tooltipShowDelay"
+    (gridReady)="onGridReady($event)"
+  ></ag-grid-angular>
 </div>
