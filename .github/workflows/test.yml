@@ -1,13 +1,14 @@
 # This is a basic workflow to help you get started with Actions
 
-name: CICD_release_QA
+name: CICD_develop_TEST
 
 # Controls when the workflow will run
 on:
-  # Triggers the workflow on push or pull request events but only for the release branch
+  # Triggers the workflow on push or pull request events but only for the develop branch
   push:
-    branches: [ release ]
+    branches: [ develop ]
  
+
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
   
@@ -15,10 +16,10 @@ on:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
-  Build_Deploy_QA:
+  Build_Deploy_TEST:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
-    environment: QA
+    environment: TEST
     
     steps:   
     
@@ -78,6 +79,7 @@ jobs:
          npm install -g sonarqube-scanner
          npm install ngx-bootstrap@8.0.0
          npm install rxjs@7.4.0
+         npm install karma-jasmine@4.0.0
   
     - name: npm install
       # Install the other dependecies for the SDR-WebApp project
@@ -120,7 +122,9 @@ jobs:
       # Running the jasmine test cases
       run: |
           cd '${{ github.workspace }}/SDR-WebApp'
-          ng test --reporters junit --watch=false --browsers ChromeHeadless  || true
+          npm install karma-jasmine --save-dev
+          ng test --reporters junit --watch=false --browsers ChromeHeadless || true
+
           
           
     - name: Publish Unit Test Results
@@ -142,6 +146,7 @@ jobs:
           # Copying the coverage.xml and lcov.info to Github default working directory for sonarqube analysis
           cp testresults/coverage/cobertura-coverage.xml '${{ github.workspace }}/coverage.xml'    
           cp testresults/coverage/lcov.info '${{ github.workspace }}/lcov.info' 
+          
      
     - uses: actions/setup-dotnet@v1
       # Setup for installing sonar-scanner
@@ -164,7 +169,7 @@ jobs:
         SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
       run: |
           cd '${{ github.workspace }}/SDR-WebApp'
-          sonar-scanner -Dsonar.host.url=$SONAR_HOST_URL -Dsonar.login=$SONAR_TOKEN  || true
+          sonar-scanner -Dsonar.host.url=$SONAR_HOST_URL -Dsonar.login=$SONAR_TOKEN || true
 
  
 ##########################-------------Deployment----------------#####################################
