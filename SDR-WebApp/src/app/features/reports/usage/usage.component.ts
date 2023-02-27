@@ -376,7 +376,7 @@ export class UsageComponent implements OnInit {
     const entryDateTime = moment(new Date()).format('YYYYMMDD');
     new ngxCsv(
       this.exportUsageData,
-      'System_Usage_Report_' + environment.envName + entryDateTime,
+      'System_Usage_Report_' + environment.envName + '_' + entryDateTime,
       options
     );
     this.spinner.hide();
