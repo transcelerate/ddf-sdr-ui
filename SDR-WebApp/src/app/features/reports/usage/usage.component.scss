@@ -1,5 +1,5 @@
 .gridOuter {
-  height: 280px;
+  height: 200px;
   width: 100%;
   padding: 0px !important;
   border: 1px solid !important;
@@ -39,9 +39,9 @@
   }
 }
 .btn-sm {
-  margin: 3px 10px;
-  width: 25%;
-  padding: 1px;
+  margin: 4px 10px;
+  width: auto;
+  padding: 2px 24px;
 }
 .auditGrid {
   height: 300px;
@@ -52,9 +52,6 @@
 .paddingTen {
   padding-right: 0px;
   padding-top: 9px;
-}
-.inputDiv {
-  padding-left: 0px;
 }
 .resetButton {
   // color: black;
@@ -67,15 +64,40 @@
 .container-fluid {
   border: 1px solid;
   .usage-report-form {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
     .usage-report-elements {
       display: flex;
       flex-direction: row;
       align-items: center;
       justify-content: center;
+      padding: 2px;
     }
   }
+  .usage-report-buttons {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+  }
+  .download-icon {
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+    margin-bottom: 10px;
+    .csv-export {
+      cursor: pointer;
+      width: 30px;
+      height: 30px;
+    }
+  }
+}
+.mandatory {
+  color: red;
+}
+.disableIcon {
+  pointer-events: none;
+  opacity: 0.65;
+}
+.disable-export-section {
+  font-size: 10px;
+  font-weight: 600;
 }

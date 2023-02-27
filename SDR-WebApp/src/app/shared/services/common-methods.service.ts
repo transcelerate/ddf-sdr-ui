@@ -338,6 +338,10 @@ export class CommonMethodsService {
               }
             } else {
               view.showError = true;
+              rowParams.successCallback([], rowParams.startRow);
+              if (rowParams.startRow == 0) {
+                gridApi.showNoRowsOverlay();
+              }
               Array.from(
                 document.getElementsByClassName(
                   'ag-cell'
