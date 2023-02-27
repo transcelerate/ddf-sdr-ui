@@ -34,6 +34,7 @@ const configList = {
   OPERATION: [
     { value: 'POST', description: 'POST' },
     { value: 'GET', description: 'GET' },
+    { value: 'PUT', description: 'PUT' },
   ],
   TIMELINE: [
     { value: '7', description: 'Last 7 days' },
@@ -41,6 +42,14 @@ const configList = {
     { value: '60', description: 'Last 60 days' },
   ],
   SOA_LINK: 'SoA',
-  STUDY_DEFINITION_LINK: 'studyDefinitions'
+  STUDY_DEFINITION_LINK: 'studyDefinitions',
+  EXPORT_REPORT_LIMIT: 1499,
+  EXPORT_TOOLTIP: 'CSV Export',
+  EXPORT_MESSAGE: 'Criteria modified, search again to enable export.',
+  EXPORT_POPUP_INFO:
+    'Note that a maximum of 1500 records can be exported at a time for the given search criteria. Please narrow search criteria to include all results in export as necessary.',
+  EXCEED_DATE_INFO:
+    'A maximum of 30 days range of report can be queried. Please modify the input dates to search.',
+  FROM_DATE_MORE_THAN_TO_DATE: 'From Date is greater than To Date...',
 };
 export { configList };

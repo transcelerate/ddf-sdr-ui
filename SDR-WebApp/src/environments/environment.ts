@@ -10,5 +10,5 @@ export const environment = {
   loginUrl: '{#AzureAd-LoginUrl#}',
 
   BASE_URL:'{#Apim-BaseUrl#}',
-  
+  envName: '{#Env-Name#}'
 };
