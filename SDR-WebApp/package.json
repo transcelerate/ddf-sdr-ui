@@ -38,6 +38,7 @@
     "monaco-editor": "^0.31.1",
     "ng-multiselect-dropdown": "^0.3.8",
     "ngx-bootstrap": "^8.0.0",
+    "ngx-csv": "^0.3.2",
     "ngx-mat-msautocomplete": "^1.0.0",
     "ngx-spinner": "^13.1.1",
     "rxjs": "~7.4.0",

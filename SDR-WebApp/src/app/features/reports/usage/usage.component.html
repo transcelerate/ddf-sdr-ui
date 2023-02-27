@@ -1,31 +1,49 @@
 <app-error-component *ngIf="showError"></app-error-component>
+<div class="disable-export-section" *ngIf="disableExportIcon">
+  &#9432;
+  <i> {{ exportMessage }}</i>
+</div>
 <div class="container-fluid">
   <h3>Usage Report</h3>
 
   <form [formGroup]="editorForm">
     <div class="row usage-report-form">
-      <div class="col-3">
-        <!--left side -->
-        <div class="form-group row usage-report-elements">
-          <label class="col-sm-4">Duration:</label>
-          <div class="col-sm-8 inputDiv">
+      <div class="col-6">
+        <!-- <div class="form-group row usage-report-elements">
+          <label class="col-sm-6">Duration:</label>
+          <div class="col-sm-6">
             <select class="input-sm form-control" formControlName="days">
               <option
-                *ngFor="let field of dropDownConfig.TIMELINE"
+                *ngFor="let field of dropDownL.TIMELINE"
                 [value]="field.value"
               >
                 {{ field.description }}
               </option>
             </select>
           </div>
-        </div>
-      </div>
-      <div class="col-3">
-        <!--left side -->
+        </div> -->
         <div class="form-group row usage-report-elements">
-          <label class="col-sm-4">Operation:</label>
-          <div class="col-sm-8 inputDiv">
-            <select class="input-sm form-control" formControlName="operation">
+          <label for="fromDateTime" class="col-sm-6 col-form-label"
+            >Modified From:<span class="mandatory">*</span></label
+          >
+          <div class="col-sm-6">
+            <input
+              type="datetime-local"
+              class="input-sm form-control"
+              formControlName="fromDateTime"
+              [max]="getToday()"
+              (change)="disableExport()"
+            />
+          </div>
+        </div>
+        <div class="form-group row usage-report-elements">
+          <label class="col-sm-6">Operation:</label>
+          <div class="col-sm-6">
+            <select
+              class="input-sm form-control"
+              formControlName="operation"
+              (change)="disableExport()"
+            >
               <option
                 *ngFor="let field of dropDownConfig.OPERATION"
                 [value]="field.value"
@@ -36,14 +54,28 @@
           </div>
         </div>
       </div>
-      <div class="col-3">
-        <!--left side -->
+      <div class="col-6">
         <div class="form-group row usage-report-elements">
-          <label class="col-sm-5">Response Code:</label>
-          <div class="col-sm-7 inputDiv">
+          <label for="toDateTime" class="col-sm-6 col-form-label"
+            >Modified To:<span class="mandatory">*</span></label
+          >
+          <div class="col-sm-6">
+            <input
+              type="datetime-local"
+              class="input-sm form-control"
+              formControlName="toDateTime"
+              [max]="getToday()"
+              (change)="disableExport()"
+            />
+          </div>
+        </div>
+        <div class="form-group row usage-report-elements">
+          <label class="col-sm-6">Response Code:</label>
+          <div class="col-sm-6">
             <select
               class="input-sm form-control"
               formControlName="responseCode"
+              (change)="disableExport()"
             >
               <option
                 *ngFor="let field of dropDownConfig.RESPONSE_CODE"
@@ -55,48 +87,38 @@
           </div>
         </div>
       </div>
-      <div class="col-3">
-        <button
-          class="btn btn-primary btn-sm resetButton"
-          [disabled]="!editorForm.valid"
-          (click)="clear()"
-        >
-          Reset
-        </button>
-        <button
-          class="btn btn-primary btn-sm searchButton"
-          type="submit"
-          [disabled]="!editorForm.valid"
-          (click)="submitSearch()"
-        >
-          Search
-        </button>
-      </div>
     </div>
-    <div>
-      <!-- <div class="col-md-12 text-center">
-        <form>
-          <button
-            class="btn btn-primary btn-sm searchButton"
-            type="submit"
-            [disabled]="!editorForm.valid"
-            (click)="submitSearch()"
-          >
-            Search
-          </button>
-        </form>
-      </div> -->
+    <br /><br />
+    <div class="form-group row usage-report-buttons">
+      <button
+        class="btn btn-primary btn-sm resetButton"
+        [disabled]="!editorForm.valid"
+        (click)="clear()"
+      >
+        Reset
+      </button>
+      <button
+        class="btn btn-primary btn-sm searchButton"
+        type="submit"
+        [disabled]="!editorForm.valid"
+        (click)="submitSearch()"
+      >
+        Search
+      </button>
     </div>
-    <br />
-    <div class="buttonGroup" *ngIf="showGrid">
-      <div class="col-md-12">
-        <!-- <form class="downLoad">
-         
-          <button class="btn btn-primary btn-sm" type="submit" >Download</button>
-          
-        </form> -->
-      </div>
+    <div
+      class="download-icon"
+      [ngClass]="disableExportIcon ? 'disableIcon' : ''"
+    >
+      <img
+        src="../../../../assets/Images/exportIcon.png"
+        (click)="getUsageData()"
+        title="{{ exportTooltip }}"
+        class="csv-export"
+        alt="CSV Download"
+      />
     </div>
+    <!-- <br /> -->
   </form>
 </div>
 <div class="container-fluid gridOuter search">

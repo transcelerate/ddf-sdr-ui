@@ -50,7 +50,8 @@ describe('UsageComponent', () => {
     fixture = TestBed.createComponent(UsageComponent);
     component = fixture.componentInstance;
     component.editorForm.setValue({
-      days: 'uu',
+      fromDateTime:'2023-02-02T00:00',
+      toDateTime: '2023-02-27T18:25',
       operation: '99',
       responseCode: 'study',
     });
