@@ -43,7 +43,7 @@ const configList = {
   ],
   SOA_LINK: 'SoA',
   STUDY_DEFINITION_LINK: 'studyDefinitions',
-  EXPORT_REPORT_LIMIT: 1499,
+  EXPORT_REPORT_LIMIT: 1500,
   EXPORT_TOOLTIP: 'CSV Export',
   EXPORT_MESSAGE: 'Criteria modified, search again to enable export.',
   EXPORT_POPUP_INFO:
