@@ -70,10 +70,6 @@ export class UsageComponent implements OnInit {
   saveSuccess: boolean;
   isEdit: boolean;
   exportUsageData: ExportReport[] = [];
-  fromDate = moment().utc(true).startOf('day');
-  modifiedFromDate = this.fromDate.toISOString().slice(0, 16);
-  toDate = moment().utc(true);
-  modifiedToDate = this.toDate.toISOString().slice(0, 16);
   disableExportIcon: boolean = false;
   bsModalRef?: BsModalRef;
   constructor(
@@ -156,14 +152,20 @@ export class UsageComponent implements OnInit {
       },
       { validators: this.atLeastOneValidator }
     );
+    // disable export icon if search results are empty
+    this.commonMethod.sendErrorBoolean.subscribe((result: any) => {
+      if (result) {
+        this.disableExport();
+      }
+    });
   }
 
   ngOnInit(): void {
     this.ds.changeDialogState('Reports');
     this.editorForm.patchValue({
-      fromDateTime: this.modifiedFromDate,
+      fromDateTime: moment().utc(true).startOf('day').toISOString().slice(0, 16),
       responseCode: 0,
-      toDateTime: this.modifiedToDate,
+      toDateTime: moment().utc(true).toISOString().slice(0, 16),
     });
     //this.submitSearch();
   }
@@ -213,6 +215,8 @@ export class UsageComponent implements OnInit {
         this.checkValidationsOfDates(reqObj.fromDateTime, reqObj.toDateTime)
       ) {
         reqObj.filterByTime = true;
+        reqObj.fromDateTime = moment(reqObj.fromDateTime).toISOString();
+        reqObj.toDateTime = moment(reqObj.toDateTime).toISOString();
       } else {
         return;
       }
@@ -227,6 +231,17 @@ export class UsageComponent implements OnInit {
       this,
       isFromClear
     );
+  }
+
+  checkCurrentTime(inputDate: any, type: string): void {
+    var currentDate = moment(new Date()).utc(true).toISOString().slice(0, 16);
+    if (inputDate.target.value > currentDate) {
+      if (type === 'fromDate') {
+        alert(configList.VALID_FROM_DATE);
+      } else if (type === 'toDate') {
+        alert(configList.VALID_TO_DATE);
+      }
+    }
   }
 
   checkValidationsOfDates(fromDate: any, toDate: any): boolean {
@@ -269,10 +284,10 @@ export class UsageComponent implements OnInit {
   clear() {
     this.editorForm.patchValue({
       // days: 7,
-      fromDateTime: this.modifiedFromDate,
+      fromDateTime:  moment().utc(true).startOf('day').toISOString().slice(0, 16),
       responseCode: 0,
       operation: '',
-      toDateTime: this.modifiedToDate,
+      toDateTime: moment().utc(true).toISOString().slice(0, 16),
     });
     this.submitSearch(true);
   }
@@ -297,6 +312,8 @@ export class UsageComponent implements OnInit {
         this.checkValidationsOfDates(reqObj.fromDateTime, reqObj.toDateTime)
       ) {
         reqObj.filterByTime = true;
+        reqObj.fromDateTime = moment(reqObj.fromDateTime).toISOString();
+        reqObj.toDateTime = moment(reqObj.toDateTime).toISOString();
       } else {
         return;
       }
@@ -324,7 +341,10 @@ export class UsageComponent implements OnInit {
           operation: value.operation,
           api: value.api,
           emailId: value.emailId,
-          requestDate: value.requestDate,
+          requestDate: moment(value.requestDate)
+            .utc(true)
+            .toISOString()
+            .slice(0, 16),
           callerIpAddress: value.callerIpAddress,
           responseCodeDescription: value.responseCodeDescription,
         }));

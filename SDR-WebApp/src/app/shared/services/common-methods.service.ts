@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable, Output } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
 import * as moment from 'moment';
 import { ServiceCall } from './service-call/service-call.service';
@@ -19,6 +19,7 @@ export interface StudyQuery {
 })
 export class CommonMethodsService {
   bsModalRef: BsModalRef;
+  @Output() sendErrorBoolean: EventEmitter<any> = new EventEmitter();
   constructor(
     private spinner: NgxSpinnerService,
     public serviceCall: ServiceCall,
@@ -331,6 +332,7 @@ export class CommonMethodsService {
             }
           },
           error: (error) => {
+            this.sendErrorBoolean.emit(true);
             if (error && error.error && error.error.statusCode == '404') {
               rowParams.successCallback([], rowParams.startRow);
               if (rowParams.startRow == 0) {
