@@ -43,7 +43,7 @@ const configList = {
   ],
   SOA_LINK: 'SoA',
   STUDY_DEFINITION_LINK: 'studyDefinitions',
-  EXPORT_REPORT_LIMIT: 1499,
+  EXPORT_REPORT_LIMIT: 1500,
   EXPORT_TOOLTIP: 'CSV Export',
   EXPORT_MESSAGE: 'Criteria modified, search again to enable export.',
   EXPORT_POPUP_INFO:
@@ -51,5 +51,9 @@ const configList = {
   EXCEED_DATE_INFO:
     'A maximum of 30 days range of report can be queried. Please modify the input dates to search.',
   FROM_DATE_MORE_THAN_TO_DATE: 'From Date is greater than To Date...',
+  VALID_FROM_DATE:
+    'From Date Time is greater than Current Date Time',
+  VALID_TO_DATE:
+    'To Date Time is greater than Current Date Time',
 };
 export { configList };

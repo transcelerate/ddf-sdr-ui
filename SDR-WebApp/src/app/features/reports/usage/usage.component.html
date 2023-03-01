@@ -32,7 +32,7 @@
               class="input-sm form-control"
               formControlName="fromDateTime"
               [max]="getToday()"
-              (change)="disableExport()"
+              (change)="disableExport();checkCurrentTime($event,'fromDate')"
             />
           </div>
         </div>
@@ -65,7 +65,7 @@
               class="input-sm form-control"
               formControlName="toDateTime"
               [max]="getToday()"
-              (change)="disableExport()"
+              (change)="disableExport(); checkCurrentTime($event,'toDate')"
             />
           </div>
         </div>
