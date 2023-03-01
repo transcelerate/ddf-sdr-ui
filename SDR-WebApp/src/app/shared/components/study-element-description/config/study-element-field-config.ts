@@ -50,7 +50,7 @@ const configList = {
     'Note that a maximum of 1500 records can be exported at a time for the given search criteria. Please narrow search criteria to include all results in export as necessary.',
   EXCEED_DATE_INFO:
     'A maximum of 30 days range of report can be queried. Please modify the input dates to search.',
-  FROM_DATE_MORE_THAN_TO_DATE: 'From Date is greater than To Date...',
+  FROM_DATE_MORE_THAN_TO_DATE: 'From Date Time is equal to or greater than To Date Time',
   VALID_FROM_DATE:
     'From Date Time is greater than Current Date Time',
   VALID_TO_DATE:
