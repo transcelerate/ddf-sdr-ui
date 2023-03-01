@@ -313,6 +313,7 @@ export class CommonMethodsService {
 
         this.serviceCall.getUsageReport(reqObj).subscribe({
           next: (data: any) => {
+            this.sendErrorBoolean.emit(false);
             this.spinner.hide();
             if (data.length > 0) {
               gridApi.hideOverlay();

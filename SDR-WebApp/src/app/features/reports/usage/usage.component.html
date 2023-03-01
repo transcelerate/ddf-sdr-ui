@@ -32,7 +32,7 @@
               class="input-sm form-control"
               formControlName="fromDateTime"
               [max]="getToday()"
-              (change)="disableExport();checkCurrentTime($event,'fromDate')"
+              (change)="disableExport()"
             />
           </div>
         </div>
@@ -65,7 +65,7 @@
               class="input-sm form-control"
               formControlName="toDateTime"
               [max]="getToday()"
-              (change)="disableExport(); checkCurrentTime($event,'toDate')"
+              (change)="disableExport()"
             />
           </div>
         </div>
@@ -108,7 +108,7 @@
     </div>
     <div
       class="download-icon"
-      [ngClass]="disableExportIcon ? 'disableIcon' : ''"
+      [ngClass]="disableExportIcon || noRowsToShowBoolean ? 'disableIcon' : ''"
     >
       <img
         src="../../../../assets/Images/exportIcon.png"
