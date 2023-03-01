@@ -72,6 +72,7 @@ export class UsageComponent implements OnInit {
   exportUsageData: ExportReport[] = [];
   disableExportIcon: boolean = false;
   bsModalRef?: BsModalRef;
+  noRowsToShowBoolean: boolean = false;
   constructor(
     public _formBuilder: FormBuilder,
     private ds: DialogService,
@@ -154,16 +155,18 @@ export class UsageComponent implements OnInit {
     );
     // disable export icon if search results are empty
     this.commonMethod.sendErrorBoolean.subscribe((result: any) => {
-      if (result) {
-        this.disableExport();
-      }
+      this.noRowsToShowBoolean = result;
     });
   }
 
   ngOnInit(): void {
     this.ds.changeDialogState('Reports');
     this.editorForm.patchValue({
-      fromDateTime: moment().utc(true).startOf('day').toISOString().slice(0, 16),
+      fromDateTime: moment()
+        .utc(true)
+        .startOf('day')
+        .toISOString()
+        .slice(0, 16),
       responseCode: 0,
       toDateTime: moment().utc(true).toISOString().slice(0, 16),
     });
@@ -218,6 +221,7 @@ export class UsageComponent implements OnInit {
         reqObj.fromDateTime = moment(reqObj.fromDateTime).toISOString();
         reqObj.toDateTime = moment(reqObj.toDateTime).toISOString();
       } else {
+        this.disableExportIcon = true;
         return;
       }
     } else {
@@ -233,21 +237,17 @@ export class UsageComponent implements OnInit {
     );
   }
 
-  checkCurrentTime(inputDate: any, type: string): void {
-    var currentDate = moment(new Date()).utc(true).toISOString().slice(0, 16);
-    if (inputDate.target.value > currentDate) {
-      if (type === 'fromDate') {
-        alert(configList.VALID_FROM_DATE);
-      } else if (type === 'toDate') {
-        alert(configList.VALID_TO_DATE);
-      }
-    }
-  }
-
   checkValidationsOfDates(fromDate: any, toDate: any): boolean {
     let checkBool;
-    if (fromDate && toDate && fromDate > toDate) {
+    var currentDate = moment(new Date()).utc(true).toISOString().slice(0, 16);
+    if (fromDate && toDate && fromDate >= toDate) {
       alert(configList.FROM_DATE_MORE_THAN_TO_DATE);
+      checkBool = false;
+    } else if (fromDate > currentDate) {
+      alert(configList.VALID_FROM_DATE);
+      checkBool = false;
+    } else if (toDate > currentDate) {
+      alert(configList.VALID_TO_DATE);
       checkBool = false;
     } else {
       var duration = moment(toDate).diff(moment(fromDate));
@@ -284,7 +284,11 @@ export class UsageComponent implements OnInit {
   clear() {
     this.editorForm.patchValue({
       // days: 7,
-      fromDateTime:  moment().utc(true).startOf('day').toISOString().slice(0, 16),
+      fromDateTime: moment()
+        .utc(true)
+        .startOf('day')
+        .toISOString()
+        .slice(0, 16),
       responseCode: 0,
       operation: '',
       toDateTime: moment().utc(true).toISOString().slice(0, 16),
@@ -334,6 +338,7 @@ export class UsageComponent implements OnInit {
     reqObj.pageSize = configList.EXPORT_REPORT_LIMIT;
     reqObj.sortOrder = 'desc';
     reqObj.sortBy = 'requestdate';
+    reqObj.recordNumber = 0;
     this.serviceCall.getUsageReport(reqObj).subscribe({
       next: (data: any) => {
         const usageData = data;
