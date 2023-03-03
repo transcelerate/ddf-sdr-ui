@@ -123,7 +123,7 @@ jobs:
       run: |
           cd '${{ github.workspace }}/SDR-WebApp'
           npm install karma-jasmine --save-dev
-          ng test --reporters junit --watch=false --browsers ChromeHeadless || true
+          ng test --reporters junit --watch=false --browsers ChromeHeadless
 
           
           
@@ -142,7 +142,7 @@ jobs:
       # Running the jasmine test cases and copying the test case files to default github directory
       run: |
           cd '${{ github.workspace }}/SDR-WebApp'
-          ng test --code-coverage true --watch=false --browsers ChromeHeadless  || true
+          ng test --code-coverage true --watch=false --browsers ChromeHeadless
           # Copying the coverage.xml and lcov.info to Github default working directory for sonarqube analysis
           cp testresults/coverage/cobertura-coverage.xml '${{ github.workspace }}/coverage.xml'    
           cp testresults/coverage/lcov.info '${{ github.workspace }}/lcov.info' 
@@ -169,7 +169,7 @@ jobs:
         SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
       run: |
           cd '${{ github.workspace }}/SDR-WebApp'
-          sonar-scanner -Dsonar.host.url=$SONAR_HOST_URL -Dsonar.login=$SONAR_TOKEN || true
+          sonar-scanner -Dsonar.host.url=$SONAR_HOST_URL -Dsonar.login=$SONAR_TOKEN
 
  
 ##########################-------------Deployment----------------#####################################
