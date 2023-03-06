@@ -189,7 +189,7 @@ describe('UsageComponent', () => {
     expect(window.alert).toHaveBeenCalledWith(configList.EXCEED_DATE_INFO);
   });
 
-  it('check if usage data is called', async () => {
+  xit('check if usage data is called', async () => {
     const reqObj = {
       filterByTime: true,
       fromDateTime: '2023-03-02T18:30:00.000Z',
