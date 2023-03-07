@@ -74,7 +74,7 @@ describe('UsageComponent', () => {
       hide: () => ({}),
     });
     const serviceCallStub = () => ({
-      getUsageReport: () => {},
+      getUsageReport: () => { },
     });
     const activatedRouteStub = () => ({});
     const routerStub = () => ({ navigateByUrl: (string: any) => ({}) });
@@ -101,7 +101,7 @@ describe('UsageComponent', () => {
       operation: '99',
       responseCode: 'study',
     });
-    modalService = TestBed.get(BsModalService);
+    modalService = TestBed.inject(BsModalService);
     modalRef = modalService.show(ModalComponentComponent);
   });
 
@@ -212,13 +212,19 @@ describe('UsageComponent', () => {
     spyOn(serviceCallStub, 'getUsageReport').and.callFake(() => {
       return of(usageData);
     });
-    const onCloseSpy = jasmine.createSpy().and.returnValue(of({})); 
+    const onCloseSpy = jasmine.createSpy().and.returnValue(of({}));
     const contentMock = { passEntry: onCloseSpy };
+    const modalfixture = TestBed.createComponent(ModalComponentComponent);
+    // spy on event emitter
+    const modalcomponent = modalfixture.componentInstance;
+    modalRef.content = modalcomponent;
+    spyOn(modalRef.content.passEntry, 'emit');
+
     spyOn(bsModalServiceStub, 'show').and.returnValue({
       id: 1,
-      content: contentMock,
-      hide: () => {},
-      setClass: () => {},
+      content: modalcomponent,
+      hide: () => { },
+      setClass: () => { },
       onHide: new EventEmitter(),
       onHidden: new EventEmitter(),
     });
