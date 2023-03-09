@@ -17,7 +17,7 @@ import { Router } from '@angular/router';
 import { configList } from 'src/app/shared/components/study-element-description/config/study-element-field-config';
 import { UsageComponent } from './usage.component';
 import { By } from '@angular/platform-browser';
-import { async, of } from 'rxjs';
+import { async, of, Subject } from 'rxjs';
 import * as moment from 'moment';
 import { ModalComponentComponent } from 'src/app/shared/components/modal-component/modal-component.component';
 describe('UsageComponent', () => {
@@ -74,7 +74,7 @@ describe('UsageComponent', () => {
       hide: () => ({}),
     });
     const serviceCallStub = () => ({
-      getUsageReport: () => { },
+      getUsageReport: () => {},
     });
     const activatedRouteStub = () => ({});
     const routerStub = () => ({ navigateByUrl: (string: any) => ({}) });
@@ -189,7 +189,7 @@ describe('UsageComponent', () => {
     expect(window.alert).toHaveBeenCalledWith(configList.EXCEED_DATE_INFO);
   });
 
-  xit('check if usage data is called', async () => {
+  it('check if usage data is called', async () => {
     const reqObj = {
       filterByTime: true,
       fromDateTime: '2023-03-02T18:30:00.000Z',
@@ -223,8 +223,8 @@ describe('UsageComponent', () => {
     spyOn(bsModalServiceStub, 'show').and.returnValue({
       id: 1,
       content: modalcomponent,
-      hide: () => { },
-      setClass: () => { },
+      hide: () => {},
+      setClass: () => {},
       onHide: new EventEmitter(),
       onHidden: new EventEmitter(),
     });
@@ -235,5 +235,34 @@ describe('UsageComponent', () => {
     expect(ngxSpinnerServiceStub.show).toHaveBeenCalled();
     expect(serviceCallStub.getUsageReport).toHaveBeenCalled();
     expect(ngxSpinnerServiceStub.hide).toHaveBeenCalled();
+  });
+
+  it('check if error scenario is called when search is clicked', () => {
+    const reqObj = {
+      filterByTime: true,
+      fromDateTime: '2023-03-07T18:30:00.000Z',
+      operation: '',
+      pageSize: 20,
+      recordNumber: 0,
+      responseCode: 0,
+      sortBy: 'requestdate',
+      sortOrder: 'desc',
+      toDateTime: '2023-03-08T07:30:00.000Z',
+    };
+    const commonMethodsServiceStub: CommonMethodsService =
+      fixture.debugElement.injector.get(CommonMethodsService);
+    const serviceCallStub: ServiceCall =
+      fixture.debugElement.injector.get(ServiceCall);
+    const errorSubject = new Subject();
+    spyOn<ServiceCall, any>(serviceCallStub, 'getUsageReport').and.callFake(
+      () => errorSubject
+    );
+    spyOn(
+      commonMethodsServiceStub,
+      'gridDataSourceForUsageReport'
+    ).and.callFake((query) => errorSubject);
+    errorSubject.error('error');
+    fixture.detectChanges();
+    component.submitSearch();
   });
 });
