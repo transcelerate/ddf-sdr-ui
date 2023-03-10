@@ -117,7 +117,7 @@ describe('RecentActivityComponent', () => {
             entrySystemId: 'Viswesh_localHost',
 
             SDRUploadVersion: 1,
-            'usdm-version': '2.0'
+            usdmVersion: '2.0'
           },
         },
       });
@@ -149,7 +149,7 @@ describe('RecentActivityComponent', () => {
         },
         auditTrail: {
           SDRUploadVersion: 1,
-          'usdm-version': '2.0'
+          usdmVersion: '2.0'
         },
       };
       component.setSelectedValue(param);

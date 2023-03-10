@@ -36,7 +36,6 @@ export class UsageComponent implements OnInit {
   filterFieldList: any;
   isSearchSelected: any = undefined;
   filterFieldValueList: any;
-  modalRef?: BsModalRef;
   content: string = '';
   showContent: boolean;
   showAddButton = false;
@@ -275,6 +274,7 @@ export class UsageComponent implements OnInit {
         alert(configList.EXCEED_DATE_INFO);
         checkBool = false;
       } else {
+        console.log('Both the dates are correct');
         checkBool = true;
       }
     }
@@ -375,6 +375,7 @@ export class UsageComponent implements OnInit {
     );
     this.bsModalRef.content.closeBtnName = 'Ok';
     this.bsModalRef.content.passEntry.subscribe((result: any) => {
+      console.log(result);
       this.downloadCSV();
     });
   }

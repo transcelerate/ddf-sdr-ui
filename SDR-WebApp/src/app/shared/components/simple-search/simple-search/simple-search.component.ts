@@ -26,10 +26,10 @@ import { ModalComponentComponent } from '../../modal-component/modal-component.c
 @Component({
   selector: 'app-simple-search',
   templateUrl: './simple-search.component.html',
-  styleUrls: ['./simple-search.component.scss']
+  styleUrls: ['./simple-search.component.scss'],
 })
 export class SimpleSearchComponent implements OnInit {
-    state$: Observable<object>;
+  state$: Observable<object>;
   public gridOptions: GridOptions;
   permissionList: string[];
 
@@ -81,7 +81,7 @@ export class SimpleSearchComponent implements OnInit {
     private commonMethod: CommonMethodsService,
     public router: Router,
     public route: ActivatedRoute,
-    public activatedRoute: ActivatedRoute,
+    public activatedRoute: ActivatedRoute
   ) {
     this.gridOptions = <GridOptions>{
       enableSorting: true,
@@ -111,11 +111,10 @@ export class SimpleSearchComponent implements OnInit {
       },
       {
         headerName: 'USDM Version',
-        field: 'auditTrail.usdm-version',
-        tooltipField: 'auditTrail.usdm-version',
+        field: 'auditTrail.usdmVersion',
+        tooltipField: 'auditTrail.usdmVersion',
         headerTooltip: configList.USDM_VERSION,
       },
-
     ];
 
     this.defaultColDef = {
@@ -150,7 +149,6 @@ export class SimpleSearchComponent implements OnInit {
       },
       { validators: this.atLeastOneValidator }
     );
-
   }
 
   ngOnInit(): void {
@@ -158,29 +156,29 @@ export class SimpleSearchComponent implements OnInit {
     const selectedValue = history.state.from;
     if (selectedValue) {
       this.from = selectedValue;
-
     }
-
   }
   /**
-    * Construct multiple values for sponsor id and interventional model
-    * @param params   ag grid value of that particular row for which link is clicked.
-    * @param type  Denotes for which value is the link clicked either for sponsor id or interventional model.
-    */
+   * Construct multiple values for sponsor id and interventional model
+   * @param params   ag grid value of that particular row for which link is clicked.
+   * @param type  Denotes for which value is the link clicked either for sponsor id or interventional model.
+   */
 
   clear() {
     this.editorForm.setValue({
       //nosonar
       studyTitle: '', //nosonar     //nosonar
-      fromDate: '', //nosonar 
+      fromDate: '', //nosonar
       toDate: '',
-      studyId: '',//nosonar
+      studyId: '', //nosonar
     }); //nosonar
     this.showGrid = false;
   }
 
   submit() {
-    this.router.navigate(['/comparison'], { state: { data: this.selectedValue, from: this.from } });
+    this.router.navigate(['/comparison'], {
+      state: { data: this.selectedValue, from: this.from },
+    });
   }
 
   /**
@@ -192,8 +190,7 @@ export class SimpleSearchComponent implements OnInit {
     const initialState: ModalOptions = {
       initialState: {
         list: val,
-        title:
-          'Sponsor Id List',
+        title: 'Sponsor Id List',
       },
     };
     this.bsModalRef = this.modalService.show(
@@ -229,16 +226,18 @@ export class SimpleSearchComponent implements OnInit {
     }
   }
 
-
   setSelectedValue(val: any) {
-    localStorage.setItem(val.clinicalStudy.uuid + '_' + val.auditTrail.SDRUploadVersion + '_links', JSON.stringify(val.links))
+    localStorage.setItem(
+      val.clinicalStudy.uuid + '_' + val.auditTrail.SDRUploadVersion + '_links',
+      JSON.stringify(val.links)
+    );
     this.router.navigate(
       [
         'details',
         {
           studyId: val.clinicalStudy.uuid,
           versionId: val.auditTrail.SDRUploadVersion,
-          usdmVersion: val.auditTrail['usdm-version']
+          usdmVersion: val.auditTrail.usdmVersion,
         },
       ],
       { relativeTo: this.route }
@@ -327,16 +326,6 @@ export class SimpleSearchComponent implements OnInit {
 
       this.selectedValue = params.data;
     }
-    // let index = this.group.groupFilter.findIndex(
-    //   (elem) => elem.groupFieldName.replace(/\s/g, '').toUpperCase() === 'STUDY'
-    // );
-    // if (index !== -1) {
-    //   this.addRule();
-    // }
-
-    // this.showAddButton = this.isSearchSelected && this.searchList.length > 0;
-    // console.log(this.searchList);
-
   }
 
   /**
@@ -359,6 +348,4 @@ export class SimpleSearchComponent implements OnInit {
       (k >= 48 && k <= 57)
     );
   }
-
 }
-

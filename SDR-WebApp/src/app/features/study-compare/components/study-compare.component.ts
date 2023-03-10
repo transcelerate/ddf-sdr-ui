@@ -46,7 +46,7 @@ export class StudyCompareComponent implements OnInit {
       this.studyOneId = this.searchOne.clinicalStudy.uuid;
       this.studyOneTitle = this.searchOne.clinicalStudy.studyTitle;
       this.studyOneVersion = this.searchOne.auditTrail.SDRUploadVersion;
-      this.studyOneUSDMVer = this.searchOne.auditTrail['usdm-version'];
+      this.studyOneUSDMVer = this.searchOne.auditTrail.usdmVersion;
       this.toolTipOne = this.studyOneTitle + '_Version' + this.studyOneVersion;
       localStorage.setItem(this.searchOne.clinicalStudy.uuid + '_' + this.searchOne.auditTrail.SDRUploadVersion + '_links', JSON.stringify(this.searchOne.links));
     } if (this.searchTwo) {
@@ -54,7 +54,7 @@ export class StudyCompareComponent implements OnInit {
       this.studyTwoId = this.searchTwo.clinicalStudy.uuid;
       this.studyTwoTitle = this.searchTwo.clinicalStudy.studyTitle;
       this.studyTwoVersion = this.searchTwo.auditTrail.SDRUploadVersion;
-      this.studyTwoUSDMVer = this.searchTwo.auditTrail['usdm-version'];
+      this.studyTwoUSDMVer = this.searchTwo.auditTrail.usdmVersion;
       this.toolTipTwo = this.studyTwoTitle + '_Version' + this.studyTwoVersion;
       localStorage.setItem(this.searchTwo.clinicalStudy.uuid + '_' + this.searchTwo.auditTrail.SDRUploadVersion + '_links', JSON.stringify(this.searchTwo.links));
     }
