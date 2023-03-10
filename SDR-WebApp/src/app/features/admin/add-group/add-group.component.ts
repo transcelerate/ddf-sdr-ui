@@ -410,7 +410,7 @@ export class AddGroupComponent implements OnInit {
         {
           studyId: val.clinicalStudy.uuid,
           versionId: val.auditTrail.SDRUploadVersion,
-          usdmVersion: val.auditTrail['usdm-version']
+          usdmVersion: val.auditTrail.usdmVersion
         },
       ],
       { relativeTo: this.activatedRoute }

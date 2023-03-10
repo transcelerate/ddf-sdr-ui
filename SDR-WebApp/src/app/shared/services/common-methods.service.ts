@@ -24,7 +24,7 @@ export class CommonMethodsService {
     private spinner: NgxSpinnerService,
     public serviceCall: ServiceCall,
     private modalService: BsModalService
-  ) {}
+  ) { }
   getSponsorIdGrid(type: any, params: any) {
     let value;
     let self = this;
@@ -92,13 +92,13 @@ export class CommonMethodsService {
         var val =
           type === 'sponsor'
             ? value.map((elem: any) => {
-                return elem.studyIdentifierScope.organisationIdentifier;
-              })
+              return elem.studyIdentifierScope.organisationIdentifier;
+            })
             : type === 'intervention'
-            ? value.map((elem: { decode: any }) => {
+              ? value.map((elem: { decode: any }) => {
                 return elem.decode;
               })
-            : value.map((elem: { indicationDesc: any }) => {
+              : value.map((elem: { indicationDesc: any }) => {
                 return elem.indicationDesc;
               });
         val = [...new Set(val)];
@@ -430,8 +430,8 @@ export class CommonMethodsService {
         return 'SponsorId';
       case 'auditTrail.SDRUploadVersion':
         return 'version';
-      case 'auditTrail.usdm-version':
-        return 'usdm-version';
+      case 'auditTrail.usdmVersion':
+        return 'usdmVersion';
     }
   }
   /* istanbul ignore end */
@@ -467,8 +467,8 @@ export class CommonMethodsService {
         return 'callerip';
       case 'responseCodeDescription':
         return 'responsecode';
-      case 'auditTrail.usdm-version':
-        return 'usdm-version';
+      case 'auditTrail.usdmVersion':
+        return 'usdmVersion';
     }
   }
   getSponsorDetails(studyelement: any) {

@@ -111,8 +111,8 @@ export class SimpleSearchComponent implements OnInit {
       },
       {
         headerName: 'USDM Version',
-        field: 'auditTrail.usdm-version',
-        tooltipField: 'auditTrail.usdm-version',
+        field: 'auditTrail.usdmVersion',
+        tooltipField: 'auditTrail.usdmVersion',
         headerTooltip: configList.USDM_VERSION,
       },
     ];
@@ -237,7 +237,7 @@ export class SimpleSearchComponent implements OnInit {
         {
           studyId: val.clinicalStudy.uuid,
           versionId: val.auditTrail.SDRUploadVersion,
-          usdmVersion: val.auditTrail['usdm-version'],
+          usdmVersion: val.auditTrail.usdmVersion,
         },
       ],
       { relativeTo: this.route }
@@ -321,22 +321,12 @@ export class SimpleSearchComponent implements OnInit {
     this.showGrid = true;
   }
 
-  // getSelectSearch(params: any) {
-  //   if (params.data.selected) {
+  getSelectSearch(params: any) {
+    if (params.data.selected) {
 
-  //     this.selectedValue = params.data;
-  //   }
-  // let index = this.group.groupFilter.findIndex(
-  //   (elem) => elem.groupFieldName.replace(/\s/g, '').toUpperCase() === 'STUDY'
-  // );
-  // if (index !== -1) {
-  //   this.addRule();
-  // }
-
-  // this.showAddButton = this.isSearchSelected && this.searchList.length > 0;
-  // console.log(this.searchList);
-
-  // }
+      this.selectedValue = params.data;
+    }
+  }
 
   /**
    *  Logic to restrict special char on typing
