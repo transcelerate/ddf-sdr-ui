@@ -56,11 +56,11 @@ jobs:
         find ${{ github.workspace }}/SDR-WebApp/src/environments/environment.ts -type f -exec sed -i ''s@{#Apim-BaseUrl#}@'${{ steps.keyvaultSecretAction.outputs.Apim-BaseUrl }}'@g'' {} \;
         find ${{ github.workspace }}/SDR-WebApp/src/environments/environment.ts -type f -exec sed -i ''s@{#Env-Name#}@'${{ steps.keyvaultSecretAction.outputs.Env-Name }}'@g'' {} \;
               
-    - name: Use Node 12.x
+    - name: Use Node 14.x
       uses: actions/setup-node@v1
       with:
         # The node.js version to use
-        node-version: 12.x
+        node-version: 14.x
       
     - name: npm cli
       # Few npm dependencies needs to be installed seperately through command line as it throwa error
