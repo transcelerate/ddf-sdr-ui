@@ -205,11 +205,11 @@ export class AuditTrailComponent implements OnInit {
     let disableField = from === 'A' ? 'B' : 'A';
     if (from == 'A') {
       this.versionA = selectedVal.SDRUploadVersion;
-      this.usdmVerA = selectedVal['usdm-version'];
+      this.usdmVerA = selectedVal.usdmVersion;
       localStorage.setItem(this.studyId + '_' + this.versionA + '_links', JSON.stringify(selectedVal.links));
     } else {
       this.versionB = selectedVal.SDRUploadVersion;
-      this.usdmVerB = selectedVal['usdm-version'];
+      this.usdmVerB = selectedVal.usdmVersion;
       localStorage.setItem(this.studyId + '_' + this.versionB + '_links', JSON.stringify(selectedVal.links));
     }
     let domElement = this._elementRef.nativeElement.getElementsByClassName(

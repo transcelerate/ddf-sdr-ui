@@ -24,7 +24,7 @@ export class ServiceCall {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer ' + localStorage.getItem('token'),
       'Cache-control': 'no-store',
-      'usdm-version': usdmVersion
+      'usdmVersion': usdmVersion
     });
   }
 

@@ -146,8 +146,8 @@ export class SearchFormComponent implements OnInit {
       },
       {
         headerName: 'USDM Version',
-        field: 'auditTrail.usdm-version',
-        tooltipField: 'auditTrail.usdm-version',
+        field: 'auditTrail.usdmVersion',
+        tooltipField: 'auditTrail.usdmVersion',
         headerTooltip: configList.USDM_VERSION,
       },
       // {
@@ -314,7 +314,7 @@ export class SearchFormComponent implements OnInit {
         {
           studyId: val.clinicalStudy.uuid,
           versionId: val.auditTrail.SDRUploadVersion,
-          usdmVersion: val.auditTrail['usdm-version']
+          usdmVersion: val.auditTrail.usdmVersion
         },
       ],
       { relativeTo: this.route }
