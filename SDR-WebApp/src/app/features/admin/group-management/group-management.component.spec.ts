@@ -10,7 +10,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
 import { GroupManagementComponent } from './group-management.component';
 import { configList } from 'src/app/shared/components/study-element-description/config/study-element-field-config';
-import { of } from 'rxjs';
+import { of, Subject } from 'rxjs';
 
 describe('GroupManagementComponent', () => {
   let component: GroupManagementComponent;
@@ -68,6 +68,24 @@ describe('GroupManagementComponent', () => {
 
   it(`BLOCK_SIZE has default value`, () => {
     expect(component.BLOCK_SIZE).toEqual(configList.BLOCK_SIZE);
+  });
+
+  it('get all groups error scenario', () => {
+    const ngxSpinnerServiceStub: NgxSpinnerService =
+      fixture.debugElement.injector.get(NgxSpinnerService);
+    const serviceCallStub: ServiceCall =
+      fixture.debugElement.injector.get(ServiceCall);
+    const errorSubject = new Subject();
+    spyOn<ServiceCall, any>(serviceCallStub, 'getAllGroups').and.callFake(
+      () => errorSubject
+    );
+    errorSubject.error('error');
+    spyOn(ngxSpinnerServiceStub, 'show').and.callThrough();
+    spyOn(ngxSpinnerServiceStub, 'hide').and.callThrough();
+    component.getAllGroups();
+    expect(ngxSpinnerServiceStub.show).toHaveBeenCalled();
+    expect(ngxSpinnerServiceStub.hide).toHaveBeenCalled();
+    expect(serviceCallStub.getAllGroups).toHaveBeenCalled();
   });
 
   describe('ngOnInit', () => {

@@ -39,10 +39,41 @@ describe('StudyCompareComponent', () => {
         fixture.debugElement.injector.get(DialogService);
       spyOn(component, 'setModel').and.callThrough();
       spyOn(dialogServiceStub, 'changeDialogState').and.callThrough();
+      const data = {
+        auditTrail: {
+          SDRUploadVersion: 2,
+          entryDateTime: '2023-02-02T11:30:10.606Z',
+          usdmVersion: '1.0',
+        },
+        clinicalStudy: {
+          studyTitle: 'Umbrella Study of Cancers test',
+          uuid: '49a1c2da-49f6-454e-b1a7-6f68e9f3df64',
+        },
+        links: {
+          SoA: null,
+          auditTrail:
+            '/studydefinitions/49a1c2da-49f6-454e-b1a7-6f68e9f3df64/audittrail',
+          studyDefinitions:
+            '/v1/studydefinitions/49a1c2da-49f6-454e-b1a7-6f68e9f3df64?sdruploadversion=2',
+          studyDesigns: {
+            studyDesignId: '833f8b1c-7042-42ad-8ed9-9fe727f733fb',
+            studyDesignLink:
+              '/v1/studydesigns?study_uuid=49a1c2da-49f6-454e-b1a7-6f68e9f3df64&sdruploadversion=2',
+
+            selected: true,
+          },
+        },
+      };
+      let searchData = {
+        data: data,
+        from: 'search1',
+        navigationId: 4,
+      };
+      window.history.state.data = data;
       component.ngOnInit();
       expect(component.setModel).toHaveBeenCalled();
       expect(dialogServiceStub.changeDialogState).toHaveBeenCalled();
-      window.history.pushState({ from: 'search2' }, '', '');
+      window.history.state.from = searchData.from;
       component.ngOnInit();
     });
   });

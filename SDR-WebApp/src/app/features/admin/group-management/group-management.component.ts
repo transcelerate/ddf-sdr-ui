@@ -172,6 +172,7 @@ export class GroupManagementComponent implements OnInit {
         }
       },
       error: (error) => {
+        this.spinner.hide();
         this.rowData = [];
         if (error && error.error && error.error.statusCode == '404') {
           this.gridApi.showNoRowsOverlay();

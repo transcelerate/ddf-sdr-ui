@@ -11,7 +11,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
 import { AddGroupComponent } from './add-group.component';
 import { configList } from 'src/app/shared/components/study-element-description/config/study-element-field-config';
-import { of } from 'rxjs';
+import { of, Subject } from 'rxjs';
 
 describe('AddGroupComponent', () => {
   let component: AddGroupComponent;
@@ -680,5 +680,38 @@ describe('AddGroupComponent', () => {
 
       expect(serviceCallStub.checkGroup).toHaveBeenCalled();
     });
+  });
+
+  it('validateGroupName error call', () => {
+    const ngxSpinnerServiceStub: NgxSpinnerService =
+      fixture.debugElement.injector.get(NgxSpinnerService);
+
+    const serviceCallStub: ServiceCall =
+      fixture.debugElement.injector.get(ServiceCall);
+    const errorSubject = new Subject();
+    spyOn<ServiceCall, any>(serviceCallStub, 'checkGroup').and.callFake(
+      () => errorSubject
+    );
+
+    spyOn(ngxSpinnerServiceStub, 'hide').and.callThrough();
+    spyOn(ngxSpinnerServiceStub, 'show').and.callThrough();
+
+    let event = {
+      target: {
+        value: 'iii',
+      },
+    };
+    errorSubject.error('error');
+    component.validateGroupName(event);
+
+    expect(serviceCallStub.checkGroup).toHaveBeenCalled();
+    event = {
+      target: {
+        value: '',
+      },
+    };
+    component.validateGroupName(event);
+
+    expect(serviceCallStub.checkGroup).toHaveBeenCalled();
   });
 });
