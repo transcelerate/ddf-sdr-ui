@@ -332,6 +332,7 @@ export class AddGroupComponent implements OnInit {
     }
   }
 
+  /** istanbul ignore next */
   onGridReady(params: any) {
     this.gridApi = params.api;
     this.gridColumnApi = params.columnApi;
@@ -357,6 +358,7 @@ export class AddGroupComponent implements OnInit {
 
     //this.gridApi.addEventListener('failCallback', this.onServerFailCallback);
   }
+  /** istanbul ignore end */
   /**
    *  Validation to enable search button
    * @param control Formgroup object

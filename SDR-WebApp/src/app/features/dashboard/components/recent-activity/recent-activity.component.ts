@@ -155,18 +155,6 @@ export class RecentActivityComponent {
       { relativeTo: this.route }
     );
   }
-  /**
-   * show grid
-   */
-  // showGrid(event: any) {
-  //   if (event) {
-  //     this.showStudyElement = false;
-  //   }
-  // }
-  // ngAfterViewInit() {
-  //   //this.ds.setStatus(true);
-  //   this.showStudyElement = false;
-  // }
 
   /** istanbul ignore next */
   /**

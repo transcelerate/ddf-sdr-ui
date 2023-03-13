@@ -79,47 +79,45 @@ describe('SoaComponent', () => {
     expect(component.findDuplicate).toBeTruthy();
   });
 
-  describe('getSoADetails', () => {
-    it('makes expected calls', () => {
-      const ngxSpinnerServiceStub: NgxSpinnerService =
-        fixture.debugElement.injector.get(NgxSpinnerService);
-      const commonMethodsServiceStub: CommonMethodsService =
-        fixture.debugElement.injector.get(CommonMethodsService);
-      const serviceCallStub: ServiceCall =
-        fixture.debugElement.injector.get(ServiceCall);
+  it('getSoADetails makes expected calls', () => {
+    const ngxSpinnerServiceStub: NgxSpinnerService =
+      fixture.debugElement.injector.get(NgxSpinnerService);
+    const commonMethodsServiceStub: CommonMethodsService =
+      fixture.debugElement.injector.get(CommonMethodsService);
+    const serviceCallStub: ServiceCall =
+      fixture.debugElement.injector.get(ServiceCall);
 
-      spyOn(component, 'getSoADetailsUsingLink').and.callThrough();
-      spyOn(ngxSpinnerServiceStub, 'show').and.callThrough();
-      spyOn(ngxSpinnerServiceStub, 'hide').and.callThrough();
-      // spyOn(commonMethodsServiceStub, 'getStudyLink');
-      spyOn(commonMethodsServiceStub, 'getStudyLink').and.callFake((query) =>
-        query.callback('Study URL')
-      );
-      spyOn(serviceCallStub, 'getSoAMatrix').and.callFake(() => {
-        return of(links);
-      });
-      component.getSoADetails();
-      expect(component.getSoADetailsUsingLink).toHaveBeenCalled();
-      expect(ngxSpinnerServiceStub.show).toHaveBeenCalled();
-      expect(commonMethodsServiceStub.getStudyLink).toHaveBeenCalled();
-      expect(ngxSpinnerServiceStub.hide).toHaveBeenCalled();
+    spyOn(component, 'getSoADetailsUsingLink').and.callThrough();
+    spyOn(ngxSpinnerServiceStub, 'show').and.callThrough();
+    spyOn(ngxSpinnerServiceStub, 'hide').and.callThrough();
+    // spyOn(commonMethodsServiceStub, 'getStudyLink');
+    spyOn(commonMethodsServiceStub, 'getStudyLink').and.callFake((query) =>
+      query.callback('Study URL')
+    );
+    spyOn(serviceCallStub, 'getSoAMatrix').and.callFake(() => {
+      return of(links);
     });
+    component.getSoADetails();
+    expect(component.getSoADetailsUsingLink).toHaveBeenCalled();
+    expect(ngxSpinnerServiceStub.show).toHaveBeenCalled();
+    expect(commonMethodsServiceStub.getStudyLink).toHaveBeenCalled();
+    expect(ngxSpinnerServiceStub.hide).toHaveBeenCalled();
+  });
 
-    it('error call ', () => {
-      const commonMethodsServiceStub: CommonMethodsService =
-        fixture.debugElement.injector.get(CommonMethodsService);
-      const serviceCallStub: ServiceCall =
-        fixture.debugElement.injector.get(ServiceCall);
-      const errorSubject = new Subject();
-      spyOn<ServiceCall, any>(serviceCallStub, 'getSoAMatrix').and.callFake(
-        () => errorSubject
-      );
-      spyOn(commonMethodsServiceStub, 'getStudyLink').and.callFake((query) =>
-        query.callback('Study URL')
-      );
-      errorSubject.error('error');
-      component.getSoADetails();
-      expect(component.showError).toEqual(true);
-    });
+  it('getSoADetails error call ', () => {
+    const commonMethodsServiceStub: CommonMethodsService =
+      fixture.debugElement.injector.get(CommonMethodsService);
+    const serviceCallStub: ServiceCall =
+      fixture.debugElement.injector.get(ServiceCall);
+    const errorSubject = new Subject();
+    spyOn<ServiceCall, any>(serviceCallStub, 'getSoAMatrix').and.callFake(
+      () => errorSubject
+    );
+    spyOn(commonMethodsServiceStub, 'getStudyLink').and.callFake((query) =>
+      query.callback('Study URL')
+    );
+    errorSubject.error('error');
+    component.getSoADetails();
+    expect(component.showError).toEqual(true);
   });
 });

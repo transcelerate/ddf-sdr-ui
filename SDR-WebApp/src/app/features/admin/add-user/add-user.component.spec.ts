@@ -9,7 +9,7 @@ import { CommonMethodsService } from 'src/app/shared/services/common-methods.ser
 import { DialogService } from 'src/app/shared/services/communication.service';
 import { ServiceCall } from 'src/app/shared/services/service-call/service-call.service';
 import { AddUserComponent } from './add-user.component';
-import { of } from 'rxjs';
+import { of, Subject } from 'rxjs';
 
 describe('AddUserComponent', () => {
   let component: AddUserComponent;
@@ -80,6 +80,34 @@ describe('AddUserComponent', () => {
 
   it(`groupSelectedOriginal has default value`, () => {
     expect(component.groupSelectedOriginal).toEqual([]);
+  });
+
+  it('getAllUserList error scenario', () => {
+    const ngxSpinnerServiceStub: NgxSpinnerService =
+      fixture.debugElement.injector.get(NgxSpinnerService);
+    const dialogServiceStub: DialogService =
+      fixture.debugElement.injector.get(DialogService);
+    const serviceCallStub: ServiceCall =
+      fixture.debugElement.injector.get(ServiceCall);
+    const errorSubject = new Subject();
+    spyOn<ServiceCall, any>(serviceCallStub, 'getAllUserList').and.callFake(
+      () => errorSubject
+    );
+    spyOn<ServiceCall, any>(serviceCallStub, 'getAllGroupList').and.callFake(
+      () => errorSubject
+    );
+    errorSubject.error('error');
+    spyOn(ngxSpinnerServiceStub, 'hide').and.callThrough();
+    spyOn(ngxSpinnerServiceStub, 'show').and.callThrough();
+    spyOn(dialogServiceStub, 'changeDialogState').and.callThrough();
+
+    // spyOn(serviceCallStub, 'getAllGroupList').and.callThrough();
+    component.ngOnInit();
+    expect(ngxSpinnerServiceStub.hide).toHaveBeenCalled();
+    expect(ngxSpinnerServiceStub.show).toHaveBeenCalled();
+    expect(dialogServiceStub.changeDialogState).toHaveBeenCalled();
+    expect(serviceCallStub.getAllUserList).toHaveBeenCalled();
+    expect(serviceCallStub.getAllGroupList).toHaveBeenCalled();
   });
 
   describe('openSearchData', () => {

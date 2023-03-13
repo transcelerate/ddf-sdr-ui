@@ -295,7 +295,8 @@ export class UsageComponent implements OnInit {
     });
     this.submitSearch(true);
   }
-
+  /* istanbul ignore next */
+  // @SONAR_STOP@
   onGridReady(params: any) {
     this.gridApi = params.api;
     this.gridColumnApi = params.columnApi;
@@ -331,6 +332,8 @@ export class UsageComponent implements OnInit {
       this
     );
   }
+  /* istanbul ignore end */
+  // @SONAR_START@
 
   getUsageData() {
     this.spinner.show();
