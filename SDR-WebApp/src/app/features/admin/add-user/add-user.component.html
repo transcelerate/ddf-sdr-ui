@@ -40,7 +40,6 @@
               [settings]="dropdownSettings"
               [data]="groupList"
               [(ngModel)]="groupSelected"
-              
             >
             </ng-multiselect-dropdown>
           </div>
@@ -51,22 +50,20 @@
   <div class="col-md-12 text-center">
     <form>
       <button
-      class="btn btn-primary btn-sm searchButton"
-      type="submit"
-      (click)="openSearchData(confirmation)"
-    >
-      Cancel
-    </button>
+        class="btn btn-primary btn-sm searchButton"
+        type="submit"
+        (click)="openSearchData(confirmation)"
+      >
+        Cancel
+      </button>
       <button
         class="btn btn-primary btn-sm searchButton"
         type="submit"
         [disabled]="groupSelected.length === 0 || userSelected.length === 0"
         (click)="addUser()"
       >
-      {{isEdit ? 'Update' : 'Add'}}
+        {{ isEdit ? "Update" : "Add" }}
       </button>
-     
-     
     </form>
   </div>
 </div>
@@ -74,7 +71,6 @@
   <div class="modal-body text-center confirmModal">
     <p>Are you sure you want to cancel?</p>
 
-  
     <button type="button" class="btn btn-primary" (click)="decline()">
       No
     </button>

@@ -1,24 +1,24 @@
 {
-    "studyPhase": [
-        "NOT APPLICABLE",
-        "PHASE 0 TRIAL",
-        "PHASE I TRIAL",
-        "PHASE I/II TRIAL",
-        "PHASE II TRIAL",
-        "PHASE II/III TRIAL",
-        "PHASE IIA TRIAL",
-        "PHASE IIB TRIAL",
-        "PHASE III TRIAL",
-        "PHASE IIIA TRIAL",
-        "PHASE IIIB TRIAL",
-        "PHASE IV TRIAL",
-        "PHASE V TRIAL"
-    ],
-    "interventionModel": [
-        "CROSS-OVER",
-        "FACTORIAL",
-        "PARALLEL",
-        "SEQUENTIAL",
-        "SINGLE GROUP"
-    ]
+  "studyPhase": [
+    "NOT APPLICABLE",
+    "PHASE 0 TRIAL",
+    "PHASE I TRIAL",
+    "PHASE I/II TRIAL",
+    "PHASE II TRIAL",
+    "PHASE II/III TRIAL",
+    "PHASE IIA TRIAL",
+    "PHASE IIB TRIAL",
+    "PHASE III TRIAL",
+    "PHASE IIIA TRIAL",
+    "PHASE IIIB TRIAL",
+    "PHASE IV TRIAL",
+    "PHASE V TRIAL"
+  ],
+  "interventionModel": [
+    "CROSS-OVER",
+    "FACTORIAL",
+    "PARALLEL",
+    "SEQUENTIAL",
+    "SINGLE GROUP"
+  ]
 }

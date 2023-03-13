@@ -17,7 +17,7 @@ import { ServiceCall } from 'src/app/shared/services/service-call/service-call.s
 export class AddUserComponent implements OnInit {
   groupList: any;
 
-  groupSelected : any = [];
+  groupSelected: any = [];
   userSelected: any = [];
   dropdownSettings: IDropdownSettings;
   dropdownSettingsUser: IDropdownSettings;
@@ -43,8 +43,12 @@ export class AddUserComponent implements OnInit {
       next: (users: any) => {
         //this.userExists = true;
         this.spinner.hide();
-        this.userList = users.map((elem: any)=>{
-          elem.toShow = (elem.mail!==null ? elem.mail:'') + '(' + elem.displayName + ')';
+        this.userList = users.map((elem: any) => {
+          elem.toShow =
+            (elem.mail !== null ? elem.mail : '') +
+            '(' +
+            elem.displayName +
+            ')';
           return elem;
         });
         const selectedUser = history.state.data;
@@ -55,7 +59,7 @@ export class AddUserComponent implements OnInit {
           this.userSelected = this.userList.filter((elem: { id: any }) => {
             return elem.id === selectedUser.oid;
           });
-          this.userSelected = this.userSelected.map((elem: any)=>{
+          this.userSelected = this.userSelected.map((elem: any) => {
             elem.toShow = (elem.mail || '') + '(' + elem.displayName + ')';
             return elem;
           });
@@ -120,8 +124,10 @@ export class AddUserComponent implements OnInit {
         }
         return elem;
       });
-      const arr = this.groupSelected.filter((o: any)=> !groups.some((i: any)=> i.groupId === o.groupId));
-        arr.forEach((element: any) => {
+      const arr = this.groupSelected.filter(
+        (o: any) => !groups.some((i: any) => i.groupId === o.groupId)
+      );
+      arr.forEach((element: any) => {
         element.isActive = true;
         groups.push(element);
       });

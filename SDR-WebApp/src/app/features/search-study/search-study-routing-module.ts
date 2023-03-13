@@ -37,12 +37,12 @@ const searchStudyModuleRoutes: Routes = [
             ],
           },
           {
-            path:'soa',
+            path: 'soa',
             component: SoaComponent,
-            data:{
-              breadcrumb:'SoA Matrix'
-            }
-          }
+            data: {
+              breadcrumb: 'SoA Matrix',
+            },
+          },
         ],
       },
     ],

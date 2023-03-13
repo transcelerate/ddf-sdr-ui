@@ -198,12 +198,12 @@ export class AddGroupComponent implements OnInit {
           index === -1
             ? false
             : this.group.groupFilter[index].groupFilterValues.filter(
-              (filterValue) => {
-                return filterValue.title == elem;
-              }
-            ).length > 0
-              ? true
-              : false,
+                (filterValue) => {
+                  return filterValue.title == elem;
+                }
+              ).length > 0
+            ? true
+            : false,
         value: elem,
       }));
       if (
@@ -224,7 +224,6 @@ export class AddGroupComponent implements OnInit {
     return index;
   }
   updateChecked(option: string) {
-
     let index = this.findIndex();
     if (index == -1) {
       this.group.groupFilter.push(this.groupList);
@@ -403,14 +402,17 @@ export class AddGroupComponent implements OnInit {
     this.showGrid = true;
   }
   setSelectedValue(val: any) {
-    localStorage.setItem(val.clinicalStudy.uuid + '_' + val.auditTrail.SDRUploadVersion + '_links', JSON.stringify(val.links))
+    localStorage.setItem(
+      val.clinicalStudy.uuid + '_' + val.auditTrail.SDRUploadVersion + '_links',
+      JSON.stringify(val.links)
+    );
     this.router.navigate(
       [
         'details',
         {
           studyId: val.clinicalStudy.uuid,
           versionId: val.auditTrail.SDRUploadVersion,
-          usdmVersion: val.auditTrail.usdmVersion
+          usdmVersion: val.auditTrail.usdmVersion,
         },
       ],
       { relativeTo: this.activatedRoute }

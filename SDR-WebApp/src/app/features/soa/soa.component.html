@@ -41,14 +41,20 @@
               </ng-template>
               <ng-container *ngIf="item.workFlowSoA !== null; else dataError">
                 <div class="table-responsive soa-table">
-                  <table class="table table-bordered">
+                  <table
+                    class="table table-bordered"
+                    aria-describedby="soatable"
+                  >
                     <thead class="soa-table-thead">
                       <tr>
-                        <th class="first-block"></th>
+                        <th class="first-block" id="first"></th>
                         <ng-container
-                          *ngFor="let content of item.workFlowSoA.SoA"
+                          *ngFor="
+                            let content of item.workFlowSoA.SoA;
+                            let i = index
+                          "
                         >
-                          <th>{{ content.encounterName }}</th>
+                          <th [id]="'soa' + i">{{ content.encounterName }}</th>
                         </ng-container>
                       </tr>
                     </thead>
@@ -65,7 +71,7 @@
                             "
                           >
                             <span *ngIf="rowEl === itemActivity"
-                              ><b
+                              ><strong
                                 title="{{
                                   findDuplicate(
                                     i,
@@ -83,7 +89,7 @@
                                   )
                                 "
                               >
-                                X</b
+                                X</strong
                               ></span
                             >
                           </ng-container>

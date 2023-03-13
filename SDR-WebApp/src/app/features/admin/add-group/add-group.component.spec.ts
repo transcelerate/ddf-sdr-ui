@@ -458,7 +458,7 @@ describe('AddGroupComponent', () => {
           },
           auditTrail: {
             entryDateTime: '2022-JUN-17',
-            
+
             SDRUploadVersion: 1,
           },
           selected: true,

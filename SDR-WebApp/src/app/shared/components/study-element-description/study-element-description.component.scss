@@ -7,13 +7,10 @@ li:before {
   content: "+";
   font-size: 12pt;
   font-weight: bolder;
-  //padding-right: 5px;
-
 }
 
 .isSelected:before {
   content: "-" !important;
-  // padding-right: 5px;
 }
 
 ul {
@@ -25,7 +22,6 @@ ul {
 .studyElement {
   height: 350px;
   overflow-x: auto;
-  //margin: 13px 0px;
 }
 
 .container {
@@ -41,17 +37,7 @@ ul {
 }
 
 .box {
-  // box-sizing: border-box;
-  // border: 3px solid transparent;
   background-clip: padding-box;
-}
-
-.outerDiv {
-  // margin: -13px -2px;
-}
-
-.border {
-  //  border:1px solid;
 }
 
 table,
@@ -82,7 +68,6 @@ h2 {
 }
 
 .textCenter {
-  //text-align: center;
   display: none;
 }
 
@@ -103,8 +88,4 @@ h2 {
 
 .buttonDiv {
   position: relative;
-}
-
-.titleSpacing {
-  // margin-left: 40%;
 }

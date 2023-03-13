@@ -32,10 +32,6 @@
   .ag-root-wrapper.ag-layout-normal {
     height: 180% !important;
   }
-  .ag-theme-alpine {
-    //overflow-x: hidden;
-    //height: 700px;
-  }
 }
 .linkSpan {
   cursor: pointer;
@@ -94,23 +90,14 @@ body {
 }
 .search {
   .imgStyle {
-    // width: 325%;
-    // margin-left: -190%;
     width: 20px;
   }
   .ag-header-icon {
     text-align: left;
-    // margin-left: -13px;
-  }
-  .ag-header-cell-text {
-    // min-width: 80px;
-    // max-width: 80px;
   }
 }
 .auditDiv {
   .imgStyle {
-    // width: 67%;
-    // margin-left: 29%;
     width: 20px;
   }
   .ag-header-icon {
@@ -176,15 +163,9 @@ body {
   right: 137px;
   height: 20px;
   width: 23px;
-  // background-color: #eee;
   border-radius: 100%;
   border: 2px solid#0d6efd;
 }
-
-/* On mouse-over, add a grey background color */
-// .container-radio:hover input ~ .checkmark {
-//   background-color: #ccc;
-// }
 
 /* When the radio button is checked, add a blue background */
 .container-radio input:checked ~ .checkmark {
@@ -215,7 +196,6 @@ body {
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  //background: white;
 }
 
 .editorHeading {
@@ -279,26 +259,24 @@ body {
     margin: -4% 96%;
   }
 }
-input[type="text"]:disabled { 
+input[type="text"]:disabled {
   background-color: #eceeef !important;
 }
-select{
-  -webkit-appearance: listbox !important
-  }
-button{
+select {
+  -webkit-appearance: listbox !important;
+}
+button {
   border-radius: 5px;
   color: #fff;
   background-color: #0d6efd !important;
   border-color: #0d6efd !important;
 }
-button:disabled{
+button:disabled {
   background-color: #c1c1c1 !important;
   color: black !important;
-  opacity: .45 !important;
+  opacity: 0.45 !important;
   border-color: #c1c1c1 !important;
 }
-.modal-body .btn{
-  margin:0 5px;
+.modal-body .btn {
+  margin: 0 5px;
 }
-// html, body { height: 100%; }
-// body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

@@ -12,23 +12,21 @@ describe('StudyCompareComponent', () => {
   beforeEach(() => {
     const activatedRouteStub = () => ({});
     const routerStub = () => ({ navigate: (array: any, object: any) => ({}) });
-    const dialogServiceStub = () => ({ changeDialogState: (string: any) => ({}) });
+    const dialogServiceStub = () => ({
+      changeDialogState: (string: any) => ({}),
+    });
     TestBed.configureTestingModule({
       schemas: [NO_ERRORS_SCHEMA],
       declarations: [StudyCompareComponent],
       providers: [
         { provide: ActivatedRoute, useFactory: activatedRouteStub },
         { provide: Router, useFactory: routerStub },
-        { provide: DialogService, useFactory: dialogServiceStub }
-      ]
+        { provide: DialogService, useFactory: dialogServiceStub },
+      ],
     });
     fixture = TestBed.createComponent(StudyCompareComponent);
     component = fixture.componentInstance;
-    window.history.pushState(
-      { from: 'search1' },
-      '',
-      ''
-    );
+    window.history.pushState({ from: 'search1' }, '', '');
   });
 
   it('can load instance', () => {
@@ -37,19 +35,14 @@ describe('StudyCompareComponent', () => {
 
   describe('ngOnInit', () => {
     it('makes expected calls', () => {
-      const dialogServiceStub: DialogService = fixture.debugElement.injector.get(
-        DialogService
-      );
+      const dialogServiceStub: DialogService =
+        fixture.debugElement.injector.get(DialogService);
       spyOn(component, 'setModel').and.callThrough();
       spyOn(dialogServiceStub, 'changeDialogState').and.callThrough();
       component.ngOnInit();
       expect(component.setModel).toHaveBeenCalled();
       expect(dialogServiceStub.changeDialogState).toHaveBeenCalled();
-      window.history.pushState(
-        { from: 'search2' },
-        '',
-        ''
-      );
+      window.history.pushState({ from: 'search2' }, '', '');
       component.ngOnInit();
     });
   });
@@ -62,7 +55,6 @@ describe('StudyCompareComponent', () => {
       expect(routerStub.navigate).toHaveBeenCalled();
     });
   });
-
 
   describe('clear', () => {
     it('makes expected calls', () => {
@@ -85,18 +77,18 @@ describe('StudyCompareComponent', () => {
       let response = {
         clinicalStudy: {
           uuid: 1,
-          studyTitle: 'Test'
+          studyTitle: 'Test',
         },
         auditTrail: {
           SDRUploadVersion: 1,
         },
       };
-      localStorage.setItem('search1',JSON.stringify(response));
-      localStorage.setItem('search2','');
+      localStorage.setItem('search1', JSON.stringify(response));
+      localStorage.setItem('search2', '');
       component.setModel();
       expect(component.toolTipOne).toEqual('Test_Version1');
-      localStorage.setItem('search2',JSON.stringify(response));
-      localStorage.setItem('search1','');
+      localStorage.setItem('search2', JSON.stringify(response));
+      localStorage.setItem('search1', '');
       component.setModel();
       expect(component.toolTipTwo).toEqual('Test_Version1');
     });

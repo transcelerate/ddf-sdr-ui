@@ -17,15 +17,24 @@ describe('SearchFormComponent', () => {
 
   beforeEach(() => {
     const bsModalServiceStub = () => ({
-      show: (modalComponentComponent: any, initialState: any) => ({})
+      show: (modalComponentComponent: any, initialState: any) => ({}),
     });
-    const formBuilderStub = () => ({ group: (object: any, object1: any) => ({}) });
+    const formBuilderStub = () => ({
+      group: (object: any, object1: any) => ({}),
+    });
     const serviceCallStub = () => ({ readConfigFile: () => ({}) });
-    const dialogServiceStub = () => ({ changeDialogState: (string: any) => ({}) });
+    const dialogServiceStub = () => ({
+      changeDialogState: (string: any) => ({}),
+    });
     const ngxSpinnerServiceStub = () => ({});
     const commonMethodsServiceStub = () => ({
       getSponsorIdGrid: { bind: () => ({}) },
-      gridDataSourceForSearchStudy: (reqObj: any, gridApi: any, bLOCK_SIZE: any, arg2: any) => ({})
+      gridDataSourceForSearchStudy: (
+        reqObj: any,
+        gridApi: any,
+        bLOCK_SIZE: any,
+        arg2: any
+      ) => ({}),
     });
     const routerStub = () => ({ navigate: (array: any, object: any) => ({}) });
     const activatedRouteStub = () => ({});
@@ -40,8 +49,8 @@ describe('SearchFormComponent', () => {
         { provide: NgxSpinnerService, useFactory: ngxSpinnerServiceStub },
         { provide: CommonMethodsService, useFactory: commonMethodsServiceStub },
         { provide: Router, useFactory: routerStub },
-        { provide: ActivatedRoute, useFactory: activatedRouteStub }
-      ]
+        { provide: ActivatedRoute, useFactory: activatedRouteStub },
+      ],
     });
     fixture = TestBed.createComponent(SearchFormComponent);
     component = fixture.componentInstance;
@@ -69,9 +78,8 @@ describe('SearchFormComponent', () => {
 
   describe('submitSearch', () => {
     it('makes expected calls', () => {
-      const commonMethodsServiceStub: CommonMethodsService = fixture.debugElement.injector.get(
-        CommonMethodsService
-      );
+      const commonMethodsServiceStub: CommonMethodsService =
+        fixture.debugElement.injector.get(CommonMethodsService);
       spyOn(
         commonMethodsServiceStub,
         'gridDataSourceForSearchStudy'
@@ -86,17 +94,15 @@ describe('SearchFormComponent', () => {
 
   describe('ngOnInit', () => {
     it('makes expected calls', () => {
-      const serviceCallStub: ServiceCall = fixture.debugElement.injector.get(
-        ServiceCall
-      );
-      const dialogServiceStub: DialogService = fixture.debugElement.injector.get(
-        DialogService
-      );
+      const serviceCallStub: ServiceCall =
+        fixture.debugElement.injector.get(ServiceCall);
+      const dialogServiceStub: DialogService =
+        fixture.debugElement.injector.get(DialogService);
       spyOn(component, '_filter').and.callThrough();
       spyOn(serviceCallStub, 'readConfigFile').and.callThrough();
       spyOn(dialogServiceStub, 'changeDialogState').and.callThrough();
       component.ngOnInit();
-     
+
       expect(serviceCallStub.readConfigFile).toHaveBeenCalled();
       expect(dialogServiceStub.changeDialogState).toHaveBeenCalled();
     });

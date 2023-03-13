@@ -21,15 +21,17 @@ describe('AddUserComponent', () => {
     const bsModalServiceStub = () => ({ show: (template: any) => ({}) });
     const ngxSpinnerServiceStub = () => ({
       hide: () => ({}),
-      show: () => ({})
+      show: () => ({}),
     });
     const commonMethodsServiceStub = () => ({
-      postUser: (request: any, arg: any) => ({})
+      postUser: (request: any, arg: any) => ({}),
     });
-    const dialogServiceStub = () => ({ changeDialogState: (string: any) => ({}) });
+    const dialogServiceStub = () => ({
+      changeDialogState: (string: any) => ({}),
+    });
     const serviceCallStub = () => ({
       getAllUserList: () => ({ subscribe: (f: (arg0: {}) => any) => f({}) }),
-      getAllGroupList: () => ({ subscribe: (f: (arg0: {}) => any) => f({}) })
+      getAllGroupList: () => ({ subscribe: (f: (arg0: {}) => any) => f({}) }),
     });
     TestBed.configureTestingModule({
       schemas: [NO_ERRORS_SCHEMA],
@@ -41,13 +43,27 @@ describe('AddUserComponent', () => {
         { provide: NgxSpinnerService, useFactory: ngxSpinnerServiceStub },
         { provide: CommonMethodsService, useFactory: commonMethodsServiceStub },
         { provide: DialogService, useFactory: dialogServiceStub },
-        { provide: ServiceCall, useFactory: serviceCallStub }
-      ]
+        { provide: ServiceCall, useFactory: serviceCallStub },
+      ],
     });
     fixture = TestBed.createComponent(AddUserComponent);
     component = fixture.componentInstance;
-    let somevalue = {"oid":"13fb048c-a008-4a4d-85e3-284cac2980f1","email":"abilling@amgen.com","groups":[{"groupId":"a5e41cf7-b984-4091-90a2-4be699ad2f67","groupName":"OncologyReadWrite","isActive":true}]};
-    window.history.pushState({ data: somevalue, selected:'studyType'}, '', '');
+    let somevalue = {
+      oid: '13fb048c-a008-4a4d-85e3-284cac2980f1',
+      email: 'abilling@amgen.com',
+      groups: [
+        {
+          groupId: 'a5e41cf7-b984-4091-90a2-4be699ad2f67',
+          groupName: 'OncologyReadWrite',
+          isActive: true,
+        },
+      ],
+    };
+    window.history.pushState(
+      { data: somevalue, selected: 'studyType' },
+      '',
+      ''
+    );
   });
 
   it('can load instance', () => {
@@ -69,9 +85,8 @@ describe('AddUserComponent', () => {
   describe('openSearchData', () => {
     it('makes expected calls', () => {
       const templateRefStub: any = <any>{};
-      const bsModalServiceStub: BsModalService = fixture.debugElement.injector.get(
-        BsModalService
-      );
+      const bsModalServiceStub: BsModalService =
+        fixture.debugElement.injector.get(BsModalService);
       spyOn(bsModalServiceStub, 'show').and.callThrough();
       component.openSearchData(templateRefStub);
       expect(bsModalServiceStub.show).toHaveBeenCalled();
@@ -80,31 +95,48 @@ describe('AddUserComponent', () => {
 
   describe('ngOnInit', () => {
     it('makes expected calls', () => {
-      const ngxSpinnerServiceStub: NgxSpinnerService = fixture.debugElement.injector.get(
-        NgxSpinnerService
-      );
-      const dialogServiceStub: DialogService = fixture.debugElement.injector.get(
-        DialogService
-      );
+      const ngxSpinnerServiceStub: NgxSpinnerService =
+        fixture.debugElement.injector.get(NgxSpinnerService);
+      const dialogServiceStub: DialogService =
+        fixture.debugElement.injector.get(DialogService);
       const serviceCallStub: ServiceCall =
-      fixture.debugElement.injector.get(ServiceCall);
-    
+        fixture.debugElement.injector.get(ServiceCall);
 
-    spyOn<ServiceCall, any>(serviceCallStub, 'getAllUserList').and.callFake(
-      () => {
-        return of([{"id":"c8d1921e-c915-4dbe-aa4a-9b2dde248ae9","displayName":"A81691DIRPacpazr0799@accenture.com","mail":null},{"id":"13fb048c-a008-4a4d-85e3-284cac2980f1","displayName":"Luckman, Alison","mail":"abilling@amgen.com"}]); // or return a list of bookings in case you want to test the first part of the if statement
-      }
-    );
-    spyOn<ServiceCall, any>(serviceCallStub, 'getAllGroupList').and.callFake(
-      () => {
-        return of([{"groupId":"0193a357-8519-4488-90e4-522f701658b9","groupName":"OncologyRead"},{"groupId":"a5e41cf7-b984-4091-90a2-4be699ad2f67","groupName":"OncologyReadWrite"}]); // or return a list of bookings in case you want to test the first part of the if statement
-      }
-    );
-    
+      spyOn<ServiceCall, any>(serviceCallStub, 'getAllUserList').and.callFake(
+        () => {
+          return of([
+            {
+              id: 'c8d1921e-c915-4dbe-aa4a-9b2dde248ae9',
+              displayName: 'A81691DIRPacpazr0799@accenture.com',
+              mail: null,
+            },
+            {
+              id: '13fb048c-a008-4a4d-85e3-284cac2980f1',
+              displayName: 'Luckman, Alison',
+              mail: 'abilling@amgen.com',
+            },
+          ]); // or return a list of bookings in case you want to test the first part of the if statement
+        }
+      );
+      spyOn<ServiceCall, any>(serviceCallStub, 'getAllGroupList').and.callFake(
+        () => {
+          return of([
+            {
+              groupId: '0193a357-8519-4488-90e4-522f701658b9',
+              groupName: 'OncologyRead',
+            },
+            {
+              groupId: 'a5e41cf7-b984-4091-90a2-4be699ad2f67',
+              groupName: 'OncologyReadWrite',
+            },
+          ]); // or return a list of bookings in case you want to test the first part of the if statement
+        }
+      );
+
       spyOn(ngxSpinnerServiceStub, 'hide').and.callThrough();
       spyOn(ngxSpinnerServiceStub, 'show').and.callThrough();
       spyOn(dialogServiceStub, 'changeDialogState').and.callThrough();
-      
+
       // spyOn(serviceCallStub, 'getAllGroupList').and.callThrough();
       component.ngOnInit();
       expect(ngxSpinnerServiceStub.hide).toHaveBeenCalled();
@@ -117,13 +149,28 @@ describe('AddUserComponent', () => {
 
   describe('addUser', () => {
     it('makes expected calls', () => {
-      const commonMethodsServiceStub: CommonMethodsService = fixture.debugElement.injector.get(
-        CommonMethodsService
-      );
-      component.userList = [{"id":"c8d1921e-c915-4dbe-aa4a-9b2dde248ae9","displayName":"A81691DIRPacpazr0799@accenture.com","mail":null},{"id":"13fb048c-a008-4a4d-85e3-284cac2980f1","displayName":"Luckman, Alison","mail":"abilling@amgen.com"}];
-    component.groupSelected = [];
-    component.groupSelectedOriginal = [];
-    component.userSelected = [{"id":"13fb048c-a008-4a4d-85e3-284cac2980f1","displayName":"Luckman, Alison"}];
+      const commonMethodsServiceStub: CommonMethodsService =
+        fixture.debugElement.injector.get(CommonMethodsService);
+      component.userList = [
+        {
+          id: 'c8d1921e-c915-4dbe-aa4a-9b2dde248ae9',
+          displayName: 'A81691DIRPacpazr0799@accenture.com',
+          mail: null,
+        },
+        {
+          id: '13fb048c-a008-4a4d-85e3-284cac2980f1',
+          displayName: 'Luckman, Alison',
+          mail: 'abilling@amgen.com',
+        },
+      ];
+      component.groupSelected = [];
+      component.groupSelectedOriginal = [];
+      component.userSelected = [
+        {
+          id: '13fb048c-a008-4a4d-85e3-284cac2980f1',
+          displayName: 'Luckman, Alison',
+        },
+      ];
       spyOn(commonMethodsServiceStub, 'postUser').and.callThrough();
       component.addUser();
       expect(commonMethodsServiceStub.postUser).toHaveBeenCalled();
@@ -148,17 +195,50 @@ describe('AddUserComponent', () => {
   });
   describe('getAllUsers', () => {
     it('makes expected calls', () => {
-     
       component.getAllUsers();
       expect(component.saveSuccess).toBe(true);
     });
   });
   describe('confirm', () => {
     it('makes expected calls', () => {
-      component.userList = [{"id":"c8d1921e-c915-4dbe-aa4a-9b2dde248ae9","displayName":"A81691DIRPacpazr0799@accenture.com","mail":null},{"id":"13fb048c-a008-4a4d-85e3-284cac2980f1","displayName":"Luckman, Alison","mail":"abilling@amgen.com"}];
-      component.groupSelected = [{"groupId":"0193a357-8519-4488-90e4-522f701658b9","groupName":"OncologyRead"},{"groupId":"a5e41cf7-b984-4091-90a2-4be699ad2f67","groupName":"OncologyReadWrite"}];
-      component.groupSelectedOriginal = [{"groupId":"0193a357-8519-4488-90e4-522f701658b9","groupName":"OncologyRead"},{"groupId":"a5e41cf7-b984-4091-90a2-4be699ad2f67","groupName":"OncologyReadWrite"}];
-      component.userSelected = [{"id":"13fb048c-a008-4a4d-85e3-284cac2980f1","displayName":"Luckman, Alison"}];
+      component.userList = [
+        {
+          id: 'c8d1921e-c915-4dbe-aa4a-9b2dde248ae9',
+          displayName: 'A81691DIRPacpazr0799@accenture.com',
+          mail: null,
+        },
+        {
+          id: '13fb048c-a008-4a4d-85e3-284cac2980f1',
+          displayName: 'Luckman, Alison',
+          mail: 'abilling@amgen.com',
+        },
+      ];
+      component.groupSelected = [
+        {
+          groupId: '0193a357-8519-4488-90e4-522f701658b9',
+          groupName: 'OncologyRead',
+        },
+        {
+          groupId: 'a5e41cf7-b984-4091-90a2-4be699ad2f67',
+          groupName: 'OncologyReadWrite',
+        },
+      ];
+      component.groupSelectedOriginal = [
+        {
+          groupId: '0193a357-8519-4488-90e4-522f701658b9',
+          groupName: 'OncologyRead',
+        },
+        {
+          groupId: 'a5e41cf7-b984-4091-90a2-4be699ad2f67',
+          groupName: 'OncologyReadWrite',
+        },
+      ];
+      component.userSelected = [
+        {
+          id: '13fb048c-a008-4a4d-85e3-284cac2980f1',
+          displayName: 'Luckman, Alison',
+        },
+      ];
       component.isEdit = false;
       component.addUser();
       expect(1).toBe(1);

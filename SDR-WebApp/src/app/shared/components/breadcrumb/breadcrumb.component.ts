@@ -6,37 +6,35 @@ import { environment } from 'src/environments/environment';
 @Component({
   selector: 'app-breadcrumb',
   templateUrl: './breadcrumb.component.html',
-  styleUrls: ['./breadcrumb.component.scss']
+  styleUrls: ['./breadcrumb.component.scss'],
 })
 export class BreadcrumbComponent implements OnInit {
-  public breadcrumbs: IBreadCrumb[]
- 
-  constructor(
-    private router: Router,
-    private activatedRoute: ActivatedRoute,
-  ) {
+  public breadcrumbs: IBreadCrumb[];
+
+  constructor(private router: Router, private activatedRoute: ActivatedRoute) {
     this.breadcrumbs = this.buildBreadCrumb(this.activatedRoute.root);
   }
 
   ngOnInit() {
-    this.router.events.pipe(
-      filter((event: any) => event instanceof NavigationEnd),
-      distinctUntilChanged(),
-    ).subscribe(() => {
-      this.breadcrumbs = this.buildBreadCrumb(this.activatedRoute.root);
-    })
+    this.router.events
+      .pipe(
+        filter((event: any) => event instanceof NavigationEnd),
+        distinctUntilChanged()
+      )
+      .subscribe(() => {
+        this.breadcrumbs = this.buildBreadCrumb(this.activatedRoute.root);
+      });
   }
-  findPath(){
-    if(window.location.href.indexOf('home')!=-1){
+  findPath() {
+    if (window.location.href.indexOf('home') != -1) {
       return 'home';
-    } else if(window.location.href.indexOf('comparison')!=-1){
+    } else if (window.location.href.indexOf('comparison') != -1) {
       return 'comparison';
-    }else if(window.location.href.indexOf('addGroup')!=-1){
+    } else if (window.location.href.indexOf('addGroup') != -1) {
       return 'admin/';
-    }else{
+    } else {
       return 'search';
     }
-
   }
   /**
    * Recursively build breadcrumb according to activated route.
@@ -44,47 +42,61 @@ export class BreadcrumbComponent implements OnInit {
    * @param url
    * @param breadcrumbs
    */
-  buildBreadCrumb(route: ActivatedRoute, url: string = '', breadcrumbs: IBreadCrumb[] = []): IBreadCrumb[] {
+  buildBreadCrumb(
+    route: ActivatedRoute,
+    url: string = '',
+    breadcrumbs: IBreadCrumb[] = []
+  ): IBreadCrumb[] {
     //If no routeConfig is avalailable we are on the root path
     // if(url==''){
     //   let baseUrl = environment.redirectUrl.split('home')[0];
     //   console.log(baseUrl);
-    //   url = window.location.href.split(baseUrl)[1] === 'home' || window.location.href.split(baseUrl)[1] === 'search' ? 
+    //   url = window.location.href.split(baseUrl)[1] === 'home' || window.location.href.split(baseUrl)[1] === 'search' ?
     //   window.location.href.split(baseUrl)[1] : '';
-      
+
     // }
-    let label = route.routeConfig && route.routeConfig.data ? route.routeConfig.data['breadcrumb'] : '';
-    let isClickable = route.routeConfig && route.routeConfig.data && route.routeConfig.data['isClickable'];
-    let path = route.routeConfig && route.routeConfig.data ? route.routeConfig.path : '' || '';
-  
+    let label =
+      route.routeConfig && route.routeConfig.data
+        ? route.routeConfig.data['breadcrumb']
+        : '';
+    let isClickable =
+      route.routeConfig &&
+      route.routeConfig.data &&
+      route.routeConfig.data['isClickable'];
+    let path =
+      route.routeConfig && route.routeConfig.data
+        ? route.routeConfig.path
+        : '' || '';
+
     // If the route is dynamic route such as ':id', remove it
     const lastRoutePart = path?.split('/').pop() || '';
     const isDynamicRoute = lastRoutePart?.startsWith(';');
-    if(isDynamicRoute && !!route.snapshot) {
+    if (isDynamicRoute && !!route.snapshot) {
       const paramName = lastRoutePart?.split(';')[1];
       path = path?.replace(lastRoutePart, route.snapshot.params[paramName]);
       label = route.snapshot.params[paramName];
     }
-  
+
     //In the routeConfig the complete path is not available,
     //so we rebuild it each time
     const nextUrl = path ? `${url}/${path}` : url;
-    
-    let returnPath;
-    switch(window.location.href){
 
+    let returnPath;
+    switch (window.location.href) {
     }
-    let baseUrl =  this.findPath();
+    let baseUrl = this.findPath();
     const breadcrumb: IBreadCrumb = {
-        label: label,
-        url: baseUrl + nextUrl,
+      label: label,
+      url: baseUrl + nextUrl,
     };
     // Only adding route with non-empty label
-    const newBreadcrumbs = breadcrumb.label ? [ ...breadcrumbs, breadcrumb ] : [ ...breadcrumbs];
+    const newBreadcrumbs = breadcrumb.label
+      ? [...breadcrumbs, breadcrumb]
+      : [...breadcrumbs];
     if (route.firstChild) {
-        //If we are not on our current path yet,
-        //there will be more children to look after, to build our breadcumb
-        return this.buildBreadCrumb(route.firstChild, nextUrl, newBreadcrumbs);
+      //If we are not on our current path yet,
+      //there will be more children to look after, to build our breadcumb
+      return this.buildBreadCrumb(route.firstChild, nextUrl, newBreadcrumbs);
     }
     return newBreadcrumbs;
   }

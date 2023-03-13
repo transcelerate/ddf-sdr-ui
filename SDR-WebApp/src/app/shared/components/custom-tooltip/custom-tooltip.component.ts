@@ -1,15 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-custom-tooltip',
   templateUrl: './custom-tooltip.component.html',
-  styleUrls: ['./custom-tooltip.component.css']
+  styleUrls: ['./custom-tooltip.component.css'],
 })
-export class CustomTooltipComponent implements OnInit {
-
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
+export class CustomTooltipComponent {
+  constructor() {}
 }
