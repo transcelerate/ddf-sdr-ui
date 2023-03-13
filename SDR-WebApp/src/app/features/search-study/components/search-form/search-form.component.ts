@@ -177,50 +177,7 @@ export class SearchFormComponent implements OnInit {
     this.infiniteInitialRowCount = 1;
     this.maxBlocksInCache = 1000;
   }
-  /**
-   * Getting value for intervention model
-   * @param params   ag grid value for each row with data.
-   * @returns Return interventionModel value for that particular row.
-   */
-  // getIntervention(params: any) {
-  //   let val = '';
-  //   if (
-  //     params.data &&
-  //     params?.data?.clinicalStudy?.studyDesigns &&
-  //     params?.data?.clinicalStudy?.studyDesigns.length > 0 &&
-  //     params?.data?.clinicalStudy?.studyDesigns[0]
-  //       .investigationalInterventions &&
-  //     params?.data?.clinicalStudy?.studyDesigns[0].investigationalInterventions
-  //       .length > 0
-  //   ) {
-  //     val =
-  //       params?.data?.clinicalStudy?.studyDesigns[0]
-  //         .investigationalInterventions[0].interventionModel || '';
-  //   }
-  //   return val;
-  // }
-  /**
-   * Getting value for study indication
-   * @param params   ag grid value for each row with data.
-   * @returns Return Html Link tag.
-   */
-  // getIndication(params: any) {
-  //   let val = '';
-  //   if (
-  //     params.data &&
-  //     params?.data?.clinicalStudy?.studyIndications &&
-  //     params?.data?.clinicalStudy?.studyIndications.length > 0
-  //   ) {
-  //     val = params?.data?.clinicalStudy?.studyIndications[0].description || '';
-  //   }
-  //   const eDiv = document.createElement('span');
-  //   // tslint:disable-next-line:no-this-assignment
-  //   const self = this;
-  //   eDiv.innerHTML = '<span >' + val + '</span>';
-  //   eDiv.title = val;
 
-  //   return eDiv;
-  // }
   /**
    * Modal for multiple sponsor id and interventional model
    * @param val   ag grid value of that particular row for which link is clicked.
@@ -242,8 +199,7 @@ export class SearchFormComponent implements OnInit {
     const initialState: ModalOptions = {
       initialState: {
         list: val,
-        title:
-          title
+        title: title,
       },
     };
     this.bsModalRef = this.modalService.show(
@@ -252,32 +208,6 @@ export class SearchFormComponent implements OnInit {
     );
     this.bsModalRef.content.closeBtnName = 'Close';
   }
-  /**
-   * Getting value for sponsor id from json which has Id Type as SPONSOR_ID
-   * @param params   ag grid value for each row with data.
-   * @returns Return string which contains sponsor id value.
-   */
-  // getSponsorId(params: any) {
-  //   if (params.data) {
-  //     // let value = params.data.clinicalStudy.uuidentifiers.filter(
-  //     //   (obj: { [x: string]: string }) => {
-  //     //     return obj['studyIdentifierScope'] === configList.SPONSORKEY;
-  //     //   }
-  //     // );
-  //     let value = params.data.clinicalStudy.studyIdentifiers.filter(
-  //       (obj: any) => {
-  //         return obj['studyIdentifierScope'].filter((elem: any) => {
-  //           return configList.SPONSORKEYS.findIndex((p) => p.toLowerCase() === elem.decode.toLowerCase()) > -1;
-  //         });
-  //       }
-  //     );
-  //     if (value.length > 0) {
-  //       return value[0][configList.SPONSORID_KEY];
-  //     } else {
-  //       return '';
-  //     }
-  //   }
-  // }
   /**
    * Construct Study Version Grid
    * @param params   ag grid value for each row with data.
@@ -307,14 +237,17 @@ export class SearchFormComponent implements OnInit {
    * @param val   ag grid value of that particular row for which link is clicked.
    */
   setSelectedValue(val: any) {
-    localStorage.setItem(val.clinicalStudy.uuid + '_' + val.auditTrail.SDRUploadVersion + '_links', JSON.stringify(val.links))
+    localStorage.setItem(
+      val.clinicalStudy.uuid + '_' + val.auditTrail.SDRUploadVersion + '_links',
+      JSON.stringify(val.links)
+    );
     this.router.navigate(
       [
         'details',
         {
           studyId: val.clinicalStudy.uuid,
           versionId: val.auditTrail.SDRUploadVersion,
-          usdmVersion: val.auditTrail.usdmVersion
+          usdmVersion: val.auditTrail.usdmVersion,
         },
       ],
       { relativeTo: this.route }

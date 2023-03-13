@@ -5,7 +5,7 @@ import { StudyCompareModuleConstants } from './study-compare-module.constants';
   imports: [StudyCompareModuleConstants.MODULE_IMPORTS],
   declarations: StudyCompareModuleConstants.MODULE_COMPONENTS,
   providers: [StudyCompareModuleConstants.MODULE_PROVIDERS],
-  exports :  StudyCompareModuleConstants.MODULE_COMPONENTS,
+  exports: StudyCompareModuleConstants.MODULE_COMPONENTS,
   entryComponents: StudyCompareModuleConstants.MODULE_ENTRY_COMPONENTS,
 })
-export class StudyCompareModule { }
+export class StudyCompareModule {}

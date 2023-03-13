@@ -1,7 +1,6 @@
 import { Component, OnInit, ElementRef } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import * as moment from 'moment';
-// import { DiffEditorModel } from 'ngx-monaco-editor';
 import {
   MonacoEditorConstructionOptions,
   MonacoEditorLoaderService,
@@ -34,10 +33,6 @@ export class VersionComparisonComponent implements OnInit {
   isFromCompare: boolean;
   studyOneTitle: any;
   studyTwoTitle: any;
-  //   options = {
-  //     theme: 'vs-dark',
-  //     automaticLayout: true
-  //   };
 
   constructor(
     private monacoLoaderService: MonacoEditorLoaderService,
@@ -144,7 +139,7 @@ export class VersionComparisonComponent implements OnInit {
       errorCallback: (err: any) => {
         this.showError = true;
         this.spinner.hide();
-      }
+      },
     });
   }
 
@@ -155,14 +150,14 @@ export class VersionComparisonComponent implements OnInit {
       .subscribe({
         next: (studyDefinition: any) => {
           //this.leftHeader = versionA.auditTrail.SDRUploadVersion + '-' + moment(versionA.auditTrail.entryDateTime).format("DD/MM/YYYY");
-          this.leftHeader = ' Version# ' +
+          this.leftHeader =
+            ' Version# ' +
             studyDefinition.auditTrail.SDRUploadVersion +
             '(Modified On:' +
             moment
               .utc(studyDefinition.auditTrail.entryDateTime)
               .local()
-              .format('YYYY-MM-DD HH:mm:ss')
-            +
+              .format('YYYY-MM-DD HH:mm:ss') +
             ')';
           this.originalCode = JSON.stringify(
             studyDefinition.clinicalStudy,
@@ -178,7 +173,7 @@ export class VersionComparisonComponent implements OnInit {
             errorCallback: (err: any) => {
               this.showError = true;
               this.spinner.hide();
-            }
+            },
           });
         },
         error: (error) => {
@@ -195,26 +190,28 @@ export class VersionComparisonComponent implements OnInit {
       .subscribe({
         next: (studyDefinition: any) => {
           this.spinner.hide();
-          this.rightHeader = ' Version# ' +
+          this.rightHeader =
+            ' Version# ' +
             studyDefinition.auditTrail.SDRUploadVersion +
             '(Modified On:' +
             moment
               .utc(studyDefinition.auditTrail.entryDateTime)
               .local()
-              .format('YYYY-MM-DD HH:mm:ss')
-            +
+              .format('YYYY-MM-DD HH:mm:ss') +
             ')';
           if (this.isFromCompare) {
             this.leftHeader = 'Study - ' + this.studyOneTitle + this.leftHeader;
-            this.rightHeader = 'Study - ' + this.studyTwoTitle + this.rightHeader;
+            this.rightHeader =
+              'Study - ' + this.studyTwoTitle + this.rightHeader;
           }
           this.code = JSON.stringify(studyDefinition.clinicalStudy, null, '\t');
           var interval = setInterval(() => {
-
-            if (this._elementRef.nativeElement.getElementsByClassName(
-              'editor original'
-            ).length > 0 &&
-              !this.showheading) {
+            if (
+              this._elementRef.nativeElement.getElementsByClassName(
+                'editor original'
+              ).length > 0 &&
+              !this.showheading
+            ) {
               var div = document.createElement('div');
               div.className = 'editorHeading';
               div.textContent = this.leftHeader;
@@ -248,6 +245,5 @@ export class VersionComparisonComponent implements OnInit {
     if (document.getElementsByTagName('h2').length > 0) {
       document.getElementsByTagName('h2')[0].classList.remove('textCenter');
     }
-
   }
 }

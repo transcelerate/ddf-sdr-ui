@@ -323,7 +323,6 @@ export class SimpleSearchComponent implements OnInit {
 
   getSelectSearch(params: any) {
     if (params.data.selected) {
-
       this.selectedValue = params.data;
     }
   }

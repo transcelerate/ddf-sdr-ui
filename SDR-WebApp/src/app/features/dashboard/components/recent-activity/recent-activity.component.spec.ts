@@ -56,10 +56,9 @@ describe('RecentActivityComponent', () => {
         { provide: ActivatedRoute, useFactory: activatedRouteStub },
         { provide: Router, useFactory: routerStub },
       ],
-    })
+    });
     fixture = TestBed.createComponent(RecentActivityComponent);
     component = fixture.componentInstance;
-
   });
 
   it('can load instance', () => {
@@ -117,7 +116,7 @@ describe('RecentActivityComponent', () => {
             entrySystemId: 'Viswesh_localHost',
 
             SDRUploadVersion: 1,
-            usdmVersion: '2.0'
+            usdmVersion: '2.0',
           },
         },
       });
@@ -149,7 +148,7 @@ describe('RecentActivityComponent', () => {
         },
         auditTrail: {
           SDRUploadVersion: 1,
-          usdmVersion: '2.0'
+          usdmVersion: '2.0',
         },
       };
       component.setSelectedValue(param);
@@ -162,16 +161,13 @@ describe('RecentActivityComponent', () => {
   });
   describe('onGridReady', () => {
     it('ongridready', () => {
-
       let param = {
-
         columnApi: {
           studyVersion: 1,
         },
       };
       component.onGridReady(param);
       expect(true).toEqual(true);
-
     });
   });
   // describe('gridValueMerge', () => {

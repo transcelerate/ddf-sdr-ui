@@ -1,14 +1,20 @@
-<!-- <span class="linkSpan" (click)="backButtonClicked()">back</span> -->
-<!-- <h2><b>StudyId {{sponsorStudyId}} Version {{sponsorVersionId}} - Details</b></h2> -->
 <div class="container-fluid">
   <h2 *ngIf="!showError">
-    <strong>{{ finalVal.accordianName }} <span *ngIf="(route.children.length === 0) || soaNavigationBoolean">Version {{ sponsorVersionId
-        }}</span></strong>
+    <strong
+      >{{ finalVal.accordianName }}
+      <span *ngIf="route.children.length === 0 || soaNavigationBoolean"
+        >Version {{ sponsorVersionId }}</span
+      ></strong
+    >
   </h2>
   <div class="col-sm-12" *ngIf="route.children.length === 0">
     <app-error-component *ngIf="showError"></app-error-component>
     <div class="buttonDiv" *ngIf="!showError">
-      <button (click)="soaMatrix()" class="soaButton" [disabled]="!isValidUSDMVersion">
+      <button
+        (click)="soaMatrix()"
+        class="soaButton"
+        [disabled]="!isValidUSDMVersion"
+      >
         View SoA Matrix
       </button>
     </div>
@@ -20,26 +26,43 @@
     <div class="row mt-n4">
       <div class="col-4 border studyElement">
         <div class="outerDiv">
-          <div class="titleName" [ngClass]="{ activeSelected: finalVal.isHighlighted }" data-toggle="tooltip"
-            data-placement="top" [title]="finalVal.accordianName" (click)="showTableContent(finalVal, true, finalVal)">
+          <div
+            class="titleName"
+            [ngClass]="{ activeSelected: finalVal.isHighlighted }"
+            data-toggle="tooltip"
+            data-placement="top"
+            [title]="finalVal.accordianName"
+            (click)="showTableContent(finalVal, true, finalVal)"
+          >
             <!-- {{ finalVal.accordianName }} -->
             {{ heading }}
           </div>
           <ul>
-            <ng-container *ngTemplateOutlet="recursiveListTmpl; context: { acc: finalVal }"></ng-container>
+            <ng-container
+              *ngTemplateOutlet="recursiveListTmpl; context: { acc: finalVal }"
+            ></ng-container>
           </ul>
 
           <ng-template #recursiveListTmpl let-acc="acc">
             <ul *ngFor="let item of acc.subAccordianList; let i = index">
-              <li [ngClass]="{ isSelected: item.isSelected }" *ngIf="item.isShow" (click)="
-                showTableContent(item, false, acc); $event.stopPropagation()
-              ">
+              <li
+                [ngClass]="{ isSelected: item.isSelected }"
+                *ngIf="item.isShow"
+                (click)="
+                  showTableContent(item, false, acc); $event.stopPropagation()
+                "
+              >
                 <span [ngClass]="{ activeSelected: item.isHighlighted }">
                   {{ item.accordianName | custom }}
                 </span>
                 <ul>
                   <!-- {{ item.subAccordianList[0].accordianName }} -->
-                  <ng-container *ngTemplateOutlet="recursiveListTmpl; context: { acc: item }"></ng-container>
+                  <ng-container
+                    *ngTemplateOutlet="
+                      recursiveListTmpl;
+                      context: { acc: item }
+                    "
+                  ></ng-container>
                 </ul>
               </li>
             </ul>
@@ -48,8 +71,12 @@
       </div>
 
       <div class="col-8 border studyElement tableData">
-        <table role="presentation" aria-describedby="mydesc" class="table-bordered outerDiv"
-          *ngIf="tablecontent.length > 0">
+        <table
+          role="presentation"
+          aria-describedby="mydesc"
+          class="table-bordered outerDiv"
+          *ngIf="tablecontent.length > 0"
+        >
           <!-- <tbody > -->
           <tr *ngFor="let content of tablecontent">
             <td>{{ content?.name | custom }}</td>

@@ -74,13 +74,62 @@ describe('GroupManagementComponent', () => {
     it('makes expected calls', () => {
       const dialogServiceStub: DialogService =
         fixture.debugElement.injector.get(DialogService);
-        const serviceCallStub: ServiceCall =
+      const serviceCallStub: ServiceCall =
         fixture.debugElement.injector.get(ServiceCall);
       spyOn(component, 'getAllGroups').and.callThrough();
       spyOn(dialogServiceStub, 'changeDialogState').and.callThrough();
       spyOn<ServiceCall, any>(serviceCallStub, 'getAllGroups').and.callFake(
         () => {
-          return of([{"groupId":"a5e41cf7-b984-4091-90a2-4be699ad2f67","groupName":"OncologyReadWrite","groupDescription":"Detailed description of group","permission":"READONLY","groupFilter":[{"groupFieldName":"studyType","groupFilterValues":[{"id":"INTERVENTIONAL","title":"INTERVENTIONAL"},{"id":"EXPANDED_ACCESS","title":"EXPANDED_ACCESS"}]}],"groupModifiedOn":"2022-JUN-16","groupModifiedBy":"yuvarani.nagarajan@accenture.com","groupCreatedOn":"2022-JUN-14","groupCreatedBy":"viswesh.mb@accenture.com","groupEnabled":true},{"groupId":"0193a357-8519-4488-90e4-522f701658b9","groupName":"OncologyRead","groupDescription":"Detailed description of group","permission":"READ_WRITE","groupFilter":[{"groupFieldName":"study","groupFilterValues":[{"id":"848430c4-432f-4e2e-9e5a-e90a85144a8f","title":"Study On Parkinson disease"}]},{"groupFieldName":"studyType","groupFilterValues":[{"id":"OBSERVATIONAL","title":"OBSERVATIONAL"}]}],"groupModifiedOn":"2022-JUN-16","groupModifiedBy":"yuvarani.nagarajan@accenture.com","groupCreatedOn":"2022-MAY-10","groupCreatedBy":"admin1@SDR.com","groupEnabled":true}]); // or return a list of bookings in case you want to test the first part of the if statement
+          return of([
+            {
+              groupId: 'a5e41cf7-b984-4091-90a2-4be699ad2f67',
+              groupName: 'OncologyReadWrite',
+              groupDescription: 'Detailed description of group',
+              permission: 'READONLY',
+              groupFilter: [
+                {
+                  groupFieldName: 'studyType',
+                  groupFilterValues: [
+                    { id: 'INTERVENTIONAL', title: 'INTERVENTIONAL' },
+                    { id: 'EXPANDED_ACCESS', title: 'EXPANDED_ACCESS' },
+                  ],
+                },
+              ],
+              groupModifiedOn: '2022-JUN-16',
+              groupModifiedBy: 'yuvarani.nagarajan@accenture.com',
+              groupCreatedOn: '2022-JUN-14',
+              groupCreatedBy: 'viswesh.mb@accenture.com',
+              groupEnabled: true,
+            },
+            {
+              groupId: '0193a357-8519-4488-90e4-522f701658b9',
+              groupName: 'OncologyRead',
+              groupDescription: 'Detailed description of group',
+              permission: 'READ_WRITE',
+              groupFilter: [
+                {
+                  groupFieldName: 'study',
+                  groupFilterValues: [
+                    {
+                      id: '848430c4-432f-4e2e-9e5a-e90a85144a8f',
+                      title: 'Study On Parkinson disease',
+                    },
+                  ],
+                },
+                {
+                  groupFieldName: 'studyType',
+                  groupFilterValues: [
+                    { id: 'OBSERVATIONAL', title: 'OBSERVATIONAL' },
+                  ],
+                },
+              ],
+              groupModifiedOn: '2022-JUN-16',
+              groupModifiedBy: 'yuvarani.nagarajan@accenture.com',
+              groupCreatedOn: '2022-MAY-10',
+              groupCreatedBy: 'admin1@SDR.com',
+              groupEnabled: true,
+            },
+          ]); // or return a list of bookings in case you want to test the first part of the if statement
         }
       );
       component.ngOnInit();
@@ -96,11 +145,60 @@ describe('GroupManagementComponent', () => {
         fixture.debugElement.injector.get(NgxSpinnerService);
       const serviceCallStub: ServiceCall =
         fixture.debugElement.injector.get(ServiceCall);
-        spyOn<ServiceCall, any>(serviceCallStub, 'getAllGroups').and.callFake(
-          () => {
-            return of([{"groupId":"a5e41cf7-b984-4091-90a2-4be699ad2f67","groupName":"OncologyReadWrite","groupDescription":"Detailed description of group","permission":"READONLY","groupFilter":[{"groupFieldName":"studyType","groupFilterValues":[{"id":"INTERVENTIONAL","title":"INTERVENTIONAL"},{"id":"EXPANDED_ACCESS","title":"EXPANDED_ACCESS"}]}],"groupModifiedOn":"2022-JUN-16","groupModifiedBy":"yuvarani.nagarajan@accenture.com","groupCreatedOn":"2022-JUN-14","groupCreatedBy":"viswesh.mb@accenture.com","groupEnabled":true},{"groupId":"0193a357-8519-4488-90e4-522f701658b9","groupName":"OncologyRead","groupDescription":"Detailed description of group","permission":"READ_WRITE","groupFilter":[{"groupFieldName":"study","groupFilterValues":[{"id":"848430c4-432f-4e2e-9e5a-e90a85144a8f","title":"Study On Parkinson disease"}]},{"groupFieldName":"studyType","groupFilterValues":[{"id":"OBSERVATIONAL","title":"OBSERVATIONAL"}]}],"groupModifiedOn":"2022-JUN-16","groupModifiedBy":"yuvarani.nagarajan@accenture.com","groupCreatedOn":"2022-MAY-10","groupCreatedBy":"admin1@SDR.com","groupEnabled":true}]); // or return a list of bookings in case you want to test the first part of the if statement
-          }
-        );
+      spyOn<ServiceCall, any>(serviceCallStub, 'getAllGroups').and.callFake(
+        () => {
+          return of([
+            {
+              groupId: 'a5e41cf7-b984-4091-90a2-4be699ad2f67',
+              groupName: 'OncologyReadWrite',
+              groupDescription: 'Detailed description of group',
+              permission: 'READONLY',
+              groupFilter: [
+                {
+                  groupFieldName: 'studyType',
+                  groupFilterValues: [
+                    { id: 'INTERVENTIONAL', title: 'INTERVENTIONAL' },
+                    { id: 'EXPANDED_ACCESS', title: 'EXPANDED_ACCESS' },
+                  ],
+                },
+              ],
+              groupModifiedOn: '2022-JUN-16',
+              groupModifiedBy: 'yuvarani.nagarajan@accenture.com',
+              groupCreatedOn: '2022-JUN-14',
+              groupCreatedBy: 'viswesh.mb@accenture.com',
+              groupEnabled: true,
+            },
+            {
+              groupId: '0193a357-8519-4488-90e4-522f701658b9',
+              groupName: 'OncologyRead',
+              groupDescription: 'Detailed description of group',
+              permission: 'READ_WRITE',
+              groupFilter: [
+                {
+                  groupFieldName: 'study',
+                  groupFilterValues: [
+                    {
+                      id: '848430c4-432f-4e2e-9e5a-e90a85144a8f',
+                      title: 'Study On Parkinson disease',
+                    },
+                  ],
+                },
+                {
+                  groupFieldName: 'studyType',
+                  groupFilterValues: [
+                    { id: 'OBSERVATIONAL', title: 'OBSERVATIONAL' },
+                  ],
+                },
+              ],
+              groupModifiedOn: '2022-JUN-16',
+              groupModifiedBy: 'yuvarani.nagarajan@accenture.com',
+              groupCreatedOn: '2022-MAY-10',
+              groupCreatedBy: 'admin1@SDR.com',
+              groupEnabled: true,
+            },
+          ]); // or return a list of bookings in case you want to test the first part of the if statement
+        }
+      );
       spyOn(ngxSpinnerServiceStub, 'show').and.callThrough();
       spyOn(ngxSpinnerServiceStub, 'hide').and.callThrough();
       component.getAllGroups();
@@ -114,33 +212,198 @@ describe('GroupManagementComponent', () => {
     it('makes expected calls', () => {
       const commonMethodsServiceStub: CommonMethodsService =
         fixture.debugElement.injector.get(CommonMethodsService);
-      component.responseData = [{"groupId":"0193a357-8519-4488-90e4-522f701658b9","groupName":"OncologyRead","groupDescription":"Detailed description of group","permission":"READ_WRITE","groupFilter":[{"groupFieldName":"study","groupFilterValues":[{"id":"848430c4-432f-4e2e-9e5a-e90a85144a8f","title":"Study On Parkinson disease"}],"groupName":"OncologyRead","permission":"READ_WRITE","groupId":"0193a357-8519-4488-90e4-522f701658b9"},{"groupFieldName":"studyType","groupFilterValues":[{"id":"OBSERVATIONAL","title":"OBSERVATIONAL"}],"groupId":"0193a357-8519-4488-90e4-522f701658b9"}],"groupModifiedOn":"2022-JUN-15","groupModifiedBy":"viswesh.mb@accenture.com","groupCreatedOn":"2022-MAY-10","groupCreatedBy":"admin1@SDR.com","groupEnabled":true},{"groupId":"a5e41cf7-b984-4091-90a2-4be699ad2f67","groupName":"OncologyReadWrite","groupDescription":"Detailed description of group","permission":"READONLY","groupFilter":[{"groupFieldName":"studyType","groupFilterValues":[{"id":"INTERVENTIONAL","title":"INTERVENTIONAL"},{"id":"EXPANDED_ACCESS","title":"EXPANDED_ACCESS"}],"groupName":"OncologyReadWrite","permission":"READONLY","groupId":"a5e41cf7-b984-4091-90a2-4be699ad2f67"}],"groupModifiedOn":"2022-JUN-15","groupModifiedBy":"viswesh.mb@accenture.com","groupCreatedOn":"2022-JUN-14","groupCreatedBy":"viswesh.mb@accenture.com","groupEnabled":true}];
-      component.deleteGroup = {"groupFieldName":"studyType","groupFilterValues":[{"id":"OBSERVATIONAL","title":"OBSERVATIONAL"}],"groupId":"0193a357-8519-4488-90e4-522f701658b9"};
+      component.responseData = [
+        {
+          groupId: '0193a357-8519-4488-90e4-522f701658b9',
+          groupName: 'OncologyRead',
+          groupDescription: 'Detailed description of group',
+          permission: 'READ_WRITE',
+          groupFilter: [
+            {
+              groupFieldName: 'study',
+              groupFilterValues: [
+                {
+                  id: '848430c4-432f-4e2e-9e5a-e90a85144a8f',
+                  title: 'Study On Parkinson disease',
+                },
+              ],
+              groupName: 'OncologyRead',
+              permission: 'READ_WRITE',
+              groupId: '0193a357-8519-4488-90e4-522f701658b9',
+            },
+            {
+              groupFieldName: 'studyType',
+              groupFilterValues: [
+                { id: 'OBSERVATIONAL', title: 'OBSERVATIONAL' },
+              ],
+              groupId: '0193a357-8519-4488-90e4-522f701658b9',
+            },
+          ],
+          groupModifiedOn: '2022-JUN-15',
+          groupModifiedBy: 'viswesh.mb@accenture.com',
+          groupCreatedOn: '2022-MAY-10',
+          groupCreatedBy: 'admin1@SDR.com',
+          groupEnabled: true,
+        },
+        {
+          groupId: 'a5e41cf7-b984-4091-90a2-4be699ad2f67',
+          groupName: 'OncologyReadWrite',
+          groupDescription: 'Detailed description of group',
+          permission: 'READONLY',
+          groupFilter: [
+            {
+              groupFieldName: 'studyType',
+              groupFilterValues: [
+                { id: 'INTERVENTIONAL', title: 'INTERVENTIONAL' },
+                { id: 'EXPANDED_ACCESS', title: 'EXPANDED_ACCESS' },
+              ],
+              groupName: 'OncologyReadWrite',
+              permission: 'READONLY',
+              groupId: 'a5e41cf7-b984-4091-90a2-4be699ad2f67',
+            },
+          ],
+          groupModifiedOn: '2022-JUN-15',
+          groupModifiedBy: 'viswesh.mb@accenture.com',
+          groupCreatedOn: '2022-JUN-14',
+          groupCreatedBy: 'viswesh.mb@accenture.com',
+          groupEnabled: true,
+        },
+      ];
+      component.deleteGroup = {
+        groupFieldName: 'studyType',
+        groupFilterValues: [{ id: 'OBSERVATIONAL', title: 'OBSERVATIONAL' }],
+        groupId: '0193a357-8519-4488-90e4-522f701658b9',
+      };
       spyOn(commonMethodsServiceStub, 'postGroup').and.callThrough();
-      component.confirm();    
+      component.confirm();
       expect(commonMethodsServiceStub.postGroup).toHaveBeenCalled();
     });
   });
   describe('openModal', () => {
     it('makes expected calls', () => {
-      let field = [{"id":"INTERVENTIONAL","title":"INTERVENTIONAL"},{"id":"EXPANDED_ACCESS","title":"EXPANDED_ACCESS"}];
-      component.openModal(field);    
+      let field = [
+        { id: 'INTERVENTIONAL', title: 'INTERVENTIONAL' },
+        { id: 'EXPANDED_ACCESS', title: 'EXPANDED_ACCESS' },
+      ];
+      component.openModal(field);
       expect(component.filterFieldList).toBe(field);
     });
   });
   describe('openDeleteConfirmation', () => {
     it('makes expected calls', () => {
-      component.rowData = [{"groupFieldName":"studyType","groupFilterValues":[{"id":"INTERVENTIONAL","title":"INTERVENTIONAL"},{"id":"EXPANDED_ACCESS","title":"EXPANDED_ACCESS"}],"groupName":"OncologyReadWrite","permission":"READONLY","groupId":"a5e41cf7-b984-4091-90a2-4be699ad2f67"},{"groupFieldName":"study","groupFilterValues":[{"id":"848430c4-432f-4e2e-9e5a-e90a85144a8f","title":"Study On Parkinson disease"}],"groupName":"OncologyRead","permission":"READ_WRITE","groupId":"0193a357-8519-4488-90e4-522f701658b9"},{"groupFieldName":"studyType","groupFilterValues":[{"id":"OBSERVATIONAL","title":"OBSERVATIONAL"}],"groupId":"0193a357-8519-4488-90e4-522f701658b9"}];
-      let field = {"groupFieldName":"studyType","groupFilterValues":[{"id":"INTERVENTIONAL","title":"INTERVENTIONAL"},{"id":"EXPANDED_ACCESS","title":"EXPANDED_ACCESS"}],"groupName":"OncologyReadWrite","permission":"READONLY","groupId":"a5e41cf7-b984-4091-90a2-4be699ad2f67"};
-      component.openDeleteConfirmation(field);    
+      component.rowData = [
+        {
+          groupFieldName: 'studyType',
+          groupFilterValues: [
+            { id: 'INTERVENTIONAL', title: 'INTERVENTIONAL' },
+            { id: 'EXPANDED_ACCESS', title: 'EXPANDED_ACCESS' },
+          ],
+          groupName: 'OncologyReadWrite',
+          permission: 'READONLY',
+          groupId: 'a5e41cf7-b984-4091-90a2-4be699ad2f67',
+        },
+        {
+          groupFieldName: 'study',
+          groupFilterValues: [
+            {
+              id: '848430c4-432f-4e2e-9e5a-e90a85144a8f',
+              title: 'Study On Parkinson disease',
+            },
+          ],
+          groupName: 'OncologyRead',
+          permission: 'READ_WRITE',
+          groupId: '0193a357-8519-4488-90e4-522f701658b9',
+        },
+        {
+          groupFieldName: 'studyType',
+          groupFilterValues: [{ id: 'OBSERVATIONAL', title: 'OBSERVATIONAL' }],
+          groupId: '0193a357-8519-4488-90e4-522f701658b9',
+        },
+      ];
+      let field = {
+        groupFieldName: 'studyType',
+        groupFilterValues: [
+          { id: 'INTERVENTIONAL', title: 'INTERVENTIONAL' },
+          { id: 'EXPANDED_ACCESS', title: 'EXPANDED_ACCESS' },
+        ],
+        groupName: 'OncologyReadWrite',
+        permission: 'READONLY',
+        groupId: 'a5e41cf7-b984-4091-90a2-4be699ad2f67',
+      };
+      component.openDeleteConfirmation(field);
       expect(component.deleteGroup).toBe(field);
     });
   });
   describe('edit', () => {
     it('makes expected calls', () => {
-      component.responseData = [{"groupId":"a5e41cf7-b984-4091-90a2-4be699ad2f67","groupName":"OncologyReadWrite","groupDescription":"Detailed description of group","permission":"READONLY","groupFilter":[{"groupFieldName":"studyType","groupFilterValues":[{"id":"INTERVENTIONAL","title":"INTERVENTIONAL"},{"id":"EXPANDED_ACCESS","title":"EXPANDED_ACCESS"}],"groupName":"OncologyReadWrite","permission":"READONLY","groupId":"a5e41cf7-b984-4091-90a2-4be699ad2f67"}],"groupModifiedOn":"2022-JUN-16","groupModifiedBy":"yuvarani.nagarajan@accenture.com","groupCreatedOn":"2022-JUN-14","groupCreatedBy":"viswesh.mb@accenture.com","groupEnabled":true},{"groupId":"0193a357-8519-4488-90e4-522f701658b9","groupName":"OncologyRead","groupDescription":"Detailed description of group","permission":"READ_WRITE","groupFilter":[{"groupFieldName":"study","groupFilterValues":[{"id":"848430c4-432f-4e2e-9e5a-e90a85144a8f","title":"Study On Parkinson disease"}],"groupName":"OncologyRead","permission":"READ_WRITE","groupId":"0193a357-8519-4488-90e4-522f701658b9"},{"groupFieldName":"studyType","groupFilterValues":[{"id":"OBSERVATIONAL","title":"OBSERVATIONAL"}],"groupId":"0193a357-8519-4488-90e4-522f701658b9"}],"groupModifiedOn":"2022-JUN-16","groupModifiedBy":"yuvarani.nagarajan@accenture.com","groupCreatedOn":"2022-MAY-10","groupCreatedBy":"admin1@SDR.com","groupEnabled":true}];
-      let params = {"groupFieldName":"studyType","groupFilterValues":[{"id":"INTERVENTIONAL","title":"INTERVENTIONAL"},{"id":"EXPANDED_ACCESS","title":"EXPANDED_ACCESS"}],"groupName":"OncologyReadWrite","permission":"READONLY","groupId":"a5e41cf7-b984-4091-90a2-4be699ad2f67"};
-      component.edit(params);    
+      component.responseData = [
+        {
+          groupId: 'a5e41cf7-b984-4091-90a2-4be699ad2f67',
+          groupName: 'OncologyReadWrite',
+          groupDescription: 'Detailed description of group',
+          permission: 'READONLY',
+          groupFilter: [
+            {
+              groupFieldName: 'studyType',
+              groupFilterValues: [
+                { id: 'INTERVENTIONAL', title: 'INTERVENTIONAL' },
+                { id: 'EXPANDED_ACCESS', title: 'EXPANDED_ACCESS' },
+              ],
+              groupName: 'OncologyReadWrite',
+              permission: 'READONLY',
+              groupId: 'a5e41cf7-b984-4091-90a2-4be699ad2f67',
+            },
+          ],
+          groupModifiedOn: '2022-JUN-16',
+          groupModifiedBy: 'yuvarani.nagarajan@accenture.com',
+          groupCreatedOn: '2022-JUN-14',
+          groupCreatedBy: 'viswesh.mb@accenture.com',
+          groupEnabled: true,
+        },
+        {
+          groupId: '0193a357-8519-4488-90e4-522f701658b9',
+          groupName: 'OncologyRead',
+          groupDescription: 'Detailed description of group',
+          permission: 'READ_WRITE',
+          groupFilter: [
+            {
+              groupFieldName: 'study',
+              groupFilterValues: [
+                {
+                  id: '848430c4-432f-4e2e-9e5a-e90a85144a8f',
+                  title: 'Study On Parkinson disease',
+                },
+              ],
+              groupName: 'OncologyRead',
+              permission: 'READ_WRITE',
+              groupId: '0193a357-8519-4488-90e4-522f701658b9',
+            },
+            {
+              groupFieldName: 'studyType',
+              groupFilterValues: [
+                { id: 'OBSERVATIONAL', title: 'OBSERVATIONAL' },
+              ],
+              groupId: '0193a357-8519-4488-90e4-522f701658b9',
+            },
+          ],
+          groupModifiedOn: '2022-JUN-16',
+          groupModifiedBy: 'yuvarani.nagarajan@accenture.com',
+          groupCreatedOn: '2022-MAY-10',
+          groupCreatedBy: 'admin1@SDR.com',
+          groupEnabled: true,
+        },
+      ];
+      let params = {
+        groupFieldName: 'studyType',
+        groupFilterValues: [
+          { id: 'INTERVENTIONAL', title: 'INTERVENTIONAL' },
+          { id: 'EXPANDED_ACCESS', title: 'EXPANDED_ACCESS' },
+        ],
+        groupName: 'OncologyReadWrite',
+        permission: 'READONLY',
+        groupId: 'a5e41cf7-b984-4091-90a2-4be699ad2f67',
+      };
+      component.edit(params);
       expect(params).toBe(params);
     });
   });

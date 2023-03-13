@@ -14,7 +14,7 @@
 //   let fixture: ComponentFixture<SearchFormComponent>;
 
 //   beforeEach(() => {
-    
+
 //     const formBuilderStub = () => ({
 //       group: (object: any, object1: any) => ({}),
 //     });
@@ -97,8 +97,6 @@
 //     });
 //   });
 
- 
-
 //   describe('getSponsorId', () => {
 //     it('makes expected calls', () => {
 //       let params = {
@@ -122,7 +120,7 @@
 //           "auditTrail":{
 //              "entryDateTime":"2022-FEB-07",
 //              "entrySystemId":"Viswesh_localHost",
-             
+
 //              "studyVersion":1
 //           }
 //        }
@@ -155,7 +153,7 @@
 //           "auditTrail":{
 //              "entryDateTime":"2022-FEB-07",
 //              "entrySystemId":"Viswesh_localHost",
-             
+
 //              "studyVersion":1
 //           }
 //        }
@@ -188,7 +186,7 @@
 //           "auditTrail":{
 //              "entryDateTime":"2022-FEB-07",
 //              "entrySystemId":"Viswesh_localHost",
-             
+
 //              "studyVersion":1
 //           }
 //        }
@@ -222,7 +220,7 @@
 //         "auditTrail":{
 //            "entryDateTime":"2022-FEB-07",
 //            "entrySystemId":"Viswesh_localHost",
-           
+
 //            "studyVersion":1
 //         }
 //      }
@@ -231,7 +229,6 @@
 //     });
 //   });
 
- 
 //   describe('restrictChar', () => {
 //     it('makes expected calls', () => {
 //       const event = document.createEvent('KeyboardEvent');;

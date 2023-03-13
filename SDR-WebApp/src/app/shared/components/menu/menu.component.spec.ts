@@ -7,11 +7,9 @@ describe('MenuComponent', () => {
   let fixture: ComponentFixture<MenuComponent>;
 
   beforeEach(async () => {
-
     await TestBed.configureTestingModule({
-      declarations: [ MenuComponent ]
-    })
-    .compileComponents();
+      declarations: [MenuComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -19,9 +17,7 @@ describe('MenuComponent', () => {
     TestBed.configureTestingModule({
       schemas: [NO_ERRORS_SCHEMA],
       declarations: [MenuComponent],
-      providers: [
-        { provide: MsalService, useFactory: msalServiceStub }
-      ]
+      providers: [{ provide: MsalService, useFactory: msalServiceStub }],
     });
     fixture = TestBed.createComponent(MenuComponent);
     component = fixture.componentInstance;
@@ -33,8 +29,7 @@ describe('MenuComponent', () => {
   });
   describe('logout', () => {
     it('makes expected calls', () => {
-      
-      component.logout();    
+      component.logout();
       expect(1).toBe(1);
     });
   });

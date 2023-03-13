@@ -1,28 +1,26 @@
 import { TestBed } from '@angular/core/testing';
 import {
   HttpClientTestingModule,
-  HttpTestingController
+  HttpTestingController,
 } from '@angular/common/http/testing';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { HttpWrapperService } from './http-wrapper.service';
 import { HttpHeaders, HttpParams } from '@angular/common/http';
 describe('HttpWrapperService', () => {
   let service: HttpWrapperService;
-  
+
   beforeEach(() => {
     const ngxSpinnerServiceStub = () => ({ hide: () => ({}) });
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
         HttpWrapperService,
-        { provide: NgxSpinnerService, useFactory: ngxSpinnerServiceStub }
-      ]
+        { provide: NgxSpinnerService, useFactory: ngxSpinnerServiceStub },
+      ],
     });
     spyOn(HttpWrapperService.prototype, 'getDefaultHttpOptions');
     service = TestBed.inject(HttpWrapperService);
-    service.httpOptions = {
-
-    };
+    service.httpOptions = {};
   });
 
   it('can load instance', () => {
@@ -59,7 +57,7 @@ describe('HttpWrapperService', () => {
     it('makes expected calls', () => {
       spyOn(service, 'postData').and.callThrough();
       (<jasmine.Spy>service.postData).and.callThrough();
-      service.postData('/search',{});
+      service.postData('/search', {});
       expect(service.postData).toHaveBeenCalled();
     });
   });
@@ -68,7 +66,7 @@ describe('HttpWrapperService', () => {
     it('makes expected calls', () => {
       spyOn(service, 'getWithParams').and.callThrough();
       (<jasmine.Spy>service.getWithParams).and.callThrough();
-      service.getWithParams('/search',{});
+      service.getWithParams('/search', {});
       expect(service.getWithParams).toHaveBeenCalled();
     });
   });

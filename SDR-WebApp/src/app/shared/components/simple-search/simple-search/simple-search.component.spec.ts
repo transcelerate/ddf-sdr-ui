@@ -119,88 +119,86 @@ describe('SimpleSearchComponent', () => {
       ).toHaveBeenCalled();
     });
   });
-  // describe('getSelectSearch', () => {
-  //   it('makes expected calls', () => {
+  describe('getSelectSearch', () => {
+    it('makes expected calls', () => {
+      let params = {
+        data: {
+          clinicalStudy: {
+            uuid: '1a9aee0f-a43d-447d-b15f-4c8a557c41fd',
+            studyTitle: 'Study On Parkinson disease',
+            studyType: 'INTERVENTIONAL',
+            studyPhase: 'PHASE_1_TRIAL',
+            studyStatus: 'Draft',
+            studyTag: '2.0Draft',
+            studyIdentifiers: [
+              {
+                id: 'd645f5cc-6866-4a82-bb03-e8d57c7f9c68',
+                orgCode: '2.16.840.1.113883.3.1982',
+                name: 'ClinicalTrials.gov',
+                idType: 'REGISTRY_STUDY',
+              },
+              {
+                id: '1f46b767-65d5-463e-ba1a-3cfcea1e4d78',
+                orgCode: '2.16.840.1.113883.3.1152',
+                name: 'ClinicalTrials.gov',
+                idType: 'SPONSOR_ID',
+              },
+            ],
+            studyProtocolReferences: null,
+            studyDesigns: [
+              {
+                studyDesignId: null,
+                trialIntentType: null,
+                trialType: null,
+                plannedWorkflows: null,
+                studyPopulations: null,
+                studyCells: null,
+                investigationalInterventions: [
+                  {
+                    id: 'ecf1daaa-b8b4-4c59-8d5c-504836cb0244',
+                    description: 'Ibuprofen 200mg',
+                    interventionModel: 'SEQUENTIAL',
+                    status: 'A Status',
+                    coding: [
+                      {
+                        code: '26929004',
+                        codeSystem: 'SNOMED-CT',
+                        codeSystemVersion: '4.0.6.4',
+                        decode: "Alzheimer's disease (disorder)",
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+            objectives: null,
+            studyIndications: [
+              {
+                id: '8a09a40e-8049-43c3-9652-1db196c12e8f',
+                description: "Alzheimer's disease",
+                coding: [
+                  {
+                    code: '26929004',
+                    codeSystem: 'SNOMED-CT',
+                    codeSystemVersion: '4.0.6.4',
+                    decode: "Alzheimer's disease (disorder)",
+                  },
+                ],
+              },
+            ],
+          },
+          auditTrail: {
+            entryDateTime: '2022-JUN-20',
 
-  //     let params = {
-  //       data: {
-  //         clinicalStudy: {
-  //           uuid: '1a9aee0f-a43d-447d-b15f-4c8a557c41fd',
-  //           studyTitle: 'Study On Parkinson disease',
-  //           studyType: 'INTERVENTIONAL',
-  //           studyPhase: 'PHASE_1_TRIAL',
-  //           studyStatus: 'Draft',
-  //           studyTag: '2.0Draft',
-  //           studyIdentifiers: [
-  //             {
-  //               id: 'd645f5cc-6866-4a82-bb03-e8d57c7f9c68',
-  //               orgCode: '2.16.840.1.113883.3.1982',
-  //               name: 'ClinicalTrials.gov',
-  //               idType: 'REGISTRY_STUDY',
-  //             },
-  //             {
-  //               id: '1f46b767-65d5-463e-ba1a-3cfcea1e4d78',
-  //               orgCode: '2.16.840.1.113883.3.1152',
-  //               name: 'ClinicalTrials.gov',
-  //               idType: 'SPONSOR_ID',
-  //             },
-  //           ],
-  //           studyProtocolReferences: null,
-  //           studyDesigns: [
-  //             {
-  //               studyDesignId: null,
-  //               trialIntentType: null,
-  //               trialType: null,
-  //               plannedWorkflows: null,
-  //               studyPopulations: null,
-  //               studyCells: null,
-  //               investigationalInterventions: [
-  //                 {
-  //                   id: 'ecf1daaa-b8b4-4c59-8d5c-504836cb0244',
-  //                   description: 'Ibuprofen 200mg',
-  //                   interventionModel: 'SEQUENTIAL',
-  //                   status: 'A Status',
-  //                   coding: [
-  //                     {
-  //                       code: '26929004',
-  //                       codeSystem: 'SNOMED-CT',
-  //                       codeSystemVersion: '4.0.6.4',
-  //                       decode: "Alzheimer's disease (disorder)",
-  //                     },
-  //                   ],
-  //                 },
-  //               ],
-  //             },
-  //           ],
-  //           objectives: null,
-  //           studyIndications: [
-  //             {
-  //               id: '8a09a40e-8049-43c3-9652-1db196c12e8f',
-  //               description: "Alzheimer's disease",
-  //               coding: [
-  //                 {
-  //                   code: '26929004',
-  //                   codeSystem: 'SNOMED-CT',
-  //                   codeSystemVersion: '4.0.6.4',
-  //                   decode: "Alzheimer's disease (disorder)",
-  //                 },
-  //               ],
-  //             },
-  //           ],
-  //         },
-  //         auditTrail: {
-  //           entryDateTime: '2022-JUN-20',
-
-  //           SDRUploadVersion: 1,
-  //         },
-  //         selected: true,
-  //       },
-  //     };
-  //     component.getSelectSearch(params);
-  //     expect(component.selectedValue).toEqual(params.data);
-
-  //   });
-  // });
+            SDRUploadVersion: 1,
+          },
+          selected: true,
+        },
+      };
+      component.getSelectSearch(params);
+      expect(component.selectedValue).toEqual(params.data);
+    });
+  });
   describe('setSelectedValue', () => {
     it('should redirect the user to the details page', () => {
       let router = TestBed.get(Router);

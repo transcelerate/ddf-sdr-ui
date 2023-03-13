@@ -1,8 +1,8 @@
 <app-error-component *ngIf="showError"></app-error-component>
-<div  *ngIf="route.children.length === 0">
+<div *ngIf="route.children.length === 0">
   <div class="container-fluid outer">
     <h3>Search Study Definitions</h3>
-    
+
     <form [formGroup]="editorForm">
       <div class="row">
         <div class="col-6">
@@ -120,7 +120,6 @@
               />
             </div>
           </div>
-         
         </div>
         <!--right side -->
       </div>
@@ -141,7 +140,6 @@
             Search
           </button>
         </div>
-      
       </div>
     </form>
   </div>
@@ -163,17 +161,14 @@
       [maxBlocksInCache]="maxBlocksInCache"
       [rowData]="rowData"
       [icons]="icons"
-      [suppressNoRowsOverlay] = false
+      [suppressNoRowsOverlay]="false"
       [sortingOrder]="['asc', 'desc']"
       [overlayNoRowsTemplate]="noRowsTemplate"
-      [headerHeight] = 35
+      [headerHeight]="35"
       [tooltipShowDelay]="tooltipShowDelay"
-    
       (gridReady)="onGridReady($event)"
-     
     ></ag-grid-angular>
   </div>
 </div>
 
-<router-outlet></router-outlet>  
-
+<router-outlet></router-outlet>
