@@ -36,7 +36,7 @@
               />
               <mat-autocomplete #intervention="matAutocomplete">
                 <mat-option
-                  *ngFor="let option of interventionList | async"
+                  *ngFor="let option of interventionDropDown"
                   [value]="option"
                 >
                   {{ option }}
@@ -99,7 +99,7 @@
               />
               <mat-autocomplete #auto="matAutocomplete">
                 <mat-option
-                  *ngFor="let option of phaseList | async"
+                  *ngFor="let option of phaseDropDown"
                   [value]="option"
                 >
                   {{ option }}
