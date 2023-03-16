@@ -41,7 +41,7 @@ jobs:
         # Name of the azure key vault
         keyvault: ${{ secrets.KEYVAULT_NAME }} # name of key vault in Azure portal
         # Name of the secret to be fetched
-        secrets: 'AzureAd-TenantId,AzureAd-Authority,AzureAd-ClientId,AzureAd-Audience,AzureAd-RedirectUrl,AzureAd-LoginUrl,Apim-BaseUrl'  # comma separated list of secret keys to fetch from key vault 
+        secrets: 'AzureAd-TenantId,AzureAd-Authority,AzureAd-ClientId,AzureAd-Audience,AzureAd-RedirectUrl,AzureAd-LoginUrl,Apim-BaseUrl,Env-Name'  # comma separated list of secret keys to fetch from key vault 
       id: keyvaultSecretAction # ID for secrets that you will reference    
     
     
@@ -55,13 +55,13 @@ jobs:
         find ${{ github.workspace }}/SDR-WebApp/src/environments/environment.ts -type f -exec sed -i ''s@{#AzureAd-RedirectUrl#}@'${{ steps.keyvaultSecretAction.outputs.AzureAd-RedirectUrl }}'@g'' {} \;
         find ${{ github.workspace }}/SDR-WebApp/src/environments/environment.ts -type f -exec sed -i ''s@{#AzureAd-LoginUrl#}@'${{ steps.keyvaultSecretAction.outputs.AzureAd-LoginUrl }}'@g'' {} \;
         find ${{ github.workspace }}/SDR-WebApp/src/environments/environment.ts -type f -exec sed -i ''s@{#Apim-BaseUrl#}@'${{ steps.keyvaultSecretAction.outputs.Apim-BaseUrl }}'@g'' {} \;
-        # find ${{ github.workspace }}/SDR-WebApp/src/environments/environment.ts -type f -exec sed -i ''s@{#Env-Name#}@'${{ steps.keyvaultSecretAction.outputs.Env-Name }}'@g'' {} \;
+        find ${{ github.workspace }}/SDR-WebApp/src/environments/environment.ts -type f -exec sed -i ''s@{#Env-Name#}@'${{ steps.keyvaultSecretAction.outputs.Env-Name }}'@g'' {} \;
               
-    - name: Use Node 12.x
+    - name: Use Node 14.x
       uses: actions/setup-node@v1
       with:
         # The node.js version to use
-        node-version: 12.x
+        node-version: 14.x
       
     - name: npm cli
       # Few npm dependencies needs to be installed seperately through command line as it throwa error
@@ -186,27 +186,6 @@ jobs:
         app-name: ${{ env.AZURE_WEBAPP_NAME }} # Replace with your app name
         package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
 
-    # - name: Azure Container Registry Login
-    #   uses: Azure/docker-login@v1
-    #   with:
-    #     # Container registry username
-    #     username: ${{ secrets.ACR_USERNAME }} # default is 
-    #     # Container registry password
-    #     password: ${{ secrets.ACR_PASSWORD }} # default is 
-    #     # Container registry server url
-    #     login-server: ${{ secrets.ACR_NAME }} # default is https://index.docker.io/v1/
-    # - run: |
-    #     cp '${{ github.workspace }}/Dockerfile' '${{ github.workspace }}/SDR-WebApp/dist/SDR-WebApp'
-    #     cp '${{ github.workspace }}/nginx.conf' '${{ github.workspace }}/SDR-WebApp/dist/SDR-WebApp'
-    #     cd ${{ github.workspace }}/SDR-WebApp/dist/SDR-WebApp
-    #     ls
-    #     docker build . -t ${{ secrets.ACR_NAME }}/sdruibuild:latest
-    #     docker push ${{ secrets.ACR_NAME }}/sdruibuild:latest
-        
-    # - uses: azure/webapps-deploy@v2
-    #   with:
-    #     app-name: ${{ secrets.AZURE_WEBAPP_NAME }}
-    #     images: '${{ secrets.ACR_NAME }}/sdruibuild:latest'
 
 
 
