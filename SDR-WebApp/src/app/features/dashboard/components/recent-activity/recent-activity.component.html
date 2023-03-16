@@ -1,13 +1,12 @@
-
 <div class="recentWidget" *ngIf="route.children.length === 0">
-  
   <div class="conatiner">
-    <h2>Welcome to the Digital Data Flow Study Definitions Repository Dashboard!</h2>
+    <h2>
+      Welcome to the Digital Data Flow Study Definitions Repository Dashboard!
+    </h2>
   </div>
   <app-error-component *ngIf="showError"></app-error-component>
   <ag-grid-angular
     #agGrid
-    
     id="myGrid"
     class="ag-theme-alpine recentGrid"
     [rowHeight]="25"
@@ -22,9 +21,8 @@
     [infiniteInitialRowCount]="infiniteInitialRowCount"
     [maxBlocksInCache]="maxBlocksInCache"
     [rowData]="rowData"
-    [suppressHorizontalScroll]= true
+    [suppressHorizontalScroll]="true"
     (gridReady)="onGridReady($event)"
   ></ag-grid-angular>
 </div>
-<router-outlet></router-outlet>  
-
+<router-outlet></router-outlet>

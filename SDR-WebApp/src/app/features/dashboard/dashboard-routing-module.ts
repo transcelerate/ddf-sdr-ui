@@ -10,42 +10,42 @@ const dashboardModuleRoutes: Routes = [
     path: '',
     component: RecentActivityComponent,
     data: {
-        breadcrumb: 'Recent Activity',
-        //url:'home'
+      breadcrumb: 'Recent Activity',
+      //url:'home'
     },
     children: [
       {
         path: 'details',
         component: StudyElementDescriptionComponent,
         data: {
-            breadcrumb: 'Study Details',
-            //url:'home/details'
+          breadcrumb: 'Study Details',
+          //url:'home/details'
         },
         children: [
           {
             path: 'audit',
             component: AuditTrailComponent,
             data: {
-                breadcrumb: 'Revision History',
-                //url:'home/details/audit'
+              breadcrumb: 'Revision History',
+              //url:'home/details/audit'
             },
             children: [
               {
                 path: 'compare',
                 component: VersionComparisonComponent,
                 data: {
-                    breadcrumb: 'Study Version Comparison',
-                    //url:'home/details/audit/compare'
+                  breadcrumb: 'Study Version Comparison',
+                  //url:'home/details/audit/compare'
                 },
               },
             ],
           },
           {
-            path:'soa',
+            path: 'soa',
             component: SoaComponent,
-            data:{
-              breadcrumb:'SoA Matrix'
-            }
+            data: {
+              breadcrumb: 'SoA Matrix',
+            },
           },
         ],
       },
@@ -56,11 +56,11 @@ const dashboardModuleRoutes: Routes = [
 //     {
 //       path: '',
 //       component: RecentActivityComponent,
-      
+
 //       data: {
 //           breadcrumb: 'Home'
 //       },
-      
+
 //     },
 //     {
 //         path: 'details',

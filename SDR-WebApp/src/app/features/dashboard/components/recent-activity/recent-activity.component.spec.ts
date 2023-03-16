@@ -56,10 +56,9 @@ describe('RecentActivityComponent', () => {
         { provide: ActivatedRoute, useFactory: activatedRouteStub },
         { provide: Router, useFactory: routerStub },
       ],
-    })
+    });
     fixture = TestBed.createComponent(RecentActivityComponent);
     component = fixture.componentInstance;
-
   });
 
   it('can load instance', () => {
@@ -117,7 +116,7 @@ describe('RecentActivityComponent', () => {
             entrySystemId: 'Viswesh_localHost',
 
             SDRUploadVersion: 1,
-            usdmVersion: '2.0'
+            usdmVersion: '2.0',
           },
         },
       });
@@ -125,20 +124,6 @@ describe('RecentActivityComponent', () => {
     });
   });
 
-  // describe('showGrid', () => {
-  //   it('makes expected calls', () => {
-  //     const event = new MouseEvent('click');
-  //     component.showGrid(event);
-  //     expect(component.showStudyElement).toEqual(false);
-  //   });
-  // });
-
-  // describe('ngAfterViewInit', () => {
-  //   it('makes expected calls', () => {
-  //     component.ngAfterViewInit();
-  //     expect(component.showStudyElement).toEqual(false);
-  //   });
-  // });
   describe('setSelectedValue', () => {
     it('should redirect the user to the details page', () => {
       let router = TestBed.get(Router);
@@ -149,7 +134,7 @@ describe('RecentActivityComponent', () => {
         },
         auditTrail: {
           SDRUploadVersion: 1,
-          usdmVersion: '2.0'
+          usdmVersion: '2.0',
         },
       };
       component.setSelectedValue(param);
@@ -162,35 +147,13 @@ describe('RecentActivityComponent', () => {
   });
   describe('onGridReady', () => {
     it('ongridready', () => {
-
       let param = {
-
         columnApi: {
           studyVersion: 1,
         },
       };
       component.onGridReady(param);
       expect(true).toEqual(true);
-
     });
   });
-  // describe('gridValueMerge', () => {
-  //   it('test gridValueMerge if and else', () => {
-  //     let param = {
-  //       data: {
-  //         studyId: 1,
-  //         version: 1,
-  //         studyTitle: 'titleTest',
-  //       },
-  //     };
-  //     let val = component.gridValueMerge(param);
-  //     expect(val).toEqual({
-  //       studyId: 1,
-  //       version: 1,
-  //       studyTitle: 'titleTest',
-  //     });
-  //     let val1 = component.gridValueMerge({});
-  //     expect(val1).toEqual('');
-  //   });
-  // });
 });

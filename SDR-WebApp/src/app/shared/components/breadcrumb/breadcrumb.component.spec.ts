@@ -13,18 +13,18 @@ describe('BreadcrumbComponent', () => {
       root: {},
       routeConfig: { data: {}, path: {} },
       snapshot: { params: {} },
-      firstChild: {}
+      firstChild: {},
     });
     const routerStub = () => ({
-      events: { pipe: () => ({ subscribe: (f: (arg0: {}) => any) => f({}) }) }
+      events: { pipe: () => ({ subscribe: (f: (arg0: {}) => any) => f({}) }) },
     });
     TestBed.configureTestingModule({
       schemas: [NO_ERRORS_SCHEMA],
       declarations: [BreadcrumbComponent],
       providers: [
         { provide: ActivatedRoute, useFactory: activatedRouteStub },
-        { provide: Router, useFactory: routerStub }
-      ]
+        { provide: Router, useFactory: routerStub },
+      ],
     });
     spyOn(BreadcrumbComponent.prototype, 'buildBreadCrumb');
     fixture = TestBed.createComponent(BreadcrumbComponent);

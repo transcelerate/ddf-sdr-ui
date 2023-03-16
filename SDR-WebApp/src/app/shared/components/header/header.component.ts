@@ -14,14 +14,18 @@ export class HeaderComponent implements OnInit {
     this.ds.dialogObservable.subscribe((dialogState) => {
       this.refreshStatus = dialogState !== 'Not Clicked';
     });
-    window.addEventListener('unload', function(){}); 
-    window.addEventListener("pagehide", event => {
-      // if (event.persisted) {
-      //   /* the page isn't being discarded, so it can be reused later */
-      // }
-    }, false);
+    window.addEventListener('unload', function () {});
+    window.addEventListener(
+      'pagehide',
+      (event) => {
+        // if (event.persisted) {
+        //   /* the page isn't being discarded, so it can be reused later */
+        // }
+      },
+      false
+    );
   }
-   /*
+  /*
   Logout logic 
   */
   // async logout() {
@@ -32,6 +36,4 @@ export class HeaderComponent implements OnInit {
   //   );
   //   await this.authService.instance.logout({ logoutHint: currentAccount?.idTokenClaims.login_hint});
   // }
-
- 
 }

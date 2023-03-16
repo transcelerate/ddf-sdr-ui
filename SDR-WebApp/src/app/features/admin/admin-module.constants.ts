@@ -16,7 +16,7 @@ export class AdminModuleConstants {
     AddGroupComponent,
     CheckboxRenderer,
     UserManagementComponent,
-    AddUserComponent
+    AddUserComponent,
   ];
   static MODULE_IMPORTS = [
     SharedModule,

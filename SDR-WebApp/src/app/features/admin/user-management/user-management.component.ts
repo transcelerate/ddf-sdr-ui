@@ -115,7 +115,6 @@ export class UserManagementComponent implements OnInit {
     };
   }
   openModal(field: any) {
-    
     this.modalRef = this.modalService.show(this.content, { class: 'modal-lg' });
     this.userGroupList = field;
   }
@@ -125,7 +124,7 @@ export class UserManagementComponent implements OnInit {
       elem.isActive = false;
       return elem;
     });
-    this.commonMethod.postUser(this.selectedUser,this);
+    this.commonMethod.postUser(this.selectedUser, this);
   }
 
   decline(): void {
@@ -133,7 +132,6 @@ export class UserManagementComponent implements OnInit {
   }
 
   openDeleteConfirmation(field: any) {
-    
     this.showError = false;
     this.modalRef = this.modalService.show(this.confirmation);
     this.selectedUser = field;
@@ -158,8 +156,10 @@ export class UserManagementComponent implements OnInit {
       this
     );
   }
-  edit(params: any){
-    this.router.navigate(['admin/userMap/addUser'], {state: {data: params}});
+  edit(params: any) {
+    this.router.navigate(['admin/userMap/addUser'], {
+      state: { data: params },
+    });
     //this.router.navigateByUrl('admin/addGroup', { state: { data: params } });
   }
 }

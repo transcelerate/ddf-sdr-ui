@@ -29,7 +29,11 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
             "assets": [
-              { "glob": "**/*", "input": "node_modules/monaco-editor", "output": "assets/monaco-editor/" },
+              {
+                "glob": "**/*",
+                "input": "node_modules/monaco-editor",
+                "output": "assets/monaco-editor/"
+              },
               "src/favicon.ico.webp",
               "src/assets",
               "src/web.config",
@@ -41,8 +45,8 @@
               "src/styles.scss"
             ],
             "scripts": [
-              "node_modules/jquery/dist/jquery.min.js",    
-              "node_modules/bootstrap/dist/js/bootstrap.js"  
+              "node_modules/jquery/dist/jquery.min.js",
+              "node_modules/bootstrap/dist/js/bootstrap.js"
             ]
           },
           "configurations": {
@@ -60,9 +64,9 @@
                 }
               ],
               "optimization": true,
-  
+
               "sourceMap": false,
-              
+
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
@@ -84,7 +88,6 @@
               "sourceMap": true,
               "namedChunks": true
             }
-
           },
           "defaultConfiguration": "production"
         },
@@ -93,19 +96,19 @@
           "configurations": {
             "production": {
               "browserTarget": "SDR-WebApp:build:production",
-              "ssl":true
+              "ssl": true
             },
             "development": {
               "browserTarget": "SDR-WebApp:build:development",
-              "ssl":true
+              "ssl": true
             },
-             "dev2": {
+            "dev2": {
               "browserTarget": "SDR-WebApp:build:dev2",
-              "ssl":true
+              "ssl": true
             },
             "qa": {
               "browserTarget": "SDR-WebApp:build:qa",
-              "ssl":true
+              "ssl": true
             }
           },
           "defaultConfiguration": "development"
@@ -123,26 +126,18 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.spec.json",
             "karmaConfig": "karma.conf.js",
-            "codeCoverageExclude": ["src/app/shared/components/breadcrumb/breadcrumb.component.ts"],
-            "assets": [
-              "src/favicon.ico.webp",
-              "src/assets"
+            "codeCoverageExclude": [
+              "src/app/shared/components/breadcrumb/breadcrumb.component.ts"
             ],
-            "styles": [
-             
-            ],
-            "scripts": [
-           
-            ]
+            "assets": ["src/favicon.ico.webp", "src/assets"],
+            "styles": [],
+            "scripts": []
           }
         },
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
-            "lintFilePatterns": [
-              "src/**/*.ts",
-              "src/**/*.html"
-            ]
+            "lintFilePatterns": ["src/**/*.ts", "src/**/*.html"]
           }
         }
       }

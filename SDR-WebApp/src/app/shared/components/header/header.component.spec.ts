@@ -11,15 +11,15 @@ describe('HeaderComponent', () => {
   beforeEach(() => {
     const msalServiceStub = () => ({ logout: () => ({}) });
     const dialogServiceStub = () => ({
-      dialogObservable: { subscribe: (f: (arg0: {}) => any) => f({}) }
+      dialogObservable: { subscribe: (f: (arg0: {}) => any) => f({}) },
     });
     TestBed.configureTestingModule({
       schemas: [NO_ERRORS_SCHEMA],
       declarations: [HeaderComponent],
       providers: [
         { provide: MsalService, useFactory: msalServiceStub },
-        { provide: DialogService, useFactory: dialogServiceStub }
-      ]
+        { provide: DialogService, useFactory: dialogServiceStub },
+      ],
     });
     fixture = TestBed.createComponent(HeaderComponent);
     component = fixture.componentInstance;
@@ -33,30 +33,10 @@ describe('HeaderComponent', () => {
     expect(component.refreshStatus).toEqual(false);
   });
 
-  // describe('logout', () => {
-  //   it('makes expected calls', () => {
-  //     const msalServiceStub: MsalService = fixture.debugElement.injector.get(
-  //       MsalService
-  //     );
-  //     spyOn(msalServiceStub, 'logout').and.callThrough();
-  //     component.logout();
-  //     msalServiceStub.logout();
-  //     expect(msalServiceStub.logout).toHaveBeenCalled();
-  //   });
-  // });
-
-  describe("ngOnInit", () => {
-    it("makes expected calls", () => {
-      // const dialogServiceStub: DialogService = fixture.debugElement.injector.get(
-      //   DialogService
-      // );
-      // spyOn(dialogServiceStub, "changeDialogState").and.callThrough();
-      // component.ngOnInit();
-      // expect(dialogServiceStub.changeDialogState).toHaveBeenCalled();
+  describe('ngOnInit', () => {
+    it('makes expected calls', () => {
       component.ngOnInit();
       expect(component.refreshStatus).toEqual(true);
     });
   });
 });
-
-

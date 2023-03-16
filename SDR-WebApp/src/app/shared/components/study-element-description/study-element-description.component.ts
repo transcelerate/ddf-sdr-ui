@@ -42,8 +42,8 @@ export class StudyElementDescriptionComponent implements OnInit, OnDestroy {
     private serviceCall: ServiceCall,
     private commonMethods: CommonMethodsService,
     public router: Router,
-    public route: ActivatedRoute,
-  ) { }
+    public route: ActivatedRoute
+  ) {}
   /**
    *get the studyId and version id from rcent activity page or search page from routing
    */

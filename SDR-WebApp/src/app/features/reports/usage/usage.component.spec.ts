@@ -187,6 +187,12 @@ describe('UsageComponent', () => {
     toDate = '2023-03-03T15:12';
     component.checkValidationsOfDates(fromDate, toDate);
     expect(window.alert).toHaveBeenCalledWith(configList.EXCEED_DATE_INFO);
+
+    fixture.detectChanges();
+    fromDate = '2022-01-01T00:00';
+    toDate = '2023-03-03T15:12';
+    component.checkValidationsOfDates(fromDate, toDate);
+    expect(window.alert).toHaveBeenCalledWith(configList.EXCEED_DATE_INFO);
   });
 
   it('check if usage data is called', async () => {

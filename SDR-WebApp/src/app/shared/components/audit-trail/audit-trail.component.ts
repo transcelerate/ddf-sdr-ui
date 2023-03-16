@@ -139,9 +139,9 @@ export class AuditTrailComponent implements OnInit {
   }
 
   /**
- *Logic to generate radio button html element for A column
- * @param params   ag grid value for each row with data.
- */
+   *Logic to generate radio button html element for A column
+   * @param params   ag grid value for each row with data.
+   */
   generateCompareA(params: any) {
     const eDiv = document.createElement('div');
     const self = this;
@@ -206,11 +206,17 @@ export class AuditTrailComponent implements OnInit {
     if (from == 'A') {
       this.versionA = selectedVal.SDRUploadVersion;
       this.usdmVerA = selectedVal.usdmVersion;
-      localStorage.setItem(this.studyId + '_' + this.versionA + '_links', JSON.stringify(selectedVal.links));
+      localStorage.setItem(
+        this.studyId + '_' + this.versionA + '_links',
+        JSON.stringify(selectedVal.links)
+      );
     } else {
       this.versionB = selectedVal.SDRUploadVersion;
       this.usdmVerB = selectedVal.usdmVersion;
-      localStorage.setItem(this.studyId + '_' + this.versionB + '_links', JSON.stringify(selectedVal.links));
+      localStorage.setItem(
+        this.studyId + '_' + this.versionB + '_links',
+        JSON.stringify(selectedVal.links)
+      );
     }
     let domElement = this._elementRef.nativeElement.getElementsByClassName(
       'radio' + disableField

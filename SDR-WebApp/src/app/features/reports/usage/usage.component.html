@@ -1,7 +1,7 @@
 <app-error-component *ngIf="showError"></app-error-component>
 <div class="disable-export-section" *ngIf="disableExportIcon">
   &#9432;
-  <i> {{ exportMessage }}</i>
+  <em> {{ exportMessage }}</em>
 </div>
 <div class="container-fluid">
   <h3>Usage Report</h3>
@@ -9,19 +9,6 @@
   <form [formGroup]="editorForm">
     <div class="row usage-report-form">
       <div class="col-6">
-        <!-- <div class="form-group row usage-report-elements">
-          <label class="col-sm-6">Duration:</label>
-          <div class="col-sm-6">
-            <select class="input-sm form-control" formControlName="days">
-              <option
-                *ngFor="let field of dropDownL.TIMELINE"
-                [value]="field.value"
-              >
-                {{ field.description }}
-              </option>
-            </select>
-          </div>
-        </div> -->
         <div class="form-group row usage-report-elements">
           <label for="fromDateTime" class="col-sm-6 col-form-label"
             >Modified From:<span class="mandatory">*</span></label
@@ -118,7 +105,6 @@
         alt="CSV Download"
       />
     </div>
-    <!-- <br /> -->
   </form>
 </div>
 <div class="container-fluid gridOuter search">

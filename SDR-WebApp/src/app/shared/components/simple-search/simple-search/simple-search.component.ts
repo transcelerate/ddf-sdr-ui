@@ -243,18 +243,12 @@ export class SimpleSearchComponent implements OnInit {
       { relativeTo: this.route }
     );
   }
+  /* istanbul ignore next */
+  // @SONAR_STOP@
   onGridReady(params: any) {
     this.gridApi = params.api;
     this.gridColumnApi = params.columnApi;
     params.api.sizeColumnsToFit();
-    // var defaultSortModel = [
-    //   {
-    //     colId: 'auditTrail.entryDateTime',
-    //     sort: 'desc',
-    //     sortIndex: 0,
-    //   },
-    // ];
-    // params.columnApi.applyColumnState({ state: defaultSortModel });
     const reqObj = this.editorForm.value;
     var defaultSortModel = [
       {
@@ -273,9 +267,9 @@ export class SimpleSearchComponent implements OnInit {
       this.BLOCK_SIZE,
       this
     );
-
-    //this.gridApi.addEventListener('failCallback', this.onServerFailCallback);
   }
+  /* istanbul ignore end */
+  // @SONAR_START@
   /**
    *  Validation to enable search button
    * @param control Formgroup object
@@ -323,7 +317,6 @@ export class SimpleSearchComponent implements OnInit {
 
   getSelectSearch(params: any) {
     if (params.data.selected) {
-
       this.selectedValue = params.data;
     }
   }

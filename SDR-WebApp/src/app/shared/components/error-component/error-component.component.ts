@@ -1,15 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-error-component',
   templateUrl: './error-component.component.html',
-  styleUrls: ['./error-component.component.scss']
+  styleUrls: ['./error-component.component.scss'],
 })
-export class ErrorComponentComponent implements OnInit {
-
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
+export class ErrorComponentComponent {
+  constructor() {}
 }

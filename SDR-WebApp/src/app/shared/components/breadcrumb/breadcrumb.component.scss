@@ -1,28 +1,26 @@
 .breadcrumb {
-    background: none;
-    font-size: 16 px;
-    margin: 0;
-    cursor: pointer;
-    // a, span {
-    //     color: darkgrey;
-    // }
-    a:hover, span:hover {
-        color: dimgrey;
-        text-decoration: none;
-    }
-    li{
-        list-style: none;
-        float: left;
-        margin: 5px;
-    }
-    li:last-child {
-        margin-right: 20px;
-    }
-    li::after {
-        content: '>>>';
-        color: darkgrey;
-    }
-    li:last-child::after {
-        content: ''
-    }
+  background: none;
+  font-size: 16 px;
+  margin: 0;
+  cursor: pointer;
+  a:hover,
+  span:hover {
+    color: dimgrey;
+    text-decoration: none;
+  }
+  li {
+    list-style: none;
+    float: left;
+    margin: 5px;
+  }
+  li:last-child {
+    margin-right: 20px;
+  }
+  li::after {
+    content: ">>>";
+    color: darkgrey;
+  }
+  li:last-child::after {
+    content: "";
+  }
 }
