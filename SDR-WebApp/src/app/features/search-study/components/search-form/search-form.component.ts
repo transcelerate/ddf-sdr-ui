@@ -361,11 +361,14 @@ export class SearchFormComponent implements OnInit {
    *  @return Return filtered array value which match the keywords typed in textfield.
    */
   public _filter(value: any, type: string, arrayValue: any) {
-    const filterValue = value[type]?.toLowerCase();
-
-    return arrayValue.filter((option: string) =>
-      option.toLowerCase().includes(filterValue)
-    );
+    if (value) {
+      const filterValue = value[type]?.toLowerCase();
+      return arrayValue.filter((option: string) =>
+        option.toLowerCase().includes(filterValue)
+      );
+    } else {
+      return arrayValue;
+    }
   }
   /**
    *  Logic to restrict special char on typing
