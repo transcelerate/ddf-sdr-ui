@@ -103,7 +103,7 @@ The solution has the following structure:
 ```
 **core** - contains files related to core angular structure - app.component.ts, app.module.ts, app-routing.module.ts.
 
-**features** - contains application feature modules - dashboard,login,search-study,admin,reports,study-compare.
+**features** - contains application feature modules - dashboard,login,search-study,admin,reports,study-compare,soa.
 
 **shared** - contains application shared modules - audit-trail, breadcrumb, error-component, footer, header, menu, modal-component, study-element-description, version-comparison, simple-search.
 
@@ -130,6 +130,7 @@ export const environment = {
   loginUrl: '#{AzureAd-LoginUrl}#',
 
   BASE_URL:'#{Apim-BaseUrl}#',
+  envName: '{#Env-Name#}',
 };
 ```
 
@@ -152,10 +153,13 @@ And this file is not committed, as it is ignored in `.gitignore` file.
 - Home screen will have *Recent activity widget*, showing list of study documents updated in last 30 days.
 - On click of *Study Definitions -> Search*, user will be navigated to *Search page* to search specific study documents based on certain study parameters.
 - On click of any Study document, user will be navigated to *Study details page*.
-- From Study details page, user  can click  "View History / Audit Trail" to view the complete audit trail data for the study document
+- From Study details page, user  can click  "View Revision History" to view the complete audit trail data for the study document.
+- In Study details page, "View SOA Matrix" will be visible for the studies whose usdmVersion is 1.9 0r more.
+- From Study details page, user  can click  "View SOA Matrix" to view the complete soa data for the study document.
 - In *Audit trail page*, user  can select any two versions and click on "Version Comparison" to compare the changes.
 - On click of *Study Definitions -> Compare*, user will be navigated to *Compare page* to select two study documents based on certain study parameters and to compare the changes.
-- On click of *Reports->System Usage*, user will be navigated to *System Usage Report* to view lists of all the API calls made to the SDR application for a given duration.
+- On click of *Reports -> System Usage*, user will be navigated to *Usage Report* to view lists of all the API calls made to the SDR application for a given duration.
+- From System usage page, user can export the usage report with a maximum limit of 1500 records.
 - On click of *Manage -> Group*, user will be navigated to *Group Management* to view lists of all groups created.
 - On click of Add Group button from group management screen, user will be navigated to *Add Group* to create or edit new groups.
 - On click of *Manage -> User*, user will be navigated to *User Management* to view lists of all User association with groups created.
@@ -170,9 +174,9 @@ And this file is not committed, as it is ignored in `.gitignore` file.
 - Home page (URL: /home )
   - Dashboard page with recent activity widget and Menu bar to navigate to search
 - Search page (URL: /search )
-- Study Details page(URL: /#/details;studyId="")
+- Study Details page(URL: /#/details;studyId="";versionId="";usdmVersion="")
 - Audit page(URL: /#/details/audit;studyId="")
-- Version Comparison page(URL: /#/details/audit/compare;studyId="";versionA="";versionB="")
+- Version Comparison page(URL: /#/details/audit/compare;studyId="";verA="";verB="";usdmVerA="";usdmVerB="")
 - Study Compare page(URL: /comparison)
 - System Usage Report(URL: /reports)
 - User Management page(URL: /admin/userMap)
