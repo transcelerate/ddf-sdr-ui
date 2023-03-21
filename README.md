@@ -154,12 +154,12 @@ And this file is not committed, as it is ignored in `.gitignore` file.
 - On click of *Study Definitions -> Search*, user will be navigated to *Search page* to search specific study documents based on certain study parameters.
 - On click of any Study document, user will be navigated to *Study details page*.
 - From Study details page, user  can click  "View Revision History" to view the complete audit trail data for the study document.
-- In Study details page, "View SOA Matrix" will be visible for the studies whose usdmVersion is 1.9 0r more.
-- From Study details page, user  can click  "View SOA Matrix" to view the complete soa data for the study document.
+- In Study details page, "View SOA Matrix" will be visible for the studies whose usdmVersion is V1.9 or above.
+- From Study details page, user  can click  "View SOA Matrix" to view the Schedule of Activities for each Timeline under study designs for a study document.
 - In *Audit trail page*, user  can select any two versions and click on "Version Comparison" to compare the changes.
 - On click of *Study Definitions -> Compare*, user will be navigated to *Compare page* to select two study documents based on certain study parameters and to compare the changes.
 - On click of *Reports -> System Usage*, user will be navigated to *Usage Report* to view lists of all the API calls made to the SDR application for a given duration.
-- From System usage page, user can export the usage report with a maximum limit of 1500 records.
+  - In System usage report, user can export the report to csv format with a maximum downloaded records limit of 1500 records. This value is configurable.
 - On click of *Manage -> Group*, user will be navigated to *Group Management* to view lists of all groups created.
 - On click of Add Group button from group management screen, user will be navigated to *Add Group* to create or edit new groups.
 - On click of *Manage -> User*, user will be navigated to *User Management* to view lists of all User association with groups created.
