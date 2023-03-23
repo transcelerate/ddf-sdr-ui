@@ -1,8 +1,9 @@
 - [Introduction](#introduction)
 - [Requirements to Contribute and Propose Changes](#requirements-to-contribute-and-propose-changes)
-- [Pre-Requisites](#pre-requisites)
+- [Running SDR UI Application in local](#running-sdr-ui-application-in-local)
+  - [Pre-Requisites](#pre-requisites)
   - [How to Setup Code](#how-to-setup-code)
-  - [How to Run](#how-to-run)
+  - [Build and Run Application](#build-and-run-application)
 - [Base solution structure](#base-solution-structure) 
   - [Making Requests to the Backend](#making-requests-to-the-backend-api)
   - [Certificate Installation for APIM](#certificate-installation-for-apim)
@@ -34,12 +35,14 @@ To acknowledge the CLA, follow these instructions:
 
 NOTE: Keep a copy for your records.
 
-# Pre-requisites
+# Running SDR UI Application in local
+### Pre-requisites
 
 1. Install latest version of [Node.js](https://nodejs.org).
 
 2. After installing Node.js, install the Angular CLI globally in cmd prompt using the command below:
 
+3. Active User Account in Azure Active Directory 
 ```
 npm install -g @angular/cli
 ```
@@ -66,7 +69,7 @@ cd SDR%20UI/SDR-WebApp
 
 2. After navigation to the root folder path as mentioned above, run `npm install` to install the required libraries.
 
-### How To Run
+### Build and Run Application
 
 1. Once code setup is done, run the project locally using the below command.
 
@@ -114,8 +117,8 @@ The solution has the following structure:
 
 ## Making requests to the backend API
 
-API URL and other secrets are configured in `src/environments/environment.ts` file as shown below, the values of the keys will be replaced 
-with the environment specific values from devops during deployment.
+### Pre-requisites
+API URL and other secrets are configured in `src/environments/environment.ts` file as shown below. While hosting SDR UI on Azure Platform the values of the keys will be replaced with the environment specific values from DevOps during deployment.
 
 ```
 export const environment = {
@@ -135,13 +138,7 @@ export const environment = {
 ```
 
 To run locally, create `environment.development.ts` file under environments folder, and replace the values of the keys with values of the target environment.
-
 And this file is not committed, as it is ignored in `.gitignore` file.
- 
-## Certificate Installation for APIM
-1. Get the environment specific client certificates from Cloud administrator and install on the local system.
-
-2. While accessing homepage, certificate selection prompt will be shown. Select the relevant certificate from the list to proceed further and access data.
 
 **Application Authentication :**
 - The application uses  Microsoft Authentication Library (MSAL) for user authentication.
