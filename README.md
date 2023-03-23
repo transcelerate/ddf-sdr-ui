@@ -5,7 +5,6 @@
   - [How to Setup Code](#how-to-setup-code)
   - [Build and Run Application](#build-and-run-application)
 - [Base solution structure](#base-solution-structure) 
-  - [Making Requests to the Backend](#making-requests-to-the-backend-api)
 
 # Introduction
 
@@ -169,21 +168,10 @@ The solution has the following structure:
   - Dashboard page with recent activity widget and Menu bar to navigate to search
 - Search page (URL: /search )
 - Study Details page(URL: /#/details;studyId="";versionId="";usdmVersion="")
-- Audit page(URL: /#/details/audit;studyId="")
+- Revision History page (URL: /#/details/audit;studyId="")
+- SoA Matrix page (URL: /#/details/soa;studyId="";versionId="";usdmVersion="")
 - Version Comparison page(URL: /#/details/audit/compare;studyId="";verA="";verB="";usdmVerA="";usdmVerB="")
 - Study Compare page(URL: /comparison)
 - System Usage Report(URL: /reports)
 - User Management page(URL: /admin/userMap)
 - Group Management page(URL: /admin)
-
-## Requirements to Contribute and Propose Changes
-
-Before participating, you must acknowledge the Contribution License Agreement (CLA).
-
-To acknowledge the CLA, follow these instructions:
-- Click [here](https://github.com/transcelerate/ddf-home/blob/main/contributing.md) to download and carefully read the CLA.
-- Print the document.
-- Complete and sign the document.
-- Scan and email a PDF version of the completed and signed document to [DDF@transceleratebiopharmainc.com](mailto:DDF@transceleratebiopharmainc.com?subject=Signed%20CLA).
-
-NOTE: Keep a copy for your records.
