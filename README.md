@@ -6,15 +6,14 @@
   - [Build and Run Application](#build-and-run-application)
 - [Base solution structure](#base-solution-structure) 
   - [Making Requests to the Backend](#making-requests-to-the-backend-api)
-  - [Certificate Installation for APIM](#certificate-installation-for-apim)
 
 # Introduction
 
 Study Definition Repository (SDR) Reference Implementation is TransCelerate’s vision to catalyze industry-level transformation, enabling digital exchange of study definition information by collaborating with technology providers and standards bodies to create a sustainable open-source Study Definition Repository.
 
-Using this Angular project, user can connect with SDR data, to view the study documents, search certain documents by giving search criteria, to view the audit details of search study,to compare differences between two versions of the document and also to compare  two different study documents.
+Using this Angular project, user can connect with SDR data, to view the study documents, search certain documents by giving search criteria, to view the revision history details of selected study,to compare differences between two versions of the document and also to compare  two different study documents.
 
-Admin users can access System Usage Report which lists all the API calls made to the SDR application for a given duration and also access group and user management features which provides the ability to group users and associate them with specific study or group of studies in order to limit access for users only to those study definitions.
+Admin users can access System Usage Report which lists all the API calls made to the SDR application for a given duration with csv export capability and also access group and user management features which provides the ability to group users and associate them with specific study or group of studies in order to limit access for users only to those study definitions.
 
 This [Process Flow Document](https://github.com/transcelerate/ddf-sdr-platform/blob/main/documents/MVP%20Process%20Flows%20(final).pdf) provides information regarding user interface functions and system interactions with the SDR at a high level. Please also refer to the [DDF SDR UI User Guide](documents/ddf-sdr-user-guide-ui-v3.0.pdf) to get started, and the [DDF SDR RI UI Demo video](https://www.youtube.com/watch?v=223OgGvERRw&list=PLMXS-Xt7Ou1KNUF-HQKQRRzqfPQEXWb1u&index=6).  
 
@@ -68,6 +67,26 @@ cd SDR%20UI/SDR-WebApp
 ```
 
 2. After navigation to the root folder path as mentioned above, run `npm install` to install the required libraries.
+3. Create `environment.development.ts` file under environments folder, and replace the values of the keys with values of the target environment.
+And this file is not committed, as it is ignored in `.gitignore` file.
+SDR API URL and other secrets are configured in `src/environments/environment.ts` file as shown below. While hosting SDR UI on Azure Platform the values of the keys will be replaced with the environment specific values from DevOps during deployment.
+
+```
+export const environment = {
+  production: true,
+  
+  tenantId: '{#AzureAd-TenantId#}', // Azure AD Tenant ID
+  authority: '{#AzureAd-Authority#}', // Azure AD login URL (e.g https://login.microsoftonline.com/<tenantId>/)
+  clientId: '{#AzureAd-ClientId#}', // Azure App Registration Client ID for UI Application
+  Audience: '{#AzureAd-Audience#}', // Audience Scope for UI Application
+
+  redirectUrl: '{#AzureAd-RedirectUrl#}', // HomePage URL of UI application (e.g. : https://localhost:4200/home)
+  loginUrl: '{#AzureAd-LoginUrl#}', // Login Page/Root URL of UI application  (e.g. : https://localhost:4200)
+
+  BASE_URL:'{#Apim-BaseUrl#}', // Backend API Root URL (e.g. : https://sdr-apim.azure-api.net/)
+  envName: '{#Env-Name#}', // Environment Name (e.g. : Dev/QA/Prod)
+};
+```
 
 ### Build and Run Application
 
@@ -114,36 +133,11 @@ The solution has the following structure:
 
 **styles** - contains common CSS stylesheets.
 
-
-## Making requests to the backend API
-
-### Pre-requisites
-API URL and other secrets are configured in `src/environments/environment.ts` file as shown below. While hosting SDR UI on Azure Platform the values of the keys will be replaced with the environment specific values from DevOps during deployment.
-
-```
-export const environment = {
-  production: true,
-
-  tenantId: '#{AzureAd-TenantId}#',
-  authority: `#{AzureAd-Authority}#`, 
-  clientId: '#{AzureAd-ClientId}#', 
-  Audiance: '#{AzureAd-Audiance}#',
-
-  redirectUrl: '#{AzureAd-RedirectUrl}#',
-  loginUrl: '#{AzureAd-LoginUrl}#',
-
-  BASE_URL:'#{Apim-BaseUrl}#',
-  envName: '{#Env-Name#}',
-};
-```
-
-To run locally, create `environment.development.ts` file under environments folder, and replace the values of the keys with values of the target environment.
-And this file is not committed, as it is ignored in `.gitignore` file.
-
 **Application Authentication :**
 - The application uses  Microsoft Authentication Library (MSAL) for user authentication.
 - Users with valid credentials (registered in cloud active directory) can login to the application.
 - For MSAL integration, the secrets should be configured in environment file as mentioned in the above section.
+- To skip authentication step while running the application in local, please refer the temporary workaround mentioned in the [GitHub Support Ticket] (https://github.com/transcelerate/ddf-sdr-support/issues/27)
 
 **Application Features:**
 - After successful login, user will be navigated to home screen 
@@ -155,13 +149,16 @@ And this file is not committed, as it is ignored in `.gitignore` file.
 - From Study details page, user  can click  "View SOA Matrix" to view the Schedule of Activities for each Timeline under study designs for a study document.
 - In *Audit trail page*, user  can select any two versions and click on "Version Comparison" to compare the changes.
 - On click of *Study Definitions -> Compare*, user will be navigated to *Compare page* to select two study documents based on certain study parameters and to compare the changes.
+- User will be logged out from application on click of logout link in the header.
+
+**Admin Role Application Features:**
 - On click of *Reports -> System Usage*, user will be navigated to *Usage Report* to view lists of all the API calls made to the SDR application for a given duration.
   - In System usage report, user can export the report to csv format with a maximum downloaded records limit of 1500 records. This value is configurable.
 - On click of *Manage -> Group*, user will be navigated to *Group Management* to view lists of all groups created.
 - On click of Add Group button from group management screen, user will be navigated to *Add Group* to create or edit new groups.
 - On click of *Manage -> User*, user will be navigated to *User Management* to view lists of all User association with groups created.
 - On click of Add User button from user management screen, user will be navigated to *Add User* to create or edit User association with groups.
-- User will be logged out from application on click of logout link in the header.
+
 
 **URL List**
 
