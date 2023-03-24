@@ -334,6 +334,7 @@ export class AddGroupComponent implements OnInit {
 
   /** istanbul ignore next */
   onGridReady(params: any) {
+    this.showGrid = false;
     this.gridApi = params.api;
     this.gridColumnApi = params.columnApi;
     params.api.sizeColumnsToFit();
@@ -345,16 +346,19 @@ export class AddGroupComponent implements OnInit {
       },
     ];
     params.columnApi.applyColumnState({ state: defaultSortModel });
-    const reqObj = this.editorForm.value;
-    reqObj.sortOrder = 'desc';
-    reqObj.sortBy = 'studyTitle';
-    reqObj.groupByStudyId = 1;
-    this.commonMethod.gridDataSourceForSearchLightStudy(
-      reqObj,
-      this.gridApi,
-      this.BLOCK_SIZE,
-      this
-    );
+    if (this.editorForm.valid) {
+      const reqObj = this.editorForm.value;
+      reqObj.sortOrder = 'desc';
+      reqObj.sortBy = 'studyTitle';
+      reqObj.groupByStudyId = 1;
+      this.commonMethod.gridDataSourceForSearchLightStudy(
+        reqObj,
+        this.gridApi,
+        this.BLOCK_SIZE,
+        this
+      );
+      this.showGrid = true;
+    }
 
     //this.gridApi.addEventListener('failCallback', this.onServerFailCallback);
   }
@@ -391,7 +395,7 @@ export class AddGroupComponent implements OnInit {
         return;
       }
     }
-    if (this.showGrid) {
+    if (this.showGrid && this.editorForm.valid) {
       const reqObj = this.editorForm.value;
       reqObj.groupByStudyId = 1;
       this.commonMethod.gridDataSourceForSearchLightStudy(
@@ -454,7 +458,7 @@ export class AddGroupComponent implements OnInit {
       return !(elem.id === params.id);
     });
     this.gridOptions?.api?.forEachNode((elem) => {
-      if (elem?.data?.clinicalStudy?.studyId === params.id) {
+      if (elem?.data?.clinicalStudy?.uuid === params.id) {
         // arbitrarily update some data
         var updated = elem.data;
         updated.selected = false;
