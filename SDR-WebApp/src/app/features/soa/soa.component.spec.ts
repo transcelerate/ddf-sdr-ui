@@ -6,12 +6,13 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { CommonMethodsService } from 'src/app/shared/services/common-methods.service';
 import { ServiceCall } from '../../shared/services/service-call/service-call.service';
 import { SoaComponent } from './soa.component';
-import { of, Subject } from 'rxjs';
+import { BehaviorSubject, of, Subject } from 'rxjs';
 import { StudyElementDescriptionComponent } from 'src/app/shared/components/study-element-description/study-element-description.component';
 
 describe('SoaComponent', () => {
   let component: SoaComponent;
   let fixture: ComponentFixture<SoaComponent>;
+  let route: ActivatedRoute;
   const links = {
     links: {
       studyDefinitions:
@@ -23,7 +24,12 @@ describe('SoaComponent', () => {
   };
   beforeEach(() => {
     const routerStub = () => ({});
-    const activatedRouteStub = () => ({ params: { subscribe: () => {} } });
+    const paramsSubject = new BehaviorSubject({
+      studyId: 'cecc860e-a435-4f95-a2ce-9bc12869583d',
+      versionId: 1,
+      usdmVersion: 1.9,
+    });
+    const activatedRouteStub = () => ({ params: paramsSubject });
     const ngxSpinnerServiceStub = () => ({
       show: () => ({}),
       hide: () => ({}),
@@ -53,11 +59,20 @@ describe('SoaComponent', () => {
       ],
     });
     fixture = TestBed.createComponent(SoaComponent);
+    route = TestBed.inject(ActivatedRoute);
     component = fixture.componentInstance;
   });
 
   it('can load instance', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('test route params on init', (done) => {
+    route.params.subscribe((params) => {
+      component.ngOnInit();
+      expect(params['usdmVersion']).toBe(1.9);
+      done();
+    });
   });
 
   it('showError has default value', () => {
