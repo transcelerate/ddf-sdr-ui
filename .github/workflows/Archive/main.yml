@@ -4,11 +4,10 @@ name: CICD_develop_DEMO
 
 # Controls when the workflow will run
 on:
-  # Triggers the workflow on push or pull request events but only for the main branch
+  # Triggers the workflow on push or pull request events but only for the release branch
   push:
     branches: [ main ]
  
-
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
   
@@ -57,11 +56,11 @@ jobs:
         find ${{ github.workspace }}/SDR-WebApp/src/environments/environment.ts -type f -exec sed -i ''s@{#Apim-BaseUrl#}@'${{ steps.keyvaultSecretAction.outputs.Apim-BaseUrl }}'@g'' {} \;
         find ${{ github.workspace }}/SDR-WebApp/src/environments/environment.ts -type f -exec sed -i ''s@{#Env-Name#}@'${{ steps.keyvaultSecretAction.outputs.Env-Name }}'@g'' {} \;
               
-    - name: Use Node 12.x
+    - name: Use Node 14.x
       uses: actions/setup-node@v1
       with:
         # The node.js version to use
-        node-version: 12.x
+        node-version: 14.x
       
     - name: npm cli
       # Few npm dependencies needs to be installed seperately through command line as it throwa error
@@ -79,7 +78,6 @@ jobs:
          npm install -g sonarqube-scanner
          npm install ngx-bootstrap@8.0.0
          npm install rxjs@7.4.0
-         npm install karma-jasmine@4.0.0
   
     - name: npm install
       # Install the other dependecies for the SDR-WebApp project
@@ -122,9 +120,7 @@ jobs:
       # Running the jasmine test cases
       run: |
           cd '${{ github.workspace }}/SDR-WebApp'
-          npm install karma-jasmine --save-dev
           ng test --reporters junit --watch=false --browsers ChromeHeadless || true
-
           
           
     - name: Publish Unit Test Results
@@ -138,38 +134,37 @@ jobs:
  #############################-----------Sonar Scan---------------#############################################
      
           
-    - name: Run Angular tests for Sonar
-      # Running the jasmine test cases and copying the test case files to default github directory
-      run: |
-          cd '${{ github.workspace }}/SDR-WebApp'
-          ng test --code-coverage true --watch=false --browsers ChromeHeadless  || true
-          # Copying the coverage.xml and lcov.info to Github default working directory for sonarqube analysis
-          cp testresults/coverage/cobertura-coverage.xml '${{ github.workspace }}/coverage.xml'    
-          cp testresults/coverage/lcov.info '${{ github.workspace }}/lcov.info' 
-          
+#     - name: Run Angular tests for Sonar
+#       # Running the jasmine test cases and copying the test case files to default github directory
+#       run: |
+#           cd '${{ github.workspace }}/SDR-WebApp'
+#           ng test --code-coverage true --watch=false --browsers ChromeHeadless || true
+#           # Copying the coverage.xml and lcov.info to Github default working directory for sonarqube analysis
+#           cp testresults/coverage/cobertura-coverage.xml '${{ github.workspace }}/coverage.xml'    
+#           cp testresults/coverage/lcov.info '${{ github.workspace }}/lcov.info' 
      
-    - uses: actions/setup-dotnet@v1
-      # Setup for installing sonar-scanner
-      with:
-        dotnet-version: 6.0.x
+#     - uses: actions/setup-dotnet@v1
+#       # Setup for installing sonar-scanner
+#       with:
+#         dotnet-version: 6.0.x
         
-    - name: Install SonarQube scanner
-      # Installing Sonar scanner
-      if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
-      shell: pwsh
-      run: |
-          # reportgenrator used for converting the report files
-          dotnet tool update dotnet-reportgenerator-globaltool -g 
-          reportgenerator "-reports:${{ github.workspace }}/SDR-WebApp/testresults/*/cobertura-coverage.xml" "-targetdir:coverage" -reporttypes:"Cobertura;SonarQube;lcov"
+#     - name: Install SonarQube scanner
+#       # Installing Sonar scanner
+#       if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
+#       shell: pwsh
+#       run: |
+#           # reportgenrator used for converting the report files
+#           dotnet tool update dotnet-reportgenerator-globaltool -g 
+#           reportgenerator "-reports:${{ github.workspace }}/SDR-WebApp/testresults/*/cobertura-coverage.xml" "-targetdir:coverage" -reporttypes:"Cobertura;SonarQube;lcov"
           
-    - name: Run Sonar
-      env:
-        # SONAR_TOKEN and SONAR_HOST_URL getting fetched from secrets
-        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-      run: |
-          cd '${{ github.workspace }}/SDR-WebApp'
-          sonar-scanner -Dsonar.host.url=$SONAR_HOST_URL -Dsonar.login=$SONAR_TOKEN || true
+#     - name: Run Sonar
+#       env:
+#         # SONAR_TOKEN and SONAR_HOST_URL getting fetched from secrets
+#         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+#         SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+#       run: |
+#           cd '${{ github.workspace }}/SDR-WebApp'
+#           sonar-scanner -Dsonar.host.url=$SONAR_HOST_URL -Dsonar.login=$SONAR_TOKEN || true
 
  
 ##########################-------------Deployment----------------#####################################
@@ -185,6 +180,7 @@ jobs:
       with: 
         app-name: ${{ env.AZURE_WEBAPP_NAME }} # Replace with your app name
         package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
+
 
 
 
