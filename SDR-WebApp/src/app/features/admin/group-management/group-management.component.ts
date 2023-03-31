@@ -33,7 +33,7 @@ export class GroupManagementComponent implements OnInit {
   @ViewChild('confirmation') confirmation: TemplateRef<ElementRef>;
   public gridOptions: GridOptions;
   columnDefs: ColDef[];
- 
+
   rowData: any;
   frameworkComponents: { btnCellRenderer: typeof BtnCellRenderer };
   showError: boolean = false;
@@ -63,7 +63,7 @@ export class GroupManagementComponent implements OnInit {
     public serviceCall: ServiceCall,
     private commonMethod: CommonMethodsService,
     public router: Router,
-    public route: ActivatedRoute,
+    public route: ActivatedRoute
   ) {
     this.gridOptions = <GridOptions>{
       enableSorting: true,
@@ -79,7 +79,6 @@ export class GroupManagementComponent implements OnInit {
     this.defaultColDef = {
       flex: 1,
       resizable: true,
-      
     };
   }
 
@@ -137,7 +136,6 @@ export class GroupManagementComponent implements OnInit {
     let reqObj = {
       pageSize: 1000,
       pageNumber: 1,
-      
     };
     this.spinner.show();
     this.serviceCall.getAllGroups(reqObj).subscribe({
@@ -174,6 +172,7 @@ export class GroupManagementComponent implements OnInit {
         }
       },
       error: (error) => {
+        this.spinner.hide();
         this.rowData = [];
         if (error && error.error && error.error.statusCode == '404') {
           this.gridApi.showNoRowsOverlay();
@@ -251,14 +250,14 @@ export class GroupManagementComponent implements OnInit {
     let data = this.responseData.filter(
       (x: any, index: any) => x.groupId == this.deleteGroup.groupId
     );
-    if(!this.isGroupSingleValue){
+    if (!this.isGroupSingleValue) {
       data[0].groupFilter = data[0].groupFilter.filter(
         (elem: { groupFieldName: any }) => {
           return elem.groupFieldName !== this.deleteGroup.groupFieldName;
         }
       );
     }
-    
+
     data[0].groupEnabled = !this.isGroupSingleValue;
     let response = this.commonMethod.postGroup(data[0], this);
   }
@@ -266,11 +265,13 @@ export class GroupManagementComponent implements OnInit {
   decline(): void {
     this.modalRef?.hide();
   }
-  edit(params: any){
+  edit(params: any) {
     let selectedGroup = this.responseData.filter(
       (x: any, index: any) => x.groupId == params.groupId
     );
-    this.router.navigate(['admin/addGroup'], {state: {data: selectedGroup[0],selected:params.groupFieldName}});
+    this.router.navigate(['admin/addGroup'], {
+      state: { data: selectedGroup[0], selected: params.groupFieldName },
+    });
     //this.router.navigateByUrl('admin/addGroup', { state: { data: params } });
   }
 }

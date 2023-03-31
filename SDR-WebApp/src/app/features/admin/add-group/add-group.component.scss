@@ -58,8 +58,9 @@
   .btn {
     margin: 0% 1%;
   }
-  span,button{
-    cursor:pointer !important;
+  span,
+  button {
+    cursor: pointer !important;
   }
 }
 .currentRule {
@@ -111,9 +112,10 @@
   // background-color: coral;
   // border-color: coral;
 }
-.groupError{
-  color:red;
+.groupError {
+  color: red;
 }
-select, input[type=checkbox]{
+select,
+input[type="checkbox"] {
   cursor: pointer !important;
 }

@@ -1,7 +1,4 @@
-import {
-  Component,
-  ViewChild,
-} from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import * as moment from 'moment';
 import { configList } from '../../../../shared/components/study-element-description/config/study-element-field-config';
 import { filter, Subject, takeUntil } from 'rxjs';
@@ -12,6 +9,7 @@ import { CommonMethodsService } from '../../../../shared/services/common-methods
 import { MsalBroadcastService } from '@azure/msal-angular';
 import { EventMessage, EventType } from '@azure/msal-browser';
 import { ActivatedRoute, Router } from '@angular/router';
+
 @Component({
   selector: 'app-recent-activity',
   templateUrl: './recent-activity.component.html',
@@ -78,8 +76,8 @@ export class RecentActivityComponent {
   }
   /**
    * Called on initialization of component
-  * To get 'homeAccountId' after login for silent logout
-  */
+   * To get 'homeAccountId' after login for silent logout
+   */
   ngOnInit() {
     this.msalBroadcastService.msalSubject$
       .pipe(
@@ -90,24 +88,28 @@ export class RecentActivityComponent {
         takeUntil(this._destroying$)
       )
       .subscribe((result: any) => {
-
-        if (result?.payload?.accessToken){
+        if (result?.payload?.accessToken) {
           localStorage.setItem('token', result?.payload?.accessToken);
-          localStorage.setItem('homeAccountId', result?.payload?.account?.homeAccountId);
-          let isAdmin:any = result?.payload?.account?.idTokenClaims?.roles?.indexOf('org.admin') >= 0;
+          localStorage.setItem(
+            'homeAccountId',
+            result?.payload?.account?.homeAccountId
+          );
+          let isAdmin: any =
+            result?.payload?.account?.idTokenClaims?.roles?.indexOf(
+              'org.admin'
+            ) >= 0;
           localStorage.setItem('isAdmin', isAdmin);
         }
         this.ds.changeDialogState('Home');
       });
-    
   }
 
   /**
-  *Logic to form Studytitle with version as link
-  *This method will be called for each row from ag grid
-  * @param params   ag grid value for each row with data.
-  * @returns Return Html Link tag. 
-  */
+   *Logic to form Studytitle with version as link
+   *This method will be called for each row from ag grid
+   * @param params   ag grid value for each row with data.
+   * @returns Return Html Link tag.
+   */
   getStudyVersionGrid(params: any) {
     if (!params.data) {
       return '';
@@ -115,6 +117,7 @@ export class RecentActivityComponent {
       const eDiv = document.createElement('div');
       // tslint:disable-next-line:no-this-assignment
       const self = this;
+
       eDiv.innerHTML =
         '<span class="linkSpan"><a>' +
         params.data?.clinicalStudy.studyTitle +
@@ -128,62 +131,57 @@ export class RecentActivityComponent {
       return eDiv;
     }
   }
-  
 
-    /**
-  *Gets trriggered on click of eack link in Recent activity widget row.
-  *Redirect to details page on click of link.
-  * @param val   clinicalStudy value for the selected row.
-  */
+  /**
+   *Gets trriggered on click of eack link in Recent activity widget row.
+   *Redirect to details page on click of link.
+   * @param val   clinicalStudy value for the selected row.
+   */
   setSelectedValue(val: any) {
     this.showStudyElement = true;
+    localStorage.setItem(
+      val.clinicalStudy.uuid + '_' + val.auditTrail.SDRUploadVersion + '_links',
+      JSON.stringify(val.links)
+    );
     this.router.navigate(
       [
         'details',
         {
           studyId: val.clinicalStudy.uuid,
           versionId: val.auditTrail.SDRUploadVersion,
+          usdmVersion: val.auditTrail.usdmVersion,
         },
       ],
       { relativeTo: this.route }
     );
   }
-   /**
- * show grid 
-  */
-  // showGrid(event: any) {
-  //   if (event) {
-  //     this.showStudyElement = false;
-  //   }
-  // }
-  // ngAfterViewInit() {
-  //   //this.ds.setStatus(true);
-  //   this.showStudyElement = false;
-  // }
 
-/** istanbul ignore next */
-/**
-  *This method will be called on initialization of ag grid
-  * @param params   ag grid value for each row with data.
-  */
-  onGridReady(params: any) {  //NOSONAR
-    
-    this.gridColumnApi = params.columnApi;  //NOSONAR
-    if(params.api){
-      this.gridApi = params.api;  //NOSONAR
-      params.api?.sizeColumnsToFit();  //NOSONAR
+  /** istanbul ignore next */
+  /**
+   *This method will be called on initialization of ag grid
+   * @param params   ag grid value for each row with data.
+   */
+  onGridReady(params: any) {
+    //NOSONAR
+
+    this.gridColumnApi = params.columnApi; //NOSONAR
+    if (params.api) {
+      this.gridApi = params.api; //NOSONAR
+      params.api?.sizeColumnsToFit(); //NOSONAR
     }
-    
-    let reqObj = {  //NOSONAR
-     fromDate: moment().subtract(30, 'days'),  //NOSONAR
-     toDate: moment(),  //NOSONAR
-    };  //NOSONAR
-    this.commonMethod.gridDataSourceForSearchStudy(  //NOSONAR
-      reqObj,  //NOSONAR
-      this.gridApi,  //NOSONAR
+
+    let reqObj = {
+      //NOSONAR
+      fromDate: moment().subtract(30, 'days'), //NOSONAR
+      toDate: moment(), //NOSONAR
+    }; //NOSONAR
+    this.commonMethod.gridDataSourceForSearchStudy(
+      //NOSONAR
+      reqObj, //NOSONAR
+      this.gridApi, //NOSONAR
       this.BLOCK_SIZE,
-      this  //NOSONAR
-    );  //NOSONAR
-  }  //NOSONAR
+      this //NOSONAR
+    ); //NOSONAR
+  } //NOSONAR
   /** istanbul ignore end */
 }

@@ -1,8 +1,8 @@
 const configList = {
   NAME: 'Item',
-  KEYTOHIDE: ['id', 'studyDesignId', 'studyId','uuid','workflowId'],
+  KEYTOHIDE: ['id', 'studyDesignId', 'studyId', 'uuid', 'workflowId'],
   EXCEPTIONFIELD: [''],
-  SPONSORKEY: 'Clinical Study Sponsor',
+  SPONSORKEYS: ['Clinical Study Sponsor', 'Sponsor_ID'],
   HEADING: 'Study Details',
   SPONSORID_KEY: 'orgCode',
   BLOCK_SIZE: 20,
@@ -18,6 +18,7 @@ const configList = {
   INDICATION: 'Indication',
   INTERVENTION: 'Intervention Model',
   PHASE: 'Phase',
+  USDM_VERSION: 'USDM Version',
   LAST_MODIFIED_SYSTEM: 'Last Modified by System',
   RESPONSE_CODE: [
     { value: '200', description: '200 - OK' },
@@ -33,11 +34,25 @@ const configList = {
   OPERATION: [
     { value: 'POST', description: 'POST' },
     { value: 'GET', description: 'GET' },
+    { value: 'PUT', description: 'PUT' },
   ],
   TIMELINE: [
     { value: '7', description: 'Last 7 days' },
     { value: '30', description: 'Last 30 days' },
     { value: '60', description: 'Last 60 days' },
   ],
+  SOA_LINK: 'SoA',
+  STUDY_DEFINITION_LINK: 'studyDefinitions',
+  EXPORT_REPORT_LIMIT: 1500,
+  EXPORT_TOOLTIP: 'CSV Export',
+  EXPORT_MESSAGE: 'Criteria modified, search again to enable export.',
+  EXPORT_POPUP_INFO:
+    'Note that a maximum of 1500 records can be exported at a time for the given search criteria. Please narrow search criteria to include all results in export as necessary.',
+  EXCEED_DATE_INFO:
+    'A maximum of 30 days range of report can be queried. Please modify the input dates to search.',
+  FROM_DATE_MORE_THAN_TO_DATE:
+    'From Date Time is equal to or greater than To Date Time',
+  VALID_FROM_DATE: 'From Date Time is greater than Current Date Time',
+  VALID_TO_DATE: 'To Date Time is greater than Current Date Time',
 };
 export { configList };

@@ -8,6 +8,7 @@ import { AddUserComponent } from './add-user/add-user.component';
 
 import { GroupManagementComponent } from './group-management/group-management.component';
 import { UserManagementComponent } from './user-management/user-management.component';
+import { SoaComponent } from '../soa/soa.component';
 
 const adminModuleRoutes: Routes = [
   {
@@ -32,7 +33,7 @@ const adminModuleRoutes: Routes = [
             path: 'audit',
             component: AuditTrailComponent,
             data: {
-              breadcrumb: 'Audit Trail',
+              breadcrumb: 'Revision History',
             },
             children: [
               {
@@ -43,6 +44,13 @@ const adminModuleRoutes: Routes = [
                 },
               },
             ],
+          },
+          {
+            path: 'soa',
+            component: SoaComponent,
+            data: {
+              breadcrumb: 'SoA Matrix',
+            },
           },
         ],
       },

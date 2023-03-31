@@ -1,57 +1,135 @@
 import { Injectable } from '@angular/core';
 import { HttpWrapperService } from './http-wrapper.service';
 import { environment } from '../../../../environments/environment';
-import { ApiUrlList } from '../../constants/api-url-constants';
+import {
+  ApiUrlList,
+  CommonApiUrlList,
+} from '../../constants/api-url-constants';
 import * as dropDownJson from 'src/app/shared/constants/search-form-master-data.json';
+import { IHTTPOptions } from './http-wrapper.service';
+import { HttpHeaders } from '@angular/common/http';
 //import { environment } from 'src/environments/environment';
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ServiceCall {
-  constructor(private httpWrapperService:HttpWrapperService) { 
+  constructor(private httpWrapperService: HttpWrapperService) {}
+
+  getHttpOptions(usdmVersion: any): IHTTPOptions {
+    return {
+      headers: this.getHTTPHeaders(usdmVersion),
+      observe: 'body',
+    };
   }
-  
-  getStudyElement(studyId:any ,versionId:any) { 
-   // return this.httpWrapperService.getData('https://apim-sdr-dev-eastus.azure-api.net/api/v1/studydefinitions/9085f2c7-1f7a-4f71-8b48-5d24592b6f17?version=2');
-    return this.httpWrapperService.getData(environment.BASE_URL  +  ApiUrlList.ELEMENT + studyId + '?sdruploadversion=' + (versionId||''));
+  getHTTPHeaders(usdmVersion: any): HttpHeaders {
+    return new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: 'Bearer ' + localStorage.getItem('token'),
+      'Cache-control': 'no-store',
+      usdmVersion: usdmVersion,
+    });
   }
-  getAuditTrail(studyId:any) { 
+
+  getStudyElement(studyId: any, versionId: any) {
+    // return this.httpWrapperService.getData('https://apim-sdr-dev-eastus.azure-api.net/api/v1/studydefinitions/9085f2c7-1f7a-4f71-8b48-5d24592b6f17?version=2');
+    return this.httpWrapperService.getData(
+      environment.BASE_URL +
+        ApiUrlList.ELEMENT +
+        studyId +
+        '?sdruploadversion=' +
+        (versionId || '')
+    );
+  }
+  getStudyElementWithVersion(usdmVersion: any, studyURL: string) {
+    // return this.httpWrapperService.getData('https://apim-sdr-dev-eastus.azure-api.net/api/v1/studydefinitions/9085f2c7-1f7a-4f71-8b48-5d24592b6f17?version=2');
+    return this.httpWrapperService.getData(
+      environment.BASE_URL + 'api/ui' + studyURL,
+      this.getHttpOptions(usdmVersion)
+    );
+  }
+  getStudyLinks(studyId: any, versionId: any) {
+    return this.httpWrapperService.getData(
+      environment.BASE_URL +
+        CommonApiUrlList.STUDYLINKS.replace('{studyId}', studyId) +
+        '?sdruploadversion=' +
+        versionId
+    );
+  }
+  getAuditTrail(studyId: any) {
     //return this.httpWrapperService.getData('https://apim-sdr-qa-eastus.azure-api.net/studydefinitionrepository/v1/audittrail/%7bstudy%7d');
-    return this.httpWrapperService.getData(environment.BASE_URL  + ApiUrlList.AUDITTRAIL + studyId );
-   }
-  getSearchResult(reqObj:any){
-    return this.httpWrapperService.postData(environment.BASE_URL + ApiUrlList.SEARCHRESULT, reqObj);
+    return this.httpWrapperService.getData(
+      environment.BASE_URL +
+        CommonApiUrlList.AUDITTRAIL.replace('{studyId}', studyId)
+    );
   }
-  getSearchResultLight(reqObj:any){
-    return this.httpWrapperService.postData(environment.BASE_URL + ApiUrlList.SEARCHRESULTLIGHT, reqObj);
+
+  getSoAMatrix(usdmVersion: any, soaURL: string) {
+    // return this.httpWrapperService.getData('https://apim-sdr-dev-eastus.azure-api.net/api/ui/v2/studydefinitions/9352b5ba-4a94-46c9-8809-b8aeea0dd45e/studydesigns/soa');
+    return this.httpWrapperService.getData(
+      environment.BASE_URL + 'api/ui' + soaURL,
+      this.getHttpOptions(usdmVersion)
+    );
   }
-  getAllGroups(reqObj:any){
-    return this.httpWrapperService.postData(environment.BASE_URL + ApiUrlList.ALLGROUPS, reqObj);
+
+  getSearchResult(reqObj: any) {
+    return this.httpWrapperService.postData(
+      environment.BASE_URL + CommonApiUrlList.SEARCHRESULT,
+      reqObj
+    );
   }
-  postGroup(reqObj:any){
-    return this.httpWrapperService.postData(environment.BASE_URL + ApiUrlList.POSTGROUP, reqObj);
+  getSearchResultLight(reqObj: any) {
+    return this.httpWrapperService.postData(
+      environment.BASE_URL + CommonApiUrlList.SEARCHRESULTLIGHT,
+      reqObj
+    );
   }
-  checkGroup(groupName:any){
-    return this.httpWrapperService.getData(environment.BASE_URL + ApiUrlList.CHECKGROUP + groupName);
+  getAllGroups(reqObj: any) {
+    return this.httpWrapperService.postData(
+      environment.BASE_URL + CommonApiUrlList.ALLGROUPS,
+      reqObj
+    );
   }
-  getAllUsers(reqObj:any){
-    return this.httpWrapperService.postData(environment.BASE_URL + ApiUrlList.ALLUSERS, reqObj);
+  postGroup(reqObj: any) {
+    return this.httpWrapperService.postData(
+      environment.BASE_URL + CommonApiUrlList.POSTGROUP,
+      reqObj
+    );
   }
-  getUsageReport(reqObj:any){
-    return this.httpWrapperService.postData(environment.BASE_URL + ApiUrlList.USAGEREPORT, reqObj);
+  checkGroup(groupName: any) {
+    return this.httpWrapperService.getData(
+      environment.BASE_URL + CommonApiUrlList.CHECKGROUP + groupName
+    );
   }
-  postUser(reqObj:any){
-    return this.httpWrapperService.postData(environment.BASE_URL + ApiUrlList.POSTUSERS, reqObj);
+  getAllUsers(reqObj: any) {
+    return this.httpWrapperService.postData(
+      environment.BASE_URL + CommonApiUrlList.ALLUSERS,
+      reqObj
+    );
   }
-  getAllGroupList(){
-    return this.httpWrapperService.getData(environment.BASE_URL + ApiUrlList.GETGROUPLIST);
+  getUsageReport(reqObj: any) {
+    return this.httpWrapperService.postData(
+      environment.BASE_URL + CommonApiUrlList.USAGEREPORT,
+      reqObj
+    );
   }
-  getAllUserList(){
-    return this.httpWrapperService.getData(environment.BASE_URL + ApiUrlList.GETUSERLIST);
+  postUser(reqObj: any) {
+    return this.httpWrapperService.postData(
+      environment.BASE_URL + CommonApiUrlList.POSTUSERS,
+      reqObj
+    );
+  }
+  getAllGroupList() {
+    return this.httpWrapperService.getData(
+      environment.BASE_URL + CommonApiUrlList.GETGROUPLIST
+    );
+  }
+  getAllUserList() {
+    return this.httpWrapperService.getData(
+      environment.BASE_URL + CommonApiUrlList.GETUSERLIST
+    );
   }
 
   readConfigFile() {
     return dropDownJson;
   }
-  
 }

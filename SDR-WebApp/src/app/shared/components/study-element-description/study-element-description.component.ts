@@ -1,20 +1,10 @@
 import {
   Component,
-  ElementRef,
   EventEmitter,
-  Input,
+  OnDestroy,
   OnInit,
   Output,
 } from '@angular/core';
-import { MsalBroadcastService, MsalService } from '@azure/msal-angular';
-import {
-  EventMessage,
-  EventType,
-  InteractionStatus,
-  AuthenticationResult,
-  PublicClientApplication,
-} from '@azure/msal-browser';
-import { filter } from 'rxjs/operators';
 // import { Studyelement } from '../models/studyelement';
 import { ServiceCall } from '../../services/service-call/service-call.service';
 import { Attribute, Accordian } from './model';
@@ -31,7 +21,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 /**
  *Study Element Details component
  */
-export class StudyElementDescriptionComponent implements OnInit {
+export class StudyElementDescriptionComponent implements OnInit, OnDestroy {
   @Output() backClicked = new EventEmitter();
   cloginDisplay = false;
   finalVal = new Accordian();
@@ -44,13 +34,13 @@ export class StudyElementDescriptionComponent implements OnInit {
   studyId: any;
   versionId: any;
   showError = false;
+  isValidUSDMVersion = false;
+  usdmVersion: any;
+  soaNavigationBoolean: boolean = false;
   constructor(
-    private el: ElementRef,
-    private authService: MsalService,
     private spinner: NgxSpinnerService,
-    private msalBroadcastService: MsalBroadcastService,
     private serviceCall: ServiceCall,
-    private commonMethod: CommonMethodsService,
+    private commonMethods: CommonMethodsService,
     public router: Router,
     public route: ActivatedRoute
   ) {}
@@ -62,10 +52,12 @@ export class StudyElementDescriptionComponent implements OnInit {
       if (Object.keys(params).length !== 0) {
         this.studyId = params['studyId'];
         this.versionId = params['versionId'];
+        this.usdmVersion = params['usdmVersion'];
       }
       if (this.studyId && this.versionId) {
         localStorage.setItem('studyId', this.studyId);
         localStorage.setItem('versionId', this.versionId);
+        localStorage.setItem('usdmVersion', this.usdmVersion);
       }
     });
 
@@ -76,7 +68,14 @@ export class StudyElementDescriptionComponent implements OnInit {
     this.versionId = this.versionId
       ? this.versionId
       : localStorage.getItem('versionId');
+    this.usdmVersion = this.usdmVersion
+      ? this.usdmVersion
+      : localStorage.getItem('usdmVersion');
     this.getstudyelement();
+  }
+
+  checkLocationPath(isSoa: boolean): void {
+    this.soaNavigationBoolean = isSoa;
   }
 
   /**
@@ -127,38 +126,82 @@ export class StudyElementDescriptionComponent implements OnInit {
    */
   getstudyelement(): void {
     this.spinner.show();
-    this.serviceCall.getStudyElement(this.studyId, this.versionId).subscribe({
-      next: (studyelement: any) => {
-        this.spinner.hide();
-        let sponsorDetails = this.commonMethod.getSponsorDetails(studyelement);
-
-        this.sponsorVersionId = sponsorDetails.versionId;
-
-        this.finalVal.attributeList = [];
-        this.finalVal.subAccordianList = [];
-
-        Object.entries(studyelement['clinicalStudy']).forEach((elem) => {
-          this.finalVal.accordianName =
-            studyelement['clinicalStudy'].studyTitle;
-          let attributeList = this.createAttribute(elem);
-          if (typeof attributeList === 'object') {
-            this.finalVal.attributeList.push(attributeList);
-          }
-          let accordianList = this.createsubAccordian(elem);
-
-          if (typeof accordianList === 'object') {
-            this.finalVal.subAccordianList.push(accordianList);
-          }
-        });
-        this.showTableContent(this.finalVal, false, this.finalVal);
-      },
-      error: (error) => {
+    this.commonMethods.getStudyLink({
+      studyId: this.studyId,
+      version: this.versionId,
+      linkName: configList.STUDY_DEFINITION_LINK,
+      callback: (url: any) => this.getStudyElementUsingLink(url),
+      errorCallback: (err: any) => {
         this.showError = true;
         this.finalVal = new Accordian();
         this.spinner.hide();
       },
     });
   }
+
+  getStudyElementUsingLink(url: any) {
+    this.serviceCall
+      .getStudyElementWithVersion(this.usdmVersion, url)
+      .subscribe({
+        //this.serviceCall.getStudyElement(this.studyId, this.versionId).subscribe({
+        next: (studyelement: any) => {
+          this.spinner.hide();
+          let sponsorDetails =
+            this.commonMethods.getSponsorDetails(studyelement);
+
+          this.sponsorVersionId = sponsorDetails.versionId;
+          this.finalVal.attributeList = [];
+          this.finalVal.subAccordianList = [];
+
+          // To check if SoA Matrix needs to be enabled.
+          // TO-Do add another AND condition to check if link exists but study designs dont exist
+
+          this.isValidUSDMVersion = typeof this.getSoALink() === 'string';
+
+          Object.entries(studyelement['clinicalStudy']).forEach((elem) => {
+            this.finalVal.accordianName =
+              studyelement['clinicalStudy'].studyTitle;
+            let attributeList = this.createAttribute(elem);
+            if (typeof attributeList === 'object') {
+              this.finalVal.attributeList.push(attributeList);
+            }
+            let accordianList = this.createsubAccordian(elem);
+
+            if (typeof accordianList === 'object') {
+              this.finalVal.subAccordianList.push(accordianList);
+            }
+          });
+          this.showTableContent(this.finalVal, false, this.finalVal);
+        },
+        error: (error) => {
+          this.showError = true;
+          this.finalVal = new Accordian();
+          this.spinner.hide();
+        },
+      });
+  }
+
+  getSoALink() {
+    const localStorageKey = this.studyId + '_' + this.versionId + '_links';
+    var links: any = localStorage.getItem(localStorageKey);
+    if (!links || links === 'undefined') {
+      this.serviceCall.getStudyLinks(this.studyId, this.versionId).subscribe({
+        next: (p: any) => {
+          localStorage.setItem(localStorageKey, JSON.stringify(p.links));
+          return p.links.SoA;
+        },
+        error: (error) => {
+          this.showError = true;
+          this.finalVal = new Accordian();
+          this.spinner.hide();
+        },
+      });
+    } else {
+      var parsedLinks = JSON.parse(links);
+      return parsedLinks.SoA;
+    }
+  }
+
   /**
    *To highlight the text on click of the tree
    *@param val text which user clicks on the tree structure
@@ -226,10 +269,33 @@ export class StudyElementDescriptionComponent implements OnInit {
     );
   }
   /**
+   *Navigate to SoA matrix page
+   */
+  soaMatrix() {
+    this.router.navigate(
+      [
+        'soa',
+        {
+          // this may not be required. To be revisited
+          studyId:
+            this.studyId ||
+            this.finalVal.attributeList.filter(
+              (elem) => elem.name == 'studyId'
+            )[0].value,
+          versionId: this.versionId,
+          usdmVersion: this.usdmVersion,
+        },
+      ],
+      { relativeTo: this.route }
+    );
+  }
+
+  /**
    *to set Localstorage for study and version id so page can be retrieved on refresh
    */
   ngOnDestroy() {
     localStorage.setItem('studyId', this.studyId);
     localStorage.setItem('versionId', this.versionId);
+    localStorage.setItem('usdmVersion', this.usdmVersion);
   }
 }

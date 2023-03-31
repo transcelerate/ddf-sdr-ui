@@ -8,7 +8,10 @@ describe('AuthGuardService', () => {
   beforeEach(() => {
     const routerStub = () => ({ navigate: (array: any) => ({}) });
     TestBed.configureTestingModule({
-      providers: [AuthGuardService, { provide: Router, useFactory: routerStub }]
+      providers: [
+        AuthGuardService,
+        { provide: Router, useFactory: routerStub },
+      ],
     });
     service = TestBed.get(AuthGuardService);
   });

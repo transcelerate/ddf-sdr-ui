@@ -7,19 +7,21 @@ import {
 @Component({
   selector: 'checkbox-renderer',
   template: `
-    <input *ngIf="!radio"
+    <input
+      *ngIf="!radio"
       type="checkbox"
       class="chkBox"
       [checked]="params.data?.selected"
       (change)="this.refresh(this.params)"
-    />{{params.selected}}
-    <input *ngIf="radio"
-    type="radio"
-    class="chkBox"
-    name="radAnswer"
-    [checked]="params.data?.selected"
-    (change)="this.refresh(this.params)"
-  />{{params.selected}}
+    />{{ params.selected }}
+    <input
+      *ngIf="radio"
+      type="radio"
+      class="chkBox"
+      name="radAnswer"
+      [checked]="params.data?.selected"
+      (change)="this.refresh(this.params)"
+    />{{ params.selected }}
   `,
   styleUrls: ['./add-group.component.scss'],
 })
@@ -32,9 +34,7 @@ export class CheckboxRenderer implements AgRendererComponent {
     this.radio = params.context.componentParent.radioButton;
   }
 
-  afterGuiAttached(params?: IAfterGuiAttachedParams): void {
-    
-  }
+  afterGuiAttached(params?: IAfterGuiAttachedParams): void {}
 
   refresh(params: any): boolean {
     params.data.selected = !params.data?.selected;

@@ -1,61 +1,103 @@
 .gridOuter {
-    height: 280px;
-    width: 100%;
+  height: 200px;
+  width: 100%;
+  padding: 0px !important;
+  border: 1px solid !important;
+}
+
+.searchGrid {
+  width: 100%;
+  height: 100%;
+}
+.breadcrumb {
+  background: none;
+  font-size: 16 px;
+  margin: 0;
+  cursor: pointer;
+  // a, span {
+  //     color: darkgrey;
+  // }
+  a:hover,
+  span:hover {
+    color: dimgrey;
+    text-decoration: none;
   }
-  
-  .searchGrid {
-    width: 100%;
-    height: 100%;
+  li {
+    list-style: none;
+    float: left;
+    margin: 5px;
   }
-  .breadcrumb {
-    background: none;
-    font-size: 16 px;
-    margin: 0;
-    cursor: pointer;
-    // a, span {
-    //     color: darkgrey;
-    // }
-    a:hover, span:hover {
-        color: dimgrey;
-        text-decoration: none;
+  li:last-child {
+    margin-right: 20px;
+  }
+  li::after {
+    content: ">>>";
+    color: darkgrey;
+  }
+  li:last-child::after {
+    content: "";
+  }
+}
+.btn-sm {
+  margin: 4px 10px;
+  width: auto;
+  padding: 2px 24px;
+}
+.auditGrid {
+  height: 300px;
+}
+.downLoad {
+  text-align: end;
+}
+.paddingTen {
+  padding-right: 0px;
+  padding-top: 9px;
+}
+.resetButton {
+  // color: black;
+  // background-color: lightgrey;
+  // border-color: lightgrey;
+}
+.form-control {
+  font-size: inherit;
+}
+.container-fluid {
+  border: 1px solid;
+  .usage-report-form {
+    .usage-report-elements {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      padding: 2px;
     }
-    li{
-        list-style: none;
-        float: left;
-        margin: 5px;
+  }
+  .usage-report-buttons {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+  }
+  .download-icon {
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+    margin-bottom: 10px;
+    .csv-export {
+      cursor: pointer;
+      width: 30px;
+      height: 30px;
     }
-    li:last-child {
-        margin-right: 20px;
-    }
-    li::after {
-        content: '>>>';
-        color: darkgrey;
-    }
-    li:last-child::after {
-        content: ''
-    }
+  }
 }
-.btn-sm{
-    margin:3px 10px;
+.mandatory {
+  color: red;
 }
-.auditGrid{
-    height:300px
+.disableIcon {
+  pointer-events: none;
+  opacity: 0.65;
 }
-.downLoad{
-    text-align: end;
-}
-.paddingTen{
-    padding-right: 0px;
-    padding-top: 9px;
-}
-.inputDiv{
-    padding-left: 0px;
-}
-.resetButton{
-    // color: black;
-    // background-color: lightgrey;
-    // border-color: lightgrey;
-}
-.form-control{
-    font-size:inherit;
+.disable-export-section {
+  font-size: 10px;
+  font-weight: 600;
 }

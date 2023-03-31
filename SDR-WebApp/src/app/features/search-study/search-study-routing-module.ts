@@ -4,6 +4,7 @@ import { SearchFormComponent } from './components/search-form/search-form.compon
 import { StudyElementDescriptionComponent } from 'src/app/shared/components/study-element-description/study-element-description.component';
 import { AuditTrailComponent } from 'src/app/shared/components/audit-trail/audit-trail.component';
 import { VersionComparisonComponent } from 'src/app/shared/components/version-comparison/version-comparison.component';
+import { SoaComponent } from 'src/app/features/soa/soa.component';
 const searchStudyModuleRoutes: Routes = [
   {
     path: '',
@@ -23,7 +24,7 @@ const searchStudyModuleRoutes: Routes = [
             path: 'audit',
             component: AuditTrailComponent,
             data: {
-              breadcrumb: 'Audit Trail',
+              breadcrumb: 'Revision History',
             },
             children: [
               {
@@ -34,6 +35,13 @@ const searchStudyModuleRoutes: Routes = [
                 },
               },
             ],
+          },
+          {
+            path: 'soa',
+            component: SoaComponent,
+            data: {
+              breadcrumb: 'SoA Matrix',
+            },
           },
         ],
       },

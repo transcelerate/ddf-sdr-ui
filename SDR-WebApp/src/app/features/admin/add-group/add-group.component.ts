@@ -224,7 +224,6 @@ export class AddGroupComponent implements OnInit {
     return index;
   }
   updateChecked(option: string) {
-    
     let index = this.findIndex();
     if (index == -1) {
       this.group.groupFilter.push(this.groupList);
@@ -333,7 +332,9 @@ export class AddGroupComponent implements OnInit {
     }
   }
 
+  /** istanbul ignore next */
   onGridReady(params: any) {
+    this.showGrid = false;
     this.gridApi = params.api;
     this.gridColumnApi = params.columnApi;
     params.api.sizeColumnsToFit();
@@ -345,19 +346,23 @@ export class AddGroupComponent implements OnInit {
       },
     ];
     params.columnApi.applyColumnState({ state: defaultSortModel });
-    const reqObj = this.editorForm.value;
-    reqObj.sortOrder = 'desc';
-    reqObj.sortBy = 'studyTitle';
-    reqObj.groupByStudyId = 1;
-    this.commonMethod.gridDataSourceForSearchLightStudy(
-      reqObj,
-      this.gridApi,
-      this.BLOCK_SIZE,
-      this
-    );
+    if (this.editorForm.valid) {
+      const reqObj = this.editorForm.value;
+      reqObj.sortOrder = 'desc';
+      reqObj.sortBy = 'studyTitle';
+      reqObj.groupByStudyId = 1;
+      this.commonMethod.gridDataSourceForSearchLightStudy(
+        reqObj,
+        this.gridApi,
+        this.BLOCK_SIZE,
+        this
+      );
+      this.showGrid = true;
+    }
 
     //this.gridApi.addEventListener('failCallback', this.onServerFailCallback);
   }
+  /** istanbul ignore end */
   /**
    *  Validation to enable search button
    * @param control Formgroup object
@@ -390,7 +395,7 @@ export class AddGroupComponent implements OnInit {
         return;
       }
     }
-    if (this.showGrid) {
+    if (this.showGrid && this.editorForm.valid) {
       const reqObj = this.editorForm.value;
       reqObj.groupByStudyId = 1;
       this.commonMethod.gridDataSourceForSearchLightStudy(
@@ -403,12 +408,17 @@ export class AddGroupComponent implements OnInit {
     this.showGrid = true;
   }
   setSelectedValue(val: any) {
+    localStorage.setItem(
+      val.clinicalStudy.uuid + '_' + val.auditTrail.SDRUploadVersion + '_links',
+      JSON.stringify(val.links)
+    );
     this.router.navigate(
       [
         'details',
         {
           studyId: val.clinicalStudy.uuid,
           versionId: val.auditTrail.SDRUploadVersion,
+          usdmVersion: val.auditTrail.usdmVersion,
         },
       ],
       { relativeTo: this.activatedRoute }
@@ -448,7 +458,7 @@ export class AddGroupComponent implements OnInit {
       return !(elem.id === params.id);
     });
     this.gridOptions?.api?.forEachNode((elem) => {
-      if (elem?.data?.clinicalStudy?.studyId === params.id) {
+      if (elem?.data?.clinicalStudy?.uuid === params.id) {
         // arbitrarily update some data
         var updated = elem.data;
         updated.selected = false;
@@ -475,7 +485,7 @@ export class AddGroupComponent implements OnInit {
     this.serviceCall.checkGroup(event.target.value).subscribe({
       next: (data: any) => {
         this.spinner.hide();
-        
+
         if (data.isExists) {
           this.groupError = true;
         }

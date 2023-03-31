@@ -1,15 +1,25 @@
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable, Output } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
 import * as moment from 'moment';
 import { ServiceCall } from './service-call/service-call.service';
 import { configList } from '../components/study-element-description/config/study-element-field-config';
 import { BsModalRef, BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
 import { ModalComponentComponent } from '../components/modal-component/modal-component.component';
+
+export interface StudyQuery {
+  studyId: any;
+  version: any;
+  linkName: string;
+  callback: (url: any) => void;
+  errorCallback: (err: any) => void;
+}
+
 @Injectable({
   providedIn: 'root',
 })
 export class CommonMethodsService {
   bsModalRef: BsModalRef;
+  @Output() sendErrorBoolean: EventEmitter<any> = new EventEmitter();
   constructor(
     private spinner: NgxSpinnerService,
     public serviceCall: ServiceCall,
@@ -24,9 +34,12 @@ export class CommonMethodsService {
       if (type === 'sponsor') {
         value = params?.data?.clinicalStudy?.studyIdentifiers?.filter(
           (obj: any) => {
+            const decode =
+              obj['studyIdentifierScope']?.organisationType?.decode;
             if (
-              obj['studyIdentifierScope']?.organisationType?.decode ===
-              configList.SPONSORKEY
+              configList.SPONSORKEYS.find(
+                (p) => p.toLowerCase() === decode.toLowerCase()
+              )
             ) {
               return obj['studyIdentifierScope'];
             }
@@ -209,6 +222,7 @@ export class CommonMethodsService {
     gridApi.hideOverlay();
     gridApi.setDatasource(dataSourceVar);
   }
+  // @SONAR_STOP@
   gridDataSourceForSearchLightStudy(
     reqObj: any,
     gridApi: any,
@@ -276,6 +290,7 @@ export class CommonMethodsService {
     gridApi.hideOverlay();
     gridApi.setDatasource(dataSourceVar);
   }
+  // @SONAR_STOP@
   gridDataSourceForUsageReport(
     reqObj: any,
     gridApi: any,
@@ -300,6 +315,7 @@ export class CommonMethodsService {
 
         this.serviceCall.getUsageReport(reqObj).subscribe({
           next: (data: any) => {
+            this.sendErrorBoolean.emit(false);
             this.spinner.hide();
             if (data.length > 0) {
               gridApi.hideOverlay();
@@ -319,6 +335,7 @@ export class CommonMethodsService {
             }
           },
           error: (error) => {
+            this.sendErrorBoolean.emit(true);
             if (error && error.error && error.error.statusCode == '404') {
               rowParams.successCallback([], rowParams.startRow);
               if (rowParams.startRow == 0) {
@@ -326,6 +343,10 @@ export class CommonMethodsService {
               }
             } else {
               view.showError = true;
+              rowParams.successCallback([], rowParams.startRow);
+              if (rowParams.startRow == 0) {
+                gridApi.showNoRowsOverlay();
+              }
               Array.from(
                 document.getElementsByClassName(
                   'ag-cell'
@@ -341,6 +362,7 @@ export class CommonMethodsService {
     gridApi.hideOverlay();
     gridApi.setDatasource(dataSourceVar);
   }
+  // @SONAR_STOP@
   gridDataSourceForUser(
     reqObj: any,
     gridApi: any,
@@ -411,6 +433,8 @@ export class CommonMethodsService {
         return 'SponsorId';
       case 'auditTrail.SDRUploadVersion':
         return 'version';
+      case 'auditTrail.usdmVersion':
+        return 'usdmVersion';
     }
   }
   /* istanbul ignore end */
@@ -446,12 +470,18 @@ export class CommonMethodsService {
         return 'callerip';
       case 'responseCodeDescription':
         return 'responsecode';
+      case 'auditTrail.usdmVersion':
+        return 'usdmVersion';
     }
   }
   getSponsorDetails(studyelement: any) {
     let sponsorObject = studyelement.clinicalStudy.studyIdentifiers.filter(
       (obj: { [x: string]: string }) => {
-        return obj['idType'] === configList.SPONSORKEY;
+        const decode = obj['idType']?.toLowerCase();
+        return (
+          configList.SPONSORKEYS.findIndex((p) => p.toLowerCase() === decode) >
+          -1
+        );
       }
     );
     return {
@@ -507,5 +537,21 @@ export class CommonMethodsService {
         //   });
       },
     });
+  }
+  getStudyLink(query: Required<StudyQuery>) {
+    const localStorageKey = query.studyId + '_' + query.version + '_links';
+    var links: any = localStorage.getItem(localStorageKey);
+    if (!links) {
+      this.serviceCall.getStudyLinks(query.studyId, query.version).subscribe({
+        next: (p: any) => {
+          localStorage.setItem(localStorageKey, JSON.stringify(p.links));
+          query.callback(p.links[query.linkName]);
+        },
+        error: query.errorCallback,
+      });
+    } else {
+      var parsedLinks = JSON.parse(links);
+      query.callback(parsedLinks[query.linkName]);
+    }
   }
 }

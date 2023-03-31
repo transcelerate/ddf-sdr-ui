@@ -10,7 +10,7 @@ describe('BtnCellRenderer', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       schemas: [NO_ERRORS_SCHEMA],
-      declarations: [BtnCellRenderer]
+      declarations: [BtnCellRenderer],
     });
     fixture = TestBed.createComponent(BtnCellRenderer);
     component = fixture.componentInstance;

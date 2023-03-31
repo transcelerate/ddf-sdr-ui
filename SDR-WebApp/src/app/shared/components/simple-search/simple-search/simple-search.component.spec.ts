@@ -16,9 +16,11 @@ describe('SimpleSearchComponent', () => {
   let fixture: ComponentFixture<SimpleSearchComponent>;
 
   beforeEach(() => {
-    const dialogServiceStub = () => ({ changeDialogState: (string: any) => ({}) });
+    const dialogServiceStub = () => ({
+      changeDialogState: (string: any) => ({}),
+    });
     const bsModalServiceStub = () => ({
-      show: (modalComponentComponent: any, initialState: any) => ({})
+      show: (modalComponentComponent: any, initialState: any) => ({}),
     });
     const commonMethodsServiceStub = () => ({
       getSponsorIdGrid: { bind: () => ({}) },
@@ -27,9 +29,11 @@ describe('SimpleSearchComponent', () => {
         gridApi: any,
         bLOCK_SIZE: any,
         arg2: any
-      ) => ({})
+      ) => ({}),
     });
-    const formBuilderStub = () => ({ group: (object: any, object1: any) => ({}) });
+    const formBuilderStub = () => ({
+      group: (object: any, object1: any) => ({}),
+    });
     const ngxSpinnerServiceStub = () => ({});
     const serviceCallStub = () => ({});
     const activatedRouteStub = () => ({});
@@ -45,17 +49,12 @@ describe('SimpleSearchComponent', () => {
         { provide: NgxSpinnerService, useFactory: ngxSpinnerServiceStub },
         { provide: ServiceCall, useFactory: serviceCallStub },
         { provide: ActivatedRoute, useFactory: activatedRouteStub },
-        { provide: Router, useFactory: routerStub }
-      ]
+        { provide: Router, useFactory: routerStub },
+      ],
     });
     fixture = TestBed.createComponent(SimpleSearchComponent);
     component = fixture.componentInstance;
-     window.history.pushState(
-      { data: {from:'search1'} },
-      '',
-      ''
-    );
-
+    window.history.pushState({ data: { from: 'search1' } }, '', '');
   });
 
   it('can load instance', () => {
@@ -88,9 +87,8 @@ describe('SimpleSearchComponent', () => {
 
   describe('ngOnInit', () => {
     it('makes expected calls', () => {
-      const dialogServiceStub: DialogService = fixture.debugElement.injector.get(
-        DialogService
-      );
+      const dialogServiceStub: DialogService =
+        fixture.debugElement.injector.get(DialogService);
       spyOn(dialogServiceStub, 'changeDialogState').and.callThrough();
       component.ngOnInit();
       expect(dialogServiceStub.changeDialogState).toHaveBeenCalled();
@@ -108,9 +106,8 @@ describe('SimpleSearchComponent', () => {
 
   describe('submitSearch', () => {
     it('makes expected calls', () => {
-      const commonMethodsServiceStub: CommonMethodsService = fixture.debugElement.injector.get(
-        CommonMethodsService
-      );
+      const commonMethodsServiceStub: CommonMethodsService =
+        fixture.debugElement.injector.get(CommonMethodsService);
       spyOn(
         commonMethodsServiceStub,
         'gridDataSourceForSearchLightStudy'
@@ -124,7 +121,6 @@ describe('SimpleSearchComponent', () => {
   });
   describe('getSelectSearch', () => {
     it('makes expected calls', () => {
-    
       let params = {
         data: {
           clinicalStudy: {
@@ -193,7 +189,7 @@ describe('SimpleSearchComponent', () => {
           },
           auditTrail: {
             entryDateTime: '2022-JUN-20',
-           
+
             SDRUploadVersion: 1,
           },
           selected: true,
@@ -201,7 +197,6 @@ describe('SimpleSearchComponent', () => {
       };
       component.getSelectSearch(params);
       expect(component.selectedValue).toEqual(params.data);
-      
     });
   });
   describe('setSelectedValue', () => {
@@ -218,14 +213,14 @@ describe('SimpleSearchComponent', () => {
       };
       component.setSelectedValue(param);
       expect(spy).toHaveBeenCalledWith(
-        ['details', { studyId: 1, versionId: 1 }],
+        ['details', { studyId: 1, versionId: 1, usdmVersion: undefined }],
         { relativeTo: {} }
       );
     });
   });
   describe('restrictChar', () => {
     it('makes expected calls', () => {
-      const event = document.createEvent('KeyboardEvent');;
+      const event = document.createEvent('KeyboardEvent');
       let val = component.restrictChar(event);
       expect(val).toEqual(false);
     });
@@ -233,8 +228,8 @@ describe('SimpleSearchComponent', () => {
   describe('getToday', () => {
     it('makes expected calls', () => {
       let val = component.getToday();
-     // component.ngAfterViewInit();
-      expect(typeof(val)).toEqual('string');
+      // component.ngAfterViewInit();
+      expect(typeof val).toEqual('string');
     });
   });
   describe('getStudyVersionGrid', () => {
@@ -264,7 +259,7 @@ describe('SimpleSearchComponent', () => {
           auditTrail: {
             entryDateTime: '2022-FEB-07',
             entrySystemId: 'Viswesh_localHost',
-            
+
             SDRUploadVersion: 1,
           },
         },

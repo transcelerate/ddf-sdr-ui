@@ -2,15 +2,15 @@
   <app-error-component *ngIf="showError"></app-error-component>
   <div class="buttonDivAudit">
     <button
-    *ngIf="!showError"
+      *ngIf="!showError"
       [disabled]="disableButton"
-      class="btn  versionButtonAudit"
+      class="btn versionButtonAudit"
       (click)="versionCompare()"
     >
       Version Comparison
     </button>
   </div>
-  <div class="auditDiv gridOuter" >
+  <div class="auditDiv gridOuter">
     <ag-grid-angular
       #agGrid
       id="myGrid"

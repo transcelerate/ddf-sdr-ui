@@ -6,36 +6,6 @@ const ReportsModuleRoutes: Routes = [
   {
     path: '',
     component: UsageComponent,
-    // data: {
-    //   breadcrumb: 'Search',
-    // },
-    // children: [
-    //   {
-    //     path: 'details',
-    //     component: StudyElementDescriptionComponent,
-    //     data: {
-    //       breadcrumb: 'Study Details',
-    //     },
-    //     children: [
-    //       {
-    //         path: 'audit',
-    //         component: AuditTrailComponent,
-    //         data: {
-    //           breadcrumb: 'Audit Trail',
-    //         },
-    //         children: [
-    //           {
-    //             path: 'compare',
-    //             component: VersionComparisonComponent,
-    //             data: {
-    //               breadcrumb: 'Study Version Comparison',
-    //             },
-    //           },
-    //         ],
-    //       },
-    //     ],
-    //   },
-    // ],
   },
 ];
 

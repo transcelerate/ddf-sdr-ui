@@ -1,7 +1,7 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { DialogService } from 'src/app/shared/services/communication.service';
 import { CheckboxRenderer } from 'src/app/features/admin/add-group/checkbox-renderer.component';
-import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+import { BsModalService, BsModalRef, ModalOptions } from 'ngx-bootstrap/modal';
 import { configList } from 'src/app/shared/components/study-element-description/config/study-element-field-config';
 import { CommonMethodsService } from 'src/app/shared/services/common-methods.service';
 import {
@@ -13,24 +13,29 @@ import {
 
 import { ColDef, GridApi, GridReadyEvent } from 'ag-grid-community';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { ngxCsv } from 'ngx-csv/ngx-csv';
 import { AlertComponent } from 'ngx-bootstrap/alert';
 import { ServiceCall } from 'src/app/shared/services/service-call/service-call.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { map, Observable } from 'rxjs';
+import { ExportReport } from './usage.interface';
+import * as moment from 'moment';
+import { ModalComponentComponent } from 'src/app/shared/components/modal-component/modal-component.component';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-usage',
   templateUrl: './usage.component.html',
-  styleUrls: ['./usage.component.scss']
+  styleUrls: ['./usage.component.scss'],
 })
-export class UsageComponent implements OnInit  { state$: Observable<object>;
+export class UsageComponent implements OnInit {
+  state$: Observable<object>;
 
   permissionList: string[];
   dropDownConfig = configList;
   filterFieldList: any;
   isSearchSelected: any = undefined;
   filterFieldValueList: any;
-  modalRef?: BsModalRef;
   content: string = '';
   showContent: boolean;
   showAddButton = false;
@@ -38,7 +43,6 @@ export class UsageComponent implements OnInit  { state$: Observable<object>;
   noRowsTemplate: string;
   public gridApi: any;
   public gridColumnApi: any;
-  
 
   public columnDefs;
   public defaultColDef;
@@ -54,20 +58,20 @@ export class UsageComponent implements OnInit  { state$: Observable<object>;
   public value: any = [];
   public tooltipShowDelay = 0;
   BLOCK_SIZE: number = configList.BLOCK_SIZE;
+  exportTooltip = configList.EXPORT_TOOLTIP;
+  exportMessage = configList.EXPORT_MESSAGE;
   showGrid: boolean;
   icons: { sortAscending: string; sortDescending: string };
-
-
-  
-
   editorForm: FormGroup;
   initialForm: FormGroup;
   showError: boolean;
   groupError: boolean;
   saveSuccess: boolean;
   isEdit: boolean;
-    radioButton: boolean;
-   
+  exportUsageData: ExportReport[] = [];
+  disableExportIcon: boolean = false;
+  bsModalRef?: BsModalRef;
+  noRowsToShowBoolean: boolean = false;
   constructor(
     public _formBuilder: FormBuilder,
     private ds: DialogService,
@@ -78,58 +82,50 @@ export class UsageComponent implements OnInit  { state$: Observable<object>;
     public router: Router,
     public activatedRoute: ActivatedRoute
   ) {
-    
-    this.columnDefs  = [
-      
+    this.columnDefs = [
       {
         headerName: 'Operation',
         field: 'operation',
-        tooltipField:'operation',
+        tooltipField: 'operation',
         sortable: true,
-        width:100
-        
+        width: 100,
       },
-  
+
       {
         headerName: 'API',
         field: 'api',
-        width:390,
-        tooltipField:'api',
-        sortable: true
-        
+        width: 390,
+        tooltipField: 'api',
+        sortable: true,
       },
       {
         headerName: 'Sender ID',
         field: 'emailId',
-        tooltipField:'emailId',
-        sortable: false
-        
+        tooltipField: 'emailId',
+        sortable: false,
       },
       {
         headerName: 'Request Date',
         field: 'requestDate',
-        tooltipField:'requestDate',
-        sortable: true
-        
+        tooltipField: 'requestDate',
+        sortable: true,
       },
       {
         headerName: 'Caller IP Address',
         field: 'callerIpAddress',
-        tooltipField:'callerIpAddress',
-        sortable: true
+        tooltipField: 'callerIpAddress',
+        sortable: true,
       },
       {
         headerName: 'Response Code',
         field: 'responseCodeDescription',
-        tooltipField:'responseCodeDescription',
-        sortable: true
+        tooltipField: 'responseCodeDescription',
+        sortable: true,
       },
     ];
-  
+
     this.defaultColDef = {
-      
       resizable: true,
-     
     };
     (this.icons = {
       sortAscending:
@@ -145,37 +141,40 @@ export class UsageComponent implements OnInit  { state$: Observable<object>;
     this.maxConcurrentDatasourceRequests = 1;
     this.infiniteInitialRowCount = 1;
     this.maxBlocksInCache = 1000;
-    
-  
-    
+
     this.editorForm = this._formBuilder.group(
       {
-        days: [''],
+        // days: [''],
         operation: [''],
         responseCode: [''],
+        fromDateTime: ['', Validators.required],
+        toDateTime: ['', Validators.required],
       },
       { validators: this.atLeastOneValidator }
     );
-   
+    // disable export icon if search results are empty
+    this.commonMethod.sendErrorBoolean.subscribe((result: any) => {
+      this.noRowsToShowBoolean = result;
+    });
   }
-  
+
   ngOnInit(): void {
     this.ds.changeDialogState('Reports');
     this.editorForm.patchValue({
-      days:7,
-      responseCode:0
+      fromDateTime: moment()
+        .utc(true)
+        .startOf('day')
+        .toISOString()
+        .slice(0, 16),
+      responseCode: 0,
+      toDateTime: moment().utc(true).toISOString().slice(0, 16),
     });
     //this.submitSearch();
   }
-  
-  
-  
-  
-  
-  
-  
 
-  
+  disableExport() {
+    this.disableExportIcon = true;
+  }
 
   /**
    *  Validation to enable search button
@@ -199,41 +198,105 @@ export class UsageComponent implements OnInit  { state$: Observable<object>;
   /**
    *Validate date and fetch search results
    */
-  submitSearch(isFromClear?:boolean) {
+  submitSearch(isFromClear?: boolean) {
+    this.showError = false;
+    this.disableExportIcon = false;
     const reqObj = this.editorForm.value;
-    if(isFromClear){
+    if (isFromClear) {
       // reqObj.sortOrder = 'desc';
       // reqObj.sortBy = 'requestdate';
       this.gridApi?.setSortModel([
         {
-         colId: 'requestDate',
-         sort: 'desc' // 'asc'
-        }  
-      ])
+          colId: 'requestDate',
+          sort: 'desc', // 'asc'
+        },
+      ]);
     }
-    
+    if (reqObj.fromDateTime && reqObj.toDateTime) {
+      if (
+        this.checkValidationsOfDates(reqObj.fromDateTime, reqObj.toDateTime)
+      ) {
+        reqObj.filterByTime = true;
+        reqObj.fromDateTime = moment(reqObj.fromDateTime).toISOString();
+        reqObj.toDateTime = moment(reqObj.toDateTime).toISOString();
+      } else {
+        this.disableExportIcon = true;
+        return;
+      }
+    } else {
+      reqObj.filterByTime = false;
+    }
+
     this.commonMethod.gridDataSourceForUsageReport(
       reqObj,
       this.gridApi,
       this.BLOCK_SIZE,
-      this,isFromClear
+      this,
+      isFromClear
     );
-    
   }
-  
- 
-  
-  
- 
-  clear(){
+
+  checkValidationsOfDates(fromDate: any, toDate: any): boolean {
+    let checkBool;
+    var currentDate = moment(new Date()).utc(true).toISOString().slice(0, 16);
+    if (fromDate && toDate && fromDate >= toDate) {
+      alert(configList.FROM_DATE_MORE_THAN_TO_DATE);
+      checkBool = false;
+    } else if (fromDate > currentDate) {
+      alert(configList.VALID_FROM_DATE);
+      checkBool = false;
+    } else if (toDate > currentDate) {
+      alert(configList.VALID_TO_DATE);
+      checkBool = false;
+    } else {
+      var duration = moment(toDate).diff(moment(fromDate));
+      let dur = 0,
+        dur1 = 0,
+        dur2 = 0,
+        dur3 = 0,
+        dur4 = 0;
+      if (moment.duration(duration).years() > 0) {
+        dur = moment.duration(duration).years() * 12 * 30 * 24 * 60;
+      }
+      if (moment.duration(duration).months() > 0) {
+        dur1 = moment.duration(duration).months() * 30 * 24 * 60;
+      }
+      if (moment.duration(duration).days() > 0) {
+        dur2 = moment.duration(duration).days() * 24 * 60;
+      }
+      if (moment.duration(duration).hours() > 0) {
+        dur3 = moment.duration(duration).hours() * 60;
+      }
+      if (moment.duration(duration).minutes() > 0) {
+        dur4 = moment.duration(duration).minutes();
+      }
+      if (dur + dur1 + dur2 + dur3 + dur4 > 43200) {
+        alert(configList.EXCEED_DATE_INFO);
+        checkBool = false;
+      } else {
+        console.log('Both the dates are correct');
+        checkBool = true;
+      }
+    }
+    return checkBool;
+  }
+
+  clear() {
     this.editorForm.patchValue({
-      days:7,
-      responseCode:0,
-      operation:''
+      // days: 7,
+      fromDateTime: moment()
+        .utc(true)
+        .startOf('day')
+        .toISOString()
+        .slice(0, 16),
+      responseCode: 0,
+      operation: '',
+      toDateTime: moment().utc(true).toISOString().slice(0, 16),
     });
     this.submitSearch(true);
   }
-
+  /* istanbul ignore next */
+  // @SONAR_STOP@
   onGridReady(params: any) {
     this.gridApi = params.api;
     this.gridColumnApi = params.columnApi;
@@ -249,16 +312,106 @@ export class UsageComponent implements OnInit  { state$: Observable<object>;
     const reqObj = this.editorForm.value;
     reqObj.sortOrder = 'desc';
     reqObj.sortBy = 'requestdate';
-
+    if (reqObj.fromDateTime && reqObj.toDateTime) {
+      if (
+        this.checkValidationsOfDates(reqObj.fromDateTime, reqObj.toDateTime)
+      ) {
+        reqObj.filterByTime = true;
+        reqObj.fromDateTime = moment(reqObj.fromDateTime).toISOString();
+        reqObj.toDateTime = moment(reqObj.toDateTime).toISOString();
+      } else {
+        return;
+      }
+    } else {
+      reqObj.filterByTime = false;
+    }
     this.commonMethod.gridDataSourceForUsageReport(
       reqObj,
       this.gridApi,
       this.BLOCK_SIZE,
       this
     );
+  }
+  /* istanbul ignore end */
+  // @SONAR_START@
 
-    
+  getUsageData() {
+    this.spinner.show();
+    const reqObj = this.editorForm.value;
+    reqObj.pageSize = configList.EXPORT_REPORT_LIMIT;
+    reqObj.sortOrder = 'desc';
+    reqObj.sortBy = 'requestdate';
+    reqObj.recordNumber = 0;
+    this.serviceCall.getUsageReport(reqObj).subscribe({
+      next: (data: any) => {
+        const usageData = data;
+        this.exportUsageData = usageData.map((value: ExportReport) => ({
+          operation: value.operation,
+          api: value.api,
+          emailId: value.emailId,
+          requestDate: moment(value.requestDate)
+            .utc(true)
+            .toISOString()
+            .slice(0, 16),
+          callerIpAddress: value.callerIpAddress,
+          responseCodeDescription: value.responseCodeDescription,
+        }));
+        this.openPopUp();
+      },
+      error: (error) => {
+        console.log(error);
+      },
+    });
   }
+
+  openPopUp() {
+    this.spinner.hide();
+    const initialState: ModalOptions = {
+      initialState: {
+        title: 'Information',
+        list: [configList.EXPORT_POPUP_INFO],
+      },
+    };
+    this.bsModalRef = this.modalService.show(
+      ModalComponentComponent,
+      initialState
+    );
+    this.bsModalRef.content.closeBtnName = 'Ok';
+    this.bsModalRef.content.passEntry.subscribe((result: any) => {
+      console.log(result);
+      this.downloadCSV();
+    });
   }
-  
-  
+
+  downloadCSV() {
+    var options = {
+      title: 'Usage Report',
+      fieldSeparator: ',',
+      quoteStrings: '"',
+      decimalseparator: '.',
+      showLabels: false,
+      noDownload: false,
+      showTitle: false,
+      useBom: false,
+      headers: [
+        'Operation',
+        'API',
+        'Sender ID',
+        'Request Date',
+        'Caller IP Address',
+        'Response Code',
+      ],
+    };
+    const entryDateTime = moment(new Date()).format('YYYYMMDD');
+    new ngxCsv(
+      this.exportUsageData,
+      'System_Usage_Report_' + environment.envName + '_' + entryDateTime,
+      options
+    );
+    this.spinner.hide();
+  }
+
+  getToday(): string {
+    return new Date().toISOString().slice(0, 16);
+  }
+}
