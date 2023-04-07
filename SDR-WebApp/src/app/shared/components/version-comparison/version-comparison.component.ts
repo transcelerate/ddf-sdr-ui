@@ -33,6 +33,7 @@ export class VersionComparisonComponent implements OnInit {
   isFromCompare: boolean;
   studyOneTitle: any;
   studyTwoTitle: any;
+  diffReport: any;
 
   constructor(
     private monacoLoaderService: MonacoEditorLoaderService,
@@ -43,40 +44,40 @@ export class VersionComparisonComponent implements OnInit {
     private commonMethods: CommonMethodsService,
     private spinner: NgxSpinnerService
   ) {
-    this.monacoLoaderService.isMonacoLoaded$
-      .pipe(
-        filter((isLoaded) => !!isLoaded),
-        take(1)
-      )
-      .subscribe(() => {
-        monaco.editor.defineTheme('myCustomTheme', {
-          base: 'vs', // can also be vs or hc-black
-          inherit: true, // can also be false to completely replace the builtin rules
-          rules: [
-            {
-              token: 'comment',
-              foreground: 'ffa500',
-              fontStyle: 'italic underline',
-            },
-            { token: 'comment.js', foreground: '008800', fontStyle: 'bold' },
-            { token: 'comment.css', foreground: '0000ff' }, // will inherit fontStyle from `comment` above
-          ],
-          colors: {
-            'editor.background': '#ffffff', // code background
-            'editor.foreground': '#000000', // corsour color
-            'diffEditor.removedTextBackground': '#FCF55F',
-            'diffEditor.insertedTextBackground': '#FCF55F',
-            'editor.removedTextBackground': '#FCF55F',
-            'editor.insertedTextBackground': '#FCF55F',
-            //   'editor.lineHighlightBackground': '#000000',
-            //   'editor.lineHighlightBorder': '#000000'
-            //   'editor.lineHighlightBackground': '#9B9B9B', // line highlight colour
-            //   'editorLineNumber.foreground': '#666666', // line number colour
-            //   'editor.selectionBackground': '#666666', // code selection background
-            //   'editor.inactiveSelectionBackground': '#7e890b'
-          },
-        });
-      });
+    // this.monacoLoaderService.isMonacoLoaded$
+    //   .pipe(
+    //     filter((isLoaded) => !!isLoaded),
+    //     take(1)
+    //   )
+    //   .subscribe(() => {
+    //     monaco.editor.defineTheme('myCustomTheme', {
+    //       base: 'vs', // can also be vs or hc-black
+    //       inherit: true, // can also be false to completely replace the builtin rules
+    //       rules: [
+    //         {
+    //           token: 'comment',
+    //           foreground: 'ffa500',
+    //           fontStyle: 'italic underline',
+    //         },
+    //         { token: 'comment.js', foreground: '008800', fontStyle: 'bold' },
+    //         { token: 'comment.css', foreground: '0000ff' }, // will inherit fontStyle from `comment` above
+    //       ],
+    //       colors: {
+    //         'editor.background': '#ffffff', // code background
+    //         'editor.foreground': '#000000', // corsour color
+    //         'diffEditor.removedTextBackground': '#FCF55F',
+    //         'diffEditor.insertedTextBackground': '#FCF55F',
+    //         'editor.removedTextBackground': '#FCF55F',
+    //         'editor.insertedTextBackground': '#FCF55F',
+    //         //   'editor.lineHighlightBackground': '#000000',
+    //         //   'editor.lineHighlightBorder': '#000000'
+    //         //   'editor.lineHighlightBackground': '#9B9B9B', // line highlight colour
+    //         //   'editorLineNumber.foreground': '#666666', // line number colour
+    //         //   'editor.selectionBackground': '#666666', // code selection background
+    //         //   'editor.inactiveSelectionBackground': '#7e890b'
+    //       },
+    //     });
+    //   });
   }
   /**
    *getStudyElement api will be called twice for the 2 different version of the document. And get assigned to the monaco editor to the keyname
@@ -113,23 +114,23 @@ export class VersionComparisonComponent implements OnInit {
         }
       }
     });
-    this.editorOptions = {
-      theme: 'myCustomTheme',
-      language: 'xml',
-      scrollbar: {
-        // useShadows: false,
-        // verticalHasArrows: true,
-        // horizontalHasArrows: true,
-        // set scrollbar hidden
-        vertical: 'visible',
-        horizontal: 'visible',
-        handleMouseWheel: true,
+    // this.editorOptions = {
+    //   theme: 'myCustomTheme',
+    //   language: 'xml',
+    //   scrollbar: {
+    //     // useShadows: false,
+    //     // verticalHasArrows: true,
+    //     // horizontalHasArrows: true,
+    //     // set scrollbar hidden
+    //     vertical: 'visible',
+    //     horizontal: 'visible',
+    //     handleMouseWheel: true,
 
-        verticalScrollbarSize: 10,
-        horizontalScrollbarSize: 17,
-        arrowSize: 30,
-      },
-    };
+    //     verticalScrollbarSize: 10,
+    //     horizontalScrollbarSize: 17,
+    //     arrowSize: 30,
+    //   },
+    // };
     this.spinner.show();
     this.commonMethods.getStudyLink({
       studyId: this.studyId,
@@ -205,34 +206,35 @@ export class VersionComparisonComponent implements OnInit {
               'Study - ' + this.studyTwoTitle + this.rightHeader;
           }
           this.code = JSON.stringify(studyDefinition.clinicalStudy, null, '\t');
-          var interval = setInterval(() => {
-            if (
-              this._elementRef.nativeElement.getElementsByClassName(
-                'editor original'
-              ).length > 0 &&
-              !this.showheading
-            ) {
-              var div = document.createElement('div');
-              div.className = 'editorHeading';
-              div.textContent = this.leftHeader;
+          this.differenceReport(event);
+          // var interval = setInterval(() => {
+          //   if (
+          //     this._elementRef.nativeElement.getElementsByClassName(
+          //       'editor original'
+          //     ).length > 0 &&
+          //     !this.showheading
+          //   ) {
+          //     var div = document.createElement('div');
+          //     div.className = 'editorHeading';
+          //     div.textContent = this.leftHeader;
 
-              var div1 = document.createElement('div');
-              div1.className = 'editorHeading';
-              div1.textContent = this.rightHeader;
+          //     var div1 = document.createElement('div');
+          //     div1.className = 'editorHeading';
+          //     div1.textContent = this.rightHeader;
 
-              this._elementRef.nativeElement
-                .getElementsByClassName('editor original')[0]
-                .prepend(div);
+          //     this._elementRef.nativeElement
+          //       .getElementsByClassName('editor original')[0]
+          //       .prepend(div);
 
-              this._elementRef.nativeElement
-                .getElementsByClassName('editor modified')[0]
-                .prepend(div1);
-              this.showheading = true;
-              clearInterval(interval);
-            } else {
-              this.showheading = false;
-            }
-          }, 1000);
+          //     this._elementRef.nativeElement
+          //       .getElementsByClassName('editor modified')[0]
+          //       .prepend(div1);
+          //     this.showheading = true;
+          //     clearInterval(interval);
+          //   } else {
+          //     this.showheading = false;
+          //   }
+          // }, 1000);
         },
         error: (error) => {
           this.spinner.hide();
@@ -245,5 +247,10 @@ export class VersionComparisonComponent implements OnInit {
     if (document.getElementsByTagName('h2').length > 0) {
       document.getElementsByTagName('h2')[0].classList.remove('textCenter');
     }
+  }
+
+  differenceReport(event: any) {
+    console.log(event);
+    this.diffReport = event;
   }
 }

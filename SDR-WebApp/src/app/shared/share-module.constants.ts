@@ -22,6 +22,7 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { MatMenuModule } from '@angular/material/menu';
 import { ErrorComponentComponent } from './components/error-component/error-component.component';
+import { JsonComparisonComponent } from './components/json-comparison/json-comparison.component';
 export class SharedModuleConstants {
   static MODULE_IMPORTS = [
     RouterModule,
@@ -49,6 +50,7 @@ export class SharedModuleConstants {
     CustomPipe,
     ErrorComponentComponent,
     ModalComponentComponent,
+    JsonComparisonComponent,
   ];
   static MODULE_PROVIDERS = [];
 
@@ -67,6 +69,7 @@ export class SharedModuleConstants {
     MatAutocompleteModule,
     ErrorComponentComponent,
     ModalComponentComponent,
+    JsonComparisonComponent,
     MatMenuModule,
   ];
 

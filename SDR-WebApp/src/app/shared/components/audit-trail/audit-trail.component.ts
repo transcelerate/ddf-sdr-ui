@@ -239,6 +239,7 @@ export class AuditTrailComponent implements OnInit {
    *on clcik of version compare this method will be triggered which will redirect to version compare page
    */
   versionCompare() {
+    document.getElementById('compare')?.click();
     this.router.navigate(
       [
         'compare',
