@@ -17,8 +17,8 @@ describe('SoaComponent', () => {
     links: {
       studyDefinitions:
         '/v2/studydefinitions/9352b5ba-4a94-46c9-8809-b8aeea0dd45e?sdruploadversion=0',
-      auditTrail:
-        '/studydefinitions/9352b5ba-4a94-46c9-8809-b8aeea0dd45e/audittrail',
+      revisionHistory:
+        '/studydefinitions/9352b5ba-4a94-46c9-8809-b8aeea0dd45e/revisionhistory',
       SoA: '/v2/studydefinitions/9352b5ba-4a94-46c9-8809-b8aeea0dd45e/studydesigns/soa',
     },
   };

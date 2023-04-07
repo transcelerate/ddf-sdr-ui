@@ -51,8 +51,8 @@ describe('StudyCompareComponent', () => {
         },
         links: {
           SoA: null,
-          auditTrail:
-            '/studydefinitions/49a1c2da-49f6-454e-b1a7-6f68e9f3df64/audittrail',
+          revisionHistory:
+            '/studydefinitions/49a1c2da-49f6-454e-b1a7-6f68e9f3df64/revisionhistory',
           studyDefinitions:
             '/v1/studydefinitions/49a1c2da-49f6-454e-b1a7-6f68e9f3df64?sdruploadversion=2',
           studyDesigns: {
