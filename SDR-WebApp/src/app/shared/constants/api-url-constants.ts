@@ -17,7 +17,7 @@ const CommonApiUrlList = {
   STUDYLINKS: 'api/ui/studydefinitions/{studyId}/links',
   SEARCHRESULT: 'api/ui/studydefinitions/search',
   SEARCHRESULTLIGHT: 'api/ui/studydefinitions/searchstudytitle',
-  AUDITTRAIL: 'api/ui/studydefinitions/{studyId}/auditTrail',
+  REVISIONHISTORY: 'api/ui/studydefinitions/{studyId}/revisionhistory',
 
   USAGEREPORT: 'api/ui/reports/usage',
 
