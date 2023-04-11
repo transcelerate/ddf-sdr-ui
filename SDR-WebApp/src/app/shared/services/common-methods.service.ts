@@ -80,7 +80,10 @@ export class CommonMethodsService {
               element.studyIndications.length > 0
             ) {
               element.studyIndications.forEach((item: any) => {
-                if (item.indicationDesc && item.indicationDesc != '') {
+                if (
+                  item.indicationDescription &&
+                  item.indicationDescription != ''
+                ) {
                   value.push(item);
                 }
               });
@@ -98,8 +101,8 @@ export class CommonMethodsService {
             ? value.map((elem: { decode: any }) => {
                 return elem.decode;
               })
-            : value.map((elem: { indicationDesc: any }) => {
-                return elem.indicationDesc;
+            : value.map((elem: { indicationDescription: any }) => {
+                return elem.indicationDescription;
               });
         val = [...new Set(val)];
       }
@@ -122,7 +125,7 @@ export class CommonMethodsService {
           } else if (type === 'intervention') {
             val = value[0].decode || '';
           } else {
-            val = value[0].indicationDesc || '';
+            val = value[0].indicationDescription || '';
           }
           var htmlTag = '<span> ' + val + '</span>';
           eDiv.innerHTML = htmlTag;

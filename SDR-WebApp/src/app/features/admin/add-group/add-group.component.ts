@@ -409,14 +409,17 @@ export class AddGroupComponent implements OnInit {
   }
   setSelectedValue(val: any) {
     localStorage.setItem(
-      val.clinicalStudy.uuid + '_' + val.auditTrail.SDRUploadVersion + '_links',
+      val.clinicalStudy.studyId +
+        '_' +
+        val.auditTrail.SDRUploadVersion +
+        '_links',
       JSON.stringify(val.links)
     );
     this.router.navigate(
       [
         'details',
         {
-          studyId: val.clinicalStudy.uuid,
+          studyId: val.clinicalStudy.studyId,
           versionId: val.auditTrail.SDRUploadVersion,
           usdmVersion: val.auditTrail.usdmVersion,
         },
@@ -428,18 +431,18 @@ export class AddGroupComponent implements OnInit {
     if (params.data.selected) {
       if (
         this.searchList.some(
-          (elem: { id: any }) => elem.id === params.data.clinicalStudy.uuid
+          (elem: { id: any }) => elem.id === params.data.clinicalStudy.studyId
         )
       ) {
         return;
       }
       this.searchList.push({
-        id: params.data.clinicalStudy.uuid,
+        id: params.data.clinicalStudy.studyId,
         title: params.data.clinicalStudy.studyTitle,
       });
     } else {
       this.searchList = this.searchList.filter((elem: any) => {
-        return !(elem.id === params.data.clinicalStudy.uuid);
+        return !(elem.id === params.data.clinicalStudy.studyId);
       });
     }
     // let index = this.group.groupFilter.findIndex(
@@ -458,7 +461,7 @@ export class AddGroupComponent implements OnInit {
       return !(elem.id === params.id);
     });
     this.gridOptions?.api?.forEachNode((elem) => {
-      if (elem?.data?.clinicalStudy?.uuid === params.id) {
+      if (elem?.data?.clinicalStudy?.studyId === params.id) {
         // arbitrarily update some data
         var updated = elem.data;
         updated.selected = false;
