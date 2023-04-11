@@ -47,7 +47,7 @@ describe('StudyCompareComponent', () => {
         },
         clinicalStudy: {
           studyTitle: 'Umbrella Study of Cancers test',
-          uuid: '49a1c2da-49f6-454e-b1a7-6f68e9f3df64',
+          studyId: '49a1c2da-49f6-454e-b1a7-6f68e9f3df64',
         },
         links: {
           SoA: null,
@@ -107,7 +107,7 @@ describe('StudyCompareComponent', () => {
     it('makes expected calls', () => {
       let response = {
         clinicalStudy: {
-          uuid: 1,
+          studyId: 1,
           studyTitle: 'Test',
         },
         auditTrail: {

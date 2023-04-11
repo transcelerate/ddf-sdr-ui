@@ -124,7 +124,7 @@ describe('SimpleSearchComponent', () => {
       let params = {
         data: {
           clinicalStudy: {
-            uuid: '1a9aee0f-a43d-447d-b15f-4c8a557c41fd',
+            studyId: '1a9aee0f-a43d-447d-b15f-4c8a557c41fd',
             studyTitle: 'Study On Parkinson disease',
             studyType: 'INTERVENTIONAL',
             studyPhase: 'PHASE_1_TRIAL',
@@ -205,7 +205,7 @@ describe('SimpleSearchComponent', () => {
       let spy = spyOn(router, 'navigate');
       let param = {
         clinicalStudy: {
-          uuid: 1,
+          studyId: 1,
         },
         auditTrail: {
           SDRUploadVersion: 1,
