@@ -140,14 +140,17 @@ export class RecentActivityComponent {
   setSelectedValue(val: any) {
     this.showStudyElement = true;
     localStorage.setItem(
-      val.clinicalStudy.uuid + '_' + val.auditTrail.SDRUploadVersion + '_links',
+      val.clinicalStudy.studyId +
+        '_' +
+        val.auditTrail.SDRUploadVersion +
+        '_links',
       JSON.stringify(val.links)
     );
     this.router.navigate(
       [
         'details',
         {
-          studyId: val.clinicalStudy.uuid,
+          studyId: val.clinicalStudy.studyId,
           versionId: val.auditTrail.SDRUploadVersion,
           usdmVersion: val.auditTrail.usdmVersion,
         },

@@ -130,7 +130,7 @@ describe('RecentActivityComponent', () => {
       let spy = spyOn(router, 'navigate');
       let param = {
         clinicalStudy: {
-          uuid: 1,
+          studyId: 1,
         },
         auditTrail: {
           SDRUploadVersion: 1,
