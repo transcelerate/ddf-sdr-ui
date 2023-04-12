@@ -1,6 +1,6 @@
 <div class="container-fluid">
   <app-error-component *ngIf="showError"></app-error-component>
-  <div class="compareDiv">
+  <div class="compareDiv" *ngIf="originalCode && code">
     <!-- <ngx-monaco-diff-editor
       [options]="editorOptions"
       [original]="originalCode"
@@ -10,6 +10,7 @@
       [leftTree]="originalCode"
       [rightTree]="code"
       [hideInitialStep]="true"
+      [hideReport]="true"
       (differenceReport)="differenceReport($event)"
     ></app-json-comparison>
   </div>

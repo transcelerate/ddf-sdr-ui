@@ -942,7 +942,7 @@ var jdd = {
         }
 
         report.append(filterBlock);
-        let reportData = 
+        var reportData = 
         {
             totalDiffCount: jdd.diffs.length,
             incorrectTypes: typeCount,
