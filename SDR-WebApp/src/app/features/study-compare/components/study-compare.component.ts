@@ -45,13 +45,13 @@ export class StudyCompareComponent implements OnInit {
     this.searchTwo = localStorage.getItem('search2');
     if (this.searchOne) {
       this.searchOne = JSON.parse(this.searchOne);
-      this.studyOneId = this.searchOne.clinicalStudy.uuid;
+      this.studyOneId = this.searchOne.clinicalStudy.studyId;
       this.studyOneTitle = this.searchOne.clinicalStudy.studyTitle;
       this.studyOneVersion = this.searchOne.auditTrail.SDRUploadVersion;
       this.studyOneUSDMVer = this.searchOne.auditTrail.usdmVersion;
       this.toolTipOne = this.studyOneTitle + '_Version' + this.studyOneVersion;
       localStorage.setItem(
-        this.searchOne.clinicalStudy.uuid +
+        this.searchOne.clinicalStudy.studyId +
           '_' +
           this.searchOne.auditTrail.SDRUploadVersion +
           '_links',
@@ -60,13 +60,13 @@ export class StudyCompareComponent implements OnInit {
     }
     if (this.searchTwo) {
       this.searchTwo = JSON.parse(this.searchTwo);
-      this.studyTwoId = this.searchTwo.clinicalStudy.uuid;
+      this.studyTwoId = this.searchTwo.clinicalStudy.studyId;
       this.studyTwoTitle = this.searchTwo.clinicalStudy.studyTitle;
       this.studyTwoVersion = this.searchTwo.auditTrail.SDRUploadVersion;
       this.studyTwoUSDMVer = this.searchTwo.auditTrail.usdmVersion;
       this.toolTipTwo = this.studyTwoTitle + '_Version' + this.studyTwoVersion;
       localStorage.setItem(
-        this.searchTwo.clinicalStudy.uuid +
+        this.searchTwo.clinicalStudy.studyId +
           '_' +
           this.searchTwo.auditTrail.SDRUploadVersion +
           '_links',

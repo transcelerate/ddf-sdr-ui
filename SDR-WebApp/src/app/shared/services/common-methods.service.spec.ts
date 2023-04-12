@@ -38,10 +38,10 @@ describe('CommonMethodsService', () => {
     it('getSponsorDetails should return studyId and versionId', () => {
       let studyElement = {
         clinicalStudy: {
-          uuid: '1206c8ea-acb3-481b-b9a7-a3fdf85f1bf4',
+          studyId: '1206c8ea-acb3-481b-b9a7-a3fdf85f1bf4',
           studyTitle: 'Cancer study',
           studyType: {
-            uuid: 'bff2ccc7-7f65-4f11-9722-331a8be6e73b',
+            codeId: 'bff2ccc7-7f65-4f11-9722-331a8be6e73b',
             code: 'C98388',
             codeSystem: 'http://www.cdisc.org',
             codeSystemVersion: '2022-03-25',
@@ -49,15 +49,15 @@ describe('CommonMethodsService', () => {
           },
           studyIdentifiers: [
             {
-              uuid: '52e03c76-7a78-4a5d-b5f7-84cf8e6adb0c',
+              studyIdentifierId: '52e03c76-7a78-4a5d-b5f7-84cf8e6adb0c',
               studyIdentifier: 'CT-GOV-1234',
               studyIdentifierScope: {
-                uuid: 'bcbee624-6822-4dbb-9e3f-a65173451d91',
+                organisationId: 'bcbee624-6822-4dbb-9e3f-a65173451d91',
                 organisationIdentifier: 'ET1.1-GOV',
                 organisationIdentifierScheme: 'FDA',
                 organisationName: 'ClinicalTrials.gov',
                 organisationType: {
-                  uuid: 'a811a5de-db41-46b0-ad6c-6aa2a503beb3',
+                  codeId: 'a811a5de-db41-46b0-ad6c-6aa2a503beb3',
                   code: 'C2365x',
                   codeSystem: 'http://www.cdisc.org',
                   codeSystemVersion: '1',
@@ -66,15 +66,15 @@ describe('CommonMethodsService', () => {
               },
             },
             {
-              uuid: '3757c1d5-5b90-49f6-8c24-6621f58b267f',
+              studyIdentifierId: '3757c1d5-5b90-49f6-8c24-6621f58b267f',
               studyIdentifier: 'CT-GOV-1234',
               studyIdentifierScope: {
-                uuid: '2de8926f-6552-456f-a26f-54c8919cf467',
+                organisationId: '2de8926f-6552-456f-a26f-54c8919cf467',
                 organisationIdentifier: 'ET2-GOV',
                 organisationIdentifierScheme: 'FDA',
                 organisationName: 'ClinicalTrials.gov',
                 organisationType: {
-                  uuid: 'dbca874a-8838-4733-a831-8a7176709e85',
+                  codeId: 'dbca874a-8838-4733-a831-8a7176709e85',
                   code: 'C2365x',
                   codeSystem: 'http://www.cdisc.org',
                   codeSystemVersion: '1',
@@ -84,7 +84,7 @@ describe('CommonMethodsService', () => {
             },
           ],
           studyPhase: {
-            uuid: 'f3f9b066-f975-433b-a761-81314162c932',
+            codeId: 'f3f9b066-f975-433b-a761-81314162c932',
             code: 'C49686',
             codeSystem: 'http://www.cdisc.org',
             codeSystemVersion: '2022-03-25',
@@ -113,10 +113,10 @@ describe('CommonMethodsService', () => {
           ],
           studyDesigns: [
             {
-              uuid: '9505e96b-25ab-4755-a78d-e82335198896',
+              studyId: '9505e96b-25ab-4755-a78d-e82335198896',
               interventionModel: [
                 {
-                  uuid: '7dfa5ce8-a885-4a06-8d83-90a948522c63',
+                  codeId: '7dfa5ce8-a885-4a06-8d83-90a948522c63',
                   code: 'C82639',
                   codeSystem: 'http://www.cdisc.org',
                   codeSystemVersion: '2022-03-25',
@@ -144,7 +144,7 @@ describe('CommonMethodsService', () => {
               studyIndications: [
                 {
                   uuid: 'e0b58b2f-c38a-4ffe-ba1a-6952e26501d2',
-                  indicationDesc: 'Something bad',
+                  indicationDescription: 'Something bad',
                   codes: [
                     {
                       uuid: 'edf72179-1c11-47bb-a45c-c940c6b95e6b',
