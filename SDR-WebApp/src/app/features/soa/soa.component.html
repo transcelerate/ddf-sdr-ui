@@ -24,22 +24,26 @@
       <div class="study-design-tab-section">
         <div
           class="no-workflows-container"
-          *ngIf="tab.studyWorkflows.length === 0"
+          *ngIf="tab.studyScheduleTimelines.length === 0"
         >
           Insufficient data to generate SoA Matrix
         </div>
         <tabset
           #tabset2
-          *ngIf="tab.studyWorkflows && tab.studyWorkflows.length > 0"
+          *ngIf="
+            tab.studyScheduleTimelines && tab.studyScheduleTimelines.length > 0
+          "
         >
-          <ng-container *ngFor="let item of tab.studyWorkflows">
+          <ng-container *ngFor="let item of tab.studyScheduleTimelines">
             <tab customClass="workflow-container">
               <ng-template tabHeading>
-                <span title="{{ item.workflowDescription }}">
-                  {{ item.workflowDescription }}
+                <span title="{{ item.scheduleTimelineDescription }}">
+                  {{ item.scheduleTimelineDescription }}
                 </span>
               </ng-template>
-              <ng-container *ngIf="item.workFlowSoA !== null; else dataError">
+              <ng-container
+                *ngIf="item.scheduleTimelineSoA !== null; else dataError"
+              >
                 <div class="table-responsive soa-table">
                   <table
                     class="table table-bordered"
@@ -50,7 +54,7 @@
                         <th class="first-block" id="first"></th>
                         <ng-container
                           *ngFor="
-                            let content of item.workFlowSoA.SoA;
+                            let content of item.scheduleTimelineSoA.SoA;
                             let i = index
                           "
                         >
@@ -60,10 +64,15 @@
                     </thead>
                     <tbody class="soa-table-tbody">
                       <tr
-                        *ngFor="let rowEl of item.workFlowSoA.orderOfActivities"
+                        *ngFor="
+                          let rowEl of item.scheduleTimelineSoA
+                            .orderOfActivities
+                        "
                       >
                         <td class="tbody-first-cols">{{ rowEl }}</td>
-                        <td *ngFor="let activity of item.workFlowSoA.SoA">
+                        <td
+                          *ngFor="let activity of item.scheduleTimelineSoA.SoA"
+                        >
                           <ng-container
                             *ngFor="
                               let itemActivity of activity.activities;
