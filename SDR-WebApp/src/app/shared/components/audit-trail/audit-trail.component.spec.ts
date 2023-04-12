@@ -150,7 +150,7 @@ describe('AuditTrailComponent', () => {
           () => {
             return of({
               studyId: '9c950391-550a-495a-9f17-1eea216f1cd7',
-              auditTrail: [
+              revisionHistory: [
                 {
                   tag: '1.0Draft',
                   status: 'New',

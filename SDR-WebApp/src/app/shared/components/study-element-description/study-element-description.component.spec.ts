@@ -251,8 +251,8 @@ describe('StudyElementDescriptionComponent', () => {
     links: {
       studyDefinitions:
         '/v1/studydefinitions/5a30e364-fe76-481c-adf6-5c6c308f23ac?sdruploadversion=3',
-      auditTrail:
-        '/studydefinitions/5a30e364-fe76-481c-adf6-5c6c308f23ac/audittrail',
+      revisionHistory:
+        '/studydefinitions/5a30e364-fe76-481c-adf6-5c6c308f23ac/revisionhistory',
       studyDesigns: [
         {
           studyDesignId: '8efadbb7-7a59-4e88-b1a2-fd8040648031',
@@ -268,8 +268,8 @@ describe('StudyElementDescriptionComponent', () => {
     links: {
       studyDefinitions:
         '/v2/studydefinitions/9352b5ba-4a94-46c9-8809-b8aeea0dd45e?sdruploadversion=0',
-      auditTrail:
-        '/studydefinitions/9352b5ba-4a94-46c9-8809-b8aeea0dd45e/audittrail',
+      revisionHistory:
+        '/studydefinitions/9352b5ba-4a94-46c9-8809-b8aeea0dd45e/revisionhistory',
       SoA: '/v2/studydefinitions/9352b5ba-4a94-46c9-8809-b8aeea0dd45e/studydesigns/soa',
     },
   };

@@ -59,7 +59,7 @@ export class ServiceCall {
     //return this.httpWrapperService.getData('https://apim-sdr-qa-eastus.azure-api.net/studydefinitionrepository/v1/audittrail/%7bstudy%7d');
     return this.httpWrapperService.getData(
       environment.BASE_URL +
-        CommonApiUrlList.AUDITTRAIL.replace('{studyId}', studyId)
+        CommonApiUrlList.REVISIONHISTORY.replace('{studyId}', studyId)
     );
   }
 
