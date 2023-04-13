@@ -315,7 +315,7 @@ export class SearchFormComponent implements OnInit {
       studyTitle: '', //nosonar     //nosonar
       interventionModel: '', //nosonar
       fromDate: '', //nosonar
-      studyId: '', //nosonar
+      sponsorId: '', //nosonar
       phase: '', //nosonar
       indication: '', //nosonar
       toDate: '', //nosonar

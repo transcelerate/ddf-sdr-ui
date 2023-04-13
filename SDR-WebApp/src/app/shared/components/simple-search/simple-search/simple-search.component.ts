@@ -170,7 +170,7 @@ export class SimpleSearchComponent implements OnInit {
       studyTitle: '', //nosonar     //nosonar
       fromDate: '', //nosonar
       toDate: '',
-      studyId: '', //nosonar
+      sponsorId: '', //nosonar
     }); //nosonar
     this.showGrid = false;
   }
