@@ -36,5 +36,8 @@ describe('ServiceCall', () => {
     it('call readConfigFile ', () => {
       service.readConfigFile();
     });
+    it('call getVersions ', () => {
+      service.getVersions();
+    });
   });
 });

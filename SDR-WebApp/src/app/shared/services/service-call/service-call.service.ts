@@ -77,6 +77,11 @@ export class ServiceCall {
       reqObj
     );
   }
+  getVersions() {
+    return this.httpWrapperService.getData(
+      environment.BASE_URL + CommonApiUrlList.VERSIONSURL
+    );
+  }
   getSearchResultLight(reqObj: any) {
     return this.httpWrapperService.postData(
       environment.BASE_URL + CommonApiUrlList.SEARCHRESULTLIGHT,

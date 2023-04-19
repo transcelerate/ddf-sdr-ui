@@ -1,7 +1,12 @@
 .form-group {
   padding: 2px;
 }
-
+.form-control {
+  font-size: inherit;
+}
+.mandatory {
+  color: red;
+}
 .btn {
   border-radius: 5px;
   width: 20%;
@@ -19,9 +24,6 @@
 }
 .clear {
   margin: 1% 45% 2% 80%;
-}
-input[type="date"] {
-  width: 59%;
 }
 .gridOuter {
   padding: 0px;
