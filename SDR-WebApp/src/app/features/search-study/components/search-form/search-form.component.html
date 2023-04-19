@@ -27,29 +27,20 @@
               >Usdm Version<span class="mandatory">*</span></label
             >
             <div class="col-sm-6">
-              <input
-                #usdmVersionInput
-                type="text"
-                (keypress)="restrictChar($event)"
+              <select
                 class="input-sm form-control"
-                (change)="checkValidations()"
                 formControlName="usdmVersion"
-                matInput
-                [matAutocomplete]="autoUsdmVersion"
-              />
-              <mat-autocomplete
-                #autoUsdmVersion="matAutocomplete"
-                (optionSelected)="checkValidations()"
+                (change)="checkValidations()"
               >
                 <ng-container *ngFor="let item of usdmVersionList">
-                  <mat-option
+                  <option
                     *ngFor="let option of item.usdmVersions"
                     [value]="option"
                   >
                     {{ option }}
-                  </mat-option>
+                  </option>
                 </ng-container>
-              </mat-autocomplete>
+              </select>
             </div>
           </div>
           <div class="form-group row">
