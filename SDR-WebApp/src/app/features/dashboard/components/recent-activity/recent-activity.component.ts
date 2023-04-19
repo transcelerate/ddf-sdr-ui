@@ -99,6 +99,7 @@ export class RecentActivityComponent {
               'org.admin'
             ) >= 0;
           localStorage.setItem('isAdmin', isAdmin);
+          this.getVersions();
         }
         this.ds.changeDialogState('Home');
       });
@@ -177,6 +178,7 @@ export class RecentActivityComponent {
       //NOSONAR
       fromDate: moment().subtract(30, 'days'), //NOSONAR
       toDate: moment(), //NOSONAR
+      validateUsdmVersion: false,
     }; //NOSONAR
     this.commonMethod.gridDataSourceForSearchStudy(
       //NOSONAR
@@ -187,4 +189,18 @@ export class RecentActivityComponent {
     ); //NOSONAR
   } //NOSONAR
   /** istanbul ignore end */
+
+  getVersions(): void {
+    this.serviceCall.getVersions().subscribe({
+      next: (versionsObj: any) => {
+        localStorage.setItem(
+          'versions',
+          JSON.stringify(versionsObj.SDRVersions)
+        );
+      },
+      error: (error) => {
+        this.showError = true;
+      },
+    });
+  }
 }

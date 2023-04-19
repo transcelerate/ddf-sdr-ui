@@ -15,32 +15,40 @@
               <input
                 type="text"
                 (keypress)="restrictChar($event)"
-                class="input-sm"
+                class="input-sm form-control"
+                (change)="checkValidations()"
                 maxlength="20"
                 formControlName="studyTitle"
               />
             </div>
           </div>
           <div class="form-group row">
-            <label for="interventionModel" class="col-sm-6 col-form-label"
-              >Intervention Model</label
+            <label for="usdmVersion" class="col-sm-6 col-form-label"
+              >Usdm Version<span class="mandatory">*</span></label
             >
             <div class="col-sm-6">
               <input
+                #usdmVersionInput
                 type="text"
                 (keypress)="restrictChar($event)"
-                class="input-sm"
-                formControlName="interventionModel"
+                class="input-sm form-control"
+                (change)="checkValidations()"
+                formControlName="usdmVersion"
                 matInput
-                [matAutocomplete]="intervention"
+                [matAutocomplete]="autoUsdmVersion"
               />
-              <mat-autocomplete #intervention="matAutocomplete">
-                <mat-option
-                  *ngFor="let option of interventionList | async"
-                  [value]="option"
-                >
-                  {{ option }}
-                </mat-option>
+              <mat-autocomplete
+                #autoUsdmVersion="matAutocomplete"
+                (optionSelected)="checkValidations()"
+              >
+                <ng-container *ngFor="let item of usdmVersionList">
+                  <mat-option
+                    *ngFor="let option of item.usdmVersions"
+                    [value]="option"
+                  >
+                    {{ option }}
+                  </mat-option>
+                </ng-container>
               </mat-autocomplete>
             </div>
           </div>
@@ -51,7 +59,8 @@
             <div class="col-sm-6">
               <input
                 type="date"
-                class="input-sm"
+                class="input-sm form-control"
+                (change)="checkValidations()"
                 formControlName="fromDate"
                 [max]="getToday()"
               />
@@ -65,7 +74,8 @@
               <input
                 type="text"
                 (keypress)="restrictChar($event)"
-                class="input-sm"
+                class="input-sm form-control"
+                (change)="checkValidations()"
                 formControlName="indication"
               />
             </div>
@@ -81,28 +91,36 @@
               <input
                 type="text"
                 (keypress)="restrictChar($event)"
-                class="input-sm"
+                class="input-sm form-control"
+                (change)="checkValidations()"
                 formControlName="sponsorId"
               />
             </div>
           </div>
           <div class="form-group row">
-            <label for="phase" class="col-sm-6 col-form-label">Phase</label>
+            <label for="interventionModel" class="col-sm-6 col-form-label"
+              >Intervention Model</label
+            >
             <div class="col-sm-6">
               <input
+                #interventionInput
                 type="text"
                 (keypress)="restrictChar($event)"
-                class="input-sm"
+                class="input-sm form-control"
+                (change)="checkValidations()"
+                formControlName="interventionModel"
                 matInput
-                formControlName="phase"
-                [matAutocomplete]="auto"
+                [matAutocomplete]="autoIntervention"
               />
-              <mat-autocomplete #auto="matAutocomplete">
+              <mat-autocomplete
+                #autoIntervention="matAutocomplete"
+                (optionSelected)="checkValidations()"
+              >
                 <mat-option
-                  *ngFor="let option of phaseList | async"
-                  [value]="option"
+                  *ngFor="let intervention of interventionList | async"
+                  [value]="intervention"
                 >
-                  {{ option }}
+                  {{ intervention }}
                 </mat-option>
               </mat-autocomplete>
             </div>
@@ -114,10 +132,37 @@
             <div class="col-sm-6">
               <input
                 type="date"
-                class="input-sm"
+                class="input-sm form-control"
+                (change)="checkValidations()"
                 formControlName="toDate"
                 [max]="getToday()"
               />
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="phase" class="col-sm-6 col-form-label">Phase</label>
+            <div class="col-sm-6">
+              <input
+                #phaseInput
+                type="text"
+                (keypress)="restrictChar($event)"
+                class="input-sm form-control"
+                (change)="checkValidations()"
+                matInput
+                formControlName="phase"
+                [matAutocomplete]="autoPhase"
+              />
+              <mat-autocomplete
+                #autoPhase="matAutocomplete"
+                (optionSelected)="checkValidations()"
+              >
+                <mat-option
+                  *ngFor="let phase of phaseList | async"
+                  [value]="phase"
+                >
+                  {{ phase }}
+                </mat-option>
+              </mat-autocomplete>
             </div>
           </div>
         </div>
@@ -131,14 +176,22 @@
           </button>
         </div>
         <div class="col-6">
-          <button
-            type="submit"
-            class="btn btn-primary submit"
-            [disabled]="!editorForm.valid"
-            (click)="submitSearch()"
+          <span
+            [title]="
+              !enableSearch
+                ? 'Enter at least one search parameter along with USDM Version to initiate search'
+                : ''
+            "
           >
-            Search
-          </button>
+            <button
+              type="submit"
+              class="btn btn-primary submit"
+              [disabled]="!editorForm.valid || !enableSearch"
+              (click)="submitSearch()"
+            >
+              Search
+            </button>
+          </span>
         </div>
       </div>
     </form>

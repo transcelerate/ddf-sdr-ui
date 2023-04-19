@@ -29,8 +29,8 @@ export class SearchFormComponent implements OnInit {
   phaseList: any;
   phaseDropDown: string[];
   interventionDropDown: string[];
+  usdmVersionList: any;
   interventionList: any;
-
   public gridApi: any;
   public gridColumnApi: any;
 
@@ -56,6 +56,7 @@ export class SearchFormComponent implements OnInit {
   noRowsTemplate: string;
   showError = false;
   bsModalRef?: BsModalRef;
+  enableSearch: boolean = false;
   // _formBuilder: FormBuilder = new FormBuilder();
   constructor(
     public _formBuilder: FormBuilder,
@@ -77,6 +78,7 @@ export class SearchFormComponent implements OnInit {
         phase: [''],
         indication: [''],
         toDate: [''],
+        usdmVersion: [''],
       },
       { validators: this.atLeastOneValidator }
     );
@@ -319,6 +321,7 @@ export class SearchFormComponent implements OnInit {
       phase: '', //nosonar
       indication: '', //nosonar
       toDate: '', //nosonar
+      usdmVersion: '', //nosonar
     }); //nosonar
     this.showGrid = false; //nosonar
   } //nosonar
@@ -333,6 +336,10 @@ export class SearchFormComponent implements OnInit {
    *  Logic to form dropdowns for studyphase, intervention Model
    */
   ngOnInit(): void {
+    var versions = localStorage.getItem('versions');
+    if (versions) {
+      this.usdmVersionList = JSON.parse(versions);
+    }
     this.ds.changeDialogState('Search Study Definitions');
     this.dropDownValues = this.serviceCall.readConfigFile();
     this.phaseDropDown = this.phaseList = this.dropDownValues.studyPhase;
@@ -433,4 +440,23 @@ export class SearchFormComponent implements OnInit {
   }
   /* istanbul ignore end */
   // @SONAR_START@
+
+  checkValidations() {
+    var isValidform = false;
+    Object.keys(this.editorForm.controls).forEach((key: string) => {
+      const abstractControl = this.editorForm.get(key);
+      if (key !== 'usdmVersion') {
+        if (abstractControl?.value !== '') {
+          isValidform = true;
+          return;
+        }
+      }
+    });
+
+    if (this.editorForm.value.usdmVersion && isValidform) {
+      this.enableSearch = true;
+    } else {
+      this.enableSearch = false;
+    }
+  }
 }
