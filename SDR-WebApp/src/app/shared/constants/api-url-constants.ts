@@ -29,6 +29,8 @@ const CommonApiUrlList = {
 
   ALLUSERS: 'api/ui/admin/usergroups/getusers',
   POSTUSERS: 'api/ui/admin/usergroups/postuser',
+
+  VERSIONSURL: 'api/ui/versions',
 };
 
 export { ApiUrlList, CommonApiUrlList };
