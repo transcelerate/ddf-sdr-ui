@@ -95,6 +95,11 @@ describe('SearchFormComponent', () => {
       'gridDataSourceForSearchStudy'
     ).and.callThrough();
     component.showGrid = true;
+    component.enableSearch = true;
+    component.editorForm.patchValue({
+      usdmVersion: '1.0',
+      studyTitle: 'test',
+    });
     component.submitSearch();
     expect(
       commonMethodsServiceStub.gridDataSourceForSearchStudy
