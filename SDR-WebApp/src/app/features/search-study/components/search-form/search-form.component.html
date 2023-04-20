@@ -16,7 +16,7 @@
                 type="text"
                 (keypress)="restrictChar($event)"
                 class="input-sm form-control"
-                (change)="checkValidations()"
+                (input)="checkValidations()"
                 maxlength="20"
                 formControlName="studyTitle"
               />
@@ -24,7 +24,7 @@
           </div>
           <div class="form-group row">
             <label for="usdmVersion" class="col-sm-6 col-form-label"
-              >Usdm Version<span class="mandatory">*</span></label
+              >USDM Version<span class="mandatory">*</span></label
             >
             <div class="col-sm-6">
               <select
@@ -66,7 +66,7 @@
                 type="text"
                 (keypress)="restrictChar($event)"
                 class="input-sm form-control"
-                (change)="checkValidations()"
+                (input)="checkValidations()"
                 formControlName="indication"
               />
             </div>
@@ -83,7 +83,7 @@
                 type="text"
                 (keypress)="restrictChar($event)"
                 class="input-sm form-control"
-                (change)="checkValidations()"
+                (input)="checkValidations()"
                 formControlName="sponsorId"
               />
             </div>

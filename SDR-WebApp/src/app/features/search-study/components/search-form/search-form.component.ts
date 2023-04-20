@@ -291,11 +291,11 @@ export class SearchFormComponent implements OnInit {
       const toDate = new Date(this.editorForm.value.toDate);
 
       if (fromDate && toDate && fromDate > toDate) {
-        alert('FromDate is greater than toDate...');
+        alert('From Date is greater than To Date.');
         return;
       }
     }
-    if (this.showGrid) {
+    if (this.showGrid && this.editorForm.valid && this.enableSearch) {
       const reqObj = this.editorForm.value;
       this.commonMethod.gridDataSourceForSearchStudy(
         reqObj,
@@ -324,6 +324,7 @@ export class SearchFormComponent implements OnInit {
       usdmVersion: '', //nosonar
     }); //nosonar
     this.showGrid = false; //nosonar
+    this.enableSearch = false;
   } //nosonar
   /* istanbul ignore end */
   /**
@@ -414,6 +415,7 @@ export class SearchFormComponent implements OnInit {
    *  @param params ag grid value for each row with data.
    */
   onGridReady(params: any) {
+    this.showGrid = false;
     this.gridApi = params.api;
     this.gridColumnApi = params.columnApi;
     params.api.sizeColumnsToFit();
@@ -428,14 +430,15 @@ export class SearchFormComponent implements OnInit {
     const reqObj = this.editorForm.value;
     reqObj.asc = false;
     reqObj.header = 'entryDateTime';
-
-    this.commonMethod.gridDataSourceForSearchStudy(
-      reqObj,
-      this.gridApi,
-      this.BLOCK_SIZE,
-      this
-    );
-
+    if (this.editorForm.valid && this.enableSearch) {
+      this.commonMethod.gridDataSourceForSearchStudy(
+        reqObj,
+        this.gridApi,
+        this.BLOCK_SIZE,
+        this
+      );
+      this.showGrid = true;
+    }
     this.gridApi.addEventListener('failCallback', this.onServerFailCallback);
   }
   /* istanbul ignore end */
