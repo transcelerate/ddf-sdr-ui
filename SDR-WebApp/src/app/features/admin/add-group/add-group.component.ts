@@ -391,7 +391,7 @@ export class AddGroupComponent implements OnInit {
       const toDate = new Date(this.editorForm.value.toDate);
 
       if (fromDate && toDate && fromDate > toDate) {
-        alert('FromDate is greater than toDate...');
+        alert('From Date is greater than To Date.');
         return;
       }
     }

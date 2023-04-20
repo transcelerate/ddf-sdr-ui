@@ -32,7 +32,7 @@ export class AuditTrailComponent implements OnInit {
     },
 
     {
-      headerName: 'SDR Record Version',
+      headerName: 'SDR Upload Version',
       field: 'SDRUploadVersion',
       suppressSizeToFit: false,
       width: 150,

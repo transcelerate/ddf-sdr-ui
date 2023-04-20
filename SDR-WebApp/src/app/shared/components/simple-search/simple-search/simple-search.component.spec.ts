@@ -113,6 +113,10 @@ describe('SimpleSearchComponent', () => {
         'gridDataSourceForSearchLightStudy'
       ).and.callThrough();
       component.showGrid = true;
+      component.editorForm.patchValue({
+        fromDate: '02/02/2023',
+        toDate: '03/03/2023',
+      });
       component.submitSearch();
       expect(
         commonMethodsServiceStub.gridDataSourceForSearchLightStudy

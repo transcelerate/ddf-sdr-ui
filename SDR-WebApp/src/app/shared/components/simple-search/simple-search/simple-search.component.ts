@@ -249,6 +249,7 @@ export class SimpleSearchComponent implements OnInit {
   /* istanbul ignore next */
   // @SONAR_STOP@
   onGridReady(params: any) {
+    this.showGrid = false;
     this.gridApi = params.api;
     this.gridColumnApi = params.columnApi;
     params.api.sizeColumnsToFit();
@@ -264,12 +265,15 @@ export class SimpleSearchComponent implements OnInit {
     reqObj.sortOrder = 'desc';
     reqObj.sortBy = 'studyTitle';
     reqObj.groupByStudyId = 0;
-    this.commonMethod.gridDataSourceForSearchLightStudy(
-      reqObj,
-      this.gridApi,
-      this.BLOCK_SIZE,
-      this
-    );
+    if (this.editorForm.valid) {
+      this.commonMethod.gridDataSourceForSearchLightStudy(
+        reqObj,
+        this.gridApi,
+        this.BLOCK_SIZE,
+        this
+      );
+      this.showGrid = true;
+    }
   }
   /* istanbul ignore end */
   // @SONAR_START@
@@ -301,11 +305,11 @@ export class SimpleSearchComponent implements OnInit {
       const toDate = new Date(this.editorForm.value.toDate);
 
       if (fromDate && toDate && fromDate > toDate) {
-        alert('FromDate is greater than toDate...');
+        alert('From Date is greater than To Date.');
         return;
       }
     }
-    if (this.showGrid) {
+    if (this.showGrid && this.editorForm.valid) {
       const reqObj = this.editorForm.value;
       reqObj.groupByStudyId = 0;
       this.commonMethod.gridDataSourceForSearchLightStudy(
