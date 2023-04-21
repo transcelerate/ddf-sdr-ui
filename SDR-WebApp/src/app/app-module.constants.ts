@@ -31,6 +31,7 @@ import { MonacoEditorModule } from '@materia-ui/ngx-monaco-editor';
 import { AuthGuardService } from './auth-guard.service';
 import { SoaComponent } from './features/soa/soa.component';
 import { TabsModule } from 'ngx-bootstrap/tabs';
+import { AuthModule } from './features/auth/auth-module';
 export class AppModuleConstants {
   static MODULE_IMPORTS = [
     BrowserAnimationsModule,
@@ -42,6 +43,7 @@ export class AppModuleConstants {
     MsalModule,
     AgGridModule.withComponents([]),
     MonacoEditorModule,
+    AuthModule,
     TabsModule.forRoot(),
   ];
 
@@ -78,7 +80,7 @@ export function MSALInstanceFactory(): IPublicClientApplication {
       clientId: environment.clientId,
       authority: environment.authority,
       redirectUri: environment.redirectUrl,
-      navigateToLoginRequestUrl: false,
+      navigateToLoginRequestUrl: true,
       postLogoutRedirectUri: environment.loginUrl,
     },
     cache: {

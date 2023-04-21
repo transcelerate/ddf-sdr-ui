@@ -28,6 +28,11 @@ const routes: Routes = [
         canActivate: [MsalGuard],
       },
       {
+        path: 'auth',
+        loadChildren: () =>
+          import('./features/auth/auth-module').then((x) => x.AuthModule),
+      },
+      {
         path: 'search',
         loadChildren: () =>
           import('./features/search-study/search-study.module').then(
