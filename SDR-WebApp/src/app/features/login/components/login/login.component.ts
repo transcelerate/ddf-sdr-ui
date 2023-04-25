@@ -52,8 +52,6 @@ export class LoginComponent {
       this.authService.acquireTokenPopup(request).subscribe({
         next: (result: AuthenticationResult) => {
           this.showError = false;
-          console.log(result.accessToken);
-
           this.authToken = result.accessToken;
         },
         error: (error) => {
