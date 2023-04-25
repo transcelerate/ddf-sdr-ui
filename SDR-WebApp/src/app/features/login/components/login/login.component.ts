@@ -19,6 +19,7 @@ import {
 })
 export class LoginComponent {
   showError = false;
+  authToken: string;
   constructor(
     @Inject(MSAL_GUARD_CONFIG) private msalGuardConfig: MsalGuardConfiguration,
     private authService: MsalService
@@ -52,6 +53,8 @@ export class LoginComponent {
         next: (result: AuthenticationResult) => {
           this.showError = false;
           console.log(result.accessToken);
+
+          this.authToken = result.accessToken;
         },
         error: (error) => {
           this.showError = true;

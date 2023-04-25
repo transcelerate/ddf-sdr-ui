@@ -52,13 +52,37 @@ svg.material-icons:not(:last-child) {
   fill: #888;
 }
 
-.card-container {
-  margin-left: -25%;
-  padding-bottom: 70px;
+.card-div {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: row;
+  margin-left: -5%;
+  align-items: center;
   justify-content: center;
-  margin-top: 16px;
+}
+.card-container {
+  //   margin-left: -25%;
+  //   padding-bottom: 70px;
+  //   display: flex;
+  //   flex-wrap: wrap;
+  //   justify-content: center;
+  //   margin-top: 16px;
+  padding: 10px;
+}
+.token-div {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-top: 50px;
+  .token-label {
+    padding: 0px 10px;
+  }
+}
+.copy-content-div {
+  background-color: transparent !important;
+  border-color: transparent !important;
+  .copy-icon {
+    width: 25px;
+  }
 }
 
 .card {
