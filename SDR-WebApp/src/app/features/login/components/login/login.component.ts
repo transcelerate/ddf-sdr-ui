@@ -1,10 +1,16 @@
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { Component, Inject } from '@angular/core';
 import {
   MsalService,
   MSAL_GUARD_CONFIG,
   MsalGuardConfiguration,
 } from '@azure/msal-angular';
-import { RedirectRequest } from '@azure/msal-browser';
+import {
+  AuthenticationResult,
+  InteractionType,
+  PopupRequest,
+  RedirectRequest,
+} from '@azure/msal-browser';
 
 @Component({
   selector: 'app-login',
@@ -12,6 +18,7 @@ import { RedirectRequest } from '@azure/msal-browser';
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent {
+  showError = false;
   constructor(
     @Inject(MSAL_GUARD_CONFIG) private msalGuardConfig: MsalGuardConfiguration,
     private authService: MsalService
@@ -34,6 +41,22 @@ export class LoginComponent {
       } as RedirectRequest);
     } else {
       this.authService.loginRedirect();
+    }
+  }
+
+  getToken() {
+    if (this.msalGuardConfig.authRequest) {
+      this.msalGuardConfig.interactionType = InteractionType.Popup;
+      var request = this.msalGuardConfig.authRequest as PopupRequest;
+      this.authService.acquireTokenPopup(request).subscribe({
+        next: (result: AuthenticationResult) => {
+          this.showError = false;
+          console.log(result.accessToken);
+        },
+        error: (error) => {
+          this.showError = true;
+        },
+      });
     }
   }
 }
