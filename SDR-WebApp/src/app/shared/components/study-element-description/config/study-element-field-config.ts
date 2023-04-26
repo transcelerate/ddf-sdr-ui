@@ -54,5 +54,9 @@ const configList = {
     'From Date Time is equal to or greater than To Date Time',
   VALID_FROM_DATE: 'From Date Time is greater than Current Date Time',
   VALID_TO_DATE: 'To Date Time is greater than Current Date Time',
+  AUTH_IN_PROGRESS_ERROR:
+    'Login is currently in progress in another window. Please complete or cancel that flow before requesting token again.',
+  USER_CANCELLED_ERROR_CODE: 'user_cancelled',
+  INTERACTION_ERROR_CODE: 'interaction_in_progress',
 };
 export { configList };

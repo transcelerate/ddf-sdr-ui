@@ -6,11 +6,13 @@ import {
   MsalGuardConfiguration,
 } from '@azure/msal-angular';
 import {
+  AuthError,
   AuthenticationResult,
   InteractionType,
   PopupRequest,
   RedirectRequest,
 } from '@azure/msal-browser';
+import { configList } from 'src/app/shared/components/study-element-description/config/study-element-field-config';
 
 @Component({
   selector: 'app-login',
@@ -55,7 +57,17 @@ export class LoginComponent {
           this.authToken = result.accessToken;
         },
         error: (error) => {
-          this.showError = true;
+          const authErr = error as AuthError;
+          if (authErr) {
+            if (authErr.errorCode == configList.USER_CANCELLED_ERROR_CODE) {
+              this.showError = false;
+            } else if (authErr.errorCode == configList.INTERACTION_ERROR_CODE) {
+              alert(configList.AUTH_IN_PROGRESS_ERROR);
+              this.showError = false;
+            } else {
+              this.showError = true;
+            }
+          }
         },
       });
     }
