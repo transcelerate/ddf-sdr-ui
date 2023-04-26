@@ -12,6 +12,7 @@ import {
   PopupRequest,
   RedirectRequest,
 } from '@azure/msal-browser';
+import { configList } from 'src/app/shared/components/study-element-description/config/study-element-field-config';
 
 @Component({
   selector: 'app-login',
@@ -58,12 +59,10 @@ export class LoginComponent {
         error: (error) => {
           const authErr = error as AuthError;
           if (authErr) {
-            if (authErr.errorCode == 'user_cancelled') {
+            if (authErr.errorCode == configList.USER_CANCELLED_ERROR_CODE) {
               this.showError = false;
-            } else if (authErr.errorCode == 'interaction_in_progress') {
-              alert(
-                'Login is currently in progress in another window. Please complete or cancel that flow before requesting token again.'
-              );
+            } else if (authErr.errorCode == configList.INTERACTION_ERROR_CODE) {
+              alert(configList.AUTH_IN_PROGRESS_ERROR);
               this.showError = false;
             } else {
               this.showError = true;
