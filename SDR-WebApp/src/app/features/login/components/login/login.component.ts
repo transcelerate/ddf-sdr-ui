@@ -6,6 +6,7 @@ import {
   MsalGuardConfiguration,
 } from '@azure/msal-angular';
 import {
+  AuthError,
   AuthenticationResult,
   InteractionType,
   PopupRequest,
@@ -55,7 +56,19 @@ export class LoginComponent {
           this.authToken = result.accessToken;
         },
         error: (error) => {
-          this.showError = true;
+          const authErr = error as AuthError;
+          if (authErr) {
+            if (authErr.errorCode == 'user_cancelled') {
+              this.showError = false;
+            } else if (authErr.errorCode == 'interaction_in_progress') {
+              alert(
+                'Login is currently in progress in another window. Please complete or cancel that flow before requesting token again.'
+              );
+              this.showError = false;
+            } else {
+              this.showError = true;
+            }
+          }
         },
       });
     }
