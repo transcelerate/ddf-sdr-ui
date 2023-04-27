@@ -165,6 +165,7 @@ The solution has the following structure:
 - Default page (URL: /# )
   - Has login link
   - Uses MSAL oauth authentication (store the token in localStorage)
+  - Has auth token generation link for accessing SDR APIs
 - Home page (URL: /home )
   - Dashboard page with recent activity widget and Menu bar to navigate to search
 - Search page (URL: /search )
