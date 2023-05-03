@@ -3,7 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { CommonMethodsService } from 'src/app/shared/services/common-methods.service';
 import { ServiceCall } from '../../shared/services/service-call/service-call.service';
-import * as mockJson from './sample-data.json';
+// import * as mockJson from './sample-data.json';
 import { configList } from 'src/app/shared/components/study-element-description/config/study-element-field-config';
 import { StudyElementDescriptionComponent } from 'src/app/shared/components/study-element-description/study-element-description.component';
 @Component({
