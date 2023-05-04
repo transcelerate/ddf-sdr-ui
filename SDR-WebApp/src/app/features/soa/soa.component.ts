@@ -3,7 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { CommonMethodsService } from 'src/app/shared/services/common-methods.service';
 import { ServiceCall } from '../../shared/services/service-call/service-call.service';
-// import { tabs } from './sample-data';
+// import * as mockJson from './sample-data.json';
 import { configList } from 'src/app/shared/components/study-element-description/config/study-element-field-config';
 import { StudyElementDescriptionComponent } from 'src/app/shared/components/study-element-description/study-element-description.component';
 @Component({
@@ -18,6 +18,24 @@ export class SoaComponent implements OnInit {
   selectedTab: boolean = false;
   usdmVersion: any;
   showError = false;
+  headerColumns = [
+    {
+      key: 'encounterName',
+      label: 'Encounter (Planned Time)',
+    },
+    {
+      key: 'timingValue',
+      label: 'Timing',
+    },
+    {
+      key: 'timingWindow',
+      label: 'Window',
+    },
+    {
+      key: 'activity',
+      label: 'Activity',
+    },
+  ];
   constructor(
     public router: Router,
     public route: ActivatedRoute,
@@ -69,6 +87,7 @@ export class SoaComponent implements OnInit {
     });
   }
 
+  // for the present data no duplicate data will be found so fn is nt executed but kept for ref.
   findDuplicate(
     index: number,
     eachActivity: string,

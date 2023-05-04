@@ -6,6 +6,20 @@
     border: 1px solid hsl(0deg 0% 77%);
     border-radius: 4px;
     margin: 20px 30px;
+    .study-schedule-timeline-table {
+      margin: 20px 30px;
+      .table-bordered {
+        border: 1.5px solid;
+        border-collapse: separate;
+        border-spacing: 2px;
+        margin-bottom: 0px;
+        width: auto;
+        :not(caption) > * {
+          padding: 8px;
+          border-width: 1px;
+        }
+      }
+    }
     .soa-table {
       margin: 20px 30px;
       border: 1px solid;
@@ -21,19 +35,60 @@
         }
         .soa-table-thead {
           tr {
+            &:nth-child(1) {
+              height: 7vh;
+              th {
+                position: sticky;
+                top: 0px;
+                &:first-child {
+                  max-width: 185px;
+                  left: 0px;
+                  z-index: 2;
+                }
+              }
+            }
+            &:nth-child(2) {
+              height: 7vh;
+              th {
+                position: sticky;
+                top: 7vh;
+                &:first-child {
+                  left: 0px;
+                  z-index: 2;
+                }
+              }
+            }
+            &:nth-child(3) {
+              height: 7vh;
+              th {
+                position: sticky;
+                top: 14vh;
+                &:first-child {
+                  left: 0px;
+                  z-index: 2;
+                }
+              }
+            }
+            &:nth-child(4) {
+              height: 7vh;
+              th {
+                position: sticky;
+                top: 21vh;
+                &:first-child {
+                  left: 0px;
+                  z-index: 2;
+                }
+              }
+            }
             th {
               background-color: hsl(0deg 0% 84%);
               text-align: center;
               width: 25vw;
-              position: sticky;
               z-index: 1;
-              top: 0;
-            }
-            .first-block {
-              position: sticky;
-              left: 0;
-              top: 0;
-              z-index: 2;
+              max-width: 100px;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              white-space: nowrap;
             }
           }
         }
@@ -47,8 +102,10 @@
 
             td.tbody-first-cols {
               left: 0;
+              top: 28vh;
               position: sticky;
               z-index: 1;
+              text-align: left;
             }
           }
         }
@@ -94,6 +151,10 @@
   font-weight: 500;
 }
 
+.no-workflows-table {
+  display: table-caption;
+  border: none;
+}
 .no-workflows-container {
   text-align: center;
   font-weight: 500;

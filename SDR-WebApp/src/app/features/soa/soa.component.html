@@ -9,6 +9,12 @@
     Insufficient data to generate SoA Matrix
   </div>
 </ng-template>
+<ng-template #dataError1>
+  <div class="no-workflows-container no-workflows-table">
+    Insufficient data to generate SoA Matrix
+  </div>
+</ng-template>
+
 <div
   class="soa-container"
   *ngIf="tabs && tabs.studyDesigns && tabs.studyDesigns.length > 0"
@@ -19,7 +25,9 @@
       customClass="study-design-container"
     >
       <ng-template tabHeading>
-        <span title="{{ tab.studyDesignName }}">{{ tab.studyDesignName }}</span>
+        <span [id]="tab.studyDesignId" title="{{ tab.studyDesignName }}">{{
+          tab.studyDesignName
+        }}</span>
       </ng-template>
       <div class="study-design-tab-section">
         <div
@@ -37,10 +45,29 @@
           <ng-container *ngFor="let item of tab.studyScheduleTimelines">
             <tab customClass="workflow-container">
               <ng-template tabHeading>
-                <span title="{{ item.scheduleTimelineDescription }}">
+                <span
+                  [id]="item.scheduleTimelineId"
+                  title="{{ item.scheduleTimelineDescription }}"
+                >
                   {{ item.scheduleTimelineDescription }}
                 </span>
               </ng-template>
+              <div class="table-responsive study-schedule-timeline-table">
+                <table class="table table-bordered">
+                  <tr>
+                    <td>Name</td>
+                    <td>{{ item.scheduleTimelineName }}</td>
+                  </tr>
+                  <tr>
+                    <td>Description</td>
+                    <td>{{ item.scheduleTimelineDescription }}</td>
+                  </tr>
+                  <tr>
+                    <td>Condition</td>
+                    <td>{{ item.entryCondition }}</td>
+                  </tr>
+                </table>
+              </div>
               <ng-container
                 *ngIf="item.scheduleTimelineSoA !== null; else dataError"
               >
@@ -50,61 +77,120 @@
                     aria-describedby="soatable"
                   >
                     <thead class="soa-table-thead">
-                      <tr>
-                        <th class="first-block" id="first"></th>
-                        <ng-container
-                          *ngFor="
-                            let content of item.scheduleTimelineSoA.SoA;
-                            let i = index
-                          "
-                        >
-                          <th [id]="'soa' + i">{{ content.encounterName }}</th>
-                        </ng-container>
-                      </tr>
-                    </thead>
-                    <tbody class="soa-table-tbody">
-                      <tr
-                        *ngFor="
-                          let rowEl of item.scheduleTimelineSoA
-                            .orderOfActivities
-                        "
-                      >
-                        <td class="tbody-first-cols">{{ rowEl }}</td>
-                        <td
-                          *ngFor="let activity of item.scheduleTimelineSoA.SoA"
-                        >
+                      <ng-container *ngFor="let header of headerColumns">
+                        <tr>
+                          <th title="{{ header.label }}">{{ header.label }}</th>
                           <ng-container
                             *ngFor="
-                              let itemActivity of activity.activities;
+                              let content of item.scheduleTimelineSoA.SoA;
                               let i = index
                             "
                           >
-                            <span *ngIf="rowEl === itemActivity"
-                              ><strong
-                                title="{{
-                                  findDuplicate(
-                                    i,
-                                    itemActivity,
-                                    activity.activities
-                                  )
-                                    ? 'Duplicate entries found'
-                                    : ''
-                                }}"
-                                [class.duplicate]="
-                                  findDuplicate(
-                                    i,
-                                    itemActivity,
-                                    activity.activities
-                                  )
+                            <th
+                              title="
+                                {{ content.encounterName }}"
+                              [attr.colspan]="
+                                header.key === 'encounterName'
+                                  ? content.timings && content.timings.length
+                                  : ''
+                              "
+                              *ngIf="header.key === 'encounterName'"
+                            >
+                              {{ content.encounterName }}
+                              <span
+                                *ngIf="content.encounterScheduledAtTimingValue"
+                              >
+                                (
+                                {{ content.encounterScheduledAtTimingValue }} )
+                              </span>
+                            </th>
+                            <ng-container
+                              *ngFor="let eachTiming of content.timings"
+                            >
+                              <th
+                                *ngIf="header.key === 'timingValue'"
+                                title="{{ eachTiming.timingValue }}"
+                              >
+                                {{ eachTiming.timingValue }}
+                              </th>
+                              <th
+                                *ngIf="header.key === 'timingWindow'"
+                                title="{{ eachTiming.timingWindow }}"
+                              >
+                                {{ eachTiming.timingWindow }}
+                              </th>
+
+                              <th *ngIf="header.key === 'activity'">
+                                {{ "" }}
+                              </th>
+                            </ng-container>
+                          </ng-container>
+                        </tr>
+                      </ng-container>
+                    </thead>
+                    <ng-container
+                      *ngIf="
+                        item.scheduleTimelineSoA &&
+                          item.scheduleTimelineSoA.orderOfActivities.length !==
+                            0;
+                        else dataError1
+                      "
+                    >
+                      <tbody class="soa-table-tbody">
+                        <tr
+                          *ngFor="
+                            let eachOrderActivity of item.scheduleTimelineSoA
+                              .orderOfActivities
+                          "
+                        >
+                          <td
+                            class="tbody-first-cols"
+                            id="{{ eachOrderActivity.activityId }}"
+                          >
+                            {{ eachOrderActivity.activityName }}
+                          </td>
+                          <ng-container
+                            *ngFor="let content of item.scheduleTimelineSoA.SoA"
+                          >
+                            <td *ngFor="let eachTiming of content.timings">
+                              <ng-container
+                                *ngFor="
+                                  let eachActivity of eachTiming.activities;
+                                  let i = index
                                 "
                               >
-                                X</strong
-                              ></span
-                            >
+                                <span
+                                  *ngIf="
+                                    eachOrderActivity.activityId ===
+                                    eachActivity
+                                  "
+                                  ><strong
+                                    title="{{
+                                      findDuplicate(
+                                        i,
+                                        eachActivity.activityId,
+                                        eachTiming.activities
+                                      )
+                                        ? 'Duplicate entries found'
+                                        : ''
+                                    }}"
+                                    [class.duplicate]="
+                                      findDuplicate(
+                                        i,
+                                        eachActivity.activityId,
+                                        eachTiming.activities
+                                      )
+                                    "
+                                  >
+                                    X</strong
+                                  ></span
+                                >
+                              </ng-container>
+                            </td>
                           </ng-container>
-                        </td>
-                      </tr>
-                    </tbody>
+                        </tr>
+                      </tbody>
+                    </ng-container>
                   </table>
                 </div>
               </ng-container>
