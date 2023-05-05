@@ -9,6 +9,7 @@ import { CommonMethodsService } from '../../../../shared/services/common-methods
 import { MsalBroadcastService } from '@azure/msal-angular';
 import { EventMessage, EventType } from '@azure/msal-browser';
 import { ActivatedRoute, Router } from '@angular/router';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-recent-activity',
@@ -79,30 +80,38 @@ export class RecentActivityComponent {
    * To get 'homeAccountId' after login for silent logout
    */
   ngOnInit() {
-    this.msalBroadcastService.msalSubject$
-      .pipe(
-        filter(
-          (msg: EventMessage) =>
-            msg.eventType === EventType.ACQUIRE_TOKEN_SUCCESS
-        ),
-        takeUntil(this._destroying$)
-      )
-      .subscribe((result: any) => {
-        if (result?.payload?.accessToken) {
-          localStorage.setItem('token', result?.payload?.accessToken);
-          localStorage.setItem(
-            'homeAccountId',
-            result?.payload?.account?.homeAccountId
-          );
-          let isAdmin: any =
-            result?.payload?.account?.idTokenClaims?.roles?.indexOf(
-              'org.admin'
-            ) >= 0;
-          localStorage.setItem('isAdmin', isAdmin);
-          this.getVersions();
-        }
-        this.ds.changeDialogState('Home');
-      });
+    if (!environment.bypassAuth) {
+      this.msalBroadcastService.msalSubject$
+        .pipe(
+          filter(
+            (msg: EventMessage) =>
+              msg.eventType === EventType.ACQUIRE_TOKEN_SUCCESS
+          ),
+          takeUntil(this._destroying$)
+        )
+        .subscribe((result: any) => {
+          if (result?.payload?.accessToken) {
+            localStorage.setItem('token', result?.payload?.accessToken);
+            localStorage.setItem(
+              'homeAccountId',
+              result?.payload?.account?.homeAccountId
+            );
+            let isAdmin: any =
+              result?.payload?.account?.idTokenClaims?.roles?.indexOf(
+                'org.admin'
+              ) >= 0;
+            localStorage.setItem('isAdmin', isAdmin);
+            this.getVersions();
+          }
+          this.ds.changeDialogState('Home');
+        });
+    } else {
+      localStorage.setItem('isAdmin', 'true');
+      localStorage.setItem('token', 'DUMMY_TOKEN');
+      localStorage.setItem('homeAccountId', 'DUMMY_ACCOUNT_ID');
+      this.getVersions();
+      this.ds.changeDialogState('Home');
+    }
   }
 
   /**
