@@ -23,8 +23,8 @@ describe('ServiceCall', () => {
     expect(service).toBeTruthy();
   });
   describe('call all services', () => {
-    it('call getStudyElement ', () => {
-      service.getStudyElement(2, 3);
+    it('call getStudyElementWithVersion ', () => {
+      service.getStudyElementWithVersion(2, 'URL');
     });
     it('call getAuditTrail ', () => {
       service.getAuditTrail(2);

@@ -7,6 +7,7 @@ import {
 } from '@angular/router';
 import { MsalGuard } from '@azure/msal-angular'; // Import MsalInterceptor
 import { AuthGuardService } from './auth-guard.service';
+import { environment } from 'src/environments/environment';
 
 const routes: Routes = [
   {
@@ -25,7 +26,7 @@ const routes: Routes = [
           import('./features/dashboard/dashbord.module').then(
             (x) => x.DashboardModule
           ),
-        canActivate: [MsalGuard],
+        canActivate: environment.bypassAuth ? [] : [MsalGuard],
       },
       {
         path: 'search',
@@ -33,7 +34,7 @@ const routes: Routes = [
           import('./features/search-study/search-study.module').then(
             (x) => x.SearchStudyModule
           ),
-        canActivate: [MsalGuard],
+        canActivate: environment.bypassAuth ? [] : [MsalGuard],
       },
       {
         path: 'comparison',
@@ -41,14 +42,14 @@ const routes: Routes = [
           import('./features/study-compare/study-compare.module').then(
             (x) => x.StudyCompareModule
           ),
-        canActivate: [MsalGuard],
+        canActivate: environment.bypassAuth ? [] : [MsalGuard],
       },
       {
         path: 'admin',
         loadChildren: () =>
           import('./features/admin/admin.module').then((x) => x.AdminModule),
-        canActivate: [MsalGuard],
-        canLoad: [AuthGuardService],
+        canActivate: environment.bypassAuth ? [] : [MsalGuard],
+        canLoad: environment.bypassAuth ? [] : [AuthGuardService],
       },
       {
         path: 'reports',
@@ -56,8 +57,8 @@ const routes: Routes = [
           import('./features/reports/reports.module').then(
             (x) => x.ReportsModule
           ),
-        canActivate: [MsalGuard],
-        canLoad: [AuthGuardService],
+        canActivate: environment.bypassAuth ? [] : [MsalGuard],
+        canLoad: environment.bypassAuth ? [] : [AuthGuardService],
       },
     ],
   },
