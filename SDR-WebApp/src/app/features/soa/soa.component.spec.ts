@@ -8,6 +8,7 @@ import { ServiceCall } from '../../shared/services/service-call/service-call.ser
 import { SoaComponent } from './soa.component';
 import { BehaviorSubject, of, Subject } from 'rxjs';
 import { StudyElementDescriptionComponent } from 'src/app/shared/components/study-element-description/study-element-description.component';
+import { BsModalService } from 'ngx-bootstrap/modal';
 
 describe('SoaComponent', () => {
   let component: SoaComponent;
@@ -46,6 +47,7 @@ describe('SoaComponent', () => {
     const serviceCallStub = () => ({
       getSoAMatrix: (usdmVersion: any, url: any) => ({ subscribe: () => {} }),
     });
+    const bsModalServiceStub = () => ({ show: (template: any) => ({}) });
     TestBed.configureTestingModule({
       schemas: [NO_ERRORS_SCHEMA],
       declarations: [SoaComponent],
@@ -55,6 +57,7 @@ describe('SoaComponent', () => {
         { provide: NgxSpinnerService, useFactory: ngxSpinnerServiceStub },
         { provide: CommonMethodsService, useFactory: commonMethodsServiceStub },
         { provide: ServiceCall, useFactory: serviceCallStub },
+        { provide: BsModalService, useFactory: bsModalServiceStub },
         StudyElementDescriptionComponent,
       ],
     });
@@ -134,5 +137,14 @@ describe('SoaComponent', () => {
     errorSubject.error('error');
     component.getSoADetails();
     expect(component.showError).toEqual(true);
+  });
+
+  it('openModal makes expected calls', () => {
+    const templateRefStub: any = <any>{};
+    const bsModalServiceStub: BsModalService =
+      fixture.debugElement.injector.get(BsModalService);
+    spyOn(bsModalServiceStub, 'show').and.callThrough();
+    component.openModal(templateRefStub);
+    expect(bsModalServiceStub.show).toHaveBeenCalled();
   });
 });
