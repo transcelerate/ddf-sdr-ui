@@ -163,12 +163,18 @@
                               >
                                 <i
                                   *ngIf="
-                                    eachOrderActivity.definedProcedures.length >
-                                      0 ||
-                                    eachOrderActivity.biomedicalConcepts
-                                      .length > 0 ||
-                                    eachOrderActivity.activityTimelineName !==
-                                      null
+                                    (eachOrderActivity.definedProcedures !==
+                                      null &&
+                                      eachOrderActivity.definedProcedures
+                                        .length > 0) ||
+                                    (eachOrderActivity.biomedicalConcepts !==
+                                      null &&
+                                      eachOrderActivity.biomedicalConcepts
+                                        .length > 0) ||
+                                    (eachOrderActivity.activityTimelineName !==
+                                      '' &&
+                                      eachOrderActivity.activityTimelineName !==
+                                        null)
                                   "
                                   class="fa"
                                   [ngClass]="{
@@ -194,7 +200,9 @@
                                       class="card"
                                       *ngIf="
                                         eachOrderActivity.biomedicalConcepts
-                                          .length > 0
+                                          .length > 0 &&
+                                        eachOrderActivity.biomedicalConcepts !==
+                                          null
                                       "
                                     >
                                       <div class="card-header">
@@ -241,6 +249,8 @@
                                     <div
                                       class="card"
                                       *ngIf="
+                                        eachOrderActivity.definedProcedures !==
+                                          null &&
                                         eachOrderActivity.definedProcedures
                                           .length > 0
                                       "
@@ -360,7 +370,9 @@
                                       class="card"
                                       *ngIf="
                                         eachOrderActivity.activityTimelineName !==
-                                        null
+                                          '' &&
+                                        eachOrderActivity.activityTimelineName !==
+                                          null
                                       "
                                     >
                                       <div class="card-header">
