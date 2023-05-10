@@ -1,23 +1,27 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { CommonMethodsService } from 'src/app/shared/services/common-methods.service';
 import { ServiceCall } from '../../shared/services/service-call/service-call.service';
 // import * as mockJson from './sample-data.json';
+import { TabsetComponent } from 'ngx-bootstrap/tabs';
 import { configList } from 'src/app/shared/components/study-element-description/config/study-element-field-config';
 import { StudyElementDescriptionComponent } from 'src/app/shared/components/study-element-description/study-element-description.component';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 @Component({
   selector: 'app-soa',
   templateUrl: './soa.component.html',
   styleUrls: ['./soa.component.scss'],
 })
 export class SoaComponent implements OnInit {
+  @ViewChild('tabset2') tabset2: TabsetComponent;
   studyId: any;
   versionId: any;
   tabs: any;
   selectedTab: boolean = false;
   usdmVersion: any;
   showError = false;
+  bsModalRef?: BsModalRef;
   headerColumns = [
     {
       key: 'encounterName',
@@ -42,6 +46,7 @@ export class SoaComponent implements OnInit {
     private serviceCall: ServiceCall,
     private spinner: NgxSpinnerService,
     private commonMethods: CommonMethodsService,
+    private modalService: BsModalService,
     private parentComponent: StudyElementDescriptionComponent
   ) {
     this.parentComponent.checkLocationPath(true);
@@ -97,5 +102,17 @@ export class SoaComponent implements OnInit {
       let isDuplicate = checkIndex != index && eachActivity == checkColor;
       return isDuplicate;
     });
+  }
+
+  redirectToTimeline(timelineId: any) {
+    this.tabset2.tabs.forEach((element) => {
+      if (element.id === timelineId) {
+        element.active = true;
+      }
+    });
+  }
+
+  openModal(template: TemplateRef<any>) {
+    this.bsModalRef = this.modalService.show(template);
   }
 }

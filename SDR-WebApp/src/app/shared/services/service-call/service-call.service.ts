@@ -1,10 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpWrapperService } from './http-wrapper.service';
 import { environment } from '../../../../environments/environment';
-import {
-  ApiUrlList,
-  CommonApiUrlList,
-} from '../../constants/api-url-constants';
+import { CommonApiUrlList } from '../../constants/api-url-constants';
 import * as dropDownJson from 'src/app/shared/constants/search-form-master-data.json';
 import { IHTTPOptions } from './http-wrapper.service';
 import { HttpHeaders } from '@angular/common/http';
@@ -13,6 +10,7 @@ import { HttpHeaders } from '@angular/common/http';
   providedIn: 'root',
 })
 export class ServiceCall {
+  public routePrefix: string = environment.bypassAuth ? '' : 'api/ui';
   constructor(private httpWrapperService: HttpWrapperService) {}
 
   getHttpOptions(usdmVersion: any): IHTTPOptions {
@@ -30,20 +28,13 @@ export class ServiceCall {
     });
   }
 
-  getStudyElement(studyId: any, versionId: any) {
-    // return this.httpWrapperService.getData('https://apim-sdr-dev-eastus.azure-api.net/api/v1/studydefinitions/9085f2c7-1f7a-4f71-8b48-5d24592b6f17?version=2');
-    return this.httpWrapperService.getData(
-      environment.BASE_URL +
-        ApiUrlList.ELEMENT +
-        studyId +
-        '?sdruploadversion=' +
-        (versionId || '')
-    );
-  }
   getStudyElementWithVersion(usdmVersion: any, studyURL: string) {
     // return this.httpWrapperService.getData('https://apim-sdr-dev-eastus.azure-api.net/api/v1/studydefinitions/9085f2c7-1f7a-4f71-8b48-5d24592b6f17?version=2');
+    if (environment.bypassAuth && studyURL.startsWith('/')) {
+      studyURL = studyURL.substring(1);
+    }
     return this.httpWrapperService.getData(
-      environment.BASE_URL + 'api/ui' + studyURL,
+      environment.BASE_URL + this.routePrefix + studyURL,
       this.getHttpOptions(usdmVersion)
     );
   }
@@ -65,8 +56,12 @@ export class ServiceCall {
 
   getSoAMatrix(usdmVersion: any, soaURL: string) {
     // return this.httpWrapperService.getData('https://apim-sdr-dev-eastus.azure-api.net/api/ui/v2/studydefinitions/9352b5ba-4a94-46c9-8809-b8aeea0dd45e/studydesigns/soa');
+    if (environment.bypassAuth && soaURL.startsWith('/')) {
+      soaURL = soaURL.substring(1);
+    }
+
     return this.httpWrapperService.getData(
-      environment.BASE_URL + 'api/ui' + soaURL,
+      environment.BASE_URL + this.routePrefix + soaURL,
       this.getHttpOptions(usdmVersion)
     );
   }
