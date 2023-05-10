@@ -43,13 +43,13 @@
           "
         >
           <ng-container *ngFor="let item of tab.studyScheduleTimelines">
-            <tab customClass="workflow-container">
+            <tab
+              customClass="workflow-container"
+              [id]="item.scheduleTimelineId"
+            >
               <ng-template tabHeading>
-                <span
-                  [id]="item.scheduleTimelineId"
-                  title="{{ item.scheduleTimelineDescription }}"
-                >
-                  {{ item.scheduleTimelineDescription }}
+                <span title="{{ item.scheduleTimelineName }}">
+                  {{ item.scheduleTimelineName }}
                 </span>
               </ng-template>
               <div class="table-responsive study-schedule-timeline-table">
@@ -137,58 +137,301 @@
                       "
                     >
                       <tbody class="soa-table-tbody">
-                        <tr
+                        <ng-container
                           *ngFor="
                             let eachOrderActivity of item.scheduleTimelineSoA
-                              .orderOfActivities
+                              .orderOfActivities;
+                            let collapseIndex = index
                           "
                         >
-                          <td
-                            class="tbody-first-cols"
-                            id="{{ eachOrderActivity.activityId }}"
-                          >
-                            {{ eachOrderActivity.activityName }}
-                          </td>
-                          <ng-container
-                            *ngFor="let content of item.scheduleTimelineSoA.SoA"
-                          >
-                            <td *ngFor="let eachTiming of content.timings">
-                              <ng-container
-                                *ngFor="
-                                  let eachActivity of eachTiming.activities;
-                                  let i = index
+                          <tr>
+                            <td
+                              class="tbody-first-cols"
+                              id="{{ eachOrderActivity.activityId }}"
+                            >
+                              <a
+                                type="button"
+                                class="accordion-toggle"
+                                data-toggle="collapse"
+                                [attr.data-target]="
+                                  '#collapseProduct' + collapseIndex
+                                "
+                                (click)="
+                                  eachOrderActivity.isExpanded =
+                                    !eachOrderActivity.isExpanded
                                 "
                               >
-                                <span
+                                <i
                                   *ngIf="
-                                    eachOrderActivity.activityId ===
-                                    eachActivity
+                                    eachOrderActivity.definedProcedures.length >
+                                      0 ||
+                                    eachOrderActivity.biomedicalConcepts
+                                      .length > 0 ||
+                                    eachOrderActivity.activityTimelineName !==
+                                      null
                                   "
-                                  ><strong
-                                    title="{{
-                                      findDuplicate(
-                                        i,
-                                        eachActivity.activityId,
-                                        eachTiming.activities
-                                      )
-                                        ? 'Duplicate entries found'
-                                        : ''
-                                    }}"
-                                    [class.duplicate]="
-                                      findDuplicate(
-                                        i,
-                                        eachActivity.activityId,
-                                        eachTiming.activities
-                                      )
+                                  class="fa"
+                                  [ngClass]="{
+                                    'fa-minus': eachOrderActivity.isExpanded,
+                                    'fa-plus': !eachOrderActivity.isExpanded
+                                  }"
+                                  aria-hidden="true"
+                                ></i>
+                              </a>
+                              {{ eachOrderActivity.activityName }}
+                              <tr
+                                class="accordian-row collapse show"
+                                *ngIf="eachOrderActivity.isExpanded"
+                              >
+                                <td class="accordian">
+                                  <div
+                                    class="accordian-body"
+                                    [attr.id]="
+                                      'collapseProduct' + collapseIndex
                                     "
                                   >
-                                    X</strong
-                                  ></span
-                                >
-                              </ng-container>
+                                    <div
+                                      class="card"
+                                      *ngIf="
+                                        eachOrderActivity.biomedicalConcepts
+                                          .length > 0
+                                      "
+                                    >
+                                      <div class="card-header">
+                                        <div class="card-title">
+                                          <span
+                                            (click)="
+                                              eachOrderActivity.toggleConcepts =
+                                                !eachOrderActivity.toggleConcepts
+                                            "
+                                            ><i
+                                              class="fa"
+                                              [ngClass]="{
+                                                'fa-minus':
+                                                  eachOrderActivity.toggleConcepts,
+                                                'fa-plus':
+                                                  !eachOrderActivity.toggleConcepts
+                                              }"
+                                            ></i
+                                          ></span>
+                                          Biomedical Concepts
+                                        </div>
+                                      </div>
+                                      <ng-container
+                                        *ngIf="eachOrderActivity.toggleConcepts"
+                                      >
+                                        <ng-container
+                                          *ngFor="
+                                            let eachConcept of eachOrderActivity.biomedicalConcepts
+                                          "
+                                        >
+                                          <div class="card-body">
+                                            <ul class="card-list">
+                                              <li title="{{ eachConcept }}">
+                                                <span>
+                                                  {{ eachConcept }}
+                                                </span>
+                                              </li>
+                                            </ul>
+                                          </div>
+                                        </ng-container>
+                                      </ng-container>
+                                    </div>
+
+                                    <div
+                                      class="card"
+                                      *ngIf="
+                                        eachOrderActivity.definedProcedures
+                                          .length > 0
+                                      "
+                                    >
+                                      <div class="card-header">
+                                        <div class="card-title">
+                                          <span
+                                            (click)="
+                                              eachOrderActivity.toggleBoolean =
+                                                !eachOrderActivity.toggleBoolean
+                                            "
+                                            ><i
+                                              class="fa"
+                                              [ngClass]="{
+                                                'fa-minus':
+                                                  eachOrderActivity.toggleBoolean,
+                                                'fa-plus':
+                                                  !eachOrderActivity.toggleBoolean
+                                              }"
+                                            ></i
+                                          ></span>
+                                          Procedures
+                                        </div>
+                                      </div>
+                                      <ng-container
+                                        *ngIf="eachOrderActivity.toggleBoolean"
+                                      >
+                                        <ng-container
+                                          *ngFor="
+                                            let eachConcept of eachOrderActivity.definedProcedures
+                                          "
+                                        >
+                                          <div class="card-body">
+                                            <ul class="card-list">
+                                              <li
+                                                [title]="
+                                                  eachConcept.procedureName +
+                                                  ': ' +
+                                                  eachConcept.procedureDescription
+                                                "
+                                              >
+                                                <span>
+                                                  {{
+                                                    eachConcept.procedureName
+                                                  }}:
+                                                </span>
+                                                <span
+                                                  [innerHTML]="
+                                                    eachConcept.procedureDescription.slice(
+                                                      0,
+                                                      40
+                                                    )
+                                                  "
+                                                >
+                                                </span>
+                                                <span
+                                                  *ngIf="
+                                                    eachConcept
+                                                      .procedureDescription
+                                                      .length > 40
+                                                  "
+                                                >
+                                                  ....
+                                                </span>
+                                                <span
+                                                  class="show-more-span"
+                                                  (click)="openModal(template)"
+                                                  *ngIf="
+                                                    eachConcept
+                                                      .procedureDescription
+                                                      .length > 40
+                                                  "
+                                                  >Show More</span
+                                                >
+                                              </li>
+                                            </ul>
+                                          </div>
+
+                                          <ng-template #template>
+                                            <div class="modal-header">
+                                              <h4 class="modal-title pull-left">
+                                                Procedure
+                                              </h4>
+                                              <button
+                                                type="button"
+                                                class="btn-close close pull-right"
+                                                aria-label="Close"
+                                                (click)="bsModalRef?.hide()"
+                                              >
+                                                <span
+                                                  aria-hidden="true"
+                                                  class="visually-hidden"
+                                                  >&times;</span
+                                                >
+                                              </button>
+                                            </div>
+                                            <div class="modal-body">
+                                              <div>
+                                                <strong
+                                                  >{{
+                                                    eachConcept.procedureName
+                                                  }}:</strong
+                                                >
+                                              </div>
+                                              <div>
+                                                {{
+                                                  eachConcept.procedureDescription
+                                                }}
+                                              </div>
+                                            </div>
+                                          </ng-template>
+                                        </ng-container>
+                                      </ng-container>
+                                    </div>
+
+                                    <div
+                                      class="card"
+                                      *ngIf="
+                                        eachOrderActivity.activityTimelineName !==
+                                        null
+                                      "
+                                    >
+                                      <div class="card-header">
+                                        <div
+                                          class="card-title timeprofile-card-title"
+                                        >
+                                          TimeProfile:
+                                          <a
+                                            class="timeline-card"
+                                            title="{{
+                                              eachOrderActivity.activityTimelineName
+                                            }}"
+                                            (click)="
+                                              redirectToTimeline(
+                                                eachOrderActivity.activityTimelineId
+                                              )
+                                            "
+                                            >{{
+                                              eachOrderActivity.activityTimelineName
+                                            }}</a
+                                          >
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </td>
+                              </tr>
                             </td>
-                          </ng-container>
-                        </tr>
+                            <ng-container
+                              *ngFor="
+                                let content of item.scheduleTimelineSoA.SoA
+                              "
+                            >
+                              <td *ngFor="let eachTiming of content.timings">
+                                <ng-container
+                                  *ngFor="
+                                    let eachActivity of eachTiming.activities;
+                                    let i = index
+                                  "
+                                >
+                                  <span
+                                    *ngIf="
+                                      eachOrderActivity.activityId ===
+                                      eachActivity
+                                    "
+                                    ><strong
+                                      title="{{
+                                        findDuplicate(
+                                          i,
+                                          eachActivity.activityId,
+                                          eachTiming.activities
+                                        )
+                                          ? 'Duplicate entries found'
+                                          : ''
+                                      }}"
+                                      [class.duplicate]="
+                                        findDuplicate(
+                                          i,
+                                          eachActivity.activityId,
+                                          eachTiming.activities
+                                        )
+                                      "
+                                    >
+                                      X</strong
+                                    ></span
+                                  >
+                                </ng-container>
+                              </td>
+                            </ng-container>
+                          </tr>
+                        </ng-container>
                       </tbody>
                     </ng-container>
                   </table>
