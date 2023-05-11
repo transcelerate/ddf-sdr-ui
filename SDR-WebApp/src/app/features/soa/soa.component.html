@@ -23,11 +23,10 @@
     <tab
       *ngFor="let tab of tabs.studyDesigns"
       customClass="study-design-container"
+      [id]="tab.studyDesignId"
     >
       <ng-template tabHeading>
-        <span [id]="tab.studyDesignId" title="{{ tab.studyDesignName }}">{{
-          tab.studyDesignName
-        }}</span>
+        <span title="{{ tab.studyDesignName }}">{{ tab.studyDesignName }}</span>
       </ng-template>
       <div class="study-design-tab-section">
         <div
@@ -45,7 +44,7 @@
           <ng-container *ngFor="let item of tab.studyScheduleTimelines">
             <tab
               customClass="workflow-container"
-              [id]="item.scheduleTimelineId"
+              [id]="tab.studyDesignId + '_' + item.scheduleTimelineId"
             >
               <ng-template tabHeading>
                 <span title="{{ item.scheduleTimelineName }}">
@@ -87,8 +86,7 @@
                             "
                           >
                             <th
-                              title="
-                                {{ content.encounterName }}"
+                              [title]="createTooltip(content)"
                               [attr.colspan]="
                                 header.key === 'encounterName'
                                   ? content.timings && content.timings.length
@@ -149,7 +147,7 @@
                               class="tbody-first-cols"
                               id="{{ eachOrderActivity.activityId }}"
                             >
-                              <a
+                              <span
                                 type="button"
                                 class="accordion-toggle"
                                 data-toggle="collapse"
@@ -183,8 +181,8 @@
                                   }"
                                   aria-hidden="true"
                                 ></i>
-                              </a>
-                              {{ eachOrderActivity.activityName }}
+                                {{ eachOrderActivity.activityName }}
+                              </span>
                               <tr
                                 class="accordian-row collapse show"
                                 *ngIf="eachOrderActivity.isExpanded"
@@ -220,9 +218,9 @@
                                                 'fa-plus':
                                                   !eachOrderActivity.toggleConcepts
                                               }"
-                                            ></i
-                                          ></span>
-                                          Biomedical Concepts
+                                            ></i>
+                                            Biomedical Concepts
+                                          </span>
                                         </div>
                                       </div>
                                       <ng-container
@@ -236,7 +234,7 @@
                                           <div class="card-body">
                                             <ul class="card-list">
                                               <li title="{{ eachConcept }}">
-                                                <span>
+                                                <span class="concept-span">
                                                   {{ eachConcept }}
                                                 </span>
                                               </li>
@@ -270,9 +268,9 @@
                                                 'fa-plus':
                                                   !eachOrderActivity.toggleBoolean
                                               }"
-                                            ></i
-                                          ></span>
-                                          Procedures
+                                            ></i>
+                                            Procedures
+                                          </span>
                                         </div>
                                       </div>
                                       <ng-container
@@ -379,7 +377,7 @@
                                         <div
                                           class="card-title timeprofile-card-title"
                                         >
-                                          TimeProfile:
+                                          Time Profile:
                                           <a
                                             class="timeline-card"
                                             title="{{
@@ -387,12 +385,25 @@
                                             }}"
                                             (click)="
                                               redirectToTimeline(
-                                                eachOrderActivity.activityTimelineId
+                                                tab.studyDesignId +
+                                                  '_' +
+                                                  eachOrderActivity.activityTimelineId
                                               )
                                             "
                                             >{{
-                                              eachOrderActivity.activityTimelineName
-                                            }}</a
+                                              eachOrderActivity.activityTimelineName.slice(
+                                                0,
+                                                40
+                                              )
+                                            }}<span
+                                              *ngIf="
+                                                eachOrderActivity
+                                                  .activityTimelineName.length >
+                                                40
+                                              "
+                                            >
+                                              ....
+                                            </span></a
                                           >
                                         </div>
                                       </div>

@@ -123,15 +123,20 @@
                         padding: 0px 6px;
                         text-align: left;
                         .card-title {
+                          cursor: pointer;
                           margin: 0.5rem 0;
                           .fa {
                             font-size: 8px;
                           }
                         }
                         .timeprofile-card-title {
-                          text-overflow: ellipsis;
-                          overflow: hidden;
-                          white-space: nowrap;
+                          cursor: initial;
+                          .timeline-card {
+                            text-overflow: ellipsis;
+                            overflow: hidden;
+                            white-space: nowrap;
+                            cursor: pointer;
+                          }
                         }
                       }
                       .card-body {
@@ -141,6 +146,12 @@
                           margin: 5px 0px;
                           li {
                             text-align: left;
+                            .concept-span {
+                              text-overflow: ellipsis;
+                              overflow: hidden;
+                              white-space: nowrap;
+                              display: block;
+                            }
                             .show-more-span {
                               color: blue;
                               cursor: pointer;
