@@ -20,6 +20,17 @@
         }
       }
     }
+
+    .footnote-section {
+      margin: 20px 30px;
+      max-height: 30vh;
+      overflow-y: auto;
+      border-top: 1px solid #c4c4c4;
+      padding: 10px 0;
+      .footnote-description {
+        padding: 0px 5px;
+      }
+    }
     .soa-table {
       margin: 20px 30px;
       border: 1px solid;

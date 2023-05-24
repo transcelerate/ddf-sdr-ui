@@ -39,6 +39,10 @@ export class SoaComponent implements OnInit {
       label: 'Activity',
     },
   ];
+  activityFootnotes: any[] = [];
+  procedureFootnotes: any[] = [];
+  activeTab: any;
+  activeNestedTab: any;
   constructor(
     public router: Router,
     public route: ActivatedRoute,
@@ -77,17 +81,97 @@ export class SoaComponent implements OnInit {
     });
   }
 
+  getSelectedTab(event?: any) {
+    this.activityFootnotes = [];
+    this.procedureFootnotes = [];
+
+    if (event) {
+      this.activeTab = event.id;
+    } else {
+      this.activeTab = this.tabs?.studyDesigns[0].studyDesignId;
+    }
+
+    this.tabset2?.toArray().forEach((eachStudyDesign: any) => {
+      eachStudyDesign.tabs[0].active = true;
+    });
+    this.getSelectedNestedTab();
+  }
+
+  getSelectedNestedTab(event?: any) {
+    this.activityFootnotes = [];
+    this.procedureFootnotes = [];
+
+    if (event) {
+      let spl = event.id.split(this.activeTab + '_').pop();
+      this.activeNestedTab = spl;
+    } else {
+      this.activeNestedTab =
+        this.tabs?.studyDesigns[0].studyScheduleTimelines[0].scheduleTimelineId;
+    }
+    this.addFootnoteids();
+  }
+
   getSoADetailsUsingLink(url: any): void {
     this.serviceCall.getSoAMatrix(this.usdmVersion, url).subscribe({
       next: (soa: any) => {
         this.spinner.hide();
         this.tabs = soa;
+        this.getSelectedTab();
         // To-DO: Call binding logic here
       },
       error: (error) => {
         this.showError = true;
         this.spinner.hide();
       },
+    });
+  }
+
+  addFootnoteids() {
+    this.tabs?.studyDesigns?.forEach((eachStudyDesign: any) => {
+      if (eachStudyDesign.studyDesignId === this.activeTab) {
+        eachStudyDesign?.studyScheduleTimelines?.forEach(
+          (eachTimeline: any) => {
+            if (eachTimeline.scheduleTimelineId === this.activeNestedTab) {
+              let activityIndex = 1;
+              let procedureIndex = 1;
+
+              eachTimeline?.scheduleTimelineSoA?.orderOfActivities?.forEach(
+                (eachActivity: any) => {
+                  if (eachActivity.activityIsConditional) {
+                    eachActivity.footnoteId = 'A' + activityIndex;
+                    activityIndex++;
+                    let footNoteObj = {
+                      footnoteId: '',
+                      footnoteDescription: '',
+                    };
+                    footNoteObj.footnoteId = eachActivity.footnoteId;
+                    footNoteObj.footnoteDescription =
+                      eachActivity.footnoteDescription;
+                    this.activityFootnotes.push(footNoteObj);
+                  }
+
+                  eachActivity?.definedProcedures?.forEach(
+                    (eachProcedure: any) => {
+                      if (eachProcedure.procedureIsConditional) {
+                        eachProcedure.footnoteId = 'P' + procedureIndex;
+                        procedureIndex++;
+                        let footNoteObj = {
+                          footnoteId: '',
+                          footnoteDescription: '',
+                        };
+                        footNoteObj.footnoteId = eachProcedure.footnoteId;
+                        footNoteObj.footnoteDescription =
+                          eachProcedure.footnoteDescription;
+                        this.procedureFootnotes.push(footNoteObj);
+                      }
+                    }
+                  );
+                }
+              );
+            }
+          }
+        );
+      }
     });
   }
 
