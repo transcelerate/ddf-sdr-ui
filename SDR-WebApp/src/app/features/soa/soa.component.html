@@ -23,6 +23,7 @@
     <tab
       *ngFor="let tab of tabs.studyDesigns"
       customClass="study-design-container"
+      (selectTab)="getSelectedTab($event)"
       [id]="tab.studyDesignId"
     >
       <ng-template tabHeading>
@@ -44,6 +45,7 @@
           <ng-container *ngFor="let item of tab.studyScheduleTimelines">
             <tab
               customClass="workflow-container"
+              (selectTab)="getSelectedNestedTab($event)"
               [id]="tab.studyDesignId + '_' + item.scheduleTimelineId"
             >
               <ng-template tabHeading>
@@ -181,7 +183,12 @@
                                   }"
                                   aria-hidden="true"
                                 ></i>
-                                {{ eachOrderActivity.activityName }}
+                                <span>
+                                  {{ eachOrderActivity.activityName }}
+                                  <sup *ngIf="eachOrderActivity.footnoteId">
+                                    {{ eachOrderActivity.footnoteId }}
+                                  </sup>
+                                </span>
                               </span>
                               <tr
                                 class="accordian-row collapse show"
@@ -293,7 +300,16 @@
                                                 <span>
                                                   {{
                                                     eachConcept.procedureName
-                                                  }}:
+                                                  }}
+                                                  <sup
+                                                    *ngIf="
+                                                      eachConcept.footnoteId
+                                                    "
+                                                  >
+                                                    {{
+                                                      eachConcept.footnoteId
+                                                    }} </sup
+                                                  >:
                                                 </span>
                                                 <span
                                                   [innerHTML]="
@@ -460,6 +476,30 @@
                   </table>
                 </div>
               </ng-container>
+
+              <div
+                class="footnote-section"
+                *ngIf="
+                  activityFootnotes.length > 0 || procedureFootnotes.length > 0
+                "
+              >
+                <ng-container *ngIf="activityFootnotes.length > 0">
+                  <ng-container *ngFor="let item of activityFootnotes">
+                    <div class="footnote-description">
+                      <sup class="footnote-id">{{ item.footnoteId }}</sup>
+                      {{ item.footnoteDescription }}
+                    </div>
+                  </ng-container>
+                </ng-container>
+                <ng-container *ngIf="procedureFootnotes.length > 0">
+                  <ng-container *ngFor="let item of procedureFootnotes">
+                    <div class="footnote-description">
+                      <sup class="footnote-id">{{ item.footnoteId }}</sup>
+                      {{ item.footnoteDescription }}
+                    </div>
+                  </ng-container>
+                </ng-container>
+              </div>
             </tab>
           </ng-container>
         </tabset>
