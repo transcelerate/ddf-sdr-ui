@@ -22,6 +22,7 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { MatMenuModule } from '@angular/material/menu';
 import { ErrorComponentComponent } from './components/error-component/error-component.component';
+import { SimpleSearchComponent } from './components/simple-search/simple-search/simple-search.component';
 export class SharedModuleConstants {
   static MODULE_IMPORTS = [
     RouterModule,
@@ -49,6 +50,7 @@ export class SharedModuleConstants {
     CustomPipe,
     ErrorComponentComponent,
     ModalComponentComponent,
+    SimpleSearchComponent,
   ];
   static MODULE_PROVIDERS = [];
 
@@ -68,6 +70,7 @@ export class SharedModuleConstants {
     ErrorComponentComponent,
     ModalComponentComponent,
     MatMenuModule,
+    SimpleSearchComponent,
   ];
 
   static ENTRY_COMPONENTS = [];

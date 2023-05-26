@@ -1,5 +1,5 @@
 import { SelectionModel } from '@angular/cdk/collections';
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DialogService } from 'src/app/shared/services/communication.service';
 
@@ -22,23 +22,39 @@ export class StudyCompareComponent implements OnInit {
   toolTipOne: string;
   toolTipTwo: string;
   showError = false;
+  loadSearch: boolean;
+  historyState: any;
   constructor(
     private ds: DialogService,
     public router: Router,
     public route: ActivatedRoute
-  ) {}
+  ) {
+    this.ds.getSearchData.subscribe((msg) => {
+      if (msg) {
+        console.log(msg);
 
-  ngOnInit(): void {
-    this.ds.changeDialogState('Search Study Definitions');
-    const selectedValue = history.state.data;
+        this.historyState = msg;
+        this.loadSearch = msg.showSearch;
+        this.setData();
+      }
+    });
+  }
+
+  setData() {
+    const selectedValue = this.historyState.data;
     if (selectedValue) {
-      if (history.state.from == 'search1') {
+      if (this.historyState.from == 'search1') {
         localStorage.setItem('search1', JSON.stringify(selectedValue));
       } else {
         localStorage.setItem('search2', JSON.stringify(selectedValue));
       }
     }
     this.setModel();
+  }
+
+  ngOnInit(): void {
+    this.ds.changeDialogState('Search Study Definitions');
+    this.setData();
   }
   setModel() {
     this.searchOne = localStorage.getItem('search1');
@@ -101,6 +117,9 @@ export class StudyCompareComponent implements OnInit {
     // TO-DO Check if clearing  the links storage is needed ?
   }
   redirect(from: any) {
-    this.router.navigate(['/comparison/search'], { state: { from: from } });
+    this.loadSearch = true;
+
+    this.ds.sendFromState(from);
+    // this.router.navigate(['/comparison/search'], { state: { from: from } });
   }
 }

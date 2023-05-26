@@ -1,6 +1,17 @@
 <app-error-component *ngIf="showError"></app-error-component>
 <div class="container-fluid outer" *ngIf="route.children.length === 0">
-  <h3>Study Comparison</h3>
+  <!-- <h3>Study Comparison</h3> -->
+
+  <ol class="breadcrumb ng-star-inserted">
+    <li class="ng-star-inserted" (click)="loadSearch = false">
+      <span> Study Comparison </span>
+    </li>
+    <li *ngIf="loadSearch" class="ng-star-inserted">
+      <span> Select Study </span>
+    </li>
+  </ol>
+  <br />
+
   <div class="row">
     <div class="row col-md-5">
       <div class="col-md-5 compare">Compare</div>
@@ -64,5 +75,8 @@
       </form>
     </div>
   </div>
+  <div *ngIf="loadSearch">
+    <!-- <router-outlet></router-outlet> -->
+    <app-simple-search></app-simple-search>
+  </div>
 </div>
-<router-outlet></router-outlet>

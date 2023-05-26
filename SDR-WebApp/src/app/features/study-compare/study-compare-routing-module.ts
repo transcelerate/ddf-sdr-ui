@@ -25,7 +25,7 @@ const studyCompareModuleRoutes: Routes = [
     ],
   },
   {
-    path: 'search',
+    path: '',
     component: SimpleSearchComponent,
     data: {
       breadcrumb: 'Compare Search',

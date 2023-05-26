@@ -1,4 +1,10 @@
-import { Component, OnInit, TemplateRef } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  OnInit,
+  Output,
+  TemplateRef,
+} from '@angular/core';
 import { DialogService } from 'src/app/shared/services/communication.service';
 import { CheckboxRenderer } from 'src/app/features/admin/add-group/checkbox-renderer.component';
 import { BsModalService, BsModalRef, ModalOptions } from 'ngx-bootstrap/modal';
@@ -86,6 +92,13 @@ export class SimpleSearchComponent implements OnInit {
     this.gridOptions = <GridOptions>{
       enableSorting: true,
     };
+    this.ds.getFromState.subscribe((state) => {
+      if (state) {
+        console.log('state', state);
+        this.from = state;
+      }
+    });
+
     this.gridOptions.columnDefs = [
       {
         cellRendererFramework: CheckboxRenderer,
@@ -176,9 +189,14 @@ export class SimpleSearchComponent implements OnInit {
   }
 
   submit() {
-    this.router.navigate(['/comparison'], {
-      state: { data: this.selectedValue, from: this.from },
+    this.ds.sendSearchData({
+      data: this.selectedValue,
+      from: this.from,
+      showSearch: false,
     });
+    // this.router.navigate(['/comparison'], {
+    //   state: { data: this.selectedValue, from: this.from },
+    // });
   }
 
   /**
