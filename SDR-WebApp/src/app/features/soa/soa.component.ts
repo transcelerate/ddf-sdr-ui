@@ -101,9 +101,21 @@ export class SoaComponent implements OnInit {
     this.activityFootnotes = [];
     this.procedureFootnotes = [];
 
-    if (event) {
+    if (event && this.activeTab) {
       let spl = event.id.split(this.activeTab + '_').pop();
       this.activeNestedTab = spl;
+    } else if (this.activeTab) {
+      this.tabs?.studyDesigns?.forEach((eachStudyDesign: any) => {
+        if (eachStudyDesign.studyDesignId === this.activeTab) {
+          if (
+            eachStudyDesign.studyScheduleTimelines &&
+            eachStudyDesign.studyScheduleTimelines.length > 0
+          ) {
+            this.activeNestedTab =
+              eachStudyDesign.studyScheduleTimelines[0].scheduleTimelineId;
+          }
+        }
+      });
     } else {
       this.activeNestedTab =
         this.tabs?.studyDesigns[0].studyScheduleTimelines[0].scheduleTimelineId;
