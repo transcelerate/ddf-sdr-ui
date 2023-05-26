@@ -147,7 +147,7 @@ describe('SoaComponent', () => {
     expect(component.findDuplicate).toBeTruthy();
   });
 
-  xit('getSoADetails makes expected calls', () => {
+  it('getSoADetails makes expected calls', () => {
     const ngxSpinnerServiceStub: NgxSpinnerService =
       fixture.debugElement.injector.get(NgxSpinnerService);
     const commonMethodsServiceStub: CommonMethodsService =
@@ -155,6 +155,7 @@ describe('SoaComponent', () => {
     const serviceCallStub: ServiceCall =
       fixture.debugElement.injector.get(ServiceCall);
     spyOn(component, 'getSoADetailsUsingLink').and.callThrough();
+    spyOn(component, 'getSelectedTab');
     spyOn(ngxSpinnerServiceStub, 'show').and.callThrough();
     spyOn(ngxSpinnerServiceStub, 'hide').and.callThrough();
     // spyOn(commonMethodsServiceStub, 'getStudyLink');
@@ -162,7 +163,7 @@ describe('SoaComponent', () => {
       query.callback('Study URL')
     );
     spyOn(serviceCallStub, 'getSoAMatrix').and.callFake(() => {
-      return of(links);
+      return of(tabs);
     });
     component.getSoADetails();
     expect(component.getSoADetailsUsingLink).toHaveBeenCalled();
@@ -197,13 +198,14 @@ describe('SoaComponent', () => {
     expect(bsModalServiceStub.show).toHaveBeenCalled();
   });
 
-  xit('check if active tab is selected correctly', () => {
+  it('check if active tab is selected correctly', () => {
     component.tabs = tabs;
     const event = {
       id: 'test105',
       addClass: true,
       role: 'tabpanel',
     };
+    spyOn(component, 'getSelectedNestedTab');
     component.getSelectedTab(event);
     expect(component.activeTab).toEqual('test105');
   });
