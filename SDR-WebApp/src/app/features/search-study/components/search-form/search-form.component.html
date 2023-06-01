@@ -160,13 +160,11 @@
         <!--right side -->
       </div>
       <!-- form for teacher/student-->
-      <div class="row">
-        <div class="col-6">
-          <button class="btn btn-secondary clear" (click)="clearSearch()">
+      <div class="row buttonGroup">
+        <div class="col-md-12 text-center">
+          <button class="btn btn-secondary btn-sm" (click)="clearSearch()">
             Reset
           </button>
-        </div>
-        <div class="col-6">
           <span
             [title]="
               !enableSearch
@@ -176,7 +174,7 @@
           >
             <button
               type="submit"
-              class="btn btn-primary submit"
+              class="btn btn-primary btn-sm"
               [disabled]="!editorForm.valid || !enableSearch"
               (click)="submitSearch()"
             >
