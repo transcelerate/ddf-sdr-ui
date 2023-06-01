@@ -1,5 +1,5 @@
 import { SelectionModel } from '@angular/cdk/collections';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DialogService } from 'src/app/shared/services/communication.service';
 
@@ -8,7 +8,7 @@ import { DialogService } from 'src/app/shared/services/communication.service';
   templateUrl: './study-compare.component.html',
   styleUrls: ['./study-compare.component.scss'],
 })
-export class StudyCompareComponent implements OnInit {
+export class StudyCompareComponent implements OnInit, OnDestroy {
   searchOne: any;
   searchTwo: any;
   studyOneId: any;
@@ -26,7 +26,13 @@ export class StudyCompareComponent implements OnInit {
     private ds: DialogService,
     public router: Router,
     public route: ActivatedRoute
-  ) {}
+  ) {
+    this.ds.callClearBool.subscribe((state) => {
+      if (state) {
+        this.clear();
+      }
+    });
+  }
 
   ngOnInit(): void {
     this.ds.changeDialogState('Search Study Definitions');
@@ -75,6 +81,7 @@ export class StudyCompareComponent implements OnInit {
     }
   }
   versionCompare() {
+    this.ds.sendExitBool(true);
     this.router.navigate(
       [
         'studyCompare',
@@ -102,5 +109,9 @@ export class StudyCompareComponent implements OnInit {
   }
   redirect(from: any) {
     this.router.navigate(['/comparison/search'], { state: { from: from } });
+  }
+
+  ngOnDestroy() {
+    this.ds.sendClearBool(false);
   }
 }
