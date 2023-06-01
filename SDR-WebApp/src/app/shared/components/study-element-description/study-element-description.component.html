@@ -19,7 +19,7 @@
       >
         <button
           (click)="soaMatrix()"
-          class="soaButton"
+          class="btn btn-primary btn-sm soaButton"
           [disabled]="!isValidUSDMVersion"
         >
           View SoA Matrix
@@ -27,7 +27,10 @@
       </span>
     </div>
     <div class="buttonDiv" *ngIf="!showError">
-      <button (click)="auditTrail()" class="versionButton">
+      <button
+        (click)="auditTrail()"
+        class="btn btn-primary btn-sm versionButton"
+      >
         View Revision History
       </button>
     </div>

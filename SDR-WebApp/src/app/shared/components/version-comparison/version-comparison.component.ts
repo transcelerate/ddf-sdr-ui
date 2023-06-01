@@ -10,6 +10,7 @@ import { filter, take } from 'rxjs';
 import { ServiceCall } from '../../services/service-call/service-call.service';
 import { CommonMethodsService } from '../../services/common-methods.service';
 import { configList } from '../study-element-description/config/study-element-field-config';
+import { StudyCompareComponent } from 'src/app/features/study-compare/components/study-compare.component';
 
 @Component({
   selector: 'app-version-comparison',
@@ -41,6 +42,7 @@ export class VersionComparisonComponent implements OnInit {
     public route: ActivatedRoute,
     private serviceCall: ServiceCall,
     private commonMethods: CommonMethodsService,
+    private parentComponent: StudyCompareComponent,
     private spinner: NgxSpinnerService
   ) {
     this.monacoLoaderService.isMonacoLoaded$
@@ -245,5 +247,10 @@ export class VersionComparisonComponent implements OnInit {
     if (document.getElementsByTagName('h2').length > 0) {
       document.getElementsByTagName('h2')[0].classList.remove('textCenter');
     }
+  }
+
+  backToCompare() {
+    this.parentComponent.clear();
+    this.router.navigate(['/comparison']);
   }
 }

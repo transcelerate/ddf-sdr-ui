@@ -5,17 +5,18 @@
     <div class="row col-md-5">
       <div class="col-md-5 compare">Compare</div>
       <div class="row col-md-7 compareOuter">
-        <div class="col-md-9 paddingTop">
+        <div class="col-md-11 search-text-div">
           <span class="oval" *ngIf="studyOneTitle && studyOneTitle !== ''"
             ><span class="ovalText" data-toggle="tooltip" [title]="toolTipOne"
               >{{ studyOneTitle }}_Version{{ studyOneVersion }}
             </span>
           </span>
         </div>
-        <div class="col-md-3 paddingTop">
-          <button class="btn btn-primary btn-sm" (click)="redirect('search1')">
+        <div class="col-md-1 search-icon-div">
+          <!-- <button class="btn btn-primary btn-sm" >
             Search
-          </button>
+          </button> -->
+          <i class="fa fa-search" (click)="redirect('search1')"></i>
         </div>
       </div>
     </div>
@@ -23,17 +24,18 @@
     <div class="row col-md-4">
       <div class="col-md-1 to">To</div>
       <div class="row col-md-10 compareOuter">
-        <div class="col-md-9 paddingTop">
+        <div class="col-md-11 search-text-div">
           <span class="oval" *ngIf="studyTwoTitle && studyTwoTitle !== ''"
             ><span class="ovalText" data-toggle="tooltip" [title]="toolTipTwo"
               >{{ studyTwoTitle }}_Version{{ studyTwoVersion }}
             </span>
           </span>
         </div>
-        <div class="col-md-3 paddingTop">
-          <button class="btn btn-primary btn-sm" (click)="redirect('search2')">
+        <div class="col-md-1 search-icon-div">
+          <!-- <button class="btn btn-primary btn-sm" (click)="redirect('search2')">
             Search
-          </button>
+          </button> -->
+          <i class="fa fa-search" (click)="redirect('search2')"></i>
         </div>
       </div>
       <div class="col-md-1"></div>
@@ -42,7 +44,7 @@
     <div class="col-md-3">
       <form>
         <button
-          class="btn btn-primary btn-sm clearButton"
+          class="btn btn-secondary btn-sm clearButton"
           type="button"
           (click)="clear()"
         >

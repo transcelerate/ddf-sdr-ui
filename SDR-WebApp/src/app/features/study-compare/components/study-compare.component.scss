@@ -1,6 +1,14 @@
 .compareOuter {
   border: 1px solid;
   border-radius: 7px;
+  .search-text-div {
+    padding: 0px;
+  }
+  .search-icon-div {
+    padding: 0px;
+    cursor: pointer;
+    transform: translate(10px, 10px);
+  }
 }
 .ovalText {
   background-color: #ddd;
@@ -10,10 +18,10 @@
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  margin: 3px 3px;
+  transform: translate(0%, 50%);
   border-radius: 63px;
   text-overflow: ellipsis;
-  max-width: 160px;
+  max-width: 230px;
   overflow: hidden;
   white-space: nowrap;
 }
@@ -36,7 +44,7 @@
 }
 .to {
   text-align: center;
-  padding: 16px 50px 0px 7px;
+  padding: 16px 48px 0px 7px;
   font-weight: bold;
 }
 .searchButton {
