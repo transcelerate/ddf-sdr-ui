@@ -16,14 +16,16 @@
         <div class="col-4">
           <!--left side -->
           <div class="form-group row">
-            <label class="col-sm-4 paddingTen">Group Name:<span>*</span></label>
-            <div class="col-sm-8 inputDiv">
+            <label class="col-sm-4 col-form-label"
+              >Group Name:<span>*</span></label
+            >
+            <div class="col-sm-8">
               <input
                 type="text"
                 formControlName="groupName"
                 maxlength="20"
                 (keypress)="restrictChar($event)"
-                class="input-sm paddingTen"
+                class="input-sm form-control"
                 (blur)="validateGroupName($event)"
               />
               <div *ngIf="groupError" class="groupError">
@@ -35,12 +37,12 @@
         <div class="col-4">
           <!--left side -->
           <div class="form-group row">
-            <label class="col-sm-5 paddingTen"
+            <label class="col-sm-5 col-form-label"
               >Group Permission:<span>*</span></label
             >
             <div class="col-sm-7">
               <select
-                class="form-control input-sm"
+                class="input-sm form-control"
                 [(ngModel)]="group.permission"
                 name="permission"
                 formControlName="groupPermission"
@@ -55,12 +57,12 @@
         <div class="col-4">
           <!--left side -->
           <div class="form-group row">
-            <label class="col-sm-5 paddingTen"
+            <label class="col-sm-5 col-form-label"
               >Group Filter Field:<span>*</span></label
             >
             <div class="col-sm-7">
               <select
-                class="form-control input-sm"
+                class="input-sm form-control"
                 formControlName="groupFieldName"
                 (change)="filterFieldSelected()"
               >
@@ -78,7 +80,7 @@
         <div class="col-4">
           <!--left side -->
           <div class="form-group row">
-            <label class="col-sm-4 paddingTen"
+            <label class="col-sm-4 col-form-label"
               >Filter Value:<span>*</span></label
             >
             <div class="col-sm-8 checkbox">
@@ -100,11 +102,11 @@
         <div class="col-4">
           <!--left side -->
           <div class="form-group row">
-            <label class="col-sm-4 paddingTen">Study Title:</label>
-            <div class="col-sm-8 inputDiv">
+            <label class="col-sm-4 col-form-label">Study Title:</label>
+            <div class="col-sm-8">
               <input
                 type="text"
-                class="input-sm paddingTen"
+                class="input-sm form-control"
                 formControlName="studyTitle"
                 maxlength="20"
                 (keypress)="restrictChar($event)"
@@ -115,7 +117,7 @@
         <div class="col-4">
           <!--left side -->
           <div class="form-group row">
-            <label class="col-sm-5 paddingTen">Modified From:</label>
+            <label class="col-sm-5 col-form-label">Modified From:</label>
             <div class="col-sm-7">
               <input
                 type="date"
@@ -129,7 +131,7 @@
         <div class="col-4">
           <!--left side -->
           <div class="form-group row">
-            <label class="col-sm-5 paddingTen">Modified To:</label>
+            <label class="col-sm-5 col-form-label">Modified To:</label>
             <div class="col-sm-7">
               <input
                 type="date"
@@ -249,7 +251,7 @@
             >Rules</span
           >
           <button
-            class="btn btn-primary btn-sm"
+            class="btn btn-secondary btn-sm"
             type="submit"
             (click)="openSearchData(confirmation)"
           >
@@ -270,7 +272,7 @@
   <ng-template #confirmation>
     <div class="modal-body text-center confirmModal">
       <p>Are you sure you want to cancel?</p>
-      <button type="button" class="btn btn-primary" (click)="decline()">
+      <button type="button" class="btn btn-secondary" (click)="decline()">
         No
       </button>
       <button type="button" class="btn btn-primary" (click)="confirm()">

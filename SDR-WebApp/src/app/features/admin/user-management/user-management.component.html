@@ -1,7 +1,9 @@
 <app-error-component *ngIf="showError"></app-error-component>
 <div class="container-fluid gridOuter search">
   <div class="buttonDiv ng-star-inserted">
-    <button class="newButton" routerLink="addUser">Add New User Mapping</button>
+    <button class="newButton btn btn-primary btn-sm" routerLink="addUser">
+      Add New User Mapping
+    </button>
   </div>
   <div class="">
     <ag-grid-angular
@@ -42,11 +44,11 @@
       <strong>{{ selectedUser.email }}</strong> ?
     </p>
 
+    <button type="button" class="btn btn-secondary" (click)="confirm()">
+      Yes
+    </button>
     <button type="button" class="btn btn-primary" (click)="decline()">
       No
-    </button>
-    <button type="button" class="btn btn-primary" (click)="confirm()">
-      Yes
     </button>
   </div>
 </ng-template>

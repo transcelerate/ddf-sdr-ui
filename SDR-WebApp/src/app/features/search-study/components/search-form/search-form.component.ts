@@ -151,6 +151,7 @@ export class SearchFormComponent implements OnInit {
         field: 'auditTrail.usdmVersion',
         tooltipField: 'auditTrail.usdmVersion',
         headerTooltip: configList.USDM_VERSION,
+        sortable: false,
       },
       // {
       //   headerName: 'Last Modified by System',

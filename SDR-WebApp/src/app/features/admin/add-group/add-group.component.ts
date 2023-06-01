@@ -84,8 +84,10 @@ export class AddGroupComponent implements OnInit {
     };
     this.gridOptions.columnDefs = [
       {
+        headerName: 'Select',
         cellRendererFramework: CheckboxRenderer,
         width: 10,
+        sortable: false,
       },
       {
         headerName: 'Study Title',

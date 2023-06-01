@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef } from '@angular/core';
+import { Component, OnInit, ElementRef, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import * as moment from 'moment';
 import {
@@ -10,13 +10,14 @@ import { filter, take } from 'rxjs';
 import { ServiceCall } from '../../services/service-call/service-call.service';
 import { CommonMethodsService } from '../../services/common-methods.service';
 import { configList } from '../study-element-description/config/study-element-field-config';
+import { DialogService } from '../../services/communication.service';
 
 @Component({
   selector: 'app-version-comparison',
   templateUrl: './version-comparison.component.html',
   styleUrls: ['./version-comparison.component.scss'],
 })
-export class VersionComparisonComponent implements OnInit {
+export class VersionComparisonComponent implements OnInit, OnDestroy {
   originalCode: string;
   editorOptions: MonacoEditorConstructionOptions;
   code: string;
@@ -33,7 +34,7 @@ export class VersionComparisonComponent implements OnInit {
   isFromCompare: boolean;
   studyOneTitle: any;
   studyTwoTitle: any;
-
+  showExitBtn: boolean = false;
   constructor(
     private monacoLoaderService: MonacoEditorLoaderService,
     private _elementRef: ElementRef,
@@ -41,8 +42,14 @@ export class VersionComparisonComponent implements OnInit {
     public route: ActivatedRoute,
     private serviceCall: ServiceCall,
     private commonMethods: CommonMethodsService,
+    private ds: DialogService,
     private spinner: NgxSpinnerService
   ) {
+    this.ds.getExitBool.subscribe((state) => {
+      if (state) {
+        this.showExitBtn = state;
+      }
+    });
     this.monacoLoaderService.isMonacoLoaded$
       .pipe(
         filter((isLoaded) => !!isLoaded),
@@ -245,5 +252,11 @@ export class VersionComparisonComponent implements OnInit {
     if (document.getElementsByTagName('h2').length > 0) {
       document.getElementsByTagName('h2')[0].classList.remove('textCenter');
     }
+    this.ds.sendExitBool(false);
+  }
+
+  backToCompare() {
+    this.ds.sendClearBool(true);
+    this.router.navigate(['/comparison']);
   }
 }
