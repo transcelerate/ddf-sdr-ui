@@ -7,10 +7,11 @@
 .mandatory {
   color: red;
 }
-.btn {
-  border-radius: 5px;
-  width: 20%;
-  padding: 1px;
+.buttonGroup {
+  margin: 5px 0px;
+  .btn {
+    margin: 0px 5px;
+  }
 }
 .outer {
   border: 1px solid;

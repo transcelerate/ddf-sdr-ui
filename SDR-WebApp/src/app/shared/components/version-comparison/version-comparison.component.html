@@ -1,6 +1,6 @@
 <div class="container-fluid">
   <app-error-component *ngIf="showError"></app-error-component>
-  <div class="back-arrow-div">
+  <div class="back-arrow-div" *ngIf="showExitBtn">
     <button class="btn btn-primary btn-sm exit-btn" (click)="backToCompare()">
       Exit
     </button>

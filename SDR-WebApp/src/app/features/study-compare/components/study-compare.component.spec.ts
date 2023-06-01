@@ -8,25 +8,24 @@ import { StudyCompareComponent } from './study-compare.component';
 describe('StudyCompareComponent', () => {
   let component: StudyCompareComponent;
   let fixture: ComponentFixture<StudyCompareComponent>;
-
+  let ds: DialogService;
   beforeEach(() => {
     const activatedRouteStub = () => ({});
     const routerStub = () => ({ navigate: (array: any, object: any) => ({}) });
-    const dialogServiceStub = () => ({
-      changeDialogState: (string: any) => ({}),
-    });
     TestBed.configureTestingModule({
       schemas: [NO_ERRORS_SCHEMA],
       declarations: [StudyCompareComponent],
       providers: [
         { provide: ActivatedRoute, useFactory: activatedRouteStub },
         { provide: Router, useFactory: routerStub },
-        { provide: DialogService, useFactory: dialogServiceStub },
+        DialogService,
       ],
     });
+    ds = TestBed.get(DialogService);
     fixture = TestBed.createComponent(StudyCompareComponent);
     component = fixture.componentInstance;
     window.history.pushState({ from: 'search1' }, '', '');
+    ds.sendClearBool(true);
   });
 
   it('can load instance', () => {
