@@ -116,7 +116,6 @@ export class SimpleSearchComponent implements OnInit {
         field: 'auditTrail.usdmVersion',
         tooltipField: 'auditTrail.usdmVersion',
         headerTooltip: configList.USDM_VERSION,
-        sortable: false,
       },
     ];
 

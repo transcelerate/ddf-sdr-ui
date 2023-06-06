@@ -10,6 +10,16 @@
     transform: translate(10px, 10px);
   }
 }
+
+.gridOuter {
+  height: 180px;
+  width: 100%;
+}
+
+.searchGrid {
+  width: 100%;
+  height: 100%;
+}
 .ovalText {
   background-color: #ddd;
   border: none;
@@ -47,9 +57,30 @@
   padding: 16px 48px 0px 7px;
   font-weight: bold;
 }
-.searchButton {
-  margin: 8px -5px;
+.compare-div-btn {
+  .searchButton {
+    margin: 8px 5px;
+  }
+  .clearButton {
+    margin: 8px 5px;
+  }
 }
-.clearButton {
-  margin: 8px 20px;
+.search-form {
+  border: 1px solid #c4c4c4;
+  padding: 10px;
+  .search-form-row {
+    margin: 5px;
+    .input-label {
+      padding: 8px;
+    }
+    .inputDiv {
+      padding: 0px;
+    }
+  }
+  .buttonClass,
+  .buttonGroup {
+    .btn {
+      margin: 0px 5px;
+    }
+  }
 }

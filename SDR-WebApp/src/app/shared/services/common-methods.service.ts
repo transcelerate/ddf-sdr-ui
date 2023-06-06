@@ -557,4 +557,29 @@ export class CommonMethodsService {
       query.callback(parsedLinks[query.linkName]);
     }
   }
+
+  /**
+   *  Logic to restrict special char on typing
+   *  @param event Keyboard event on typing.
+   */
+  restrictChar(event: {
+    charCode: number;
+    which: number;
+    preventDefault: () => void;
+  }) {
+    var k;
+    k = event.charCode; //         k = event.keyCode;  (Both can be used)
+    return (
+      (k > 64 && k < 91) ||
+      (k > 96 && k < 123) ||
+      k == 8 ||
+      k == 32 ||
+      k == 46 ||
+      (k >= 48 && k <= 57)
+    );
+  }
+
+  getToday(): string {
+    return new Date().toISOString().split('T')[0];
+  }
 }
