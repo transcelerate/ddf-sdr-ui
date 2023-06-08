@@ -37,7 +37,7 @@ describe('CommonMethodsService', () => {
   describe('getSponsorDetails', () => {
     it('getSponsorDetails should return studyId and versionId', () => {
       let studyElement = {
-        clinicalStudy: {
+        study: {
           studyId: '1206c8ea-acb3-481b-b9a7-a3fdf85f1bf4',
           studyTitle: 'Cancer study',
           studyType: {
@@ -451,14 +451,14 @@ describe('CommonMethodsService', () => {
       };
       let returnValue = service.getSponsorDetails(studyElement);
       expect(returnValue).toEqual({
-        studyId: '',
+        studyId: undefined,
         versionId: 2,
       });
     });
   });
   // describe('getHeaderName', () => {
   //   it('tests studyTitle', () => {
-  //     expect(service.getHeaderName('clinicalStudy.studyTitle')).toEqual('studyTitle');
+  //     expect(service.getHeaderName('study.studyTitle')).toEqual('studyTitle');
   //   });
   //   it('tests SponsorId', () => {
   //     expect(service.getHeaderName('0')).toEqual('SponsorId');
@@ -470,7 +470,7 @@ describe('CommonMethodsService', () => {
   //     expect(service.getHeaderName('2')).toEqual('InterventionModel');
   //   });
   //   it('tests Phase', () => {
-  //     expect(service.getHeaderName('clinicalStudy.studyPhase')).toEqual('Phase');
+  //     expect(service.getHeaderName('study.studyPhase')).toEqual('Phase');
   //   });
   //   // it('tests LastModifiedBySystem', () => {
   //   //   expect(service.getHeaderName('auditTrail.entrySystem')).toEqual('LastModifiedBySystem');
@@ -482,10 +482,10 @@ describe('CommonMethodsService', () => {
   //     expect(service.getHeaderName('auditTrail.SDRUploadVersion')).toEqual('SDRVersion');
   //   });
   //   it('tests status', () => {
-  //     expect(service.getHeaderName('clinicalStudy.studyStatus')).toEqual('status');
+  //     expect(service.getHeaderName('study.studyStatus')).toEqual('status');
   //   });
   //   it('tests tag', () => {
-  //     expect(service.getHeaderName('clinicalStudy.studyTag')).toEqual('tag');
+  //     expect(service.getHeaderName('study.studyTag')).toEqual('tag');
   //   });
   // });
   // describe('gridDataSourceForSearchStudy',() => {
@@ -493,7 +493,7 @@ describe('CommonMethodsService', () => {
   //   let gridApi = new GridOptions();
   //   service.gridDataSourceForSearchStudy(reqObj,gridApi,5);
   //   it('tests gridDataSourceForSearchStudy', () => {
-  //     expect(service.getHeaderName('clinicalStudy.studyTitle')).toEqual('studyTitle');
+  //     expect(service.getHeaderName('study.studyTitle')).toEqual('studyTitle');
   //   });
   // });
 });

@@ -130,7 +130,7 @@ export class RecentActivityComponent {
 
       eDiv.innerHTML =
         '<span class="linkSpan"><a>' +
-        params.data?.clinicalStudy.studyTitle +
+        params.data?.study.studyTitle +
         '&nbsp;<span>_Version ' +
         params.data?.auditTrail.SDRUploadVersion +
         '</span> </a></span>';
@@ -145,22 +145,19 @@ export class RecentActivityComponent {
   /**
    *Gets trriggered on click of eack link in Recent activity widget row.
    *Redirect to details page on click of link.
-   * @param val   clinicalStudy value for the selected row.
+   * @param val  study value for the selected row.
    */
   setSelectedValue(val: any) {
     this.showStudyElement = true;
     localStorage.setItem(
-      val.clinicalStudy.studyId +
-        '_' +
-        val.auditTrail.SDRUploadVersion +
-        '_links',
+      val.study.studyId + '_' + val.auditTrail.SDRUploadVersion + '_links',
       JSON.stringify(val.links)
     );
     this.router.navigate(
       [
         'details',
         {
-          studyId: val.clinicalStudy.studyId,
+          studyId: val.study.studyId,
           versionId: val.auditTrail.SDRUploadVersion,
           usdmVersion: val.auditTrail.usdmVersion,
         },
