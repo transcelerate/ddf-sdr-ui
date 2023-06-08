@@ -86,8 +86,8 @@ export class SearchFormComponent implements OnInit {
     this.columnDefs = [
       {
         headerName: 'Study Title',
-        field: 'clinicalStudy.studyTitle',
-        tooltipField: 'clinicalStudy.studyTitle',
+        field: 'study.studyTitle',
+        tooltipField: 'study.studyTitle',
         headerTooltip: configList.STUDY_TITLE,
         cellRenderer: this.getStudyVersionGrid.bind(this),
       },
@@ -111,14 +111,14 @@ export class SearchFormComponent implements OnInit {
 
       // {
       //   headerName: 'Tag',
-      //   field: 'clinicalStudy.studyTag',
-      //   tooltipField: 'clinicalStudy.studyTag',
+      //   field: 'study.studyTag',
+      //   tooltipField: 'study.studyTag',
       //   headerTooltip: configList.TAG,
       // },
       // {
       //   headerName: 'Status',
-      //   field: 'clinicalStudy.studyStatus',
-      //   tooltipField: 'clinicalStudy.studyStatus',
+      //   field: 'study.studyStatus',
+      //   tooltipField: 'study.studyStatus',
       //   headerTooltip: configList.STATUS,
       // },
       {
@@ -142,8 +142,8 @@ export class SearchFormComponent implements OnInit {
       },
       {
         headerName: 'Phase',
-        field: 'clinicalStudy.studyPhase.decode',
-        tooltipField: 'clinicalStudy.studyPhase.decode',
+        field: 'study.studyPhase.decode',
+        tooltipField: 'study.studyPhase.decode',
         headerTooltip: configList.PHASE,
       },
       {
@@ -224,9 +224,7 @@ export class SearchFormComponent implements OnInit {
       // tslint:disable-next-line:no-this-assignment
       const self = this;
       eDiv.innerHTML =
-        '<span class="linkSpan">' +
-        params.data?.clinicalStudy.studyTitle +
-        '</span>';
+        '<span class="linkSpan">' + params.data?.study.studyTitle + '</span>';
       eDiv.addEventListener('click', () => {
         self.setSelectedValue(params.data);
       });
@@ -241,17 +239,14 @@ export class SearchFormComponent implements OnInit {
    */
   setSelectedValue(val: any) {
     localStorage.setItem(
-      val.clinicalStudy.studyId +
-        '_' +
-        val.auditTrail.SDRUploadVersion +
-        '_links',
+      val.study.studyId + '_' + val.auditTrail.SDRUploadVersion + '_links',
       JSON.stringify(val.links)
     );
     this.router.navigate(
       [
         'details',
         {
-          studyId: val.clinicalStudy.studyId,
+          studyId: val.study.studyId,
           versionId: val.auditTrail.SDRUploadVersion,
           usdmVersion: val.auditTrail.usdmVersion,
         },

@@ -58,7 +58,7 @@ describe('StudyCompareComponent', () => {
         entryDateTime: '2023-02-02T11:30:10.606Z',
         usdmVersion: '1.0',
       },
-      clinicalStudy: {
+      study: {
         studyTitle: 'Umbrella Study of Cancers test',
         studyId: '49a1c2da-49f6-454e-b1a7-6f68e9f3df64',
       },
@@ -110,7 +110,7 @@ describe('StudyCompareComponent', () => {
 
   it('setModel makes expected calls', () => {
     let response = {
-      clinicalStudy: {
+      study: {
         studyId: 1,
         studyTitle: 'Test',
       },
@@ -153,7 +153,7 @@ describe('StudyCompareComponent', () => {
   it(`getStudyVersionGrid has default value`, () => {
     let val = component.getStudyVersionGrid({
       data: {
-        clinicalStudy: {
+        study: {
           studyIdentifiers: [
             {
               id: 'f3e61d97-60d2-499c-bbbc-4f3996385627',
@@ -184,7 +184,7 @@ describe('StudyCompareComponent', () => {
     let router = TestBed.get(Router);
     let spy = spyOn(router, 'navigate');
     let param = {
-      clinicalStudy: {
+      study: {
         studyId: 1,
       },
       auditTrail: {
@@ -201,7 +201,7 @@ describe('StudyCompareComponent', () => {
   it('getSelectSearch makes expected calls', () => {
     let params = {
       data: {
-        clinicalStudy: {
+        study: {
           studyId: '1a9aee0f-a43d-447d-b15f-4c8a557c41fd',
           studyTitle: 'Study On Parkinson disease',
           studyType: 'INTERVENTIONAL',

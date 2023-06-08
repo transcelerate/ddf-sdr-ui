@@ -127,7 +127,7 @@ describe('SimpleSearchComponent', () => {
     it('makes expected calls', () => {
       let params = {
         data: {
-          clinicalStudy: {
+          study: {
             studyId: '1a9aee0f-a43d-447d-b15f-4c8a557c41fd',
             studyTitle: 'Study On Parkinson disease',
             studyType: 'INTERVENTIONAL',
@@ -208,7 +208,7 @@ describe('SimpleSearchComponent', () => {
       let router = TestBed.get(Router);
       let spy = spyOn(router, 'navigate');
       let param = {
-        clinicalStudy: {
+        study: {
           studyId: 1,
         },
         auditTrail: {
@@ -244,7 +244,7 @@ describe('SimpleSearchComponent', () => {
     it(`getStudyVersionGrid has default value`, () => {
       let val = component.getStudyVersionGrid({
         data: {
-          clinicalStudy: {
+          study: {
             studyIdentifiers: [
               {
                 id: 'f3e61d97-60d2-499c-bbbc-4f3996385627',

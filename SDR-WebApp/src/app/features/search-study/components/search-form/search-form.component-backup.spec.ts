@@ -101,7 +101,7 @@
 //     it('makes expected calls', () => {
 //       let params = {
 //          data: {
-//           "clinicalStudy":{
+//           "study":{
 //              "studyIdentifiers":[
 //                 {
 //                    "id":"f3e61d97-60d2-499c-bbbc-4f3996385627",
@@ -134,7 +134,7 @@
 //     it('makes expected calls', () => {
 //       let params = {
 //          data: {
-//           "clinicalStudy":{
+//           "study":{
 //              "studyIndications":[
 //                 {
 //                    "id":"f3e61d97-60d2-499c-bbbc-4f3996385627",
@@ -167,7 +167,7 @@
 //     it('makes expected calls', () => {
 //       let params = {
 //          data: {
-//           "clinicalStudy":{
+//           "study":{
 //              "studyIdentifiers":[
 //                 {
 //                    "id":"f3e61d97-60d2-499c-bbbc-4f3996385627",
@@ -201,7 +201,7 @@
 //       const routerStub: Router = fixture.debugElement.injector.get(Router);
 //       spyOn(routerStub, 'navigate').and.callThrough();
 //       let val = {
-//         "clinicalStudy":{
+//         "study":{
 //            "studyIdentifiers":[
 //               {
 //                  "id":"f3e61d97-60d2-499c-bbbc-4f3996385627",

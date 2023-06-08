@@ -95,8 +95,8 @@ export class SimpleSearchComponent implements OnInit {
       },
       {
         headerName: 'Study Title',
-        field: 'clinicalStudy.studyTitle',
-        tooltipField: 'clinicalStudy.studyTitle',
+        field: 'study.studyTitle',
+        tooltipField: 'study.studyTitle',
         headerTooltip: configList.STUDY_TITLE,
         cellRenderer: this.getStudyVersionGrid.bind(this),
       },
@@ -218,9 +218,7 @@ export class SimpleSearchComponent implements OnInit {
       // tslint:disable-next-line:no-this-assignment
       const self = this;
       eDiv.innerHTML =
-        '<span class="linkSpan">' +
-        params.data?.clinicalStudy.studyTitle +
-        '</span>';
+        '<span class="linkSpan">' + params.data?.study.studyTitle + '</span>';
       eDiv.addEventListener('click', () => {
         self.setSelectedValue(params.data);
       });
@@ -230,17 +228,14 @@ export class SimpleSearchComponent implements OnInit {
 
   setSelectedValue(val: any) {
     localStorage.setItem(
-      val.clinicalStudy.studyId +
-        '_' +
-        val.auditTrail.SDRUploadVersion +
-        '_links',
+      val.study.studyId + '_' + val.auditTrail.SDRUploadVersion + '_links',
       JSON.stringify(val.links)
     );
     this.router.navigate(
       [
         'details',
         {
-          studyId: val.clinicalStudy.studyId,
+          studyId: val.study.studyId,
           versionId: val.auditTrail.SDRUploadVersion,
           usdmVersion: val.auditTrail.usdmVersion,
         },
@@ -258,7 +253,7 @@ export class SimpleSearchComponent implements OnInit {
     const reqObj = this.editorForm.value;
     var defaultSortModel = [
       {
-        colId: 'clinicalStudy.studyTitle',
+        colId: 'study.studyTitle',
         sort: 'desc',
         sortIndex: 0,
       },
