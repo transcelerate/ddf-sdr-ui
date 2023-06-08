@@ -166,11 +166,19 @@ export class VersionComparisonComponent implements OnInit, OnDestroy {
               .local()
               .format('YYYY-MM-DD HH:mm:ss') +
             ')';
-          this.originalCode = JSON.stringify(
-            studyDefinition.clinicalStudy,
-            null,
-            '\t'
-          );
+          if (this.usdmVerA === '1.0' || this.usdmVerA === '1.9') {
+            this.originalCode = JSON.stringify(
+              studyDefinition.clinicalStudy,
+              null,
+              '\t'
+            );
+          } else {
+            this.originalCode = JSON.stringify(
+              studyDefinition.study,
+              null,
+              '\t'
+            );
+          }
 
           this.commonMethods.getStudyLink({
             studyId: this.studyId2,
@@ -211,7 +219,15 @@ export class VersionComparisonComponent implements OnInit, OnDestroy {
             this.rightHeader =
               'Study - ' + this.studyTwoTitle + this.rightHeader;
           }
-          this.code = JSON.stringify(studyDefinition.clinicalStudy, null, '\t');
+          if (this.usdmVerB === '1.0' || this.usdmVerB === '1.9') {
+            this.code = JSON.stringify(
+              studyDefinition.clinicalStudy,
+              null,
+              '\t'
+            );
+          } else {
+            this.code = JSON.stringify(studyDefinition.study, null, '\t');
+          }
           var interval = setInterval(() => {
             if (
               this._elementRef.nativeElement.getElementsByClassName(

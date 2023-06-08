@@ -16,8 +16,8 @@ import { Subject } from 'rxjs/internal/Subject';
 describe('StudyElementDescriptionComponent', () => {
   let component: StudyElementDescriptionComponent;
   let fixture: ComponentFixture<StudyElementDescriptionComponent>;
-  const clinicalStudy = {
-    clinicalStudy: {
+  const study = {
+    study: {
       studyTitle: '1. Study Number two',
       studyType: 'INTERVENTIONAL',
       interventionModel: 'PARALLEL',
@@ -375,7 +375,7 @@ describe('StudyElementDescriptionComponent', () => {
         serviceCallStub,
         'getStudyElementWithVersion'
       ).and.callFake(() => {
-        return of(clinicalStudy); // or return a list of bookings in case you want to test the first part of the if statement
+        return of(study); // or return a list of bookings in case you want to test the first part of the if statement
       });
 
       spyOn<ServiceCall, any>(serviceCallStub, 'getStudyLinks').and.callFake(

@@ -80,8 +80,8 @@ export class StudyCompareComponent implements OnInit, OnDestroy {
       },
       {
         headerName: 'Study Title',
-        field: 'clinicalStudy.studyTitle',
-        tooltipField: 'clinicalStudy.studyTitle',
+        field: 'study.studyTitle',
+        tooltipField: 'study.studyTitle',
         headerTooltip: configList.STUDY_TITLE,
         cellRenderer: this.getStudyVersionGrid.bind(this),
       },
@@ -160,13 +160,13 @@ export class StudyCompareComponent implements OnInit, OnDestroy {
     this.searchTwo = localStorage.getItem('search2');
     if (this.searchOne) {
       this.searchOne = JSON.parse(this.searchOne);
-      this.studyOneId = this.searchOne.clinicalStudy.studyId;
-      this.studyOneTitle = this.searchOne.clinicalStudy.studyTitle;
+      this.studyOneId = this.searchOne.study.studyId;
+      this.studyOneTitle = this.searchOne.study.studyTitle;
       this.studyOneVersion = this.searchOne.auditTrail.SDRUploadVersion;
       this.studyOneUSDMVer = this.searchOne.auditTrail.usdmVersion;
       this.toolTipOne = this.studyOneTitle + '_Version' + this.studyOneVersion;
       localStorage.setItem(
-        this.searchOne.clinicalStudy.studyId +
+        this.searchOne.study.studyId +
           '_' +
           this.searchOne.auditTrail.SDRUploadVersion +
           '_links',
@@ -175,13 +175,13 @@ export class StudyCompareComponent implements OnInit, OnDestroy {
     }
     if (this.searchTwo) {
       this.searchTwo = JSON.parse(this.searchTwo);
-      this.studyTwoId = this.searchTwo.clinicalStudy.studyId;
-      this.studyTwoTitle = this.searchTwo.clinicalStudy.studyTitle;
+      this.studyTwoId = this.searchTwo.study.studyId;
+      this.studyTwoTitle = this.searchTwo.study.studyTitle;
       this.studyTwoVersion = this.searchTwo.auditTrail.SDRUploadVersion;
       this.studyTwoUSDMVer = this.searchTwo.auditTrail.usdmVersion;
       this.toolTipTwo = this.studyTwoTitle + '_Version' + this.studyTwoVersion;
       localStorage.setItem(
-        this.searchTwo.clinicalStudy.studyId +
+        this.searchTwo.study.studyId +
           '_' +
           this.searchTwo.auditTrail.SDRUploadVersion +
           '_links',
@@ -265,7 +265,7 @@ export class StudyCompareComponent implements OnInit, OnDestroy {
     const reqObj = this.editorForm.value;
     var defaultSortModel = [
       {
-        colId: 'clinicalStudy.studyTitle',
+        colId: 'study.studyTitle',
         sort: 'desc',
         sortIndex: 0,
       },
@@ -300,9 +300,7 @@ export class StudyCompareComponent implements OnInit, OnDestroy {
       // tslint:disable-next-line:no-this-assignment
       const self = this;
       eDiv.innerHTML =
-        '<span class="linkSpan">' +
-        params.data?.clinicalStudy.studyTitle +
-        '</span>';
+        '<span class="linkSpan">' + params.data?.study.studyTitle + '</span>';
       eDiv.addEventListener('click', () => {
         self.setSelectedValue(params.data);
       });
@@ -312,17 +310,14 @@ export class StudyCompareComponent implements OnInit, OnDestroy {
 
   setSelectedValue(val: any) {
     localStorage.setItem(
-      val.clinicalStudy.studyId +
-        '_' +
-        val.auditTrail.SDRUploadVersion +
-        '_links',
+      val.study.studyId + '_' + val.auditTrail.SDRUploadVersion + '_links',
       JSON.stringify(val.links)
     );
     this.router.navigate(
       [
         'details',
         {
-          studyId: val.clinicalStudy.studyId,
+          studyId: val.study.studyId,
           versionId: val.auditTrail.SDRUploadVersion,
           usdmVersion: val.auditTrail.usdmVersion,
         },
