@@ -6,6 +6,7 @@ import { DialogService } from 'src/app/shared/services/communication.service';
 import { StudyCompareComponent } from './study-compare.component';
 import { CommonMethodsService } from 'src/app/shared/services/common-methods.service';
 import { FormBuilder } from '@angular/forms';
+import { BsModalService } from 'ngx-bootstrap/modal';
 
 describe('StudyCompareComponent', () => {
   let component: StudyCompareComponent;
@@ -25,10 +26,14 @@ describe('StudyCompareComponent', () => {
       restrictChar: (event: any) => ({}),
       getToday: () => ({}),
     });
+    const bsModalServiceStub = () => ({
+      show: (modalComponentComponent: any, initialState: any) => ({}),
+    });
     TestBed.configureTestingModule({
       schemas: [NO_ERRORS_SCHEMA],
       declarations: [StudyCompareComponent],
       providers: [
+        { provide: BsModalService, useFactory: bsModalServiceStub },
         { provide: ActivatedRoute, useFactory: activatedRouteStub },
         { provide: Router, useFactory: routerStub },
         { provide: CommonMethodsService, useFactory: commonMethodsServiceStub },
