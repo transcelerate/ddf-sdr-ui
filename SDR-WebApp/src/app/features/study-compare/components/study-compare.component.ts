@@ -65,6 +65,8 @@ export class StudyCompareComponent implements OnInit, OnDestroy {
     this.ds.callClearBool.subscribe((state) => {
       if (state) {
         this.clear();
+        this.clearSearch();
+        this.showSearch = false;
       }
     });
 
@@ -209,6 +211,7 @@ export class StudyCompareComponent implements OnInit, OnDestroy {
       ],
       { relativeTo: this.route }
     );
+    this.selectedValue = null;
   }
 
   clear() {
@@ -348,8 +351,6 @@ export class StudyCompareComponent implements OnInit, OnDestroy {
   };
 
   getSelectSearch(params: any) {
-    console.log(params.data);
-
     if (params.data.selected) {
       this.selectedValue = params.data;
     }
