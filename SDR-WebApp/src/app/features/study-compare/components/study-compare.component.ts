@@ -7,6 +7,8 @@ import { configList } from 'src/app/shared/components/study-element-description/
 import { CommonMethodsService } from 'src/app/shared/services/common-methods.service';
 import { DialogService } from 'src/app/shared/services/communication.service';
 import { CheckboxRenderer } from 'src/app/features/admin/add-group/checkbox-renderer.component';
+import { BsModalService, BsModalRef, ModalOptions } from 'ngx-bootstrap/modal';
+import { ModalComponentComponent } from '../../../shared/components/modal-component/modal-component.component';
 
 @Component({
   selector: 'app-study-compare',
@@ -55,12 +57,14 @@ export class StudyCompareComponent implements OnInit, OnDestroy {
   radioButton: boolean;
   from: any;
   showSearch: boolean = false;
+  bsModalRef?: BsModalRef;
   constructor(
     private ds: DialogService,
     public router: Router,
     public route: ActivatedRoute,
     public commonMethod: CommonMethodsService,
-    public _formBuilder: FormBuilder
+    public _formBuilder: FormBuilder,
+    private modalService: BsModalService
   ) {
     this.ds.callClearBool.subscribe((state) => {
       if (state) {
@@ -377,6 +381,25 @@ export class StudyCompareComponent implements OnInit, OnDestroy {
       );
     }
     this.showGrid = true;
+  }
+
+  /**
+   * Modal for multiple sponsor id and interventional model
+   * @param val   ag grid value of that particular row for which link is clicked.
+   * @param type  Denotes for which value is the link clicked either for sponsor id or interventional model.
+   */
+  openModal(val: any, type: any) {
+    const initialState: ModalOptions = {
+      initialState: {
+        list: val,
+        title: 'Sponsor Id List',
+      },
+    };
+    this.bsModalRef = this.modalService.show(
+      ModalComponentComponent,
+      initialState
+    );
+    this.bsModalRef.content.closeBtnName = 'Close';
   }
 
   submit() {
