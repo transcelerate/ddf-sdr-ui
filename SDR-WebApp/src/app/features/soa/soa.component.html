@@ -88,7 +88,7 @@
                             "
                           >
                             <th
-                              [title]="createTooltip(content)"
+                              [title]="createTooltip('encounter', content)"
                               [attr.colspan]="
                                 header.key === 'encounterName'
                                   ? content.timings && content.timings.length
@@ -292,9 +292,10 @@
                                             <ul class="card-list">
                                               <li
                                                 [title]="
-                                                  eachConcept.procedureName +
-                                                  ': ' +
-                                                  eachConcept.procedureDescription
+                                                  createTooltip(
+                                                    'procedure',
+                                                    eachConcept
+                                                  )
                                                 "
                                               >
                                                 <span>
@@ -306,13 +307,18 @@
                                                       eachConcept.footnoteId
                                                     "
                                                   >
-                                                    {{
-                                                      eachConcept.footnoteId
-                                                    }} </sup
-                                                  >:
+                                                    {{ eachConcept.footnoteId }}
+                                                  </sup>
                                                 </span>
                                                 <span
+                                                  *ngIf="
+                                                    eachConcept.procedureDescription !==
+                                                      null &&
+                                                    eachConcept.procedureDescription !==
+                                                      ''
+                                                  "
                                                   [innerHTML]="
+                                                    ':' +
                                                     eachConcept.procedureDescription.slice(
                                                       0,
                                                       40
@@ -322,6 +328,10 @@
                                                 </span>
                                                 <span
                                                   *ngIf="
+                                                    eachConcept.procedureDescription !==
+                                                      null &&
+                                                    eachConcept.procedureDescription !==
+                                                      '' &&
                                                     eachConcept
                                                       .procedureDescription
                                                       .length > 40
@@ -333,6 +343,10 @@
                                                   class="show-more-span"
                                                   (click)="openModal(template)"
                                                   *ngIf="
+                                                    eachConcept.procedureDescription !==
+                                                      null &&
+                                                    eachConcept.procedureDescription !==
+                                                      '' &&
                                                     eachConcept
                                                       .procedureDescription
                                                       .length > 40

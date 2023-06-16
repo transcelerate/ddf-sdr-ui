@@ -213,16 +213,25 @@ export class SoaComponent implements OnInit {
     this.bsModalRef = this.modalService.show(template);
   }
 
-  createTooltip(encounter: any) {
+  createTooltip(tooltipname: string, item: any) {
     let tooltipString = '';
-    if (encounter.encounterName && encounter.encounterScheduledAtTimingValue) {
-      tooltipString =
-        encounter.encounterName +
-        '(' +
-        encounter.encounterScheduledAtTimingValue +
-        ')';
-    } else {
-      tooltipString = encounter.encounterName;
+    if (tooltipname === 'encounter') {
+      if (item.encounterName && item.encounterScheduledAtTimingValue) {
+        tooltipString =
+          item.encounterName + '(' + item.encounterScheduledAtTimingValue + ')';
+      } else {
+        tooltipString = item.encounterName;
+      }
+    } else if (tooltipname === 'procedure') {
+      if (
+        item.procedureName &&
+        item.procedureDescription !== null &&
+        item.procedureDescription !== ''
+      ) {
+        tooltipString = item.procedureName + ':' + item.procedureDescription;
+      } else {
+        tooltipString = item.procedureName;
+      }
     }
     return tooltipString;
   }
