@@ -309,6 +309,19 @@ export class SoaComponent implements OnInit {
         { origin: -1 }
       );
     }
+    
+    var encounterHeaderRows:any[] = table2Headers[0];
+    var merge = { s: {r:5, c:0}, e: {r:5, c:0} };
+    if(!worksheet['!merges']) worksheet['!merges'] = [];
+
+    for (let i = 0; i < encounterHeaderRows.length; i++){
+      if (encounterHeaderRows[i].colspan > 1)
+      {
+          merge = { s: {r:5, c:i}, e: {r:5, c:i+encounterHeaderRows[i].colspan-1} };
+          worksheet['!merges'].push(merge);
+      }
+    }
+
     // Add the worksheet to the workbook
     XLSX.utils.book_append_sheet(workbook, worksheet, 'Tables');
     // Save the workbook as an Excel file
@@ -320,6 +333,7 @@ export class SoaComponent implements OnInit {
     // Extract table rows
     const rows = table.getElementsByTagName('tr');
     if (table.id === 'soa-table') {
+      var rowindex:number = 0;
       item.scheduleTimelineSoA.orderOfActivities.forEach(
         (eachOrderActivity: {
           toggleBoolean: boolean;
@@ -343,15 +357,19 @@ export class SoaComponent implements OnInit {
           }
           this.changeDetect.detectChanges();
           const row: any[] = [];
-          const cells = rows[data.length].getElementsByTagName('td');
-          for (let j = 0; j < cells.length; j++) {
-            row.push({
-              label: cells[j].innerText,
-              colspan: 1,
-              isExpanded: eachOrderActivity.isExpanded, // Add the 'expanded' property to each cell
-            });
+          const cells = rows[rowindex].getElementsByTagName('td');
+          if (cells.length > 0)
+          {
+            for (let j = 0; j < cells.length; j++) {
+              row.push({
+                label: cells[j].innerText,
+                colspan: 1,
+                isExpanded: eachOrderActivity.isExpanded, // Add the 'expanded' property to each cell
+              });
+            }
+            data.push(row);
           }
-          data.push(row);
+          rowindex +=1;
         }
       );
     } else {
@@ -386,27 +404,31 @@ export class SoaComponent implements OnInit {
     } else if (table.id === 'soa-table') {
       for (let i = 0; i < headerRows.length; i++) {
         const headerCells = headerRows[i].getElementsByTagName('th');
-        let timingsLengths: number[] = [];
-        if (i == 0) {
-          timingsLengths = this.getColspan('encounterName', item);
-        }
         let eachRowArray = [];
-        for (let j = 0; j < headerCells.length; j++) {
-          const colspan = timingsLengths[j] || 1;
-          const label = headerCells[j].innerText;
-          const startColIndex: number = eachRowArray.length;
-          const endColIndex = calculateEndColIndex(startColIndex, colspan);
-          eachRowArray.push({
-            label: label,
-            colspan: colspan,
-            s: { r: i, c: startColIndex },
-            e: { r: i, c: endColIndex },
-          });
-          for (let k = startColIndex + 1; k <= endColIndex; k++) {
-            eachRowArray.push('');
+        if (headerCells.length > 0)
+        {
+          let timingsLengths: number[] = [];
+          if (i == 0) {
+            timingsLengths = this.getColspan('encounterName', item);
           }
+          for (let j = 0; j < headerCells.length; j++) {
+            const colspan = timingsLengths[j] || 1;
+            const label = headerCells[j].innerText;
+            const startColIndex: number = eachRowArray.length;
+            const endColIndex = calculateEndColIndex(startColIndex, colspan);
+            eachRowArray.push({
+              label: label,
+              colspan: colspan,
+              s: { r: i, c: startColIndex },
+              e: { r: i, c: endColIndex },
+            });
+  
+            for (let k = startColIndex + 1; k <= endColIndex; k++) {
+              eachRowArray.push('');
+            }
+          }
+          headers.push(eachRowArray);
         }
-        headers.push(eachRowArray);
       }
     }
     // Handle scenario where headers are in multiple rows
