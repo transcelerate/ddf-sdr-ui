@@ -52,8 +52,8 @@ const configList = {
     'A maximum of 30 days range of report can be queried. Please modify the input dates to search.',
   FROM_DATE_MORE_THAN_TO_DATE:
     'From Date Time is equal to or greater than To Date Time',
-  VALID_FROM_DATE: 'From Date Time is greater than Current Date Time',
-  VALID_TO_DATE: 'To Date Time is greater than Current Date Time',
+  VALID_FROM_DATE: 'From Date Time must be less than Current Date Time',
+  VALID_TO_DATE: 'To Date Time must be less than Current Date Time',
   AUTH_IN_PROGRESS_ERROR:
     'Login is currently in progress in another window. Please complete or cancel that flow before requesting token again.',
   USER_CANCELLED_ERROR_CODE: 'user_cancelled',

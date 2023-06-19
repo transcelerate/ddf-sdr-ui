@@ -287,7 +287,7 @@ export class SearchFormComponent implements OnInit {
       const toDate = new Date(this.editorForm.value.toDate);
 
       if (fromDate && toDate && fromDate > toDate) {
-        alert('From Date is greater than To Date.');
+        alert('ToDate must be greater than FromDate');
         return;
       }
     }
