@@ -366,7 +366,7 @@ export class StudyCompareComponent implements OnInit, OnDestroy {
       const toDate = new Date(this.editorForm.value.toDate);
 
       if (fromDate && toDate && fromDate > toDate) {
-        alert('ToDate must be greater than FromDate');
+        alert('To Date must be greater than From Date');
         return;
       }
     }
