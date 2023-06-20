@@ -57,6 +57,7 @@ export class SearchFormComponent implements OnInit {
   showError = false;
   bsModalRef?: BsModalRef;
   enableSearch: boolean = false;
+  enableSearchMessage = configList.ENABLE_SEARCH_MESSAGE;
   // _formBuilder: FormBuilder = new FormBuilder();
   constructor(
     public _formBuilder: FormBuilder,

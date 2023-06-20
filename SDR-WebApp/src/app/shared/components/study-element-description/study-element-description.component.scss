@@ -73,17 +73,19 @@ h2 {
 
 .versionButton {
   padding: 1px 6px;
-  position: absolute;
-  right: -11px;
-  top: -28px;
+  margin: 0px 5px;
+  float: right;
 }
 
 .soaButton {
   @extend .versionButton;
-  right: 150px;
-  top: -28px;
+  // right: 150px;
+  // top: -28px;
 }
 
-.buttonDiv {
-  position: relative;
+.custom-button-sec {
+  padding: 0;
+}
+.text-right {
+  float: right;
 }
