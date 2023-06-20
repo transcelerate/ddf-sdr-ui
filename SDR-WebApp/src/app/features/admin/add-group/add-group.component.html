@@ -24,7 +24,6 @@
                 type="text"
                 formControlName="groupName"
                 maxlength="20"
-                (keypress)="restrictChar($event)"
                 class="input-sm form-control"
                 (blur)="validateGroupName($event)"
               />
@@ -109,7 +108,6 @@
                 class="input-sm form-control"
                 formControlName="studyTitle"
                 maxlength="20"
-                (keypress)="restrictChar($event)"
               />
             </div>
           </div>

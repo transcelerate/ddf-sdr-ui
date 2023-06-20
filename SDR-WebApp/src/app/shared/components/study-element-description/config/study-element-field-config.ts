@@ -58,5 +58,7 @@ const configList = {
     'Login is currently in progress in another window. Please complete or cancel that flow before requesting token again.',
   USER_CANCELLED_ERROR_CODE: 'user_cancelled',
   INTERACTION_ERROR_CODE: 'interaction_in_progress',
+  ENABLE_SEARCH_MESSAGE:
+    'Enter at least one search parameter along with USDM Version to initiate search',
 };
 export { configList };

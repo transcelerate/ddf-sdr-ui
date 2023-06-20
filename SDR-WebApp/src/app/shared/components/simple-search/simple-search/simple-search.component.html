@@ -23,7 +23,6 @@
                 class="input-sm paddingTen textField"
                 formControlName="studyTitle"
                 maxlength="20"
-                (keypress)="restrictChar($event)"
               />
             </div>
           </div>
@@ -34,12 +33,7 @@
               >Sponsor Id:</label
             >
             <div class="col-sm-8 inputDiv">
-              <input
-                type="text"
-                (keypress)="restrictChar($event)"
-                class="input-sm"
-                formControlName="sponsorId"
-              />
+              <input type="text" class="input-sm" formControlName="sponsorId" />
             </div>
           </div>
         </div>
