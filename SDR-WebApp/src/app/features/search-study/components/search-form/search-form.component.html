@@ -1,4 +1,11 @@
 <app-error-component *ngIf="showError"></app-error-component>
+<div
+  class="disable-search-section"
+  *ngIf="route.children.length === 0 && !enableSearch"
+>
+  &#9432;
+  <em> {{ enableSearchMessage }}</em>
+</div>
 <div *ngIf="route.children.length === 0">
   <div class="container-fluid outer">
     <h3>Search Study Definitions</h3>
@@ -14,7 +21,6 @@
             <div class="col-sm-6">
               <input
                 type="text"
-                (keypress)="restrictChar($event)"
                 class="input-sm form-control"
                 (input)="checkValidations()"
                 maxlength="20"
@@ -64,7 +70,6 @@
             <div class="col-sm-6">
               <input
                 type="text"
-                (keypress)="restrictChar($event)"
                 class="input-sm form-control"
                 (input)="checkValidations()"
                 formControlName="indication"
@@ -81,7 +86,6 @@
             <div class="col-sm-6">
               <input
                 type="text"
-                (keypress)="restrictChar($event)"
                 class="input-sm form-control"
                 (input)="checkValidations()"
                 formControlName="sponsorId"
@@ -96,7 +100,6 @@
               <input
                 #interventionInput
                 type="text"
-                (keypress)="restrictChar($event)"
                 class="input-sm form-control"
                 (change)="checkValidations()"
                 formControlName="interventionModel"
@@ -136,7 +139,6 @@
               <input
                 #phaseInput
                 type="text"
-                (keypress)="restrictChar($event)"
                 class="input-sm form-control"
                 (change)="checkValidations()"
                 matInput
@@ -165,22 +167,14 @@
           <button class="btn btn-secondary btn-sm" (click)="clearSearch()">
             Reset
           </button>
-          <span
-            [title]="
-              !enableSearch
-                ? 'Enter at least one search parameter along with USDM Version to initiate search'
-                : ''
-            "
+          <button
+            type="submit"
+            class="btn btn-primary btn-sm"
+            [disabled]="!editorForm.valid || !enableSearch"
+            (click)="submitSearch()"
           >
-            <button
-              type="submit"
-              class="btn btn-primary btn-sm"
-              [disabled]="!editorForm.valid || !enableSearch"
-              (click)="submitSearch()"
-            >
-              Search
-            </button>
-          </span>
+            Search
+          </button>
         </div>
       </div>
     </form>
