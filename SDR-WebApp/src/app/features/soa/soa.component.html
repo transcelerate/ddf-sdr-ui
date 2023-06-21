@@ -53,7 +53,21 @@
                   {{ item.scheduleTimelineName }}
                 </span>
               </ng-template>
-              <button (click)="exportToExcel(item)">Export to Excel</button>
+              <button
+                [disabled]="item.searchBoolean"
+                (click)="
+                  exportToExcel(
+                    tab.studyDesignName,
+                    tab.studyDesignId,
+                    item.scheduleTimelineName,
+                    item.scheduleTimelineId,
+                    item
+                  )
+                "
+                class="btn btn-sm btn-primary custom-export-btn"
+              >
+                Export to Excel
+              </button>
               <div
                 class="table-responsive study-schedule-timeline-table"
                 id="schedule-table"
@@ -74,7 +88,10 @@
                 </table>
               </div>
               <ng-container
-                *ngIf="item.scheduleTimelineSoA !== null; else dataError"
+                *ngIf="
+                  item.scheduleTimelineSoA !== null;
+                  else checkObject(item, dataError)
+                "
               >
                 <div class="table-responsive soa-table" id="soa-table">
                   <table
@@ -137,7 +154,7 @@
                         item.scheduleTimelineSoA &&
                           item.scheduleTimelineSoA.orderOfActivities.length !==
                             0;
-                        else dataError1
+                        else checkObject(item, dataError1)
                       "
                     >
                       <tbody class="soa-table-tbody">

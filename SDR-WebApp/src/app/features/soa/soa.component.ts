@@ -16,6 +16,8 @@ import { configList } from 'src/app/shared/components/study-element-description/
 import { StudyElementDescriptionComponent } from 'src/app/shared/components/study-element-description/study-element-description.component';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import * as XLSX from 'xlsx';
+import { environment } from 'src/environments/environment';
+import * as moment from 'moment';
 @Component({
   selector: 'app-soa',
   templateUrl: './soa.component.html',
@@ -248,11 +250,36 @@ export class SoaComponent implements OnInit {
     return tooltipString;
   }
 
-  exportToExcel(item: any): void {
+  checkObject(item: any, dataError: any) {
+    if (item.scheduleTimelineSoA !== null) {
+      item.searchBoolean = false;
+      if (item.scheduleTimelineSoA.orderOfActivities.length !== 0) {
+        item.searchBoolean = false;
+      } else {
+        item.searchBoolean = true;
+        return dataError;
+      }
+    } else {
+      item.searchBoolean = true;
+      return dataError;
+    }
+  }
+
+  exportToExcel(
+    designName: string,
+    designId: string,
+    timelineName: string,
+    timelineId: string,
+    item: any
+  ): void {
     const workbook = XLSX.utils.book_new();
     const worksheet = XLSX.utils.aoa_to_sheet([]);
     // Get table 1 content
-    const table1 = document.getElementById('schedule-table');
+    const parent = document.getElementById(designId + '_' + timelineId);
+    const table1 = parent?.getElementsByClassName(
+      'table-responsive study-schedule-timeline-table'
+    )[0];
+
     const table1Data = this.getTableData(table1);
     const table1Headers = this.getTableHeaders(table1);
     XLSX.utils.sheet_add_aoa(
@@ -270,11 +297,29 @@ export class SoaComponent implements OnInit {
       table1Data.map((row) => row.map((cell: { label: any }) => cell.label)),
       { origin: -1 }
     );
+
+    // // Add borders to table 1
+    const table1Range = {
+      s: { r: 1, c: 0 },
+      e: { r: 3, c: 1 },
+    };
+    // if (table1Range) {
+    //   const table1Border = { style: 'thin', color: { rgb: '000000' } };
+    //   for (let R = table1Range.s.r; R <= table1Range.e.r; R++) {
+    //     for (let C = table1Range.s.c; C <= table1Range.e.c; C++) {
+    //       const cellAddress = XLSX.utils.encode_cell({ r: R, c: C });
+    //       const cell = worksheet[cellAddress];
+    //       cell.s = { border: table1Border };
+    //     }
+    //   }
+
     // Add a blank row after table 1
     const blankRow1 = [''];
     XLSX.utils.sheet_add_aoa(worksheet, [blankRow1], { origin: -1 });
     // Get table 2 content
-    const table2 = document.getElementById('soa-table');
+    const table2 = parent?.getElementsByClassName(
+      'table-responsive soa-table'
+    )[0];
     const table2Data = this.getTableData(table2, item);
     const table2Headers = this.getTableHeaders(table2, item);
     XLSX.utils.sheet_add_aoa(
@@ -292,6 +337,47 @@ export class SoaComponent implements OnInit {
       table2Data.map((row) => row.map((cell: { label: any }) => cell.label)),
       { origin: -1 }
     );
+    console.log(table1Range);
+    console.log(table2Data);
+
+    const table2Range = {
+      s: { r: table1Range.e.r + 2, c: table2Data[0].length - 1 },
+      e: {
+        r: table1Range.e.r + 2 + 4 + table2Data.length - 1,
+        c: table2Data[0].length - 1,
+      },
+    };
+
+    console.log(table2Range);
+
+    for (let R = table2Range.s.r; R <= table2Range.e.r; ++R) {
+      for (let C = table2Range.s.c; C <= table2Range.e.c; ++C) {
+        const cellAddress = XLSX.utils.encode_cell({ r: R, c: C });
+        const cell = worksheet[cellAddress];
+
+        if (cell && cell.t === 's') {
+          const formattedLabel = cell.v.replace(/\n/g, '\r\n');
+          cell.v = formattedLabel;
+          cell.s = {
+            alignment: {
+              vertical: 'center',
+              horizontal: 'center',
+              wrapText: true,
+            },
+            border: {
+              right: {
+                style: 'thin',
+                color: '000000',
+              },
+              left: {
+                style: 'thin',
+                color: '000000',
+              },
+            },
+          };
+        }
+      }
+    }
 
     // Add a blank row after table 2
     const blankRow2 = [''];
@@ -308,24 +394,36 @@ export class SoaComponent implements OnInit {
         table3Data.map((row) => row.map((cell: { label: any }) => cell.label)),
         { origin: -1 }
       );
-    }
-    
-    var encounterHeaderRows:any[] = table2Headers[0];
-    var merge = { s: {r:5, c:0}, e: {r:5, c:0} };
-    if(!worksheet['!merges']) worksheet['!merges'] = [];
 
-    for (let i = 0; i < encounterHeaderRows.length; i++){
-      if (encounterHeaderRows[i].colspan > 1)
-      {
-          merge = { s: {r:5, c:i}, e: {r:5, c:i+encounterHeaderRows[i].colspan-1} };
+      var encounterHeaderRows: any[] = table2Headers[0];
+      var merge = { s: { r: 5, c: 0 }, e: { r: 5, c: 0 } };
+      if (!worksheet['!merges']) worksheet['!merges'] = [];
+
+      for (let i = 0; i < encounterHeaderRows.length; i++) {
+        if (encounterHeaderRows[i].colspan > 1) {
+          merge = {
+            s: { r: 5, c: i },
+            e: { r: 5, c: i + encounterHeaderRows[i].colspan - 1 },
+          };
           worksheet['!merges'].push(merge);
+        }
       }
     }
-
     // Add the worksheet to the workbook
     XLSX.utils.book_append_sheet(workbook, worksheet, 'Tables');
+    const entryDateTime = moment(new Date()).format('YYYYMMDD');
+    const envName = environment.envName;
+    const fileName =
+      designName +
+      '_' +
+      timelineName +
+      '_' +
+      envName +
+      '_' +
+      entryDateTime +
+      '.xlsx';
     // Save the workbook as an Excel file
-    XLSX.writeFile(workbook, 'tables.xlsx');
+    XLSX.writeFile(workbook, fileName);
   }
 
   getTableData(table: any, item?: any): any[] {
@@ -333,7 +431,7 @@ export class SoaComponent implements OnInit {
     // Extract table rows
     const rows = table.getElementsByTagName('tr');
     if (table.id === 'soa-table') {
-      var rowindex:number = 0;
+      var rowindex: number = 0;
       item.scheduleTimelineSoA.orderOfActivities.forEach(
         (eachOrderActivity: {
           toggleBoolean: boolean;
@@ -358,8 +456,7 @@ export class SoaComponent implements OnInit {
           this.changeDetect.detectChanges();
           const row: any[] = [];
           const cells = rows[rowindex].getElementsByTagName('td');
-          if (cells.length > 0)
-          {
+          if (cells.length > 0) {
             for (let j = 0; j < cells.length; j++) {
               row.push({
                 label: cells[j].innerText,
@@ -369,7 +466,7 @@ export class SoaComponent implements OnInit {
             }
             data.push(row);
           }
-          rowindex +=1;
+          rowindex += 1;
         }
       );
     } else {
@@ -405,8 +502,7 @@ export class SoaComponent implements OnInit {
       for (let i = 0; i < headerRows.length; i++) {
         const headerCells = headerRows[i].getElementsByTagName('th');
         let eachRowArray = [];
-        if (headerCells.length > 0)
-        {
+        if (headerCells.length > 0) {
           let timingsLengths: number[] = [];
           if (i == 0) {
             timingsLengths = this.getColspan('encounterName', item);
@@ -422,7 +518,7 @@ export class SoaComponent implements OnInit {
               s: { r: i, c: startColIndex },
               e: { r: i, c: endColIndex },
             });
-  
+
             for (let k = startColIndex + 1; k <= endColIndex; k++) {
               eachRowArray.push('');
             }

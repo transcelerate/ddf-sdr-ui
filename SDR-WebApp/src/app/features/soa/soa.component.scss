@@ -6,6 +6,10 @@
     border: 1px solid hsl(0deg 0% 77%);
     border-radius: 4px;
     margin: 20px 30px;
+    .custom-export-btn {
+      float: right;
+      margin: 0px 30px;
+    }
     .study-schedule-timeline-table {
       margin: 20px 30px;
       .table-bordered {
