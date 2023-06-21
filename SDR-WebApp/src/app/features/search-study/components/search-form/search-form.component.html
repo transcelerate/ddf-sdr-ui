@@ -1,7 +1,7 @@
 <app-error-component *ngIf="showError"></app-error-component>
 <div
   class="disable-search-section"
-  *ngIf="route.children.length === 0 && !enableSearch"
+  *ngIf="route.children.length === 0"
 >
   &#9432;
   <em> {{ enableSearchMessage }}</em>
