@@ -24,6 +24,11 @@
       "dom"
     ],
     "resolveJsonModule": true,
+    "paths": {
+      "exceljs": [
+        "node_modules/exceljs/dist/exceljs.min"
+      ]
+    }
   },
   "typedocOptions": {
     "entryPoints": [
