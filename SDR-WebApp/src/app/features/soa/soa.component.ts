@@ -1,4 +1,12 @@
-import { Component, OnInit, TemplateRef, ViewChildren } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  OnInit,
+  TemplateRef,
+  ViewChild,
+  ViewChildren,
+} from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { CommonMethodsService } from 'src/app/shared/services/common-methods.service';
@@ -7,6 +15,9 @@ import { ServiceCall } from '../../shared/services/service-call/service-call.ser
 import { configList } from 'src/app/shared/components/study-element-description/config/study-element-field-config';
 import { StudyElementDescriptionComponent } from 'src/app/shared/components/study-element-description/study-element-description.component';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import * as XLSX from 'xlsx';
+import { environment } from 'src/environments/environment';
+import * as moment from 'moment';
 @Component({
   selector: 'app-soa',
   templateUrl: './soa.component.html',
@@ -14,6 +25,7 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 })
 export class SoaComponent implements OnInit {
   @ViewChildren('tabset2') tabset2: any;
+  @ViewChild('accordionRow') accordionRow: ElementRef;
   studyId: any;
   versionId: any;
   tabs: any;
@@ -50,7 +62,8 @@ export class SoaComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private commonMethods: CommonMethodsService,
     private modalService: BsModalService,
-    private parentComponent: StudyElementDescriptionComponent
+    private parentComponent: StudyElementDescriptionComponent,
+    private changeDetect: ChangeDetectorRef
   ) {
     this.parentComponent.checkLocationPath(true);
   }
@@ -140,6 +153,7 @@ export class SoaComponent implements OnInit {
 
   addFootnoteids() {
     this.tabs?.studyDesigns?.forEach((eachStudyDesign: any) => {
+      eachStudyDesign.searchBoolean = false;
       if (eachStudyDesign.studyDesignId === this.activeTab) {
         eachStudyDesign?.studyScheduleTimelines?.forEach(
           (eachTimeline: any) => {
@@ -149,6 +163,7 @@ export class SoaComponent implements OnInit {
 
               eachTimeline?.scheduleTimelineSoA?.orderOfActivities?.forEach(
                 (eachActivity: any) => {
+                  eachActivity.isExpanded = false;
                   if (eachActivity.activityIsConditional) {
                     eachActivity.footnoteId = 'A' + activityIndex;
                     activityIndex++;
@@ -235,4 +250,322 @@ export class SoaComponent implements OnInit {
     }
     return tooltipString;
   }
+
+  checkObject(item: any, dataError: any) {
+    if (item.scheduleTimelineSoA !== null) {
+      item.searchBoolean = false;
+      if (item.scheduleTimelineSoA.orderOfActivities.length !== 0) {
+        item.searchBoolean = false;
+      } else {
+        item.searchBoolean = true;
+        return dataError;
+      }
+    } else {
+      item.searchBoolean = true;
+      return dataError;
+    }
+  }
+
+  exportToExcel(
+    designName: string,
+    designId: string,
+    timelineName: string,
+    timelineId: string,
+    item: any
+  ): void {
+    const workbook = XLSX.utils.book_new();
+    const worksheet = XLSX.utils.aoa_to_sheet([]);
+    // Get table 1 content
+    const parent = document.getElementById(designId + '_' + timelineId);
+    const table1 = parent?.getElementsByClassName(
+      'table-responsive study-schedule-timeline-table'
+    )[0];
+
+    const table1Data = this.getTableData(table1);
+    const table1Headers = this.getTableHeaders(table1);
+    XLSX.utils.sheet_add_aoa(
+      worksheet,
+      table1Headers.map((row) =>
+        row.map((header: { label: any; colspan: any }) => [
+          header.label,
+          { colspan: header.colspan },
+        ])
+      ),
+      { origin: 0 }
+    );
+    XLSX.utils.sheet_add_aoa(
+      worksheet,
+      table1Data.map((row) => row.map((cell: { label: any }) => cell.label)),
+      { origin: -1 }
+    );
+
+    // // Add borders to table 1
+    // const table1Range = {
+    //   s: { r: 1, c: 0 },
+    //   e: { r: 3, c: 1 },
+    // };
+
+    // Add a blank row after table 1
+    const blankRow1 = [''];
+    XLSX.utils.sheet_add_aoa(worksheet, [blankRow1], { origin: -1 });
+    // Get table 2 content
+    const table2 = parent?.getElementsByClassName(
+      'table-responsive soa-table'
+    )[0];
+    const table2Data = this.getTableData(table2, item);
+    const table2Headers = this.getTableHeaders(table2, item);
+    XLSX.utils.sheet_add_aoa(
+      worksheet,
+      table2Headers.map((row) =>
+        row.map((header: { label: any; colspan: any }) => [
+          header.label,
+          { colspan: header.colspan },
+        ])
+      ),
+      { origin: -1 }
+    );
+    XLSX.utils.sheet_add_aoa(
+      worksheet,
+      table2Data.map((row) => row.map((cell: { label: any }) => cell.label)),
+      { origin: -1 }
+    );
+
+    // const table2Range = {
+    //   s: { r: table1Range.e.r + 2, c: table2Data[0].length - 1 },
+    //   e: {
+    //     r: table1Range.e.r + 2 + 4 + table2Data.length - 1,
+    //     c: table2Data[0].length - 1,
+    //   },
+    // };
+
+    // for (let R = table2Range.s.r; R <= table2Range.e.r; ++R) {
+    //   for (let C = table2Range.s.c; C <= table2Range.e.c; ++C) {
+    //     const cellAddress = XLSX.utils.encode_cell({ r: R, c: C });
+    //     const cell = worksheet[cellAddress];
+
+    //     if (cell && cell.t === 's') {
+    //       if (cell.v !== undefined) {
+    //       const formattedLabel = cell.v.replace(/\n/g, "<text:line-break/>");
+    //       cell.v = formattedLabel;
+    //       cell.s = {
+    //         alignment: {
+    //           vertical: 'center',
+    //           horizontal: 'center',
+    //           wrapText: true,
+    //         },
+    //         border: {
+    //           right: {
+    //             style: 'thin',
+    //             color: '000000',
+    //           },
+    //           left: {
+    //             style: 'thin',
+    //             color: '000000',
+    //           },
+    //         },
+    //       };
+    //     }
+    //     }
+    //   }
+    // }
+
+    // Add a blank row after table 2
+    const blankRow2 = [''];
+    XLSX.utils.sheet_add_aoa(worksheet, [blankRow2], { origin: -1 });
+    // Get table 3 content
+    if (
+      this.activityFootnotes.length > 0 ||
+      this.procedureFootnotes.length > 0
+    ) {
+      const table3 = document.getElementById('footnote-table');
+      const table3Data = this.getTableData(table3);
+      XLSX.utils.sheet_add_aoa(
+        worksheet,
+        table3Data.map((row) => row.map((cell: { label: any }) => cell.label)),
+        { origin: -1 }
+      );
+    }
+
+    var encounterHeaderRows: any[] = table2Headers[0];
+    var merge = { s: { r: 5, c: 0 }, e: { r: 5, c: 0 } };
+    if (!worksheet['!merges']) worksheet['!merges'] = [];
+
+    for (let i = 0; i < encounterHeaderRows.length; i++) {
+      if (encounterHeaderRows[i].colspan > 1) {
+        merge = {
+          s: { r: 5, c: i },
+          e: { r: 5, c: i + encounterHeaderRows[i].colspan - 1 },
+        };
+        worksheet['!merges'].push(merge);
+      }
+    }
+
+    // Add the worksheet to the workbook
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Tables');
+    const entryDateTime = moment(new Date()).format('YYYYMMDD');
+    const envName = environment.envName;
+    const fileName =
+      designName +
+      '_' +
+      timelineName +
+      '_' +
+      envName +
+      '_' +
+      entryDateTime +
+      '.xlsx';
+    // Save the workbook as an Excel file
+    XLSX.writeFile(workbook, fileName);
+    // XLSX.writeFile(workbook, fileName, {
+    //   type: 'string',
+    //   bookType: 'xlsx',
+    //   bookSST: true,
+    //   cellStyles: true,
+    // });
+  }
+
+  getTableData(table: any, item?: any): any[] {
+    const data: any[] = [];
+    // Extract table rows
+    const rows = table.getElementsByTagName('tr');
+    if (table.id === 'soa-table') {
+      var rowindex: number = 0;
+      item.scheduleTimelineSoA.orderOfActivities.forEach(
+        (eachOrderActivity: {
+          toggleBoolean: boolean;
+          toggleConcepts: boolean;
+          isExpanded: boolean;
+          definedProcedures: any[] | null;
+          biomedicalConcepts: any[] | null;
+          activityTimelineName: any;
+        }) => {
+          if (
+            (eachOrderActivity.definedProcedures !== null &&
+              eachOrderActivity.definedProcedures.length > 0) ||
+            (eachOrderActivity.biomedicalConcepts !== null &&
+              eachOrderActivity.biomedicalConcepts.length > 0) ||
+            (eachOrderActivity.activityTimelineName !== '' &&
+              eachOrderActivity.activityTimelineName !== null)
+          ) {
+            eachOrderActivity.isExpanded = true;
+            eachOrderActivity.toggleConcepts = true;
+            eachOrderActivity.toggleBoolean = true;
+          }
+          this.changeDetect.detectChanges();
+          const row: any[] = [];
+          const cells = rows[rowindex].getElementsByTagName('td');
+          if (cells.length > 0) {
+            for (let j = 0; j < cells.length; j++) {
+              row.push({
+                label: cells[j].innerText,
+                colspan: 1,
+                isExpanded: eachOrderActivity.isExpanded, // Add the 'expanded' property to each cell
+              });
+            }
+            data.push(row);
+          }
+          rowindex += 1;
+        }
+      );
+    } else {
+      for (let i = 0; i < rows.length; i++) {
+        const row: any[] = [];
+        const cells = rows[i].getElementsByTagName('td');
+        for (let j = 0; j < cells.length; j++) {
+          const cellData = {
+            label: cells[j].innerText,
+            colspan: 1,
+          };
+          row.push(cellData);
+        }
+        data.push(row);
+      }
+    }
+    return data;
+  }
+
+  getTableHeaders(table: any, item?: any): any[] {
+    const headers: any[] = [];
+    const headerRows = table.getElementsByTagName('tr');
+    // Handle scenario where headers are in a single row
+    if (headerRows.length === 1) {
+      const headerCells = headerRows[0].getElementsByTagName('th');
+      for (let i = 0; i < headerCells.length; i++) {
+        headers.push({
+          label: headerCells[i].innerText,
+          colspan: 1,
+        });
+      }
+    } else if (table.id === 'soa-table') {
+      for (let i = 0; i < headerRows.length; i++) {
+        const headerCells = headerRows[i].getElementsByTagName('th');
+        let eachRowArray = [];
+        if (headerCells.length > 0) {
+          let timingsLengths: number[] = [];
+          if (i == 0) {
+            timingsLengths = this.getColspan('encounterName', item);
+          }
+          for (let j = 0; j < headerCells.length; j++) {
+            const colspan = timingsLengths[j] || 1;
+            const label = headerCells[j].innerText;
+            const startColIndex: number = eachRowArray.length;
+            const endColIndex = calculateEndColIndex(startColIndex, colspan);
+            eachRowArray.push({
+              label: label,
+              colspan: colspan,
+              s: { r: i, c: startColIndex },
+              e: { r: i, c: endColIndex },
+            });
+
+            for (let k = startColIndex + 1; k <= endColIndex; k++) {
+              eachRowArray.push('');
+            }
+          }
+          headers.push(eachRowArray);
+        }
+      }
+    }
+    // Handle scenario where headers are in multiple rows
+    else {
+      const numRows = headerRows.length;
+      const headerCells = headerRows[numRows - 1].getElementsByTagName('th');
+      for (let i = 0; i < headerCells.length; i++) {
+        headers.push({
+          label: headerCells[i].innerText,
+          colspan: 1,
+        });
+      }
+    }
+    return headers;
+  }
+
+  getColspan(header: any, item: any): any {
+    const timingsLengths: any[] = [];
+    timingsLengths.push(1);
+    if (header === 'encounterName') {
+      item.scheduleTimelineSoA.SoA.forEach((content: any) => {
+        timingsLengths.push(content.timings ? content.timings.length : 0);
+      });
+    } else {
+      timingsLengths.push(1); // Push 1 for other headers
+    }
+    return timingsLengths;
+  }
+
+  toggleAccordion(eachOrderActivity: any): any {
+    eachOrderActivity.isExpanded = !eachOrderActivity.isExpanded;
+    // Toggle the classes on the accordion-row element
+    if (this.accordionRow) {
+      const element = this.accordionRow.nativeElement;
+      if (eachOrderActivity.isExpanded) {
+        element.classList.add('show');
+        element.classList.remove('collapse');
+      } else {
+        element.classList.add('collapse');
+        element.classList.remove('show');
+      }
+    }
+  }
+}
+function calculateEndColIndex(startColIndex: any, colspan: number) {
+  return startColIndex + colspan - 1;
 }
