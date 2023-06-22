@@ -153,6 +153,7 @@ export class SoaComponent implements OnInit {
 
   addFootnoteids() {
     this.tabs?.studyDesigns?.forEach((eachStudyDesign: any) => {
+      eachStudyDesign.searchBoolean = false;
       if (eachStudyDesign.studyDesignId === this.activeTab) {
         eachStudyDesign?.studyScheduleTimelines?.forEach(
           (eachTimeline: any) => {
