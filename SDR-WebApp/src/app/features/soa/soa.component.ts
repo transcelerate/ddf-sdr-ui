@@ -356,7 +356,8 @@ export class SoaComponent implements OnInit {
         const cell = worksheet[cellAddress];
 
         if (cell && cell.t === 's') {
-          const formattedLabel = cell.v.replace(/\n/g, '\r\n');
+          if (cell.v !== undefined) {
+          const formattedLabel = cell.v.replace(/\n/g, "<text:line-break/>");
           cell.v = formattedLabel;
           cell.s = {
             alignment: {
@@ -376,6 +377,7 @@ export class SoaComponent implements OnInit {
             },
           };
         }
+        }
       }
     }
 
@@ -394,8 +396,9 @@ export class SoaComponent implements OnInit {
         table3Data.map((row) => row.map((cell: { label: any }) => cell.label)),
         { origin: -1 }
       );
+    }
 
-      var encounterHeaderRows: any[] = table2Headers[0];
+    var encounterHeaderRows: any[] = table2Headers[0];
       var merge = { s: { r: 5, c: 0 }, e: { r: 5, c: 0 } };
       if (!worksheet['!merges']) worksheet['!merges'] = [];
 
@@ -408,7 +411,7 @@ export class SoaComponent implements OnInit {
           worksheet['!merges'].push(merge);
         }
       }
-    }
+
     // Add the worksheet to the workbook
     XLSX.utils.book_append_sheet(workbook, worksheet, 'Tables');
     const entryDateTime = moment(new Date()).format('YYYYMMDD');
@@ -423,7 +426,8 @@ export class SoaComponent implements OnInit {
       entryDateTime +
       '.xlsx';
     // Save the workbook as an Excel file
-    XLSX.writeFile(workbook, fileName);
+    //XLSX.writeFile(workbook, fileName);
+    XLSX.writeFile(workbook,fileName, { type:"string", bookType:"xlsx", bookSST: true, cellStyles: true });
   }
 
   getTableData(table: any, item?: any): any[] {
