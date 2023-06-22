@@ -401,7 +401,7 @@ export class SoaComponent implements OnInit {
     }
 
     // Add the worksheet to the workbook
-    XLSX.utils.book_append_sheet(workbook, worksheet, 'Tables');
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'SoA Matrix');
     const entryDateTime = moment(new Date()).format('YYYYMMDD');
     const envName = environment.envName;
     const fileName =
@@ -428,7 +428,7 @@ export class SoaComponent implements OnInit {
     // Extract table rows
     const rows = table.getElementsByTagName('tr');
     if (table.id === 'soa-table') {
-      var rowindex: number = 0;
+      var rowindex: number = 4;
       item.scheduleTimelineSoA.orderOfActivities.forEach(
         (eachOrderActivity: {
           toggleBoolean: boolean;
