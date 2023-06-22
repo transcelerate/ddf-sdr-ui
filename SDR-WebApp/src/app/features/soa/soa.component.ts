@@ -300,19 +300,10 @@ export class SoaComponent implements OnInit {
     );
 
     // // Add borders to table 1
-    const table1Range = {
-      s: { r: 1, c: 0 },
-      e: { r: 3, c: 1 },
-    };
-    // if (table1Range) {
-    //   const table1Border = { style: 'thin', color: { rgb: '000000' } };
-    //   for (let R = table1Range.s.r; R <= table1Range.e.r; R++) {
-    //     for (let C = table1Range.s.c; C <= table1Range.e.c; C++) {
-    //       const cellAddress = XLSX.utils.encode_cell({ r: R, c: C });
-    //       const cell = worksheet[cellAddress];
-    //       cell.s = { border: table1Border };
-    //     }
-    //   }
+    // const table1Range = {
+    //   s: { r: 1, c: 0 },
+    //   e: { r: 3, c: 1 },
+    // };
 
     // Add a blank row after table 1
     const blankRow1 = [''];
@@ -338,49 +329,45 @@ export class SoaComponent implements OnInit {
       table2Data.map((row) => row.map((cell: { label: any }) => cell.label)),
       { origin: -1 }
     );
-    console.log(table1Range);
-    console.log(table2Data);
 
-    const table2Range = {
-      s: { r: table1Range.e.r + 2, c: table2Data[0].length - 1 },
-      e: {
-        r: table1Range.e.r + 2 + 4 + table2Data.length - 1,
-        c: table2Data[0].length - 1,
-      },
-    };
+    // const table2Range = {
+    //   s: { r: table1Range.e.r + 2, c: table2Data[0].length - 1 },
+    //   e: {
+    //     r: table1Range.e.r + 2 + 4 + table2Data.length - 1,
+    //     c: table2Data[0].length - 1,
+    //   },
+    // };
 
-    console.log(table2Range);
+    // for (let R = table2Range.s.r; R <= table2Range.e.r; ++R) {
+    //   for (let C = table2Range.s.c; C <= table2Range.e.c; ++C) {
+    //     const cellAddress = XLSX.utils.encode_cell({ r: R, c: C });
+    //     const cell = worksheet[cellAddress];
 
-    for (let R = table2Range.s.r; R <= table2Range.e.r; ++R) {
-      for (let C = table2Range.s.c; C <= table2Range.e.c; ++C) {
-        const cellAddress = XLSX.utils.encode_cell({ r: R, c: C });
-        const cell = worksheet[cellAddress];
-
-        if (cell && cell.t === 's') {
-          if (cell.v !== undefined) {
-          const formattedLabel = cell.v.replace(/\n/g, "<text:line-break/>");
-          cell.v = formattedLabel;
-          cell.s = {
-            alignment: {
-              vertical: 'center',
-              horizontal: 'center',
-              wrapText: true,
-            },
-            border: {
-              right: {
-                style: 'thin',
-                color: '000000',
-              },
-              left: {
-                style: 'thin',
-                color: '000000',
-              },
-            },
-          };
-        }
-        }
-      }
-    }
+    //     if (cell && cell.t === 's') {
+    //       if (cell.v !== undefined) {
+    //       const formattedLabel = cell.v.replace(/\n/g, "<text:line-break/>");
+    //       cell.v = formattedLabel;
+    //       cell.s = {
+    //         alignment: {
+    //           vertical: 'center',
+    //           horizontal: 'center',
+    //           wrapText: true,
+    //         },
+    //         border: {
+    //           right: {
+    //             style: 'thin',
+    //             color: '000000',
+    //           },
+    //           left: {
+    //             style: 'thin',
+    //             color: '000000',
+    //           },
+    //         },
+    //       };
+    //     }
+    //     }
+    //   }
+    // }
 
     // Add a blank row after table 2
     const blankRow2 = [''];
@@ -400,18 +387,18 @@ export class SoaComponent implements OnInit {
     }
 
     var encounterHeaderRows: any[] = table2Headers[0];
-      var merge = { s: { r: 5, c: 0 }, e: { r: 5, c: 0 } };
-      if (!worksheet['!merges']) worksheet['!merges'] = [];
+    var merge = { s: { r: 5, c: 0 }, e: { r: 5, c: 0 } };
+    if (!worksheet['!merges']) worksheet['!merges'] = [];
 
-      for (let i = 0; i < encounterHeaderRows.length; i++) {
-        if (encounterHeaderRows[i].colspan > 1) {
-          merge = {
-            s: { r: 5, c: i },
-            e: { r: 5, c: i + encounterHeaderRows[i].colspan - 1 },
-          };
-          worksheet['!merges'].push(merge);
-        }
+    for (let i = 0; i < encounterHeaderRows.length; i++) {
+      if (encounterHeaderRows[i].colspan > 1) {
+        merge = {
+          s: { r: 5, c: i },
+          e: { r: 5, c: i + encounterHeaderRows[i].colspan - 1 },
+        };
+        worksheet['!merges'].push(merge);
       }
+    }
 
     // Add the worksheet to the workbook
     XLSX.utils.book_append_sheet(workbook, worksheet, 'Tables');
@@ -427,8 +414,13 @@ export class SoaComponent implements OnInit {
       entryDateTime +
       '.xlsx';
     // Save the workbook as an Excel file
-    //XLSX.writeFile(workbook, fileName);
-    XLSX.writeFile(workbook,fileName, { type:"string", bookType:"xlsx", bookSST: true, cellStyles: true });
+    XLSX.writeFile(workbook, fileName);
+    // XLSX.writeFile(workbook, fileName, {
+    //   type: 'string',
+    //   bookType: 'xlsx',
+    //   bookSST: true,
+    //   cellStyles: true,
+    // });
   }
 
   getTableData(table: any, item?: any): any[] {
