@@ -74,7 +74,7 @@ SDR API URL and other secrets are configured in `src/environments/environment.ts
 ```
 export const environment = {
   production: true,
-  
+  bypassAuth: false,
   tenantId: '{#AzureAd-TenantId#}', // Azure AD Tenant ID
   authority: '{#AzureAd-Authority#}', // Azure AD login URL (e.g https://login.microsoftonline.com/<tenantId>/)
   clientId: '{#AzureAd-ClientId#}', // Azure App Registration Client ID for UI Application
@@ -137,7 +137,7 @@ The solution has the following structure:
 - The application uses  Microsoft Authentication Library (MSAL) for user authentication.
 - Users with valid credentials (registered in cloud active directory) can login to the application.
 - For MSAL integration, the secrets should be configured in environment file as mentioned in the above section.
-- To skip authentication step while running the application in local, please refer the temporary workaround mentioned in the [GitHub Support Ticket] (https://github.com/transcelerate/ddf-sdr-support/issues/27)
+- A flag 'bypassAuth' is added in environment.ts which allows the user to disable authentication while running in local environment.
 
 **Application Features:**
 - After successful login, user will be navigated to home screen 
@@ -147,6 +147,7 @@ The solution has the following structure:
 - From Study details page, user  can click  "View Revision History" to view the complete audit trail data for the study document.
 - In Study details page, "View SOA Matrix" will be visible for the studies whose usdmVersion is V1.9 or above.
 - From Study details page, user  can click  "View SOA Matrix" to view the Schedule of Activities for each Timeline under study designs for a study document.
+  - In SoA Matrix, user can export the table to excel which includes the information of particular timeline including schedule timeline table, SoA table having activities data with accordian component inside each activity that has procedures, biomedical concepts and timeline profile data, and additional information using footnotes table also included.
 - In *Audit trail page*, user  can select any two versions and click on "Version Comparison" to compare the changes.
 - On click of *Study Definitions -> Compare*, user will be navigated to *Compare page* to select two study documents based on certain study parameters and to compare the changes.
 - User will be logged out from application on click of logout link in the header.
@@ -164,7 +165,7 @@ The solution has the following structure:
 
 - Default page (URL: /# )
   - Has login link
-  - Uses MSAL oauth authentication (store the token in localStorage)
+  - Uses MSAL oauth authentication
   - Has auth token generation link for accessing SDR APIs
 - Home page (URL: /home )
   - Dashboard page with recent activity widget and Menu bar to navigate to search
