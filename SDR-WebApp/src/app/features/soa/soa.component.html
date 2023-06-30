@@ -232,12 +232,14 @@
                                       "
                                     >
                                       <div class="card-header">
-                                        <div class="card-title">
+                                        <div
+                                          class="card-title"
+                                          (click)="
+                                            eachOrderActivity.toggleConcepts =
+                                              !eachOrderActivity.toggleConcepts
+                                          "
+                                        >
                                           <span
-                                            (click)="
-                                              eachOrderActivity.toggleConcepts =
-                                                !eachOrderActivity.toggleConcepts
-                                            "
                                             ><i
                                               class="fa"
                                               [ngClass]="{
@@ -282,12 +284,14 @@
                                       "
                                     >
                                       <div class="card-header">
-                                        <div class="card-title">
+                                        <div
+                                          class="card-title"
+                                          (click)="
+                                            eachOrderActivity.toggleBoolean =
+                                              !eachOrderActivity.toggleBoolean
+                                          "
+                                        >
                                           <span
-                                            (click)="
-                                              eachOrderActivity.toggleBoolean =
-                                                !eachOrderActivity.toggleBoolean
-                                            "
                                             ><i
                                               class="fa"
                                               [ngClass]="{
