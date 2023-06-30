@@ -1,10 +1,8 @@
 import {
   ChangeDetectorRef,
   Component,
-  ElementRef,
   OnInit,
   TemplateRef,
-  ViewChild,
   ViewChildren,
 } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -25,7 +23,6 @@ import * as moment from 'moment';
 })
 export class SoaComponent implements OnInit {
   @ViewChildren('tabset2') tabset2: any;
-  @ViewChild('accordionRow') accordionRow: ElementRef;
   studyId: any;
   versionId: any;
   tabs: any;
@@ -573,17 +570,6 @@ export class SoaComponent implements OnInit {
   // @SONAR_STOP@
   toggleAccordion(eachOrderActivity: any): any {
     eachOrderActivity.isExpanded = !eachOrderActivity.isExpanded;
-    // Toggle the classes on the accordion-row element
-    if (this.accordionRow) {
-      const element = this.accordionRow.nativeElement;
-      if (eachOrderActivity.isExpanded) {
-        element.classList.add('show');
-        element.classList.remove('collapse');
-      } else {
-        element.classList.add('collapse');
-        element.classList.remove('show');
-      }
-    }
   }
   /* istanbul ignore end */
   // @SONAR_START@
