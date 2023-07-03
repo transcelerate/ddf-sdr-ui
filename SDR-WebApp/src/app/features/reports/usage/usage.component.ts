@@ -403,7 +403,7 @@ export class UsageComponent implements OnInit {
       ],
     };
     const entryDateTime = moment(new Date()).format('YYYYMMDD');
-    new ngxCsv(
+    const exportFile = new ngxCsv(
       this.exportUsageData,
       'System_Usage_Report_' + environment.envName + '_' + entryDateTime,
       options

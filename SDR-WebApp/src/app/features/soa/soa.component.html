@@ -72,19 +72,24 @@
                 class="table-responsive study-schedule-timeline-table"
                 id="schedule-table"
               >
-                <table class="table table-bordered">
-                  <tr>
-                    <td>Name</td>
-                    <td>{{ item.scheduleTimelineName }}</td>
-                  </tr>
-                  <tr>
-                    <td>Description</td>
-                    <td>{{ item.scheduleTimelineDescription }}</td>
-                  </tr>
-                  <tr>
-                    <td>Condition</td>
-                    <td>{{ item.entryCondition }}</td>
-                  </tr>
+                <table
+                  class="table table-bordered"
+                  aria-describedby="scheduletable"
+                >
+                  <tbody>
+                    <tr>
+                      <td>Name</td>
+                      <td>{{ item.scheduleTimelineName }}</td>
+                    </tr>
+                    <tr>
+                      <td>Description</td>
+                      <td>{{ item.scheduleTimelineDescription }}</td>
+                    </tr>
+                    <tr>
+                      <td>Condition</td>
+                      <td>{{ item.entryCondition }}</td>
+                    </tr>
+                  </tbody>
                 </table>
               </div>
               <ng-container
@@ -527,31 +532,37 @@
                   activityFootnotes.length > 0 || procedureFootnotes.length > 0
                 "
               >
-                <table>
-                  <ng-container *ngIf="activityFootnotes.length > 0">
-                    <ng-container *ngFor="let item of activityFootnotes">
-                      <tr>
-                        <td>
-                          <div class="footnote-description">
-                            <sup class="footnote-id">{{ item.footnoteId }}</sup>
-                            {{ item.footnoteDescription }}
-                          </div>
-                        </td>
-                      </tr>
+                <table aria-describedby="footnotetable">
+                  <tbody>
+                    <ng-container *ngIf="activityFootnotes.length > 0">
+                      <ng-container *ngFor="let item of activityFootnotes">
+                        <tr>
+                          <td>
+                            <div class="footnote-description">
+                              <sup class="footnote-id">{{
+                                item.footnoteId
+                              }}</sup>
+                              {{ item.footnoteDescription }}
+                            </div>
+                          </td>
+                        </tr>
+                      </ng-container>
                     </ng-container>
-                  </ng-container>
-                  <ng-container *ngIf="procedureFootnotes.length > 0">
-                    <ng-container *ngFor="let item of procedureFootnotes">
-                      <tr>
-                        <td>
-                          <div class="footnote-description">
-                            <sup class="footnote-id">{{ item.footnoteId }}</sup>
-                            {{ item.footnoteDescription }}
-                          </div>
-                        </td>
-                      </tr>
+                    <ng-container *ngIf="procedureFootnotes.length > 0">
+                      <ng-container *ngFor="let item of procedureFootnotes">
+                        <tr>
+                          <td>
+                            <div class="footnote-description">
+                              <sup class="footnote-id">{{
+                                item.footnoteId
+                              }}</sup>
+                              {{ item.footnoteDescription }}
+                            </div>
+                          </td>
+                        </tr>
+                      </ng-container>
                     </ng-container>
-                  </ng-container>
+                  </tbody>
                 </table>
               </div>
             </tab>
