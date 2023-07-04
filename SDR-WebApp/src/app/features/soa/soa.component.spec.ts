@@ -219,10 +219,79 @@ describe('SoaComponent', () => {
       removable: false,
       role: 'tabpanel',
     };
+    component.tabs = tabs;
     component.activeTab = 'test105';
+    spyOn(component, 'addFootnoteids');
     component.getSelectedNestedTab(event);
     expect(component.activeNestedTab).toEqual('TL01');
+    expect(component.addFootnoteids).toHaveBeenCalled();
   });
+
+  it('check if check object makes expected calls', () => {
+    const item = {
+      scheduleTimelineDescription: 'Continuous from screening to follow-up',
+      scheduleTimelineId: 'STID004',
+      scheduleTimelineName: 'Continuous during study',
+      scheduleTimelineSoA: {
+        orderOfActivities: [
+          {
+            activityDescription: 'Pre-existing conditions',
+            activityId: 'AID006',
+            activityIsConditional: false,
+            activityIsConditionalReason: 'MISSING',
+            activityName: 'PREAE',
+          },
+          {
+            activityDescription: 'Concomitant Medication',
+            activityId: 'AID010',
+            activityIsConditional: false,
+            activityIsConditionalReason: 'MISSING',
+            activityName: 'CONMED',
+            activityTimelineId: '',
+            activityTimelineName: '',
+          },
+        ],
+      },
+      searchBoolean: false,
+    };
+    const dataError = {
+      elementRef: 'test',
+    };
+
+    component.checkObject(item, dataError);
+    expect(item.searchBoolean).toEqual(false);
+
+    fixture.detectChanges();
+    const item1 = {
+      scheduleTimelineDescription: 'Continuous from screening to follow-up',
+      scheduleTimelineId: 'STID004',
+      scheduleTimelineName: 'Continuous during study',
+      scheduleTimelineSoA: null,
+      searchBoolean: true,
+    };
+    const dataError1 = {
+      elementRef: 'test',
+    };
+    component.checkObject(item1, dataError1);
+    expect(item1.searchBoolean).toEqual(true);
+
+    fixture.detectChanges();
+    const item2 = {
+      scheduleTimelineDescription: 'Continuous from screening to follow-up',
+      scheduleTimelineId: 'STID004',
+      scheduleTimelineName: 'Continuous during study',
+      scheduleTimelineSoA: {
+        orderOfActivities: [],
+      },
+      searchBoolean: true,
+    };
+    const dataError2 = {
+      elementRef: 'test',
+    };
+    component.checkObject(item2, dataError2);
+    expect(item2.searchBoolean).toEqual(true);
+  });
+
   it('check tooltip value', () => {
     const item = {
       encounterId: 'VIS15',
