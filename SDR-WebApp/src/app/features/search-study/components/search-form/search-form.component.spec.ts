@@ -106,6 +106,19 @@ describe('SearchFormComponent', () => {
     ).toHaveBeenCalled();
   });
 
+  it('submitSearch makes error calls', () => {
+    spyOn(window, 'alert');
+    component.showGrid = true;
+    component.editorForm.patchValue({
+      fromDate: '12-08-2023',
+      toDate: '12-05-2023',
+    });
+    component.submitSearch();
+    expect(window.alert).toHaveBeenCalledWith(
+      'To Date must be greater than From Date'
+    );
+  });
+
   it('ngOnInit makes expected calls', () => {
     const serviceCallStub: ServiceCall =
       fixture.debugElement.injector.get(ServiceCall);
