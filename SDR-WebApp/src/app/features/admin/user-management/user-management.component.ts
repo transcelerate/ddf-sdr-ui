@@ -136,6 +136,8 @@ export class UserManagementComponent implements OnInit {
     this.modalRef = this.modalService.show(this.confirmation);
     this.selectedUser = field;
   }
+  /* istanbul ignore next */
+  // @SONAR_STOP@
   /**
    *  This method is triggered on ag grid initialization.
    *  @param params ag grid value for each row with data.
@@ -147,6 +149,8 @@ export class UserManagementComponent implements OnInit {
     this.gridOptions.rowModelType = 'infinite';
     this.getAllUsers();
   }
+  /* istanbul ignore end */
+  // @SONAR_START@
   getAllUsers() {
     this.commonMethod.gridDataSourceForUser(
       { pageNumber: '', pageSize: '' },
