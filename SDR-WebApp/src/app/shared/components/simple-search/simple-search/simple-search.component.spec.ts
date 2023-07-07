@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { DialogService } from 'src/app/shared/services/communication.service';
-import { BsModalService } from 'ngx-bootstrap/modal';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { CommonMethodsService } from 'src/app/shared/services/common-methods.service';
 import { FormBuilder } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -10,11 +10,13 @@ import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
 import { SimpleSearchComponent } from './simple-search.component';
 import { configList } from '../../study-element-description/config/study-element-field-config';
+import { ModalComponentComponent } from '../../modal-component/modal-component.component';
 
 describe('SimpleSearchComponent', () => {
   let component: SimpleSearchComponent;
   let fixture: ComponentFixture<SimpleSearchComponent>;
-
+  let modalService: BsModalService;
+  let modalRef: BsModalRef;
   beforeEach(() => {
     const dialogServiceStub = () => ({
       changeDialogState: (string: any) => ({}),
@@ -55,6 +57,8 @@ describe('SimpleSearchComponent', () => {
     fixture = TestBed.createComponent(SimpleSearchComponent);
     component = fixture.componentInstance;
     window.history.pushState({ data: { from: 'search1' } }, '', '');
+    modalService = TestBed.inject(BsModalService);
+    modalRef = modalService.show(ModalComponentComponent);
   });
 
   it('can load instance', () => {
@@ -270,5 +274,38 @@ describe('SimpleSearchComponent', () => {
       });
       expect(val).not.toEqual('');
     });
+  });
+  it('submitSearch makes error calls', () => {
+    spyOn(window, 'alert');
+    component.showGrid = true;
+    component.editorForm.patchValue({
+      fromDate: '12-08-2023',
+      toDate: '12-05-2023',
+    });
+    component.submitSearch();
+    expect(window.alert).toHaveBeenCalledWith(
+      'To Date must be greater than From Date'
+    );
+  });
+  it('openModal makes expected calls', () => {
+    const bsModalServiceStub: BsModalService =
+      fixture.debugElement.injector.get(BsModalService);
+    const modalfixture = TestBed.createComponent(ModalComponentComponent);
+    const list = ['test', 'list'];
+    const modalcomponent = modalfixture.componentInstance;
+    modalRef.content = modalcomponent;
+    spyOn(modalRef.content.passEntry, 'emit');
+    spyOn(bsModalServiceStub, 'show').and.returnValue({
+      id: 1,
+      content: modalcomponent,
+      hide: function (): void {
+        throw new Error('Function not implemented.');
+      },
+      setClass: function (newClass: string): void {
+        throw new Error('Function not implemented.');
+      },
+    });
+    component.openModal(list, 'sponsor');
+    expect(bsModalServiceStub.show).toHaveBeenCalled();
   });
 });

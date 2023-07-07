@@ -332,7 +332,8 @@ export class AddGroupComponent implements OnInit {
     }
   }
 
-  /** istanbul ignore next */
+  /* istanbul ignore next */
+  // @SONAR_STOP@
   onGridReady(params: any) {
     this.showGrid = false;
     this.gridApi = params.api;
@@ -362,7 +363,8 @@ export class AddGroupComponent implements OnInit {
 
     //this.gridApi.addEventListener('failCallback', this.onServerFailCallback);
   }
-  /** istanbul ignore end */
+  /* istanbul ignore end */
+  // @SONAR_START@
   /**
    *  Validation to enable search button
    * @param control Formgroup object

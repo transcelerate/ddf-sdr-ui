@@ -167,6 +167,7 @@ describe('SoaComponent', () => {
     });
     component.getSoADetails();
     expect(component.getSoADetailsUsingLink).toHaveBeenCalled();
+    expect(component.getSelectedTab).toHaveBeenCalled();
     expect(ngxSpinnerServiceStub.show).toHaveBeenCalled();
     expect(commonMethodsServiceStub.getStudyLink).toHaveBeenCalled();
     expect(ngxSpinnerServiceStub.hide).toHaveBeenCalled();
@@ -178,6 +179,7 @@ describe('SoaComponent', () => {
     const serviceCallStub: ServiceCall =
       fixture.debugElement.injector.get(ServiceCall);
     const errorSubject = new Subject();
+    spyOn(component, 'getSoADetailsUsingLink').and.callThrough();
     spyOn<ServiceCall, any>(serviceCallStub, 'getSoAMatrix').and.callFake(
       () => errorSubject
     );
@@ -187,6 +189,7 @@ describe('SoaComponent', () => {
     errorSubject.error('error');
     component.getSoADetails();
     expect(component.showError).toEqual(true);
+    expect(component.getSoADetailsUsingLink).toHaveBeenCalled();
   });
 
   it('openModal makes expected calls', () => {
@@ -216,8 +219,118 @@ describe('SoaComponent', () => {
       removable: false,
       role: 'tabpanel',
     };
+    component.tabs = tabs;
     component.activeTab = 'test105';
+    spyOn(component, 'addFootnoteids');
     component.getSelectedNestedTab(event);
     expect(component.activeNestedTab).toEqual('TL01');
+    expect(component.addFootnoteids).toHaveBeenCalled();
+  });
+
+  it('check if check object makes expected calls', () => {
+    const item = {
+      scheduleTimelineDescription: 'Continuous from screening to follow-up',
+      scheduleTimelineId: 'STID004',
+      scheduleTimelineName: 'Continuous during study',
+      scheduleTimelineSoA: {
+        orderOfActivities: [
+          {
+            activityDescription: 'Pre-existing conditions',
+            activityId: 'AID006',
+            activityIsConditional: false,
+            activityIsConditionalReason: 'MISSING',
+            activityName: 'PREAE',
+          },
+          {
+            activityDescription: 'Concomitant Medication',
+            activityId: 'AID010',
+            activityIsConditional: false,
+            activityIsConditionalReason: 'MISSING',
+            activityName: 'CONMED',
+            activityTimelineId: '',
+            activityTimelineName: '',
+          },
+        ],
+      },
+      searchBoolean: false,
+    };
+    const dataError = {
+      elementRef: 'test',
+    };
+
+    component.checkObject(item, dataError);
+    expect(item.searchBoolean).toEqual(false);
+
+    fixture.detectChanges();
+    const item1 = {
+      scheduleTimelineDescription: 'Continuous from screening to follow-up',
+      scheduleTimelineId: 'STID004',
+      scheduleTimelineName: 'Continuous during study',
+      scheduleTimelineSoA: null,
+      searchBoolean: true,
+    };
+    const dataError1 = {
+      elementRef: 'test',
+    };
+    component.checkObject(item1, dataError1);
+    expect(item1.searchBoolean).toEqual(true);
+
+    fixture.detectChanges();
+    const item2 = {
+      scheduleTimelineDescription: 'Continuous from screening to follow-up',
+      scheduleTimelineId: 'STID004',
+      scheduleTimelineName: 'Continuous during study',
+      scheduleTimelineSoA: {
+        orderOfActivities: [],
+      },
+      searchBoolean: true,
+    };
+    const dataError2 = {
+      elementRef: 'test',
+    };
+    component.checkObject(item2, dataError2);
+    expect(item2.searchBoolean).toEqual(true);
+  });
+
+  it('check tooltip value', () => {
+    const item = {
+      encounterId: 'VIS15',
+      encounterName: 'CYCLE 1, TREATMENT 1',
+      encounterScheduledAtTimingValue: 'Day 1',
+    };
+    let tooltip = component.createTooltip('encounter', item);
+    expect(tooltip).toEqual('CYCLE 1, TREATMENT 1(Day 1)');
+    fixture.detectChanges();
+    const item1 = {
+      footnoteDescription: 'Name : Reason',
+      footnoteId: 'P1',
+      procedureDescription: 'Desc',
+      procedureId: 'f4e2',
+      procedureIsConditional: true,
+      procedureIsConditionalReason: 'Reason',
+      procedureName: 'Name',
+    };
+    tooltip = component.createTooltip('procedure', item1);
+    expect(tooltip).toEqual('Name:Desc');
+    fixture.detectChanges();
+    const item3 = {
+      encounterId: 'VIS154',
+      encounterName: 'CYCLE 1',
+      encounterScheduledAtTimingValue: '',
+    };
+    tooltip = component.createTooltip('encounter', item3);
+    expect(tooltip).toEqual('CYCLE 1');
+    fixture.detectChanges();
+    const item4 = {
+      footnoteDescription: 'Name : Reason',
+      footnoteId: 'P1',
+      procedureDescription: '',
+      procedureId: 'f4e2',
+      procedureIsConditional: true,
+      procedureIsConditionalReason: 'Reason',
+      procedureName: 'NameRevisit',
+    };
+    tooltip = component.createTooltip('procedure', item4);
+    expect(tooltip).toEqual('NameRevisit');
   });
 });

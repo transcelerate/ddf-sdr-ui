@@ -6,12 +6,15 @@ import { DialogService } from 'src/app/shared/services/communication.service';
 import { StudyCompareComponent } from './study-compare.component';
 import { CommonMethodsService } from 'src/app/shared/services/common-methods.service';
 import { FormBuilder } from '@angular/forms';
-import { BsModalService } from 'ngx-bootstrap/modal';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { ModalComponentComponent } from 'src/app/shared/components/modal-component/modal-component.component';
 
 describe('StudyCompareComponent', () => {
   let component: StudyCompareComponent;
   let fixture: ComponentFixture<StudyCompareComponent>;
   let ds: DialogService;
+  let modalService: BsModalService;
+  let modalRef: BsModalRef;
   beforeEach(() => {
     const activatedRouteStub = () => ({});
     const routerStub = () => ({ navigate: (array: any, object: any) => ({}) });
@@ -46,6 +49,8 @@ describe('StudyCompareComponent', () => {
     component = fixture.componentInstance;
     window.history.pushState({ from: 'search1' }, '', '');
     ds.sendClearBool(true);
+    modalService = TestBed.inject(BsModalService);
+    modalRef = modalService.show(ModalComponentComponent);
   });
 
   it('can load instance', () => {
@@ -55,6 +60,7 @@ describe('StudyCompareComponent', () => {
   it('ngOnInit makes expected calls', () => {
     const dialogServiceStub: DialogService =
       fixture.debugElement.injector.get(DialogService);
+    spyOn(component, 'setSearchValue').and.callThrough();
     spyOn(component, 'setModel').and.callThrough();
     spyOn(dialogServiceStub, 'changeDialogState').and.callThrough();
     const data = {
@@ -87,8 +93,10 @@ describe('StudyCompareComponent', () => {
       from: 'search1',
       navigationId: 4,
     };
+    component.from = 'search1';
     window.history.state.data = data;
     component.ngOnInit();
+    expect(component.setSearchValue).toHaveBeenCalled();
     expect(component.setModel).toHaveBeenCalled();
     expect(dialogServiceStub.changeDialogState).toHaveBeenCalled();
     window.history.state.from = searchData.from;
@@ -298,5 +306,121 @@ describe('StudyCompareComponent', () => {
     expect(
       commonMethodsServiceStub.gridDataSourceForSearchLightStudy
     ).toHaveBeenCalled();
+  });
+
+  it('submitSearch makes error calls', () => {
+    spyOn(window, 'alert');
+    component.showGrid = true;
+    component.editorForm.patchValue({
+      fromDate: '12-08-2023',
+      toDate: '12-05-2023',
+    });
+    component.submitSearch();
+    expect(window.alert).toHaveBeenCalledWith(
+      'To Date must be greater than From Date'
+    );
+  });
+
+  it('openModal makes expected calls', () => {
+    const bsModalServiceStub: BsModalService =
+      fixture.debugElement.injector.get(BsModalService);
+    const modalfixture = TestBed.createComponent(ModalComponentComponent);
+    const list = ['test', 'list'];
+    const modalcomponent = modalfixture.componentInstance;
+    modalRef.content = modalcomponent;
+    spyOn(modalRef.content.passEntry, 'emit');
+    spyOn(bsModalServiceStub, 'show').and.returnValue({
+      id: 1,
+      content: modalcomponent,
+      hide: function (): void {
+        throw new Error('Function not implemented.');
+      },
+      setClass: function (newClass: string): void {
+        throw new Error('Function not implemented.');
+      },
+    });
+    component.openModal(list, 'sponsor');
+    expect(bsModalServiceStub.show).toHaveBeenCalled();
+  });
+
+  it('submit function makes expected calls', () => {
+    let params = {
+      data: {
+        study: {
+          studyId: '1a9aee0f-a43d-447d-b15f-4c8a557c41fd',
+          studyTitle: 'Study On Parkinson disease',
+          studyType: 'INTERVENTIONAL',
+          studyPhase: 'PHASE_1_TRIAL',
+          studyStatus: 'Draft',
+          studyTag: '2.0Draft',
+          studyIdentifiers: [
+            {
+              id: 'd645f5cc-6866-4a82-bb03-e8d57c7f9c68',
+              orgCode: '2.16.840.1.113883.3.1982',
+              name: 'ClinicalTrials.gov',
+              idType: 'REGISTRY_STUDY',
+            },
+            {
+              id: '1f46b767-65d5-463e-ba1a-3cfcea1e4d78',
+              orgCode: '2.16.840.1.113883.3.1152',
+              name: 'ClinicalTrials.gov',
+              idType: 'SPONSOR_ID',
+            },
+          ],
+          studyProtocolReferences: null,
+          studyDesigns: [
+            {
+              studyDesignId: null,
+              trialIntentType: null,
+              trialType: null,
+              plannedWorkflows: null,
+              studyPopulations: null,
+              studyCells: null,
+              investigationalInterventions: [
+                {
+                  id: 'ecf1daaa-b8b4-4c59-8d5c-504836cb0244',
+                  description: 'Ibuprofen 200mg',
+                  interventionModel: 'SEQUENTIAL',
+                  status: 'A Status',
+                  coding: [
+                    {
+                      code: '26929004',
+                      codeSystem: 'SNOMED-CT',
+                      codeSystemVersion: '4.0.6.4',
+                      decode: "Alzheimer's disease (disorder)",
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+          objectives: null,
+          studyIndications: [
+            {
+              id: '8a09a40e-8049-43c3-9652-1db196c12e8f',
+              description: "Alzheimer's disease",
+              coding: [
+                {
+                  code: '26929004',
+                  codeSystem: 'SNOMED-CT',
+                  codeSystemVersion: '4.0.6.4',
+                  decode: "Alzheimer's disease (disorder)",
+                },
+              ],
+            },
+          ],
+        },
+        auditTrail: {
+          entryDateTime: '2022-JUN-20',
+
+          SDRUploadVersion: 1,
+        },
+        selected: true,
+      },
+    };
+    component.selectedValue = params.data;
+    component.from = 'search2';
+    component.submit();
+    expect(component.showSearch).toBeFalsy;
   });
 });

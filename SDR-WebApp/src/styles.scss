@@ -248,13 +248,15 @@ body {
 .admin {
   a {
     cursor: pointer;
-    margin-top: 30px;
-    display: block;
+    position: absolute;
+    right: 20px;
   }
 }
 .admin-user {
   a {
+    cursor: pointer;
     margin: -4% 96%;
+    display: block;
   }
 }
 input[type="text"]:disabled {

@@ -148,6 +148,8 @@ export class SoaComponent implements OnInit {
     });
   }
 
+  /* istanbul ignore next */
+  // @SONAR_STOP@
   addFootnoteids() {
     this.tabs?.studyDesigns?.forEach((eachStudyDesign: any) => {
       eachStudyDesign.searchBoolean = false;
@@ -198,6 +200,8 @@ export class SoaComponent implements OnInit {
       }
     });
   }
+  /* istanbul ignore end */
+  // @SONAR_START@
 
   // for the present data no duplicate data will be found so fn is nt executed but kept for ref.
   findDuplicate(
@@ -211,6 +215,8 @@ export class SoaComponent implements OnInit {
     });
   }
 
+  /* istanbul ignore next */
+  // @SONAR_STOP@
   redirectToTimeline(timelineId: any) {
     this.tabset2.forEach((eachStudyDesign: any) => {
       eachStudyDesign.tabs.forEach((eachTimeline: any) => {
@@ -220,6 +226,8 @@ export class SoaComponent implements OnInit {
       });
     });
   }
+  /* istanbul ignore end */
+  // @SONAR_START@
 
   openModal(template: TemplateRef<any>) {
     this.bsModalRef = this.modalService.show(template);

@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DebugElement, NO_ERRORS_SCHEMA } from '@angular/core';
-import { BsModalService } from 'ngx-bootstrap/modal';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { FormBuilder } from '@angular/forms';
 import { ServiceCall } from '../../../../shared/services/service-call/service-call.service';
 import { DialogService } from 'src/app/shared/services/communication.service';
@@ -10,11 +10,14 @@ import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 import { SearchFormComponent } from './search-form.component';
 import { configList } from 'src/app/shared/components/study-element-description/config/study-element-field-config';
+import { ModalComponentComponent } from 'src/app/shared/components/modal-component/modal-component.component';
 
 describe('SearchFormComponent', () => {
   let component: SearchFormComponent;
   let fixture: ComponentFixture<SearchFormComponent>;
   let el: DebugElement;
+  let modalService: BsModalService;
+  let modalRef: BsModalRef;
   beforeEach(() => {
     const bsModalServiceStub = () => ({
       show: (modalComponentComponent: any, initialState: any) => ({}),
@@ -65,6 +68,8 @@ describe('SearchFormComponent', () => {
       indication: 't',
       toDate: '2023-02-27',
     });
+    modalService = TestBed.inject(BsModalService);
+    modalRef = modalService.show(ModalComponentComponent);
   });
 
   it('can load instance', () => {
@@ -106,6 +111,19 @@ describe('SearchFormComponent', () => {
     ).toHaveBeenCalled();
   });
 
+  it('submitSearch makes error calls', () => {
+    spyOn(window, 'alert');
+    component.showGrid = true;
+    component.editorForm.patchValue({
+      fromDate: '12-08-2023',
+      toDate: '12-05-2023',
+    });
+    component.submitSearch();
+    expect(window.alert).toHaveBeenCalledWith(
+      'To Date must be greater than From Date'
+    );
+  });
+
   it('ngOnInit makes expected calls', () => {
     const serviceCallStub: ServiceCall =
       fixture.debugElement.injector.get(ServiceCall);
@@ -139,5 +157,27 @@ describe('SearchFormComponent', () => {
 
     component.checkValidations();
     expect(component.enableSearch).toBeFalse();
+  });
+
+  it('openModal makes expected calls', () => {
+    const bsModalServiceStub: BsModalService =
+      fixture.debugElement.injector.get(BsModalService);
+    const modalfixture = TestBed.createComponent(ModalComponentComponent);
+    const list = ['test', 'list'];
+    const modalcomponent = modalfixture.componentInstance;
+    modalRef.content = modalcomponent;
+    spyOn(modalRef.content.passEntry, 'emit');
+    spyOn(bsModalServiceStub, 'show').and.returnValue({
+      id: 1,
+      content: modalcomponent,
+      hide: function (): void {
+        throw new Error('Function not implemented.');
+      },
+      setClass: function (newClass: string): void {
+        throw new Error('Function not implemented.');
+      },
+    });
+    component.openModal(list, 'sponsor');
+    expect(bsModalServiceStub.show).toHaveBeenCalled();
   });
 });
