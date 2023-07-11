@@ -351,7 +351,7 @@ export class AddGroupComponent implements OnInit {
       const reqObj = this.editorForm.value;
       reqObj.sortOrder = 'desc';
       reqObj.sortBy = 'studyTitle';
-      reqObj.groupByStudyId = 1;
+      reqObj.groupByStudyId = 0;
       this.commonMethod.gridDataSourceForSearchLightStudy(
         reqObj,
         this.gridApi,
@@ -399,7 +399,7 @@ export class AddGroupComponent implements OnInit {
     }
     if (this.showGrid && this.editorForm.valid) {
       const reqObj = this.editorForm.value;
-      reqObj.groupByStudyId = 1;
+      reqObj.groupByStudyId = 0;
       this.commonMethod.gridDataSourceForSearchLightStudy(
         reqObj,
         this.gridApi,
