@@ -9,6 +9,7 @@ import { CommonMethodsService } from '../../../../shared/services/common-methods
 import { MsalBroadcastService } from '@azure/msal-angular';
 import { EventMessage, EventType } from '@azure/msal-browser';
 import { ActivatedRoute, Router } from '@angular/router';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-recent-activity',
@@ -79,29 +80,38 @@ export class RecentActivityComponent {
    * To get 'homeAccountId' after login for silent logout
    */
   ngOnInit() {
-    this.msalBroadcastService.msalSubject$
-      .pipe(
-        filter(
-          (msg: EventMessage) =>
-            msg.eventType === EventType.ACQUIRE_TOKEN_SUCCESS
-        ),
-        takeUntil(this._destroying$)
-      )
-      .subscribe((result: any) => {
-        if (result?.payload?.accessToken) {
-          localStorage.setItem('token', result?.payload?.accessToken);
-          localStorage.setItem(
-            'homeAccountId',
-            result?.payload?.account?.homeAccountId
-          );
-          let isAdmin: any =
-            result?.payload?.account?.idTokenClaims?.roles?.indexOf(
-              'org.admin'
-            ) >= 0;
-          localStorage.setItem('isAdmin', isAdmin);
-        }
-        this.ds.changeDialogState('Home');
-      });
+    if (!environment.bypassAuth) {
+      this.msalBroadcastService.msalSubject$
+        .pipe(
+          filter(
+            (msg: EventMessage) =>
+              msg.eventType === EventType.ACQUIRE_TOKEN_SUCCESS
+          ),
+          takeUntil(this._destroying$)
+        )
+        .subscribe((result: any) => {
+          if (result?.payload?.accessToken) {
+            localStorage.setItem('token', result?.payload?.accessToken);
+            localStorage.setItem(
+              'homeAccountId',
+              result?.payload?.account?.homeAccountId
+            );
+            let isAdmin: any =
+              result?.payload?.account?.idTokenClaims?.roles?.indexOf(
+                'org.admin'
+              ) >= 0;
+            localStorage.setItem('isAdmin', isAdmin);
+            this.getVersions();
+          }
+          this.ds.changeDialogState('Home');
+        });
+    } else {
+      localStorage.setItem('isAdmin', 'true');
+      localStorage.setItem('token', 'DUMMY_TOKEN');
+      localStorage.setItem('homeAccountId', 'DUMMY_ACCOUNT_ID');
+      this.getVersions();
+      this.ds.changeDialogState('Home');
+    }
   }
 
   /**
@@ -120,7 +130,7 @@ export class RecentActivityComponent {
 
       eDiv.innerHTML =
         '<span class="linkSpan"><a>' +
-        params.data?.clinicalStudy.studyTitle +
+        params.data?.study.studyTitle +
         '&nbsp;<span>_Version ' +
         params.data?.auditTrail.SDRUploadVersion +
         '</span> </a></span>';
@@ -135,19 +145,19 @@ export class RecentActivityComponent {
   /**
    *Gets trriggered on click of eack link in Recent activity widget row.
    *Redirect to details page on click of link.
-   * @param val   clinicalStudy value for the selected row.
+   * @param val  study value for the selected row.
    */
   setSelectedValue(val: any) {
     this.showStudyElement = true;
     localStorage.setItem(
-      val.clinicalStudy.uuid + '_' + val.auditTrail.SDRUploadVersion + '_links',
+      val.study.studyId + '_' + val.auditTrail.SDRUploadVersion + '_links',
       JSON.stringify(val.links)
     );
     this.router.navigate(
       [
         'details',
         {
-          studyId: val.clinicalStudy.uuid,
+          studyId: val.study.studyId,
           versionId: val.auditTrail.SDRUploadVersion,
           usdmVersion: val.auditTrail.usdmVersion,
         },
@@ -174,6 +184,7 @@ export class RecentActivityComponent {
       //NOSONAR
       fromDate: moment().subtract(30, 'days'), //NOSONAR
       toDate: moment(), //NOSONAR
+      validateUsdmVersion: false,
     }; //NOSONAR
     this.commonMethod.gridDataSourceForSearchStudy(
       //NOSONAR
@@ -184,4 +195,18 @@ export class RecentActivityComponent {
     ); //NOSONAR
   } //NOSONAR
   /** istanbul ignore end */
+
+  getVersions(): void {
+    this.serviceCall.getVersions().subscribe({
+      next: (versionsObj: any) => {
+        localStorage.setItem(
+          'versions',
+          JSON.stringify(versionsObj.SDRVersions)
+        );
+      },
+      error: (error) => {
+        this.showError = true;
+      },
+    });
+  }
 }

@@ -23,21 +23,17 @@
                 class="input-sm paddingTen textField"
                 formControlName="studyTitle"
                 maxlength="20"
-                (keypress)="restrictChar($event)"
               />
             </div>
           </div>
         </div>
         <div class="col-3">
           <div class="form-group row">
-            <label for="studyId" class="col-sm-4 paddingTen">Sponsor Id:</label>
+            <label for="sponsorId" class="col-sm-4 paddingTen"
+              >Sponsor Id:</label
+            >
             <div class="col-sm-8 inputDiv">
-              <input
-                type="text"
-                (keypress)="restrictChar($event)"
-                class="input-sm"
-                formControlName="studyId"
-              />
+              <input type="text" class="input-sm" formControlName="sponsorId" />
             </div>
           </div>
         </div>
@@ -72,7 +68,7 @@
       </div>
       <br />
       <div class="buttonClass">
-        <button class="btn btn-primary btn-sm resetButton" (click)="clear()">
+        <button class="btn btn-secondary btn-sm resetButton" (click)="clear()">
           Reset
         </button>
         <button
@@ -122,7 +118,7 @@
         <div class="col-md-12 text-center">
           <form>
             <button
-              class="btn btn-primary btn-sm"
+              class="btn btn-secondary btn-sm"
               type="submit"
               routerLink=".."
             >
@@ -135,7 +131,7 @@
               (click)="submit()"
               routerLink=".."
             >
-              Select
+              OK
             </button>
           </form>
         </div>

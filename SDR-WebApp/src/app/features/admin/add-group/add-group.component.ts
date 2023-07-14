@@ -84,14 +84,16 @@ export class AddGroupComponent implements OnInit {
     };
     this.gridOptions.columnDefs = [
       {
+        headerName: 'Select',
         cellRendererFramework: CheckboxRenderer,
         width: 10,
+        sortable: false,
       },
       {
         headerName: 'Study Title',
-        field: 'clinicalStudy.studyTitle',
+        field: 'study.studyTitle',
 
-        tooltipField: 'clinicalStudy.studyTitle',
+        tooltipField: 'study.studyTitle',
         headerTooltip: configList.STUDY_TITLE,
         cellRenderer: this.getStudyVersionGrid.bind(this),
       },
@@ -105,8 +107,8 @@ export class AddGroupComponent implements OnInit {
 
       // {
       //   headerName: 'Tag',
-      //   field: 'clinicalStudy.studyTag',
-      //   tooltipField: 'clinicalStudy.studyTag',
+      //   field: 'study.studyTag',
+      //   tooltipField: 'study.studyTag',
       //   headerTooltip: configList.TAG,
       // },
     ];
@@ -322,9 +324,7 @@ export class AddGroupComponent implements OnInit {
       // tslint:disable-next-line:no-this-assignment
       const self = this;
       eDiv.innerHTML =
-        '<span class="linkSpan">' +
-        params.data?.clinicalStudy.studyTitle +
-        '</span>';
+        '<span class="linkSpan">' + params.data?.study.studyTitle + '</span>';
       eDiv.addEventListener('click', () => {
         self.setSelectedValue(params.data);
       });
@@ -332,7 +332,8 @@ export class AddGroupComponent implements OnInit {
     }
   }
 
-  /** istanbul ignore next */
+  /* istanbul ignore next */
+  // @SONAR_STOP@
   onGridReady(params: any) {
     this.showGrid = false;
     this.gridApi = params.api;
@@ -340,7 +341,7 @@ export class AddGroupComponent implements OnInit {
     params.api.sizeColumnsToFit();
     var defaultSortModel = [
       {
-        colId: 'clinicalStudy.studyTitle',
+        colId: 'study.studyTitle',
         sort: 'desc',
         sortIndex: 0,
       },
@@ -362,7 +363,8 @@ export class AddGroupComponent implements OnInit {
 
     //this.gridApi.addEventListener('failCallback', this.onServerFailCallback);
   }
-  /** istanbul ignore end */
+  /* istanbul ignore end */
+  // @SONAR_START@
   /**
    *  Validation to enable search button
    * @param control Formgroup object
@@ -391,7 +393,7 @@ export class AddGroupComponent implements OnInit {
       const toDate = new Date(this.editorForm.value.toDate);
 
       if (fromDate && toDate && fromDate > toDate) {
-        alert('FromDate is greater than toDate...');
+        alert('To Date must be greater than From Date');
         return;
       }
     }
@@ -409,14 +411,14 @@ export class AddGroupComponent implements OnInit {
   }
   setSelectedValue(val: any) {
     localStorage.setItem(
-      val.clinicalStudy.uuid + '_' + val.auditTrail.SDRUploadVersion + '_links',
+      val.study.studyId + '_' + val.auditTrail.SDRUploadVersion + '_links',
       JSON.stringify(val.links)
     );
     this.router.navigate(
       [
         'details',
         {
-          studyId: val.clinicalStudy.uuid,
+          studyId: val.study.studyId,
           versionId: val.auditTrail.SDRUploadVersion,
           usdmVersion: val.auditTrail.usdmVersion,
         },
@@ -428,18 +430,18 @@ export class AddGroupComponent implements OnInit {
     if (params.data.selected) {
       if (
         this.searchList.some(
-          (elem: { id: any }) => elem.id === params.data.clinicalStudy.uuid
+          (elem: { id: any }) => elem.id === params.data.study.studyId
         )
       ) {
         return;
       }
       this.searchList.push({
-        id: params.data.clinicalStudy.uuid,
-        title: params.data.clinicalStudy.studyTitle,
+        id: params.data.study.studyId,
+        title: params.data.study.studyTitle,
       });
     } else {
       this.searchList = this.searchList.filter((elem: any) => {
-        return !(elem.id === params.data.clinicalStudy.uuid);
+        return !(elem.id === params.data.study.studyId);
       });
     }
     // let index = this.group.groupFilter.findIndex(
@@ -458,7 +460,7 @@ export class AddGroupComponent implements OnInit {
       return !(elem.id === params.id);
     });
     this.gridOptions?.api?.forEachNode((elem) => {
-      if (elem?.data?.clinicalStudy?.uuid === params.id) {
+      if (elem?.data?.study?.studyId === params.id) {
         // arbitrarily update some data
         var updated = elem.data;
         updated.selected = false;

@@ -6,6 +6,35 @@
     border: 1px solid hsl(0deg 0% 77%);
     border-radius: 4px;
     margin: 20px 30px;
+    .custom-export-btn {
+      float: right;
+      margin: 0px 30px;
+    }
+    .study-schedule-timeline-table {
+      margin: 20px 30px;
+      .table-bordered {
+        border: 1.5px solid;
+        border-collapse: separate;
+        border-spacing: 2px;
+        margin-bottom: 0px;
+        width: auto;
+        :not(caption) > * {
+          padding: 8px;
+          border-width: 1px;
+        }
+      }
+    }
+
+    .footnote-section {
+      margin: 20px 30px;
+      max-height: 30vh;
+      overflow-y: auto;
+      border-top: 1px solid #c4c4c4;
+      padding: 10px 0;
+      .footnote-description {
+        padding: 0px 5px;
+      }
+    }
     .soa-table {
       margin: 20px 30px;
       border: 1px solid;
@@ -21,19 +50,60 @@
         }
         .soa-table-thead {
           tr {
+            &:nth-child(1) {
+              height: 7vh;
+              th {
+                // position: sticky;
+                // top: 0px;
+                &:first-child {
+                  max-width: 185px;
+                  left: 0px;
+                  z-index: 2;
+                }
+              }
+            }
+            &:nth-child(2) {
+              height: 7vh;
+              th {
+                // position: sticky;
+                // top: 7vh;
+                &:first-child {
+                  left: 0px;
+                  z-index: 2;
+                }
+              }
+            }
+            &:nth-child(3) {
+              height: 7vh;
+              th {
+                // position: sticky;
+                // top: 14vh;
+                &:first-child {
+                  left: 0px;
+                  z-index: 2;
+                }
+              }
+            }
+            &:nth-child(4) {
+              height: 7vh;
+              th {
+                // position: sticky;
+                // top: 21vh;
+                &:first-child {
+                  left: 0px;
+                  z-index: 2;
+                }
+              }
+            }
             th {
               background-color: hsl(0deg 0% 84%);
               text-align: center;
               width: 25vw;
-              position: sticky;
               z-index: 1;
-              top: 0;
-            }
-            .first-block {
-              position: sticky;
-              left: 0;
-              top: 0;
-              z-index: 2;
+              max-width: 100px;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              white-space: nowrap;
             }
           }
         }
@@ -47,8 +117,68 @@
 
             td.tbody-first-cols {
               left: 0;
-              position: sticky;
+              // top: 28vh;
+              // position: sticky;
               z-index: 1;
+              text-align: left;
+              .fa {
+                color: #212529;
+                font-size: 10px;
+              }
+              .accordian-row {
+                .accordian {
+                  border: none;
+                  .accordian-body {
+                    .card {
+                      font-size: 12px;
+                      margin-bottom: 10px;
+                      border-radius: 0;
+                      width: 300px;
+                      .card-header {
+                        padding: 0px 6px;
+                        text-align: left;
+                        .card-title {
+                          cursor: pointer;
+                          margin: 0.5rem 0;
+                          .fa {
+                            font-size: 8px;
+                          }
+                        }
+                        .timeprofile-card-title {
+                          cursor: initial;
+                          .timeline-card {
+                            text-overflow: ellipsis;
+                            overflow: hidden;
+                            white-space: nowrap;
+                            cursor: pointer;
+                          }
+                        }
+                      }
+                      .card-body {
+                        padding: 0px 8px;
+                        .card-list {
+                          padding: 0px 0px 0px 10px;
+                          margin: 5px 0px;
+                          li {
+                            text-align: left;
+                            .concept-span {
+                              text-overflow: ellipsis;
+                              overflow: hidden;
+                              white-space: nowrap;
+                              display: block;
+                            }
+                            .show-more-span {
+                              color: blue;
+                              cursor: pointer;
+                              text-decoration: underline;
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
             }
           }
         }
@@ -56,7 +186,7 @@
     }
   }
 }
-::ng-deep .tab-container ul {
+::ng-deep .tab-container ul.nav-tabs {
   background-color: hsl(0deg 0% 91%);
   border: none;
   margin: 3px;
@@ -94,6 +224,10 @@
   font-weight: 500;
 }
 
+.no-workflows-table {
+  display: table-caption;
+  border: none;
+}
 .no-workflows-container {
   text-align: center;
   font-weight: 500;
@@ -103,4 +237,10 @@
 .duplicate {
   color: red;
   cursor: pointer;
+}
+.custom-proc-header {
+  margin-bottom: 0px;
+}
+.proc-modal-body {
+  word-break: break-all;
 }

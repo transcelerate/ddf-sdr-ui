@@ -14,13 +14,14 @@ Using this Angular project, user can connect with SDR data, to view the study do
 
 Admin users can access System Usage Report which lists all the API calls made to the SDR application for a given duration with csv export capability and also access group and user management features which provides the ability to group users and associate them with specific study or group of studies in order to limit access for users only to those study definitions.
 
-This [Process Flow Document](https://github.com/transcelerate/ddf-sdr-platform/blob/main/documents/sdr-release-v2.0/ddf-sdr-ri-process-flows-v4.0.pdf) provides information regarding user interface functions and system interactions with the SDR at a high level. Please also refer to the [DDF SDR UI User Guide](documents/sdr-release-v2.0/ddf-sdr-ri-ui-user-guide-v4.1.pdf) to get started, and the [DDF SDR RI UI Demo video](https://www.youtube.com/playlist?list=PLMXS-Xt7Ou1KNUF-HQKQRRzqfPQEXWb1u).  
+This [Process Flow Document](https://github.com/transcelerate/ddf-sdr-platform/blob/main/documents/sdr-release-v2.0.1/ddf-sdr-ri-process-flows-v4.0.pdf) provides information regarding user interface functions and system interactions with the SDR at a high level. Please also refer to the [DDF SDR UI User Guide](documents/sdr-release-v2.0.1/ddf-sdr-ri-ui-user-guide-v5.0.pdf) to get started, and the [DDF SDR RI UI Demo video](https://www.youtube.com/playlist?list=PLMXS-Xt7Ou1KNUF-HQKQRRzqfPQEXWb1u).  
 
 **NOTES:** 
 - These materials and information are provided by TransCelerate Biopharma Inc. AS IS.  Any party using or relying on this information and these materials do so entirely at their own risk.  Neither TransCelerate nor its members will bear any responsibility or liability for any harm, including indirect or consequential harm, that a user may incur from use or misuse of this information or materials.
 - Please be advised that if you implement the code as written, the functionality is designed to collect and store certain personal data (user credentials, email address, IP address) for authentication and audit log purposes. None of this information will be shared with TransCelerate or Accenture for any purpose. Neither TransCelerate nor Accenture bears any responsibility for any collection, use or misuse of personal data that occurs from any implementation of this source code. If you or your organization employ any of the features that collect personal data, you are responsible for compliance with any relevant privacy laws or regulations in any applicable jurisdiction.
-- Please be aware that any information you put into the provided tools (including the UI or API) will be visible to all users, so we recommend not using commercially sensitive or confidential information.  You and/or your employer bear all responsibility for anything you share with this project.  TransCelerate, its member companies and any vendors affiliated with the DDF project are not responsible for any harm or loss you occur as a result of uploading any information or code: commercially sensitive, confidential or otherwise.  
-- As of March 2023, the DDF initiative is still the process of setting up operations, and any pull requests submitted will not be triaged at this point in time.
+- Please be aware that any information you put into the provided tools (including the UI or API) will be visible to all users, so we recommend not using commercially sensitive or confidential information.  You and/or your employer bear all responsibility for anything you share with this project.  TransCelerate, its member companies and any vendors affiliated with the DDF project are not responsible for any harm or loss you occur as a result of uploading any information or code: commercially sensitive, confidential or otherwise.
+- To the extent that the SDR Reference Implementation incorporates or relies on any specific branded products or services, such as Azure, this resulted out of the practical necessities associated with making a reference implementation available to demonstrate the SDR’s capabilities.  Users are free to download the source code for the SDR from GitHub and design their own implementations.  Those implementations can be in an environment of the user’s choice, and do not have to be on Azure.
+- As of July 2023, the DDF initiative is still the process of setting up operations, and any pull requests submitted will not be triaged at this point in time.
 
 ## Requirements to Contribute and Propose Changes
 Before participating, you must acknowledge the Contribution License Agreement (CLA).
@@ -74,7 +75,7 @@ SDR API URL and other secrets are configured in `src/environments/environment.ts
 ```
 export const environment = {
   production: true,
-  
+  bypassAuth: false,
   tenantId: '{#AzureAd-TenantId#}', // Azure AD Tenant ID
   authority: '{#AzureAd-Authority#}', // Azure AD login URL (e.g https://login.microsoftonline.com/<tenantId>/)
   clientId: '{#AzureAd-ClientId#}', // Azure App Registration Client ID for UI Application
@@ -137,7 +138,7 @@ The solution has the following structure:
 - The application uses  Microsoft Authentication Library (MSAL) for user authentication.
 - Users with valid credentials (registered in cloud active directory) can login to the application.
 - For MSAL integration, the secrets should be configured in environment file as mentioned in the above section.
-- To skip authentication step while running the application in local, please refer the temporary workaround mentioned in the [GitHub Support Ticket] (https://github.com/transcelerate/ddf-sdr-support/issues/27)
+- A flag 'bypassAuth' is added in environment.ts which allows the user to disable authentication while running in local environment.
 
 **Application Features:**
 - After successful login, user will be navigated to home screen 
@@ -147,6 +148,7 @@ The solution has the following structure:
 - From Study details page, user  can click  "View Revision History" to view the complete audit trail data for the study document.
 - In Study details page, "View SOA Matrix" will be visible for the studies whose usdmVersion is V1.9 or above.
 - From Study details page, user  can click  "View SOA Matrix" to view the Schedule of Activities for each Timeline under study designs for a study document.
+  - In SoA Matrix, user can export the table to excel which includes the information of particular timeline including schedule timeline table, SoA table having activities data with accordian component inside each activity that has procedures, biomedical concepts and timeline profile data, and additional information using footnotes table also included.
 - In *Audit trail page*, user  can select any two versions and click on "Version Comparison" to compare the changes.
 - On click of *Study Definitions -> Compare*, user will be navigated to *Compare page* to select two study documents based on certain study parameters and to compare the changes.
 - User will be logged out from application on click of logout link in the header.
@@ -164,7 +166,7 @@ The solution has the following structure:
 
 - Default page (URL: /# )
   - Has login link
-  - Uses MSAL oauth authentication (store the token in localStorage)
+  - Uses MSAL oauth authentication
   - Has auth token generation link for accessing SDR APIs
 - Home page (URL: /home )
   - Dashboard page with recent activity widget and Menu bar to navigate to search

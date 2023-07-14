@@ -143,7 +143,7 @@ export class GroupManagementComponent implements OnInit {
         this.spinner.hide();
         this.responseData = data;
         if (data.length > 0) {
-          // data = data.map((elem: { clinicalStudy: any }) => {
+          // data = data.map((elem: { study: any }) => {
           //   return elem;
           // });
 

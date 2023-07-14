@@ -227,7 +227,6 @@ body {
   border-radius: 2px;
   float: left;
   max-width: 100% !important;
-  margin: 2px;
   a {
     color: #000 !important;
   }
@@ -249,14 +248,15 @@ body {
 .admin {
   a {
     cursor: pointer;
-    margin-top: 30px;
-    margin: -5% 96%;
-    display: block;
+    position: absolute;
+    right: 20px;
   }
 }
 .admin-user {
   a {
+    cursor: pointer;
     margin: -4% 96%;
+    display: block;
   }
 }
 input[type="text"]:disabled {
@@ -265,18 +265,18 @@ input[type="text"]:disabled {
 select {
   -webkit-appearance: listbox !important;
 }
-button {
-  border-radius: 5px;
-  color: #fff;
-  background-color: #0d6efd !important;
-  border-color: #0d6efd !important;
-}
-button:disabled {
-  background-color: #c1c1c1 !important;
-  color: black !important;
-  opacity: 0.45 !important;
-  border-color: #c1c1c1 !important;
-}
+// button {
+//   border-radius: 5px;
+//   color: #fff;
+//   background-color: #0d6efd !important;
+//   border-color: #0d6efd !important;
+// }
+// button:disabled {
+//   background-color: #c1c1c1 !important;
+//   color: black !important;
+//   opacity: 0.45 !important;
+//   border-color: #c1c1c1 !important;
+// }
 .modal-body .btn {
   margin: 0 5px;
 }

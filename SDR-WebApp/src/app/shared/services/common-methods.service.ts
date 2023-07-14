@@ -32,27 +32,24 @@ export class CommonMethodsService {
       return '';
     } else {
       if (type === 'sponsor') {
-        value = params?.data?.clinicalStudy?.studyIdentifiers?.filter(
-          (obj: any) => {
-            const decode =
-              obj['studyIdentifierScope']?.organisationType?.decode;
-            if (
-              configList.SPONSORKEYS.find(
-                (p) => p.toLowerCase() === decode.toLowerCase()
-              )
-            ) {
-              return obj['studyIdentifierScope'];
-            }
+        value = params?.data?.study?.studyIdentifiers?.filter((obj: any) => {
+          const decode = obj['studyIdentifierScope']?.organisationType?.decode;
+          if (
+            configList.SPONSORKEYS.find(
+              (p) => p.toLowerCase() === decode.toLowerCase()
+            )
+          ) {
+            return obj['studyIdentifierScope'];
           }
-        );
+        });
       } else if (type === 'intervention') {
         if (
           params.data &&
-          params?.data?.clinicalStudy?.studyDesigns &&
-          params?.data?.clinicalStudy?.studyDesigns.length > 0
+          params?.data?.study?.studyDesigns &&
+          params?.data?.study?.studyDesigns.length > 0
         ) {
           value = [];
-          let studyDesigns = params?.data?.clinicalStudy?.studyDesigns;
+          let studyDesigns = params?.data?.study?.studyDesigns;
           studyDesigns.forEach((element: any) => {
             if (
               element.interventionModel &&
@@ -69,18 +66,21 @@ export class CommonMethodsService {
       } else if (type === 'indication') {
         if (
           params.data &&
-          params?.data?.clinicalStudy?.studyDesigns &&
-          params?.data?.clinicalStudy?.studyDesigns.length > 0
+          params?.data?.study?.studyDesigns &&
+          params?.data?.study?.studyDesigns.length > 0
         ) {
           value = [];
-          let studyDesigns = params?.data?.clinicalStudy?.studyDesigns;
+          let studyDesigns = params?.data?.study?.studyDesigns;
           studyDesigns.forEach((element: any) => {
             if (
               element.studyIndications &&
               element.studyIndications.length > 0
             ) {
               element.studyIndications.forEach((item: any) => {
-                if (item.indicationDesc && item.indicationDesc != '') {
+                if (
+                  item.indicationDescription &&
+                  item.indicationDescription != ''
+                ) {
                   value.push(item);
                 }
               });
@@ -98,8 +98,8 @@ export class CommonMethodsService {
             ? value.map((elem: { decode: any }) => {
                 return elem.decode;
               })
-            : value.map((elem: { indicationDesc: any }) => {
-                return elem.indicationDesc;
+            : value.map((elem: { indicationDescription: any }) => {
+                return elem.indicationDescription;
               });
         val = [...new Set(val)];
       }
@@ -122,7 +122,7 @@ export class CommonMethodsService {
           } else if (type === 'intervention') {
             val = value[0].decode || '';
           } else {
-            val = value[0].indicationDesc || '';
+            val = value[0].indicationDescription || '';
           }
           var htmlTag = '<span> ' + val + '</span>';
           eDiv.innerHTML = htmlTag;
@@ -427,7 +427,7 @@ export class CommonMethodsService {
   }
   getHeaderNameLightStudy(colId: any): any {
     switch (colId) {
-      case 'clinicalStudy.studyTitle':
+      case 'study.studyTitle':
         return 'studyTitle';
       case '1':
         return 'SponsorId';
@@ -441,9 +441,9 @@ export class CommonMethodsService {
   // @SONAR_START@
   getHeaderName(colId: any): any {
     switch (colId) {
-      case 'clinicalStudy.studyTitle':
+      case 'study.studyTitle':
         return 'studyTitle';
-      case 'clinicalStudy.studyProtocol.briefTitle':
+      case 'study.studyProtocol.briefTitle':
         return 'briefTitle';
       case '0':
         return 'SponsorId';
@@ -451,7 +451,7 @@ export class CommonMethodsService {
         return 'Indication';
       case '2':
         return 'InterventionModel';
-      case 'clinicalStudy.studyPhase.decode':
+      case 'study.studyPhase.decode':
         return 'Phase';
       // case 'auditTrail.entrySystem':
       //   return 'LastModifiedBySystem';
@@ -475,15 +475,21 @@ export class CommonMethodsService {
     }
   }
   getSponsorDetails(studyelement: any) {
-    let sponsorObject = studyelement.clinicalStudy.studyIdentifiers.filter(
-      (obj: { [x: string]: string }) => {
-        const decode = obj['idType']?.toLowerCase();
-        return (
-          configList.SPONSORKEYS.findIndex((p) => p.toLowerCase() === decode) >
-          -1
-        );
-      }
-    );
+    let sponsorObject;
+    if (
+      studyelement.auditTrail.usdmVersion === '1.0' ||
+      studyelement.auditTrail.usdmVersion === '1.9'
+    ) {
+      sponsorObject = studyelement.clinicalStudy.studyIdentifiers;
+    } else {
+      sponsorObject = studyelement.study.studyIdentifiers;
+    }
+    sponsorObject.filter((obj: { [x: string]: string }) => {
+      const decode = obj['idType']?.toLowerCase();
+      return (
+        configList.SPONSORKEYS.findIndex((p) => p.toLowerCase() === decode) > -1
+      );
+    });
     return {
       studyId:
         sponsorObject.length > 0
@@ -553,5 +559,30 @@ export class CommonMethodsService {
       var parsedLinks = JSON.parse(links);
       query.callback(parsedLinks[query.linkName]);
     }
+  }
+
+  /**
+   *  Logic to restrict special char on typing
+   *  @param event Keyboard event on typing.
+   */
+  restrictChar(event: {
+    charCode: number;
+    which: number;
+    preventDefault: () => void;
+  }) {
+    var k;
+    k = event.charCode; //         k = event.keyCode;  (Both can be used)
+    return (
+      (k > 64 && k < 91) ||
+      (k > 96 && k < 123) ||
+      k == 8 ||
+      k == 32 ||
+      k == 46 ||
+      (k >= 48 && k <= 57)
+    );
+  }
+
+  getToday(): string {
+    return new Date().toISOString().split('T')[0];
   }
 }

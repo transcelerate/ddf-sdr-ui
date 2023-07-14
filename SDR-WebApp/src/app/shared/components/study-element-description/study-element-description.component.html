@@ -1,28 +1,43 @@
 <div class="container-fluid">
-  <h2 *ngIf="!showError">
-    <strong
-      >{{ finalVal.accordianName }}
-      <span *ngIf="route.children.length === 0 || soaNavigationBoolean"
-        >Version {{ sponsorVersionId }}</span
-      ></strong
-    >
-  </h2>
-  <div class="col-sm-12" *ngIf="route.children.length === 0">
-    <app-error-component *ngIf="showError"></app-error-component>
-    <div class="buttonDiv" *ngIf="!showError">
-      <button
-        (click)="soaMatrix()"
-        class="soaButton"
-        [disabled]="!isValidUSDMVersion"
+  <div class="row">
+    <h2 *ngIf="!showError" class="col-9 custom-header-sec">
+      <strong
+        >{{ finalVal.accordianName }}
+        <span *ngIf="route.children.length === 0 || soaNavigationBoolean"
+          >Version {{ sponsorVersionId }}</span
+        ></strong
       >
-        View SoA Matrix
-      </button>
-    </div>
-    <div class="buttonDiv" *ngIf="!showError">
-      <button (click)="auditTrail()" class="versionButton">
+    </h2>
+    <div
+      class="col-3 custom-button-sec"
+      *ngIf="route.children.length === 0 && !showError"
+    >
+      <button
+        (click)="auditTrail()"
+        class="btn btn-primary btn-sm versionButton"
+      >
         View Revision History
       </button>
+      <span
+        class="text-right"
+        [title]="
+          !isValidUSDMVersion
+            ? 'SoA Matrix cannot be generated for this USDM Version.'
+            : ''
+        "
+      >
+        <button
+          (click)="soaMatrix()"
+          class="btn btn-primary btn-sm soaButton"
+          [disabled]="!isValidUSDMVersion"
+        >
+          View SoA Matrix
+        </button>
+      </span>
     </div>
+  </div>
+  <div class="col-sm-12" *ngIf="route.children.length === 0">
+    <app-error-component *ngIf="showError"></app-error-component>
     <div class="row mt-n4">
       <div class="col-4 border studyElement">
         <div class="outerDiv">

@@ -22,15 +22,6 @@ const studyCompareModuleRoutes: Routes = [
           breadcrumb: 'Study Comparison',
         },
       },
-    ],
-  },
-  {
-    path: 'search',
-    component: SimpleSearchComponent,
-    data: {
-      breadcrumb: 'Compare Search',
-    },
-    children: [
       {
         path: 'details',
         component: StudyElementDescriptionComponent,

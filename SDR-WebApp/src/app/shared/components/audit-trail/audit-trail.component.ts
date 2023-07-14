@@ -32,7 +32,7 @@ export class AuditTrailComponent implements OnInit {
     },
 
     {
-      headerName: 'SDR Record Version',
+      headerName: 'SDR Upload Version',
       field: 'SDRUploadVersion',
       suppressSizeToFit: false,
       width: 150,
@@ -112,7 +112,7 @@ export class AuditTrailComponent implements OnInit {
       next: (audit: any) => {
         //this.userExists = true;
         this.spinner.hide();
-        this.rowData = audit.auditTrail.map((elem: any) => {
+        this.rowData = audit.revisionHistory.map((elem: any) => {
           elem.entryDateTime = moment
             .utc(elem.entryDateTime)
             .local()

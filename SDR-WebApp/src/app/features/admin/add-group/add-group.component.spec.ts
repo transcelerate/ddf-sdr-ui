@@ -193,7 +193,7 @@ describe('AddGroupComponent', () => {
       spyOn(component, 'addRule').and.callThrough();
       let params = {
         data: {
-          clinicalStudy: {
+          study: {
             uuid: '1a9aee0f-a43d-447d-b15f-4c8a557c41fd',
             studyTitle: 'Study On Parkinson disease',
             studyType: 'INTERVENTIONAL',
@@ -287,7 +287,7 @@ describe('AddGroupComponent', () => {
       spyOn(component, 'addRule').and.callThrough();
       let params = {
         data: {
-          clinicalStudy: {
+          study: {
             uuid: '1a9aee0f-a43d-447d-b15f-4c8a557c41fd',
             studyTitle: 'Study On Parkinson disease',
             studyType: 'INTERVENTIONAL',
@@ -366,7 +366,7 @@ describe('AddGroupComponent', () => {
       expect(component.addRule).toHaveBeenCalled();
       params = {
         data: {
-          clinicalStudy: {
+          study: {
             uuid: '955ee34b-0a2f-457c-b569-c81734d4b855',
             studyTitle: 'Multiple_Fields',
             studyType: 'PATIENT_registry',
@@ -524,7 +524,7 @@ describe('AddGroupComponent', () => {
     it('makes expected calls', () => {
       let params = {
         data: {
-          clinicalStudy: {
+          study: {
             studyId: '1a9aee0f-a43d-447d-b15f-4c8a557c41fd',
             studyTitle: 'Study On Parkinson disease',
             studyType: 'INTERVENTIONAL',
@@ -617,24 +617,35 @@ describe('AddGroupComponent', () => {
     });
   });
 
-  describe('submitSearch', () => {
-    it('makes expected calls', () => {
-      const commonMethodsServiceStub: CommonMethodsService =
-        fixture.debugElement.injector.get(CommonMethodsService);
-      spyOn(
-        commonMethodsServiceStub,
-        'gridDataSourceForSearchLightStudy'
-      ).and.callThrough();
-      component.showGrid = true;
-      component.editorForm.patchValue({
-        fromDate: '02/02/2022',
-        toDate: '03/03/2022',
-      });
-      component.submitSearch();
-      expect(
-        commonMethodsServiceStub.gridDataSourceForSearchLightStudy
-      ).toHaveBeenCalled();
+  it('submitSearch makes expected calls', () => {
+    const commonMethodsServiceStub: CommonMethodsService =
+      fixture.debugElement.injector.get(CommonMethodsService);
+    spyOn(
+      commonMethodsServiceStub,
+      'gridDataSourceForSearchLightStudy'
+    ).and.callThrough();
+    component.showGrid = true;
+    component.editorForm.patchValue({
+      fromDate: '02/02/2022',
+      toDate: '03/03/2022',
     });
+    component.submitSearch();
+    expect(
+      commonMethodsServiceStub.gridDataSourceForSearchLightStudy
+    ).toHaveBeenCalled();
+  });
+
+  it('submitSearch makes error calls', () => {
+    spyOn(window, 'alert');
+    component.showGrid = true;
+    component.editorForm.patchValue({
+      fromDate: '12-08-2023',
+      toDate: '12-05-2023',
+    });
+    component.submitSearch();
+    expect(window.alert).toHaveBeenCalledWith(
+      'To Date must be greater than From Date'
+    );
   });
 
   describe('confirm', () => {

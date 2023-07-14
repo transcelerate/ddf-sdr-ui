@@ -157,10 +157,17 @@ export class StudyElementDescriptionComponent implements OnInit, OnDestroy {
           // TO-Do add another AND condition to check if link exists but study designs dont exist
 
           this.isValidUSDMVersion = typeof this.getSoALink() === 'string';
-
-          Object.entries(studyelement['clinicalStudy']).forEach((elem) => {
-            this.finalVal.accordianName =
-              studyelement['clinicalStudy'].studyTitle;
+          let clinicalElem: any;
+          if (
+            studyelement.auditTrail.usdmVersion === '1.0' ||
+            studyelement.auditTrail.usdmVersion === '1.9'
+          ) {
+            clinicalElem = studyelement['clinicalStudy'];
+          } else {
+            clinicalElem = studyelement['study'];
+          }
+          Object.entries(clinicalElem).forEach((elem) => {
+            this.finalVal.accordianName = clinicalElem.studyTitle;
             let attributeList = this.createAttribute(elem);
             if (typeof attributeList === 'object') {
               this.finalVal.attributeList.push(attributeList);

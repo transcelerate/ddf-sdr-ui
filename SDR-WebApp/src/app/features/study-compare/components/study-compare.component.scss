@@ -1,6 +1,24 @@
 .compareOuter {
   border: 1px solid;
   border-radius: 7px;
+  .search-text-div {
+    padding: 0px;
+  }
+  .search-icon-div {
+    padding: 0px;
+    cursor: pointer;
+    transform: translate(10px, 10px);
+  }
+}
+
+.gridOuter {
+  height: 180px;
+  width: 100%;
+}
+
+.searchGrid {
+  width: 100%;
+  height: 100%;
 }
 .ovalText {
   background-color: #ddd;
@@ -10,10 +28,10 @@
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  margin: 3px 3px;
+  transform: translate(0%, 50%);
   border-radius: 63px;
   text-overflow: ellipsis;
-  max-width: 160px;
+  max-width: 230px;
   overflow: hidden;
   white-space: nowrap;
 }
@@ -36,12 +54,33 @@
 }
 .to {
   text-align: center;
-  padding: 16px 50px 0px 7px;
+  padding: 16px 48px 0px 7px;
   font-weight: bold;
 }
-.searchButton {
-  margin: 8px -5px;
+.compare-div-btn {
+  .searchButton {
+    margin: 8px 5px;
+  }
+  .clearButton {
+    margin: 8px 5px;
+  }
 }
-.clearButton {
-  margin: 8px 20px;
+.search-form {
+  border: 1px solid #c4c4c4;
+  padding: 10px;
+  .search-form-row {
+    margin: 5px;
+    .input-label {
+      padding: 8px;
+    }
+    .inputDiv {
+      padding: 0px;
+    }
+  }
+  .buttonClass,
+  .buttonGroup {
+    .btn {
+      margin: 0px 5px;
+    }
+  }
 }

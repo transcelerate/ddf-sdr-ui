@@ -1,4 +1,11 @@
 <app-error-component *ngIf="showError"></app-error-component>
+<div
+  class="disable-search-section"
+  *ngIf="route.children.length === 0"
+>
+  &#9432;
+  <em> {{ enableSearchMessage }}</em>
+</div>
 <div *ngIf="route.children.length === 0">
   <div class="container-fluid outer">
     <h3>Search Study Definitions</h3>
@@ -14,34 +21,32 @@
             <div class="col-sm-6">
               <input
                 type="text"
-                (keypress)="restrictChar($event)"
-                class="input-sm"
+                class="input-sm form-control"
+                (input)="checkValidations()"
                 maxlength="20"
                 formControlName="studyTitle"
               />
             </div>
           </div>
           <div class="form-group row">
-            <label for="interventionModel" class="col-sm-6 col-form-label"
-              >Intervention Model</label
+            <label for="usdmVersion" class="col-sm-6 col-form-label"
+              >USDM Version<span class="mandatory">*</span></label
             >
             <div class="col-sm-6">
-              <input
-                type="text"
-                (keypress)="restrictChar($event)"
-                class="input-sm"
-                formControlName="interventionModel"
-                matInput
-                [matAutocomplete]="intervention"
-              />
-              <mat-autocomplete #intervention="matAutocomplete">
-                <mat-option
-                  *ngFor="let option of interventionList | async"
-                  [value]="option"
-                >
-                  {{ option }}
-                </mat-option>
-              </mat-autocomplete>
+              <select
+                class="input-sm form-control"
+                formControlName="usdmVersion"
+                (change)="checkValidations()"
+              >
+                <ng-container *ngFor="let item of usdmVersionList">
+                  <option
+                    *ngFor="let option of item.usdmVersions"
+                    [value]="option"
+                  >
+                    {{ option }}
+                  </option>
+                </ng-container>
+              </select>
             </div>
           </div>
           <div class="form-group row">
@@ -51,7 +56,8 @@
             <div class="col-sm-6">
               <input
                 type="date"
-                class="input-sm"
+                class="input-sm form-control"
+                (change)="checkValidations()"
                 formControlName="fromDate"
                 [max]="getToday()"
               />
@@ -64,8 +70,8 @@
             <div class="col-sm-6">
               <input
                 type="text"
-                (keypress)="restrictChar($event)"
-                class="input-sm"
+                class="input-sm form-control"
+                (input)="checkValidations()"
                 formControlName="indication"
               />
             </div>
@@ -74,35 +80,41 @@
 
         <div class="col-6">
           <div class="form-group row">
-            <label for="studyId" class="col-sm-6 col-form-label"
+            <label for="sponsorId" class="col-sm-6 col-form-label"
               >Sponsor Id</label
             >
             <div class="col-sm-6">
               <input
                 type="text"
-                (keypress)="restrictChar($event)"
-                class="input-sm"
-                formControlName="studyId"
+                class="input-sm form-control"
+                (input)="checkValidations()"
+                formControlName="sponsorId"
               />
             </div>
           </div>
           <div class="form-group row">
-            <label for="phase" class="col-sm-6 col-form-label">Phase</label>
+            <label for="interventionModel" class="col-sm-6 col-form-label"
+              >Intervention Model</label
+            >
             <div class="col-sm-6">
               <input
+                #interventionInput
                 type="text"
-                (keypress)="restrictChar($event)"
-                class="input-sm"
+                class="input-sm form-control"
+                (change)="checkValidations()"
+                formControlName="interventionModel"
                 matInput
-                formControlName="phase"
-                [matAutocomplete]="auto"
+                [matAutocomplete]="autoIntervention"
               />
-              <mat-autocomplete #auto="matAutocomplete">
+              <mat-autocomplete
+                #autoIntervention="matAutocomplete"
+                (optionSelected)="checkValidations()"
+              >
                 <mat-option
-                  *ngFor="let option of phaseList | async"
-                  [value]="option"
+                  *ngFor="let intervention of interventionList | async"
+                  [value]="intervention"
                 >
-                  {{ option }}
+                  {{ intervention }}
                 </mat-option>
               </mat-autocomplete>
             </div>
@@ -114,27 +126,51 @@
             <div class="col-sm-6">
               <input
                 type="date"
-                class="input-sm"
+                class="input-sm form-control"
+                (change)="checkValidations()"
                 formControlName="toDate"
                 [max]="getToday()"
               />
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="phase" class="col-sm-6 col-form-label">Phase</label>
+            <div class="col-sm-6">
+              <input
+                #phaseInput
+                type="text"
+                class="input-sm form-control"
+                (change)="checkValidations()"
+                matInput
+                formControlName="phase"
+                [matAutocomplete]="autoPhase"
+              />
+              <mat-autocomplete
+                #autoPhase="matAutocomplete"
+                (optionSelected)="checkValidations()"
+              >
+                <mat-option
+                  *ngFor="let phase of phaseList | async"
+                  [value]="phase"
+                >
+                  {{ phase }}
+                </mat-option>
+              </mat-autocomplete>
             </div>
           </div>
         </div>
         <!--right side -->
       </div>
       <!-- form for teacher/student-->
-      <div class="row">
-        <div class="col-6">
-          <button class="btn btn-primary clear" (click)="clearSearch()">
+      <div class="row buttonGroup">
+        <div class="col-md-12 text-center">
+          <button class="btn btn-secondary btn-sm" (click)="clearSearch()">
             Reset
           </button>
-        </div>
-        <div class="col-6">
           <button
             type="submit"
-            class="btn btn-primary submit"
-            [disabled]="!editorForm.valid"
+            class="btn btn-primary btn-sm"
+            [disabled]="!editorForm.valid || !enableSearch"
             (click)="submitSearch()"
           >
             Search

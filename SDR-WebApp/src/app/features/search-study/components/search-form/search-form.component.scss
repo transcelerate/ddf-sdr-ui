@@ -1,11 +1,17 @@
 .form-group {
   padding: 2px;
 }
-
-.btn {
-  border-radius: 5px;
-  width: 20%;
-  padding: 1px;
+.form-control {
+  font-size: inherit;
+}
+.mandatory {
+  color: red;
+}
+.buttonGroup {
+  margin: 5px 0px;
+  .btn {
+    margin: 0px 5px;
+  }
 }
 .outer {
   border: 1px solid;
@@ -20,9 +26,6 @@
 .clear {
   margin: 1% 45% 2% 80%;
 }
-input[type="date"] {
-  width: 59%;
-}
 .gridOuter {
   padding: 0px;
 }
@@ -33,4 +36,8 @@ input[type="date"] {
 .searchGrid {
   width: 100%;
   height: 100%;
+}
+.disable-search-section {
+  font-size: 10px;
+  font-weight: 600;
 }

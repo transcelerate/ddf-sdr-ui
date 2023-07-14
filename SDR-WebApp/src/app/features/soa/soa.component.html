@@ -9,6 +9,12 @@
     Insufficient data to generate SoA Matrix
   </div>
 </ng-template>
+<ng-template #dataError1>
+  <div class="no-workflows-container no-workflows-table">
+    Insufficient data to generate SoA Matrix
+  </div>
+</ng-template>
+
 <div
   class="soa-container"
   *ngIf="tabs && tabs.studyDesigns && tabs.studyDesigns.length > 0"
@@ -17,6 +23,8 @@
     <tab
       *ngFor="let tab of tabs.studyDesigns"
       customClass="study-design-container"
+      (selectTab)="getSelectedTab($event)"
+      [id]="tab.studyDesignId"
     >
       <ng-template tabHeading>
         <span title="{{ tab.studyDesignName }}">{{ tab.studyDesignName }}</span>
@@ -24,81 +32,539 @@
       <div class="study-design-tab-section">
         <div
           class="no-workflows-container"
-          *ngIf="tab.studyWorkflows.length === 0"
+          *ngIf="tab.studyScheduleTimelines.length === 0"
         >
           Insufficient data to generate SoA Matrix
         </div>
         <tabset
           #tabset2
-          *ngIf="tab.studyWorkflows && tab.studyWorkflows.length > 0"
+          *ngIf="
+            tab.studyScheduleTimelines && tab.studyScheduleTimelines.length > 0
+          "
         >
-          <ng-container *ngFor="let item of tab.studyWorkflows">
-            <tab customClass="workflow-container">
+          <ng-container *ngFor="let item of tab.studyScheduleTimelines">
+            <tab
+              customClass="workflow-container"
+              (selectTab)="getSelectedNestedTab($event)"
+              [id]="tab.studyDesignId + '_' + item.scheduleTimelineId"
+            >
               <ng-template tabHeading>
-                <span title="{{ item.workflowDescription }}">
-                  {{ item.workflowDescription }}
+                <span title="{{ item.scheduleTimelineName }}">
+                  {{ item.scheduleTimelineName }}
                 </span>
               </ng-template>
-              <ng-container *ngIf="item.workFlowSoA !== null; else dataError">
-                <div class="table-responsive soa-table">
+              <button
+                [disabled]="item.searchBoolean"
+                (click)="
+                  exportToExcel(
+                    tab.studyDesignName,
+                    tab.studyDesignId,
+                    item.scheduleTimelineName,
+                    item.scheduleTimelineId,
+                    item
+                  )
+                "
+                class="btn btn-sm btn-primary custom-export-btn"
+              >
+                Export to Excel
+              </button>
+              <div
+                class="table-responsive study-schedule-timeline-table"
+                id="schedule-table"
+              >
+                <table
+                  class="table table-bordered"
+                  aria-describedby="scheduletable"
+                >
+                  <tbody>
+                    <tr>
+                      <td>Name</td>
+                      <td>{{ item.scheduleTimelineName }}</td>
+                    </tr>
+                    <tr>
+                      <td>Description</td>
+                      <td>{{ item.scheduleTimelineDescription }}</td>
+                    </tr>
+                    <tr>
+                      <td>Condition</td>
+                      <td>{{ item.entryCondition }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <ng-container
+                *ngIf="
+                  item.scheduleTimelineSoA !== null;
+                  else checkObject(item, dataError)
+                "
+              >
+                <div class="table-responsive soa-table" id="soa-table">
                   <table
                     class="table table-bordered"
                     aria-describedby="soatable"
                   >
                     <thead class="soa-table-thead">
-                      <tr>
-                        <th class="first-block" id="first"></th>
-                        <ng-container
-                          *ngFor="
-                            let content of item.workFlowSoA.SoA;
-                            let i = index
-                          "
-                        >
-                          <th [id]="'soa' + i">{{ content.encounterName }}</th>
-                        </ng-container>
-                      </tr>
-                    </thead>
-                    <tbody class="soa-table-tbody">
-                      <tr
-                        *ngFor="let rowEl of item.workFlowSoA.orderOfActivities"
-                      >
-                        <td class="tbody-first-cols">{{ rowEl }}</td>
-                        <td *ngFor="let activity of item.workFlowSoA.SoA">
+                      <ng-container *ngFor="let header of headerColumns">
+                        <tr>
+                          <th title="{{ header.label }}">{{ header.label }}</th>
                           <ng-container
                             *ngFor="
-                              let itemActivity of activity.activities;
+                              let content of item.scheduleTimelineSoA.SoA;
                               let i = index
                             "
                           >
-                            <span *ngIf="rowEl === itemActivity"
-                              ><strong
-                                title="{{
-                                  findDuplicate(
-                                    i,
-                                    itemActivity,
-                                    activity.activities
-                                  )
-                                    ? 'Duplicate entries found'
-                                    : ''
-                                }}"
-                                [class.duplicate]="
-                                  findDuplicate(
-                                    i,
-                                    itemActivity,
-                                    activity.activities
-                                  )
-                                "
-                              >
-                                X</strong
-                              ></span
+                            <th
+                              [title]="createTooltip('encounter', content)"
+                              [attr.colspan]="
+                                header.key === 'encounterName'
+                                  ? content.timings && content.timings.length
+                                  : ''
+                              "
+                              *ngIf="header.key === 'encounterName'"
                             >
+                              {{ content.encounterName }}
+                              <span
+                                *ngIf="content.encounterScheduledAtTimingValue"
+                              >
+                                (
+                                {{ content.encounterScheduledAtTimingValue }} )
+                              </span>
+                            </th>
+                            <ng-container
+                              *ngFor="let eachTiming of content.timings"
+                            >
+                              <th
+                                *ngIf="header.key === 'timingValue'"
+                                title="{{ eachTiming.timingValue }}"
+                              >
+                                {{ eachTiming.timingValue }}
+                              </th>
+                              <th
+                                *ngIf="header.key === 'timingWindow'"
+                                title="{{ eachTiming.timingWindow }}"
+                              >
+                                {{ eachTiming.timingWindow }}
+                              </th>
+
+                              <th *ngIf="header.key === 'activity'">
+                                {{ "" }}
+                              </th>
+                            </ng-container>
                           </ng-container>
-                        </td>
-                      </tr>
-                    </tbody>
+                        </tr>
+                      </ng-container>
+                    </thead>
+                    <ng-container
+                      *ngIf="
+                        item.scheduleTimelineSoA &&
+                          item.scheduleTimelineSoA.orderOfActivities.length !==
+                            0;
+                        else checkObject(item, dataError1)
+                      "
+                    >
+                      <tbody class="soa-table-tbody">
+                        <ng-container
+                          *ngFor="
+                            let eachOrderActivity of item.scheduleTimelineSoA
+                              .orderOfActivities;
+                            let collapseIndex = index
+                          "
+                        >
+                          <tr>
+                            <td
+                              class="tbody-first-cols"
+                              id="{{ eachOrderActivity.activityId }}"
+                            >
+                              <span
+                                type="button"
+                                class="accordion-toggle"
+                                data-toggle="collapse"
+                                [attr.data-target]="
+                                  '#collapseProduct' + collapseIndex
+                                "
+                                (click)="toggleAccordion(eachOrderActivity)"
+                              >
+                                <i
+                                  *ngIf="
+                                    (eachOrderActivity.definedProcedures !==
+                                      null &&
+                                      eachOrderActivity.definedProcedures
+                                        .length > 0) ||
+                                    (eachOrderActivity.biomedicalConcepts !==
+                                      null &&
+                                      eachOrderActivity.biomedicalConcepts
+                                        .length > 0) ||
+                                    (eachOrderActivity.activityTimelineName !==
+                                      '' &&
+                                      eachOrderActivity.activityTimelineName !==
+                                        null)
+                                  "
+                                  class="fa"
+                                  [ngClass]="{
+                                    'fa-minus': eachOrderActivity.isExpanded,
+                                    'fa-plus': !eachOrderActivity.isExpanded
+                                  }"
+                                  aria-hidden="true"
+                                ></i>
+                                <span>
+                                  {{ eachOrderActivity.activityName }}
+                                  <sup *ngIf="eachOrderActivity.footnoteId">
+                                    {{ eachOrderActivity.footnoteId }}
+                                  </sup>
+                                </span>
+                              </span>
+                              <div
+                                #accordionRow
+                                class="accordian-row"
+                                [class.collapse]="!eachOrderActivity.isExpanded"
+                                [class.show]="eachOrderActivity.isExpanded"
+                                *ngIf="eachOrderActivity.isExpanded"
+                              >
+                                <div class="accordian">
+                                  <div
+                                    class="accordian-body"
+                                    [attr.id]="
+                                      'collapseProduct' + collapseIndex
+                                    "
+                                  >
+                                    <div
+                                      class="card"
+                                      *ngIf="
+                                        eachOrderActivity.biomedicalConcepts
+                                          .length > 0 &&
+                                        eachOrderActivity.biomedicalConcepts !==
+                                          null
+                                      "
+                                    >
+                                      <div class="card-header">
+                                        <div
+                                          class="card-title"
+                                          (click)="
+                                            eachOrderActivity.toggleConcepts =
+                                              !eachOrderActivity.toggleConcepts
+                                          "
+                                        >
+                                          <span
+                                            ><i
+                                              class="fa"
+                                              [ngClass]="{
+                                                'fa-minus':
+                                                  eachOrderActivity.toggleConcepts,
+                                                'fa-plus':
+                                                  !eachOrderActivity.toggleConcepts
+                                              }"
+                                            ></i>
+                                            Biomedical Concepts
+                                          </span>
+                                        </div>
+                                      </div>
+                                      <ng-container
+                                        *ngIf="eachOrderActivity.toggleConcepts"
+                                      >
+                                        <ng-container
+                                          *ngFor="
+                                            let eachConcept of eachOrderActivity.biomedicalConcepts
+                                          "
+                                        >
+                                          <div class="card-body">
+                                            <ul class="card-list">
+                                              <li title="{{ eachConcept }}">
+                                                <span class="concept-span">
+                                                  {{ eachConcept }}
+                                                </span>
+                                              </li>
+                                            </ul>
+                                          </div>
+                                        </ng-container>
+                                      </ng-container>
+                                    </div>
+
+                                    <div
+                                      class="card"
+                                      *ngIf="
+                                        eachOrderActivity.definedProcedures !==
+                                          null &&
+                                        eachOrderActivity.definedProcedures
+                                          .length > 0
+                                      "
+                                    >
+                                      <div class="card-header">
+                                        <div
+                                          class="card-title"
+                                          (click)="
+                                            eachOrderActivity.toggleBoolean =
+                                              !eachOrderActivity.toggleBoolean
+                                          "
+                                        >
+                                          <span
+                                            ><i
+                                              class="fa"
+                                              [ngClass]="{
+                                                'fa-minus':
+                                                  eachOrderActivity.toggleBoolean,
+                                                'fa-plus':
+                                                  !eachOrderActivity.toggleBoolean
+                                              }"
+                                            ></i>
+                                            Procedures
+                                          </span>
+                                        </div>
+                                      </div>
+                                      <ng-container
+                                        *ngIf="eachOrderActivity.toggleBoolean"
+                                      >
+                                        <ng-container
+                                          *ngFor="
+                                            let eachConcept of eachOrderActivity.definedProcedures
+                                          "
+                                        >
+                                          <div class="card-body">
+                                            <ul class="card-list">
+                                              <li
+                                                [title]="
+                                                  createTooltip(
+                                                    'procedure',
+                                                    eachConcept
+                                                  )
+                                                "
+                                              >
+                                                <span>
+                                                  {{
+                                                    eachConcept.procedureName
+                                                  }}
+                                                  <sup
+                                                    *ngIf="
+                                                      eachConcept.footnoteId
+                                                    "
+                                                  >
+                                                    {{ eachConcept.footnoteId }}
+                                                  </sup>
+                                                </span>
+                                                <span
+                                                  *ngIf="
+                                                    eachConcept.procedureDescription !==
+                                                      null &&
+                                                    eachConcept.procedureDescription !==
+                                                      ''
+                                                  "
+                                                  [innerHTML]="
+                                                    ': ' +
+                                                    eachConcept.procedureDescription.slice(
+                                                      0,
+                                                      40
+                                                    )
+                                                  "
+                                                >
+                                                </span>
+                                                <span
+                                                  *ngIf="
+                                                    eachConcept.procedureDescription !==
+                                                      null &&
+                                                    eachConcept.procedureDescription !==
+                                                      '' &&
+                                                    eachConcept
+                                                      .procedureDescription
+                                                      .length > 40
+                                                  "
+                                                >
+                                                  ....
+                                                </span>
+                                                <span
+                                                  class="show-more-span"
+                                                  (click)="openModal(template)"
+                                                  *ngIf="
+                                                    eachConcept.procedureDescription !==
+                                                      null &&
+                                                    eachConcept.procedureDescription !==
+                                                      '' &&
+                                                    eachConcept
+                                                      .procedureDescription
+                                                      .length > 40
+                                                  "
+                                                  >Show More</span
+                                                >
+                                              </li>
+                                            </ul>
+                                          </div>
+
+                                          <ng-template #template>
+                                            <div class="modal-header">
+                                              <h4
+                                                class="modal-title pull-left custom-proc-header"
+                                              >
+                                                Procedure
+                                              </h4>
+                                              <button
+                                                type="button"
+                                                class="btn-close close pull-right"
+                                                aria-label="Close"
+                                                (click)="bsModalRef?.hide()"
+                                              >
+                                                <span
+                                                  aria-hidden="true"
+                                                  class="visually-hidden"
+                                                  >&times;</span
+                                                >
+                                              </button>
+                                            </div>
+                                            <div
+                                              class="modal-body proc-modal-body"
+                                            >
+                                              <div>
+                                                <strong
+                                                  >{{
+                                                    eachConcept.procedureName
+                                                  }}:</strong
+                                                >
+                                              </div>
+                                              <div>
+                                                {{
+                                                  eachConcept.procedureDescription
+                                                }}
+                                              </div>
+                                            </div>
+                                          </ng-template>
+                                        </ng-container>
+                                      </ng-container>
+                                    </div>
+
+                                    <div
+                                      class="card"
+                                      *ngIf="
+                                        eachOrderActivity.activityTimelineName !==
+                                          '' &&
+                                        eachOrderActivity.activityTimelineName !==
+                                          null
+                                      "
+                                    >
+                                      <div class="card-header">
+                                        <div
+                                          class="card-title timeprofile-card-title"
+                                        >
+                                          Time Profile:
+                                          <a
+                                            class="timeline-card"
+                                            title="{{
+                                              eachOrderActivity.activityTimelineName
+                                            }}"
+                                            (click)="
+                                              redirectToTimeline(
+                                                tab.studyDesignId +
+                                                  '_' +
+                                                  eachOrderActivity.activityTimelineId
+                                              )
+                                            "
+                                            >{{
+                                              eachOrderActivity.activityTimelineName.slice(
+                                                0,
+                                                40
+                                              )
+                                            }}<span
+                                              *ngIf="
+                                                eachOrderActivity
+                                                  .activityTimelineName.length >
+                                                40
+                                              "
+                                            >
+                                              ....
+                                            </span></a
+                                          >
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </td>
+                            <ng-container
+                              *ngFor="
+                                let content of item.scheduleTimelineSoA.SoA
+                              "
+                            >
+                              <td *ngFor="let eachTiming of content.timings">
+                                <ng-container
+                                  *ngFor="
+                                    let eachActivity of eachTiming.activities;
+                                    let i = index
+                                  "
+                                >
+                                  <span
+                                    *ngIf="
+                                      eachOrderActivity.activityId ===
+                                      eachActivity
+                                    "
+                                    ><strong
+                                      title="{{
+                                        findDuplicate(
+                                          i,
+                                          eachActivity.activityId,
+                                          eachTiming.activities
+                                        )
+                                          ? 'Duplicate entries found'
+                                          : ''
+                                      }}"
+                                      [class.duplicate]="
+                                        findDuplicate(
+                                          i,
+                                          eachActivity.activityId,
+                                          eachTiming.activities
+                                        )
+                                      "
+                                    >
+                                      X</strong
+                                    ></span
+                                  >
+                                </ng-container>
+                              </td>
+                            </ng-container>
+                          </tr>
+                        </ng-container>
+                      </tbody>
+                    </ng-container>
                   </table>
                 </div>
               </ng-container>
+
+              <div
+                class="footnote-section"
+                id="footnote-table"
+                *ngIf="
+                  activityFootnotes.length > 0 || procedureFootnotes.length > 0
+                "
+              >
+                <table aria-describedby="footnotetable">
+                  <tbody>
+                    <ng-container *ngIf="activityFootnotes.length > 0">
+                      <ng-container *ngFor="let item of activityFootnotes">
+                        <tr>
+                          <td>
+                            <div class="footnote-description">
+                              <sup class="footnote-id">{{
+                                item.footnoteId
+                              }}</sup>
+                              {{ item.footnoteDescription }}
+                            </div>
+                          </td>
+                        </tr>
+                      </ng-container>
+                    </ng-container>
+                    <ng-container *ngIf="procedureFootnotes.length > 0">
+                      <ng-container *ngFor="let item of procedureFootnotes">
+                        <tr>
+                          <td>
+                            <div class="footnote-description">
+                              <sup class="footnote-id">{{
+                                item.footnoteId
+                              }}</sup>
+                              {{ item.footnoteDescription }}
+                            </div>
+                          </td>
+                        </tr>
+                      </ng-container>
+                    </ng-container>
+                  </tbody>
+                </table>
+              </div>
             </tab>
           </ng-container>
         </tabset>

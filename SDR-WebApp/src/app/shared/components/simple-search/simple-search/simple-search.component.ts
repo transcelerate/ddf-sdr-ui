@@ -88,13 +88,15 @@ export class SimpleSearchComponent implements OnInit {
     };
     this.gridOptions.columnDefs = [
       {
+        headerName: 'Select',
         cellRendererFramework: CheckboxRenderer,
-        width: 30,
+        width: 40,
+        sortable: false,
       },
       {
         headerName: 'Study Title',
-        field: 'clinicalStudy.studyTitle',
-        tooltipField: 'clinicalStudy.studyTitle',
+        field: 'study.studyTitle',
+        tooltipField: 'study.studyTitle',
         headerTooltip: configList.STUDY_TITLE,
         cellRenderer: this.getStudyVersionGrid.bind(this),
       },
@@ -145,7 +147,7 @@ export class SimpleSearchComponent implements OnInit {
         studyTitle: [''],
         fromDate: [''],
         toDate: [''],
-        studyId: [''],
+        sponsorId: [''],
       },
       { validators: this.atLeastOneValidator }
     );
@@ -170,7 +172,7 @@ export class SimpleSearchComponent implements OnInit {
       studyTitle: '', //nosonar     //nosonar
       fromDate: '', //nosonar
       toDate: '',
-      studyId: '', //nosonar
+      sponsorId: '', //nosonar
     }); //nosonar
     this.showGrid = false;
   }
@@ -216,9 +218,7 @@ export class SimpleSearchComponent implements OnInit {
       // tslint:disable-next-line:no-this-assignment
       const self = this;
       eDiv.innerHTML =
-        '<span class="linkSpan">' +
-        params.data?.clinicalStudy.studyTitle +
-        '</span>';
+        '<span class="linkSpan">' + params.data?.study.studyTitle + '</span>';
       eDiv.addEventListener('click', () => {
         self.setSelectedValue(params.data);
       });
@@ -228,14 +228,14 @@ export class SimpleSearchComponent implements OnInit {
 
   setSelectedValue(val: any) {
     localStorage.setItem(
-      val.clinicalStudy.uuid + '_' + val.auditTrail.SDRUploadVersion + '_links',
+      val.study.studyId + '_' + val.auditTrail.SDRUploadVersion + '_links',
       JSON.stringify(val.links)
     );
     this.router.navigate(
       [
         'details',
         {
-          studyId: val.clinicalStudy.uuid,
+          studyId: val.study.studyId,
           versionId: val.auditTrail.SDRUploadVersion,
           usdmVersion: val.auditTrail.usdmVersion,
         },
@@ -246,13 +246,14 @@ export class SimpleSearchComponent implements OnInit {
   /* istanbul ignore next */
   // @SONAR_STOP@
   onGridReady(params: any) {
+    this.showGrid = false;
     this.gridApi = params.api;
     this.gridColumnApi = params.columnApi;
     params.api.sizeColumnsToFit();
     const reqObj = this.editorForm.value;
     var defaultSortModel = [
       {
-        colId: 'clinicalStudy.studyTitle',
+        colId: 'study.studyTitle',
         sort: 'desc',
         sortIndex: 0,
       },
@@ -261,12 +262,15 @@ export class SimpleSearchComponent implements OnInit {
     reqObj.sortOrder = 'desc';
     reqObj.sortBy = 'studyTitle';
     reqObj.groupByStudyId = 0;
-    this.commonMethod.gridDataSourceForSearchLightStudy(
-      reqObj,
-      this.gridApi,
-      this.BLOCK_SIZE,
-      this
-    );
+    if (this.editorForm.valid) {
+      this.commonMethod.gridDataSourceForSearchLightStudy(
+        reqObj,
+        this.gridApi,
+        this.BLOCK_SIZE,
+        this
+      );
+      this.showGrid = true;
+    }
   }
   /* istanbul ignore end */
   // @SONAR_START@
@@ -298,11 +302,11 @@ export class SimpleSearchComponent implements OnInit {
       const toDate = new Date(this.editorForm.value.toDate);
 
       if (fromDate && toDate && fromDate > toDate) {
-        alert('FromDate is greater than toDate...');
+        alert('To Date must be greater than From Date');
         return;
       }
     }
-    if (this.showGrid) {
+    if (this.showGrid && this.editorForm.valid) {
       const reqObj = this.editorForm.value;
       reqObj.groupByStudyId = 0;
       this.commonMethod.gridDataSourceForSearchLightStudy(

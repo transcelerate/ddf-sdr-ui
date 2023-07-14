@@ -29,8 +29,8 @@ export class SearchFormComponent implements OnInit {
   phaseList: any;
   phaseDropDown: string[];
   interventionDropDown: string[];
+  usdmVersionList: any;
   interventionList: any;
-
   public gridApi: any;
   public gridColumnApi: any;
 
@@ -56,6 +56,8 @@ export class SearchFormComponent implements OnInit {
   noRowsTemplate: string;
   showError = false;
   bsModalRef?: BsModalRef;
+  enableSearch: boolean = false;
+  enableSearchMessage = configList.ENABLE_SEARCH_MESSAGE;
   // _formBuilder: FormBuilder = new FormBuilder();
   constructor(
     public _formBuilder: FormBuilder,
@@ -73,10 +75,11 @@ export class SearchFormComponent implements OnInit {
         studyTitle: [''],
         interventionModel: [''],
         fromDate: [''],
-        studyId: [''],
+        sponsorId: [''],
         phase: [''],
         indication: [''],
         toDate: [''],
+        usdmVersion: [''],
       },
       { validators: this.atLeastOneValidator }
     );
@@ -84,8 +87,8 @@ export class SearchFormComponent implements OnInit {
     this.columnDefs = [
       {
         headerName: 'Study Title',
-        field: 'clinicalStudy.studyTitle',
-        tooltipField: 'clinicalStudy.studyTitle',
+        field: 'study.studyTitle',
+        tooltipField: 'study.studyTitle',
         headerTooltip: configList.STUDY_TITLE,
         cellRenderer: this.getStudyVersionGrid.bind(this),
       },
@@ -109,14 +112,14 @@ export class SearchFormComponent implements OnInit {
 
       // {
       //   headerName: 'Tag',
-      //   field: 'clinicalStudy.studyTag',
-      //   tooltipField: 'clinicalStudy.studyTag',
+      //   field: 'study.studyTag',
+      //   tooltipField: 'study.studyTag',
       //   headerTooltip: configList.TAG,
       // },
       // {
       //   headerName: 'Status',
-      //   field: 'clinicalStudy.studyStatus',
-      //   tooltipField: 'clinicalStudy.studyStatus',
+      //   field: 'study.studyStatus',
+      //   tooltipField: 'study.studyStatus',
       //   headerTooltip: configList.STATUS,
       // },
       {
@@ -140,8 +143,8 @@ export class SearchFormComponent implements OnInit {
       },
       {
         headerName: 'Phase',
-        field: 'clinicalStudy.studyPhase.decode',
-        tooltipField: 'clinicalStudy.studyPhase.decode',
+        field: 'study.studyPhase.decode',
+        tooltipField: 'study.studyPhase.decode',
         headerTooltip: configList.PHASE,
       },
       {
@@ -149,6 +152,7 @@ export class SearchFormComponent implements OnInit {
         field: 'auditTrail.usdmVersion',
         tooltipField: 'auditTrail.usdmVersion',
         headerTooltip: configList.USDM_VERSION,
+        sortable: false,
       },
       // {
       //   headerName: 'Last Modified by System',
@@ -221,9 +225,7 @@ export class SearchFormComponent implements OnInit {
       // tslint:disable-next-line:no-this-assignment
       const self = this;
       eDiv.innerHTML =
-        '<span class="linkSpan">' +
-        params.data?.clinicalStudy.studyTitle +
-        '</span>';
+        '<span class="linkSpan">' + params.data?.study.studyTitle + '</span>';
       eDiv.addEventListener('click', () => {
         self.setSelectedValue(params.data);
       });
@@ -238,14 +240,14 @@ export class SearchFormComponent implements OnInit {
    */
   setSelectedValue(val: any) {
     localStorage.setItem(
-      val.clinicalStudy.uuid + '_' + val.auditTrail.SDRUploadVersion + '_links',
+      val.study.studyId + '_' + val.auditTrail.SDRUploadVersion + '_links',
       JSON.stringify(val.links)
     );
     this.router.navigate(
       [
         'details',
         {
-          studyId: val.clinicalStudy.uuid,
+          studyId: val.study.studyId,
           versionId: val.auditTrail.SDRUploadVersion,
           usdmVersion: val.auditTrail.usdmVersion,
         },
@@ -286,11 +288,11 @@ export class SearchFormComponent implements OnInit {
       const toDate = new Date(this.editorForm.value.toDate);
 
       if (fromDate && toDate && fromDate > toDate) {
-        alert('FromDate is greater than toDate...');
+        alert('To Date must be greater than From Date');
         return;
       }
     }
-    if (this.showGrid) {
+    if (this.showGrid && this.editorForm.valid && this.enableSearch) {
       const reqObj = this.editorForm.value;
       this.commonMethod.gridDataSourceForSearchStudy(
         reqObj,
@@ -312,12 +314,14 @@ export class SearchFormComponent implements OnInit {
       studyTitle: '', //nosonar     //nosonar
       interventionModel: '', //nosonar
       fromDate: '', //nosonar
-      studyId: '', //nosonar
+      sponsorId: '', //nosonar
       phase: '', //nosonar
       indication: '', //nosonar
       toDate: '', //nosonar
+      usdmVersion: '', //nosonar
     }); //nosonar
     this.showGrid = false; //nosonar
+    this.enableSearch = false;
   } //nosonar
   /* istanbul ignore end */
   /**
@@ -330,6 +334,10 @@ export class SearchFormComponent implements OnInit {
    *  Logic to form dropdowns for studyphase, intervention Model
    */
   ngOnInit(): void {
+    var versions = localStorage.getItem('versions');
+    if (versions) {
+      this.usdmVersionList = JSON.parse(versions);
+    }
     this.ds.changeDialogState('Search Study Definitions');
     this.dropDownValues = this.serviceCall.readConfigFile();
     this.phaseDropDown = this.phaseList = this.dropDownValues.studyPhase;
@@ -404,6 +412,7 @@ export class SearchFormComponent implements OnInit {
    *  @param params ag grid value for each row with data.
    */
   onGridReady(params: any) {
+    this.showGrid = false;
     this.gridApi = params.api;
     this.gridColumnApi = params.columnApi;
     params.api.sizeColumnsToFit();
@@ -418,16 +427,36 @@ export class SearchFormComponent implements OnInit {
     const reqObj = this.editorForm.value;
     reqObj.asc = false;
     reqObj.header = 'entryDateTime';
-
-    this.commonMethod.gridDataSourceForSearchStudy(
-      reqObj,
-      this.gridApi,
-      this.BLOCK_SIZE,
-      this
-    );
-
+    if (this.editorForm.valid && this.enableSearch) {
+      this.commonMethod.gridDataSourceForSearchStudy(
+        reqObj,
+        this.gridApi,
+        this.BLOCK_SIZE,
+        this
+      );
+      this.showGrid = true;
+    }
     this.gridApi.addEventListener('failCallback', this.onServerFailCallback);
   }
   /* istanbul ignore end */
   // @SONAR_START@
+
+  checkValidations() {
+    var isValidform = false;
+    Object.keys(this.editorForm.controls).forEach((key: string) => {
+      const abstractControl = this.editorForm.get(key);
+      if (key !== 'usdmVersion') {
+        if (abstractControl?.value !== '') {
+          isValidform = true;
+          return;
+        }
+      }
+    });
+
+    if (this.editorForm.value.usdmVersion && isValidform) {
+      this.enableSearch = true;
+    } else {
+      this.enableSearch = false;
+    }
+  }
 }

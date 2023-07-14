@@ -64,9 +64,7 @@ export class BreadcrumbComponent implements OnInit {
       route.routeConfig.data &&
       route.routeConfig.data['isClickable'];
     let path =
-      route.routeConfig && route.routeConfig.data
-        ? route.routeConfig.path
-        : '' || '';
+      route.routeConfig && route.routeConfig.data ? route.routeConfig.path : '';
 
     // If the route is dynamic route such as ':id', remove it
     const lastRoutePart = path?.split('/').pop() || '';

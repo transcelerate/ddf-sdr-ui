@@ -95,7 +95,7 @@ describe('RecentActivityComponent', () => {
     it(`getStudyVersionGrid has default value`, () => {
       let val = component.getStudyVersionGrid({
         data: {
-          clinicalStudy: {
+          study: {
             studyIdentifiers: [
               {
                 id: 'f3e61d97-60d2-499c-bbbc-4f3996385627',
@@ -129,8 +129,8 @@ describe('RecentActivityComponent', () => {
       let router = TestBed.get(Router);
       let spy = spyOn(router, 'navigate');
       let param = {
-        clinicalStudy: {
-          uuid: 1,
+        study: {
+          studyId: 1,
         },
         auditTrail: {
           SDRUploadVersion: 1,

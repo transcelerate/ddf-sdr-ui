@@ -1,6 +1,6 @@
 const configList = {
   NAME: 'Item',
-  KEYTOHIDE: ['id', 'studyDesignId', 'studyId', 'uuid', 'workflowId'],
+  KEYTOHIDE: ['id', 'studyId', 'uuid', 'workflowId'],
   EXCEPTIONFIELD: [''],
   SPONSORKEYS: ['Clinical Study Sponsor', 'Sponsor_ID'],
   HEADING: 'Study Details',
@@ -51,12 +51,14 @@ const configList = {
   EXCEED_DATE_INFO:
     'A maximum of 30 days range of report can be queried. Please modify the input dates to search.',
   FROM_DATE_MORE_THAN_TO_DATE:
-    'From Date Time is equal to or greater than To Date Time',
-  VALID_FROM_DATE: 'From Date Time is greater than Current Date Time',
-  VALID_TO_DATE: 'To Date Time is greater than Current Date Time',
+    'To Date Time must be greater than From Date Time',
+  VALID_FROM_DATE: 'From Date Time must be less than Current Date Time',
+  VALID_TO_DATE: 'To Date Time must be less than Current Date Time',
   AUTH_IN_PROGRESS_ERROR:
     'Login is currently in progress in another window. Please complete or cancel that flow before requesting token again.',
   USER_CANCELLED_ERROR_CODE: 'user_cancelled',
   INTERACTION_ERROR_CODE: 'interaction_in_progress',
+  ENABLE_SEARCH_MESSAGE:
+    'Enter at least one search parameter along with USDM Version to initiate search',
 };
 export { configList };

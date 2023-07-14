@@ -1,7 +1,11 @@
 <app-error-component *ngIf="showError"></app-error-component>
 <div class="container-fluid gridOuter search">
   <div _ngcontent-hbw-c56="" class="buttonDiv ng-star-inserted">
-    <button _ngcontent-hbw-c56="" class="newButton" routerLink="addGroup">
+    <button
+      _ngcontent-hbw-c56=""
+      class="newButton btn btn-primary btn-sm"
+      routerLink="addGroup"
+    >
       Add New Group
     </button>
   </div>
@@ -43,11 +47,11 @@
       Are you sure you want to delete the group
       <strong>{{ selectedGroup }}</strong> ?
     </p>
+    <button type="button" class="btn btn-secondary" (click)="confirm()">
+      Yes
+    </button>
     <button type="button" class="btn btn-primary" (click)="decline()">
       No
-    </button>
-    <button type="button" class="btn btn-primary" (click)="confirm()">
-      Yes
     </button>
   </div>
 </ng-template>
