@@ -1,0 +1,23 @@
+﻿apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sdr-ui-dev-aks-eastus
+spec:
+  progressDeadlineSeconds: 600
+  selector:
+    matchLabels:
+      app: sdr-ui-dev-aks-eastus
+  template:
+    metadata:
+      labels:
+        app: sdr-ui-dev-aks-eastus
+    spec:
+      containers:
+      - name: sdr-ui-dev-aks-eastus
+        image: {#ACR-Name#}/sdruibuild:latest
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 80
