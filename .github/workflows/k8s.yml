@@ -177,7 +177,7 @@ jobs:
         docker push ${{ secrets.ACR_NAME }}/sdruibuild:latest
         
     # Deploy to AKS cluster
-    - name: Deploy to Kubernetes cluster
+    - name: Deploy to Azure Kubernetes cluster
       uses: Azure/k8s-deploy@v1
       with:        
         # Path to the manifest files which will be used for deployment.
