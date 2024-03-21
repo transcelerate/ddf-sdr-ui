@@ -447,6 +447,7 @@ describe('CommonMethodsService', () => {
         auditTrail: {
           entryDateTime: '2022-07-28T07:15:10.094Z',
           SDRUploadVersion: 2,
+          usdmVersion : '2.0'
         },
       };
       let returnValue = service.getSponsorDetails(studyElement);

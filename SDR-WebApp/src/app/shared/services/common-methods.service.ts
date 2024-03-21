@@ -481,8 +481,14 @@ export class CommonMethodsService {
       studyelement.auditTrail.usdmVersion === '1.9'
     ) {
       sponsorObject = studyelement.clinicalStudy.studyIdentifiers;
-    } else {
+    } else if (
+      studyelement.auditTrail.usdmVersion === '2.0'
+    ) {
       sponsorObject = studyelement.study.studyIdentifiers;
+    }
+    else
+    {
+      sponsorObject = studyelement.study.versions[0].studyIdentifiers;
     }
     sponsorObject.filter((obj: { [x: string]: string }) => {
       const decode = obj['idType']?.toLowerCase();
