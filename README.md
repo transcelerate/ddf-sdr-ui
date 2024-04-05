@@ -1,10 +1,14 @@
 - [Introduction](#introduction)
-- [Requirements to Contribute and Propose Changes](#requirements-to-contribute-and-propose-changes)
-- [Running SDR UI Application in local](#running-sdr-ui-application-in-local)
+  - [Requirements to Contribute and Propose Changes](#requirements-to-contribute-and-propose-changes)
+- [Intended-Audience](#intended-audience)
+- [Overview](#overview)
+- [Setup and Code Access](#setup-and-code-access)
   - [Pre-Requisites](#pre-requisites)
   - [How to Setup Code](#how-to-setup-code)
   - [Build and Run Application](#build-and-run-application)
-- [Base solution structure](#base-solution-structure) 
+- [Other Information](#other-information)
+  - [Base solution structure](#base-solution-structure) 
+- [Support](#support)
 
 # Introduction
 
@@ -35,8 +39,17 @@ To acknowledge the CLA, follow these instructions:
 
 NOTE: Keep a copy for your records.
 
-# Running SDR UI Application in local
-### Pre-requisites
+# Intended Audience
+The contents in this repository allows users to develop SDR Reference Implementation API onto their Azure Cloud Subscription via their own GitHub Repos and Workflows. The deployment scripts (YAML Scripts) can be configured and executed from GitHub Actions, leveraging GitHub Secrets to configure target environment specific values.
+
+It assumes a good understanding of Azure concepts and services. The audience for this document should:
+- have clear understanding of C# and .NET Web APIs
+- have basic understanding of MongoDB and MongoDB C# driver
+- be aware of how to use Azure portal and basic understanding of Azure Cloud Platform
+- have basic understanding of GitHub Actions, Secrets & Yaml Scripts
+
+# Setup and Code Access
+## Pre-requisites
 
 1. Install latest version of [Node.js](https://nodejs.org).
 
@@ -54,7 +67,7 @@ node -v
 npm -v
 ```
 4. Try repeating the installation, if there is any issue.
-### How to setup code
+## How to setup code
 
 1. Clone the repo into a local directory using below git command.
 
@@ -89,7 +102,7 @@ export const environment = {
 };
 ```
 
-### Build and Run Application
+## Build and Run Application
 
 1. Once code setup is done, run the project locally using the below command.
 
@@ -179,3 +192,9 @@ The solution has the following structure:
 - System Usage Report(URL: /reports)
 - User Management page(URL: /admin/userMap)
 - Group Management page(URL: /admin)
+  
+# Support
+
+- For any technical queries on SDR UI repository, please create an issue [DDF SDR Support](https://github.com/transcelerate/ddf-sdr-support/issues/new?assignees=sdr-support&labels=techSupport&template=TechSupport.yml&title=%5BTechSupport%5D%3A).
+- [Raise Incident](https://github.com/transcelerate/ddf-sdr-support/issues/new?assignees=sdr-support&labels=incident&template=Incident.yml&title=%5BIncident%5D%3A+) for any issues with the SDR RI Demo Environment.
+- For any other support on DDF SDR RI, reach out to [SDR.Support@accenture.com](mailto:sdr.support@accenture.com).
