@@ -130,8 +130,8 @@ For any changes in source code, angular terminal recompiles the code and the bro
 git commit -m 'message for commit'
 git push
 ```
-
-# Base solution structure
+# Other Information
+## Base solution structure
 
 The solution has the following structure:
 
