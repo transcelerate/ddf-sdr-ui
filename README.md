@@ -40,13 +40,23 @@ To acknowledge the CLA, follow these instructions:
 NOTE: Keep a copy for your records.
 
 # Intended Audience
-The contents in this repository allows users to develop SDR Reference Implementation API onto their Azure Cloud Subscription via their own GitHub Repos and Workflows. The deployment scripts (YAML Scripts) can be configured and executed from GitHub Actions, leveraging GitHub Secrets to configure target environment specific values.
+The contents in this repository allows users to develop SDR Reference Implementation UI application onto their Azure Cloud Subscription via their own GitHub Repos and Workflows. The deployment scripts (YAML Scripts) can be configured and executed from GitHub Actions, leveraging GitHub Secrets to configure target environment specific values.
 
-It assumes a good understanding of Azure concepts and services. The audience for this document should:
-- have clear understanding of C# and .NET Web APIs
-- have basic understanding of MongoDB and MongoDB C# driver
+It assumes a good understanding of Azure concepts and services for hosting the UI application. The audience for this document should:
+- have clear understanding of Angular web application framework
 - be aware of how to use Azure portal and basic understanding of Azure Cloud Platform
 - have basic understanding of GitHub Actions, Secrets & Yaml Scripts
+
+# Overview
+- The UI application of the SDR Reference Implementation  allows the user to view and search Study Definitions. The RI UI features include - 
+  - Authentication (implemented using MSAL)
+  - List Study Definitions and View Details including SoA Matrix
+  - Search Study Definitions
+  - View Revision History for a Study
+  - Compare Study Versions and Different Studies
+  - Administrative Features
+    - Manage study access with users and groups management functionality.
+    - System Usage Report
 
 # Setup and Code Access
 ## Pre-requisites
