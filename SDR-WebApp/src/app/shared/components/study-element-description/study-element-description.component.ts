@@ -163,11 +163,25 @@ export class StudyElementDescriptionComponent implements OnInit, OnDestroy {
             studyelement.auditTrail.usdmVersion === '1.9'
           ) {
             clinicalElem = studyelement['clinicalStudy'];
-          } else {
+          }
+          else
+          {
             clinicalElem = studyelement['study'];
           }
           Object.entries(clinicalElem).forEach((elem) => {
-            this.finalVal.accordianName = clinicalElem.studyTitle;
+            let studyTitle:any;
+            if(clinicalElem.studyTitle)
+            {
+                studyTitle = clinicalElem.studyTitle;
+            }
+            else
+            {
+              let titles = clinicalElem.versions[0].titles;
+              let studyTitleIndex = titles.findIndex((p:any) => p.type.decode.toLowerCase() === "official study title");
+              studyTitle = clinicalElem.versions[0].titles[studyTitleIndex].text;
+            }
+
+            this.finalVal.accordianName = studyTitle;
             let attributeList = this.createAttribute(elem);
             if (typeof attributeList === 'object') {
               this.finalVal.attributeList.push(attributeList);

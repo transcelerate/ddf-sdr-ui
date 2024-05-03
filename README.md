@@ -1,10 +1,14 @@
 - [Introduction](#introduction)
-- [Requirements to Contribute and Propose Changes](#requirements-to-contribute-and-propose-changes)
-- [Running SDR UI Application in local](#running-sdr-ui-application-in-local)
+  - [Requirements to Contribute and Propose Changes](#requirements-to-contribute-and-propose-changes)
+- [Intended-Audience](#intended-audience)
+- [Overview](#overview)
+- [Setup and Code Access](#setup-and-code-access)
   - [Pre-Requisites](#pre-requisites)
   - [How to Setup Code](#how-to-setup-code)
   - [Build and Run Application](#build-and-run-application)
-- [Base solution structure](#base-solution-structure) 
+- [Other Information](#other-information)
+  - [Base solution structure](#base-solution-structure) 
+- [Support](#support)
 
 # Introduction
 
@@ -14,14 +18,14 @@ Using this Angular project, user can connect with SDR data, to view the study do
 
 Admin users can access System Usage Report which lists all the API calls made to the SDR application for a given duration with csv export capability and also access group and user management features which provides the ability to group users and associate them with specific study or group of studies in order to limit access for users only to those study definitions.
 
-This [Process Flow Document](https://github.com/transcelerate/ddf-sdr-platform/blob/main/documents/sdr-release-v2.0.2/ddf-sdr-ri-process-flows-v4.0.pdf) provides information regarding user interface functions and system interactions with the SDR at a high level. Please also refer to the [DDF SDR UI User Guide](documents/sdr-release-v2.0.2/ddf-sdr-ri-ui-user-guide-v5.0.pdf) to get started, and the [DDF SDR RI UI Demo video](https://www.youtube.com/playlist?list=PLMXS-Xt7Ou1KNUF-HQKQRRzqfPQEXWb1u).  
+This [Process Flow Document](https://github.com/transcelerate/ddf-sdr-platform/blob/main/documents/sdr-release-v3.0/ddf-sdr-ri-process-flows-v4.0.pdf) provides information regarding user interface functions and system interactions with the SDR at a high level. Please also refer to the [DDF SDR UI User Guide](documents/sdr-release-v3.0/ddf-sdr-ri-ui-user-guide-v6.0.pdf) to get started, and the [DDF SDR RI UI Demo video](https://www.youtube.com/playlist?list=PLMXS-Xt7Ou1KNUF-HQKQRRzqfPQEXWb1u).  
 
 **NOTES:** 
 - These materials and information are provided by TransCelerate Biopharma Inc. AS IS.  Any party using or relying on this information and these materials do so entirely at their own risk.  Neither TransCelerate nor its members will bear any responsibility or liability for any harm, including indirect or consequential harm, that a user may incur from use or misuse of this information or materials.
 - Please be advised that if you implement the code as written, the functionality is designed to collect and store certain personal data (user credentials, email address, IP address) for authentication and audit log purposes. None of this information will be shared with TransCelerate or Accenture for any purpose. Neither TransCelerate nor Accenture bears any responsibility for any collection, use or misuse of personal data that occurs from any implementation of this source code. If you or your organization employ any of the features that collect personal data, you are responsible for compliance with any relevant privacy laws or regulations in any applicable jurisdiction.
 - Please be aware that any information you put into the provided tools (including the UI or API) will be visible to all users, so we recommend not using commercially sensitive or confidential information.  You and/or your employer bear all responsibility for anything you share with this project.  TransCelerate, its member companies and any vendors affiliated with the DDF project are not responsible for any harm or loss you occur as a result of uploading any information or code: commercially sensitive, confidential or otherwise.
 - To the extent that the SDR Reference Implementation incorporates or relies on any specific branded products or services, such as Azure, this resulted out of the practical necessities associated with making a reference implementation available to demonstrate the SDR’s capabilities.  Users are free to download the source code for the SDR from GitHub and design their own implementations.  Those implementations can be in an environment of the user’s choice, and do not have to be on Azure.
-- As of October 2023, the DDF initiative is still the process of setting up operations, and any pull requests submitted will not be triaged at this point in time.
+- As of May 2024, the DDF initiative is still the process of setting up operations, and any pull requests submitted will not be triaged at this point in time.
 
 ## Requirements to Contribute and Propose Changes
 Before participating, you must acknowledge the Contribution License Agreement (CLA).
@@ -35,8 +39,27 @@ To acknowledge the CLA, follow these instructions:
 
 NOTE: Keep a copy for your records.
 
-# Running SDR UI Application in local
-### Pre-requisites
+# Intended Audience
+The contents in this repository allows users to develop SDR Reference Implementation UI application onto their Azure Cloud Subscription via their own GitHub Repos and Workflows. The deployment scripts (YAML Scripts) can be configured and executed from GitHub Actions, leveraging GitHub Secrets to configure target environment specific values.
+
+It assumes a good understanding of Azure concepts and services for hosting the UI application. The audience for this document should:
+- have clear understanding of Angular web application framework
+- be aware of how to use Azure portal and basic understanding of Azure Cloud Platform
+- have basic understanding of GitHub Actions, Secrets & Yaml Scripts
+
+# Overview
+- The UI application of the SDR Reference Implementation  allows the user to view and search Study Definitions. The RI UI features include - 
+  - Authentication (implemented using MSAL)
+  - List Study Definitions and View Details including SoA Matrix
+  - Search Study Definitions
+  - View Revision History for a Study
+  - Compare Study Versions and Different Studies
+  - Administrative Features
+    - Manage study access with users and groups management functionality.
+    - System Usage Report
+
+# Setup and Code Access
+## Pre-requisites
 
 1. Install latest version of [Node.js](https://nodejs.org).
 
@@ -46,15 +69,15 @@ NOTE: Keep a copy for your records.
 ```
 npm install -g @angular/cli
 ```
-3. Validate if node and npm is installed using below commands in cmd prompt. If it has installed properly, it will show the version installed.
+4. Validate if node and npm is installed using below commands in cmd prompt. If it has installed properly, it will show the version installed.
 ```
 node -v
 ```
 ```
 npm -v
 ```
-4. Try repeating the installation, if there is any issue.
-### How to setup code
+5. Try repeating the installation, if there is any issue.
+## How to setup code
 
 1. Clone the repo into a local directory using below git command.
 
@@ -89,7 +112,7 @@ export const environment = {
 };
 ```
 
-### Build and Run Application
+## Build and Run Application
 
 1. Once code setup is done, run the project locally using the below command.
 
@@ -107,8 +130,8 @@ For any changes in source code, angular terminal recompiles the code and the bro
 git commit -m 'message for commit'
 git push
 ```
-
-# Base solution structure
+# Other Information
+## Base solution structure
 
 The solution has the following structure:
 
@@ -179,3 +202,9 @@ The solution has the following structure:
 - System Usage Report(URL: /reports)
 - User Management page(URL: /admin/userMap)
 - Group Management page(URL: /admin)
+  
+# Support
+
+- For any technical queries on SDR UI repository, please create an issue [DDF SDR Support](https://github.com/transcelerate/ddf-sdr-support/issues/new?assignees=sdr-support&labels=techSupport&template=TechSupport.yml&title=%5BTechSupport%5D%3A).
+- [Raise Incident](https://github.com/transcelerate/ddf-sdr-support/issues/new?assignees=sdr-support&labels=incident&template=Incident.yml&title=%5BIncident%5D%3A+) for any issues with the SDR RI Demo Environment.
+- For any other support on DDF SDR RI, reach out to [SDR.Support@accenture.com](mailto:sdr.support@accenture.com).
