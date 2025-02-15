@@ -138,38 +138,39 @@ jobs:
  #############################-----------Sonar Scan---------------#############################################
      
           
-    # - name: Run Angular tests for Sonar
-      # # Running the jasmine test cases and copying the test case files to default github directory
-      # run: |
-          # cd '${{ github.workspace }}/SDR-WebApp'
-          # ng test --code-coverage true --watch=false --browsers ChromeHeadless
-          # # Copying the coverage.xml and lcov.info to Github default working directory for sonarqube analysis
-          # cp testresults/coverage/cobertura-coverage.xml '${{ github.workspace }}/coverage.xml'    
-          # cp testresults/coverage/lcov.info '${{ github.workspace }}/lcov.info' 
+    - name: Run Angular tests for Sonar
+      # Running the jasmine test cases and copying the test case files to default github directory
+      run: |
+          cd '${{ github.workspace }}/SDR-WebApp'
+          ng test --code-coverage true --watch=false --browsers ChromeHeadless
+          # Copying the coverage.xml and lcov.info to Github default working directory for sonarqube analysis
+          cp testresults/coverage/cobertura-coverage.xml '${{ github.workspace }}/coverage.xml'    
+          cp testresults/coverage/lcov.info '${{ github.workspace }}/lcov.info' 
           
      
-    # - uses: actions/setup-dotnet@v1
-      # # Setup for installing sonar-scanner
-      # with:
-        # dotnet-version: 6.0.x
+    - uses: actions/setup-dotnet@v1
+      # Setup for installing sonar-scanner
+      with:
+        dotnet-version: 6.0.x
         
-    # - name: Install SonarQube scanner
-      # # Installing Sonar scanner
-      # if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
-      # shell: pwsh
-      # run: |
-          # # reportgenrator used for converting the report files
+    - name: Install SonarQube scanner
+      # Installing Sonar scanner
+      if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
+      shell: pwsh
+      run: |
+          # reportgenrator used for converting the report files
           # dotnet tool update dotnet-reportgenerator-globaltool -g 
-          # reportgenerator "-reports:${{ github.workspace }}/SDR-WebApp/testresults/*/cobertura-coverage.xml" "-targetdir:coverage" -reporttypes:"Cobertura;SonarQube;lcov"
+          dotnet tool update dotnet-reportgenerator-globaltool -g
+          reportgenerator "-reports:${{ github.workspace }}/SDR-WebApp/testresults/*/cobertura-coverage.xml" "-targetdir:coverage" -reporttypes:"Cobertura;SonarQube;lcov"
           
-    # - name: Run Sonar
-      # env:
-        # # SONAR_TOKEN and SONAR_HOST_URL getting fetched from secrets
-        # SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        # SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-      # run: |
-          # cd '${{ github.workspace }}/SDR-WebApp'
-          # sonar-scanner -Dsonar.host.url=$SONAR_HOST_URL -Dsonar.login=$SONAR_TOKEN
+    - name: Run Sonar
+      env:
+        # SONAR_TOKEN and SONAR_HOST_URL getting fetched from secrets
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+      run: |
+          cd '${{ github.workspace }}/SDR-WebApp'
+          sonar-scanner -Dsonar.host.url=$SONAR_HOST_URL -Dsonar.login=$SONAR_TOKEN
 
  
 ##########################-------------Deployment----------------#####################################
