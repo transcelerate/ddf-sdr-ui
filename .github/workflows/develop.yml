@@ -160,7 +160,7 @@ jobs:
       run: |
           # reportgenrator used for converting the report files
           # dotnet tool update dotnet-reportgenerator-globaltool -g 
-          dotnet tool update dotnet-reportgenerator-globaltool -g
+          dotnet tool install --global dotnet-reportgenerator-globaltool --version 4.8.12
           reportgenerator "-reports:${{ github.workspace }}/SDR-WebApp/testresults/*/cobertura-coverage.xml" "-targetdir:coverage" -reporttypes:"Cobertura;SonarQube;lcov"
           
     - name: Run Sonar
