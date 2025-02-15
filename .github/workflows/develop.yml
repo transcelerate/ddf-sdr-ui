@@ -109,7 +109,7 @@ jobs:
        ls     
       
     - name: 'Publish Artifact: Artifact'
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       # To publish the artifact
       with:
         path: '${{ github.workspace }}/SDR-WebApp/dist/**'
