@@ -61,23 +61,7 @@ jobs:
       uses: actions/setup-node@v1
       with:
         # The node.js version to use
-        node-version: 14.x    
-    
-       
-    - name: Debug ACR Variables
-      run: |
-        echo "ACR_NAME: $ACR_NAME"
-        echo "ACR_USERNAME: $ACR_USERNAME"
-      env:
-        ACR_NAME: ${{ secrets.ACR_NAME }}
-        ACR_USERNAME: ${{ secrets.ACR_USERNAME }}    
-        
-    - run: |
-          az acr login --name $ACR_NAME --username $ACR_USERNAME --password $ACR_PASSWORD
-      env:
-         ACR_NAME: ${{ secrets.ACR_NAME }}
-         ACR_USERNAME: ${{ secrets.ACR_USERNAME }}
-         ACR_PASSWORD: ${{ secrets.ACR_PASSWORD }}    
+        node-version: 14.x
       
     - name: npm cli
       # Few npm dependencies needs to be installed seperately through command line as it throwa error
