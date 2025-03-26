@@ -71,7 +71,7 @@ export class AppModuleConstants {
 
   static MODULE_DECLARATION = [AppComponent, SoaComponent];
 }
-
+//export function
 export function MSALInstanceFactory(): IPublicClientApplication {
   return new PublicClientApplication({
     auth: {
