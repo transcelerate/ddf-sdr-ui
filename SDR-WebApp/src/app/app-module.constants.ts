@@ -26,7 +26,6 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { AgGridModule } from 'ag-grid-angular';
-// import { MonacoEditorModule } from 'ngx-monaco-editor';
 import { MonacoEditorModule } from '@materia-ui/ngx-monaco-editor';
 import { AuthGuardService } from './auth-guard.service';
 import { SoaComponent } from './features/soa/soa.component';
