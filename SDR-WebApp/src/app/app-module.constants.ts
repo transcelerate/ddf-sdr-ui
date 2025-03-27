@@ -42,8 +42,7 @@ export class AppModuleConstants {
     AgGridModule.withComponents([]),
     MonacoEditorModule,
     TabsModule.forRoot(),
-  ];
-  // staic MODULE_PROVIDERS
+  ];  
   static MODULE_PROVIDERS = [
     {
       provide: HTTP_INTERCEPTORS,
