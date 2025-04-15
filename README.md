@@ -206,5 +206,4 @@ The solution has the following structure:
 # Support
 
 - For any technical queries on SDR UI repository, please create an issue [DDF SDR Support](https://github.com/transcelerate/ddf-sdr-support/issues/new?assignees=sdr-support&labels=techSupport&template=TechSupport.yml&title=%5BTechSupport%5D%3A).
-- [Raise Incident](https://github.com/transcelerate/ddf-sdr-support/issues/new?assignees=sdr-support&labels=incident&template=Incident.yml&title=%5BIncident%5D%3A+) for any issues with the SDR RI Demo Environment.
-- For any other support on DDF SDR RI, reach out to [SDR.Support@accenture.com](mailto:sdr.support@accenture.com).
+- For any other support on DDF SDR RI, reach out to [DDF@transceleratebiopharmainc.com](mailto:DDF@transceleratebiopharmainc.com).
