@@ -34,16 +34,6 @@ jobs:
       uses: azure/login@v1
       with:
         creds: ${{ secrets.AZURE_SP }} 
-      
-    # - name: Fetch Keyvault values
-    #   uses: Azure/get-keyvault-secrets@v1
-    #   with:
-    #     # Name of the azure key vault
-    #     keyvault: ${{ secrets.KEYVAULT_NAME }} # name of key vault in Azure portal
-    #     # Name of the secret to be fetched
-    #     secrets: 'AzureAd-TenantId,AzureAd-Authority,AzureAd-ClientId,AzureAd-Audience,AzureAd-RedirectUrl,AzureAd-LoginUrl,Apim-BaseUrl,Env-Name'  # comma separated list of secret keys to fetch from key vault 
-    #   id: keyvaultSecretAction # ID for secrets that you will reference 
-
     
     - name: Find and Replace User Name - Using Build Variable
       # Variables in environment.ts is replaced using the find script while fetching it from keyvault through secrets
