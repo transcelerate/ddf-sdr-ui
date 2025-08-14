@@ -34,28 +34,18 @@ jobs:
       uses: azure/login@v1
       with:
         creds: ${{ secrets.AZURE_SP }} 
-      
-    - name: Fetch Keyvault values
-      uses: Azure/get-keyvault-secrets@v1
-      with:
-        # Name of the azure key vault
-        keyvault: ${{ secrets.KEYVAULT_NAME }} # name of key vault in Azure portal
-        # Name of the secret to be fetched
-        secrets: 'AzureAd-TenantId,AzureAd-Authority,AzureAd-ClientId,AzureAd-Audience,AzureAd-RedirectUrl,AzureAd-LoginUrl,Apim-BaseUrl,Env-Name'  # comma separated list of secret keys to fetch from key vault 
-      id: keyvaultSecretAction # ID for secrets that you will reference 
-
     
     - name: Find and Replace User Name - Using Build Variable
       # Variables in environment.ts is replaced using the find script while fetching it from keyvault through secrets
       run: |
-        find ${{ github.workspace }}/SDR-WebApp/src/environments/environment.ts -type f -exec sed -i ''s@{#AzureAd-TenantId#}@'${{ steps.keyvaultSecretAction.outputs.AzureAd-TenantId }}'@g'' {} \;
-        find ${{ github.workspace }}/SDR-WebApp/src/environments/environment.ts -type f -exec sed -i ''s@{#AzureAd-Authority#}@'${{ steps.keyvaultSecretAction.outputs.AzureAd-Authority }}'@g'' {} \;
-        find ${{ github.workspace }}/SDR-WebApp/src/environments/environment.ts -type f -exec sed -i ''s@{#AzureAd-ClientId#}@'${{ steps.keyvaultSecretAction.outputs.AzureAd-ClientId }}'@g'' {} \;
-        find ${{ github.workspace }}/SDR-WebApp/src/environments/environment.ts -type f -exec sed -i ''s@{#AzureAd-Audience#}@'${{ steps.keyvaultSecretAction.outputs.AzureAd-Audience }}'@g'' {} \;
-        find ${{ github.workspace }}/SDR-WebApp/src/environments/environment.ts -type f -exec sed -i ''s@{#AzureAd-RedirectUrl#}@'${{ steps.keyvaultSecretAction.outputs.AzureAd-RedirectUrl }}'@g'' {} \;
-        find ${{ github.workspace }}/SDR-WebApp/src/environments/environment.ts -type f -exec sed -i ''s@{#AzureAd-LoginUrl#}@'${{ steps.keyvaultSecretAction.outputs.AzureAd-LoginUrl }}'@g'' {} \;
-        find ${{ github.workspace }}/SDR-WebApp/src/environments/environment.ts -type f -exec sed -i ''s@{#Apim-BaseUrl#}@'${{ steps.keyvaultSecretAction.outputs.Apim-BaseUrl }}'@g'' {} \;
-        find ${{ github.workspace }}/SDR-WebApp/src/environments/environment.ts -type f -exec sed -i ''s@{#Env-Name#}@'${{ steps.keyvaultSecretAction.outputs.Env-Name }}'@g'' {} \;
+        find ${{ github.workspace }}/SDR-WebApp/src/environments/environment.ts -type f -exec sed -i ''s@{#AzureAd-TenantId#}@'${{ secrets.TENANT_ID }}'@g'' {} \;
+        find ${{ github.workspace }}/SDR-WebApp/src/environments/environment.ts -type f -exec sed -i ''s@{#AzureAd-Authority#}@'${{ secrets.AZURE_AD_AUTHORITY }}'@g'' {} \;
+        find ${{ github.workspace }}/SDR-WebApp/src/environments/environment.ts -type f -exec sed -i ''s@{#AzureAd-ClientId#}@'${{ secrets.AZURE_CLIENT_ID }}'@g'' {} \;
+        find ${{ github.workspace }}/SDR-WebApp/src/environments/environment.ts -type f -exec sed -i ''s@{#AzureAd-Audience#}@'${{ secrets.AZURE_AD_AUDIENCE }}'@g'' {} \;
+        find ${{ github.workspace }}/SDR-WebApp/src/environments/environment.ts -type f -exec sed -i ''s@{#AzureAd-RedirectUrl#}@'${{ secrets.AZURE_AD_REDIRECT_URL }}'@g'' {} \;
+        find ${{ github.workspace }}/SDR-WebApp/src/environments/environment.ts -type f -exec sed -i ''s@{#AzureAd-LoginUrl#}@'${{ secrets.AZURE_AD_LOGIN_URL }}'@g'' {} \;
+        find ${{ github.workspace }}/SDR-WebApp/src/environments/environment.ts -type f -exec sed -i ''s@{#Apim-BaseUrl#}@'${{ secrets.APIM_BASE_URL }}'@g'' {} \;
+        find ${{ github.workspace }}/SDR-WebApp/src/environments/environment.ts -type f -exec sed -i ''s@{#Env-Name#}@'${{ secrets.ENV_NAME }}'@g'' {} \;
               
     - name: Use Node 14.x
       uses: actions/setup-node@v1
