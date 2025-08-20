@@ -3,11 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { SharedModule } from './shared/shared.module';
 import {
-  PublicClientApplication,
-  IPublicClientApplication,
   InteractionType,
-  BrowserCacheLocation,
-  LogLevel,
 } from '@azure/msal-browser';
 import {
   MsalModule,
@@ -17,7 +13,6 @@ import {
   MsalInterceptorConfiguration,
   MsalService,
   MSAL_GUARD_CONFIG,
-  MSAL_INSTANCE,
   MSAL_INTERCEPTOR_CONFIG,
   MsalGuardConfiguration,
 } from '@azure/msal-angular'; // Import MsalInterceptor
@@ -49,10 +44,6 @@ export class AppModuleConstants {
       multi: true,
     },
     {
-      provide: MSAL_INSTANCE,
-      useFactory: MSALInstanceFactory,
-    },
-    {
       provide: MSAL_GUARD_CONFIG,
       useFactory: MSALGuardConfigFactory,
     },
@@ -67,32 +58,7 @@ export class AppModuleConstants {
 
   static MODULE_DECLARATION = [AppComponent, SoaComponent];
 }
-//export function
-export function MSALInstanceFactory(): IPublicClientApplication {
-  return new PublicClientApplication({
-    auth: {
-      clientId: environment.clientId,
-      authority: environment.authority,
-      redirectUri: environment.redirectUrl,
-      navigateToLoginRequestUrl: false,
-      postLogoutRedirectUri: environment.loginUrl,
-    },
-    cache: {
-      cacheLocation: BrowserCacheLocation.LocalStorage,
-      storeAuthStateInCookie: true, // Set to true for Internet Explorer 11
-    },
-    system: {
-      loggerOptions: {
-        loggerCallback(logLevel: LogLevel, message: string) {
-          //console.log(message);
-        },
-        logLevel: LogLevel.Verbose,
-        piiLoggingEnabled: false,
-      },
-      allowRedirectInIframe: true,
-    },
-  });
-}
+
 export const protectedResources = {
   profileApi: {
     endpoint: environment.BASE_URL,
