@@ -27,7 +27,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { AgGridModule } from 'ag-grid-angular';
 import { MonacoEditorModule } from '@materia-ui/ngx-monaco-editor';
-import { AuthGuardService } from './auth-guard.service';
 import { SoaComponent } from './features/soa/soa.component';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 export class AppModuleConstants {
@@ -64,7 +63,6 @@ export class AppModuleConstants {
     MsalGuard,
     MsalService,
     MsalBroadcastService,
-    AuthGuardService,
   ];
 
   static MODULE_DECLARATION = [AppComponent, SoaComponent];
