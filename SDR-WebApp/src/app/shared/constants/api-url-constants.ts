@@ -1,5 +1,4 @@
-import { environment } from 'src/environments/environment';
-const routePrefix = environment.bypassAuth ? '' : 'api/ui/';
+const routePrefix = '';
 
 const CommonApiUrlList = {
   STUDYLINKS: routePrefix + 'studydefinitions/{studyId}/links',
