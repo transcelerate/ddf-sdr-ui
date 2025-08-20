@@ -1,6 +1,5 @@
 export const environment = {
   production: false,
-  bypassAuth: false,
 
   tenantId: '{#AzureAd-TenantId#}',
   authority: `{#AzureAd-Authority#}`,
