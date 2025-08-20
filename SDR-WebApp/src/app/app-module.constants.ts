@@ -30,8 +30,5 @@ export class AppModuleConstants {
 export const protectedResources = {
   profileApi: {
     endpoint: environment.BASE_URL,
-    scopes: [environment.Audience],
-
-    //scopes: ["api://Enter_the_Application_Id_of_Service_Here/.default"],
   },
 };
