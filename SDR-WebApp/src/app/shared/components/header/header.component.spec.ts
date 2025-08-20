@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { MsalService } from '@azure/msal-angular';
 import { DialogService } from '../../services/communication.service';
 import { HeaderComponent } from './header.component';
 
@@ -9,7 +8,6 @@ describe('HeaderComponent', () => {
   let fixture: ComponentFixture<HeaderComponent>;
 
   beforeEach(() => {
-    const msalServiceStub = () => ({ logout: () => ({}) });
     const dialogServiceStub = () => ({
       dialogObservable: { subscribe: (f: (arg0: {}) => any) => f({}) },
     });
@@ -17,7 +15,6 @@ describe('HeaderComponent', () => {
       schemas: [NO_ERRORS_SCHEMA],
       declarations: [HeaderComponent],
       providers: [
-        { provide: MsalService, useFactory: msalServiceStub },
         { provide: DialogService, useFactory: dialogServiceStub },
       ],
     });

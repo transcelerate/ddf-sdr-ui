@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { MsalService } from '@azure/msal-angular';
 import { DialogService } from '../../services/communication.service';
 @Component({
   selector: 'app-header',
@@ -7,7 +6,7 @@ import { DialogService } from '../../services/communication.service';
   styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent implements OnInit {
-  constructor(private ds: DialogService, private authService: MsalService) {}
+  constructor(private ds: DialogService) {}
   refreshStatus = false;
   ngOnInit(): void {
     this.ds.dialogObservable.subscribe((dialogState) => {

@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { MsalService } from '@azure/msal-angular';
 import { MenuComponent } from './menu.component';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 describe('MenuComponent', () => {
@@ -13,11 +12,9 @@ describe('MenuComponent', () => {
   });
 
   beforeEach(() => {
-    const msalServiceStub = () => ({ logout: () => ({}) });
     TestBed.configureTestingModule({
       schemas: [NO_ERRORS_SCHEMA],
       declarations: [MenuComponent],
-      providers: [{ provide: MsalService, useFactory: msalServiceStub }],
     });
     fixture = TestBed.createComponent(MenuComponent);
     component = fixture.componentInstance;

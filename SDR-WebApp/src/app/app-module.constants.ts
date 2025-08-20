@@ -2,13 +2,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { SharedModule } from './shared/shared.module';
-import {
-  MsalModule,
-  MsalGuard,
-  MsalInterceptor,
-  MsalBroadcastService,
-  MsalService,
-} from '@azure/msal-angular';
 import { environment } from '../environments/environment';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -26,21 +19,10 @@ export class AppModuleConstants {
     HttpClientModule,
     ReactiveFormsModule,
     SharedModule,
-    MsalModule,
     AgGridModule.withComponents([]),
     MonacoEditorModule,
     TabsModule.forRoot(),
   ];  
-  static MODULE_PROVIDERS = [
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: MsalInterceptor,
-      multi: true,
-    },
-    MsalGuard,
-    MsalService,
-    MsalBroadcastService,
-  ];
 
   static MODULE_DECLARATION = [AppComponent, SoaComponent];
 }
