@@ -29,7 +29,6 @@ export class ServiceCall {
   }
 
   getStudyElementWithVersion(usdmVersion: any, studyURL: string) {
-    // return this.httpWrapperService.getData('https://apim-sdr-dev-eastus.azure-api.net/api/v1/studydefinitions/9085f2c7-1f7a-4f71-8b48-5d24592b6f17?version=2');
     if (studyURL.startsWith('/')) {
       studyURL = studyURL.substring(1);
     }
@@ -47,7 +46,6 @@ export class ServiceCall {
     );
   }
   getAuditTrail(studyId: any) {
-    //return this.httpWrapperService.getData('https://apim-sdr-qa-eastus.azure-api.net/studydefinitionrepository/v1/audittrail/%7bstudy%7d');
     return this.httpWrapperService.getData(
       environment.BASE_URL +
         CommonApiUrlList.REVISIONHISTORY.replace('{studyId}', studyId)
@@ -55,7 +53,6 @@ export class ServiceCall {
   }
 
   getSoAMatrix(usdmVersion: any, soaURL: string) {
-    // return this.httpWrapperService.getData('https://apim-sdr-dev-eastus.azure-api.net/api/ui/v2/studydefinitions/9352b5ba-4a94-46c9-8809-b8aeea0dd45e/studydesigns/soa');
     if (soaURL.startsWith('/')) {
       soaURL = soaURL.substring(1);
     }
