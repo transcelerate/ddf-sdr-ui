@@ -75,7 +75,7 @@ describe('UserManagementComponent', () => {
       const commonMethodsServiceStub: CommonMethodsService =
         fixture.debugElement.injector.get(CommonMethodsService);
       component.selectedUser = {
-        oid: '<AzurePortal-OID3>',
+        oid: 'test-user-id-123',
 
         email: 'testuser1@acp200520a.onmicrosoft.com',
 
