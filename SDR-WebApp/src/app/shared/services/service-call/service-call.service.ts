@@ -10,7 +10,6 @@ import { HttpHeaders } from '@angular/common/http';
   providedIn: 'root',
 })
 export class ServiceCall {
-  public routePrefix: string = '';
   constructor(private httpWrapperService: HttpWrapperService) {}
 
   getHttpOptions(usdmVersion: any): IHTTPOptions {
@@ -33,7 +32,7 @@ export class ServiceCall {
       studyURL = studyURL.substring(1);
     }
     return this.httpWrapperService.getData(
-      environment.BASE_URL + this.routePrefix + studyURL,
+      environment.BASE_URL + studyURL,
       this.getHttpOptions(usdmVersion)
     );
   }
@@ -58,7 +57,7 @@ export class ServiceCall {
     }
 
     return this.httpWrapperService.getData(
-      environment.BASE_URL + this.routePrefix + soaURL,
+      environment.BASE_URL + soaURL,
       this.getHttpOptions(usdmVersion)
     );
   }

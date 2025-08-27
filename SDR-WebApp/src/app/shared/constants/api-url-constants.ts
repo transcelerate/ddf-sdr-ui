@@ -1,22 +1,20 @@
-const routePrefix = '';
-
 const CommonApiUrlList = {
-  STUDYLINKS: routePrefix + 'studydefinitions/{studyId}/links',
-  SEARCHRESULT: routePrefix + 'studydefinitions/search',
-  SEARCHRESULTLIGHT: routePrefix + 'studydefinitions/searchstudytitle',
-  REVISIONHISTORY: routePrefix + 'studydefinitions/{studyId}/revisionhistory',
+  STUDYLINKS: 'studydefinitions/{studyId}/links',
+  SEARCHRESULT: 'studydefinitions/search',
+  SEARCHRESULTLIGHT: 'studydefinitions/searchstudytitle',
+  REVISIONHISTORY: 'studydefinitions/{studyId}/revisionhistory',
 
-  USAGEREPORT: routePrefix + 'reports/usage',
+  USAGEREPORT: 'reports/usage',
 
-  ALLGROUPS: routePrefix + 'admin/usergroups/getgroups',
-  POSTGROUP: routePrefix + 'admin/usergroups/postgroup',
-  CHECKGROUP: routePrefix + 'admin/usergroups/checkgroupname?groupName=',
-  GETGROUPLIST: routePrefix + 'admin/usergroups/getgrouplist',
-  GETUSERLIST: routePrefix + 'admin/usergroups/listusers',
+  ALLGROUPS: 'admin/usergroups/getgroups',
+  POSTGROUP: 'admin/usergroups/postgroup',
+  CHECKGROUP: 'admin/usergroups/checkgroupname?groupName=',
+  GETGROUPLIST: 'admin/usergroups/getgrouplist',
+  GETUSERLIST: 'admin/usergroups/listusers',
 
-  ALLUSERS: routePrefix + 'admin/usergroups/getusers',
-  POSTUSERS: routePrefix + 'admin/usergroups/postuser',
+  ALLUSERS: 'admin/usergroups/getusers',
+  POSTUSERS: 'admin/usergroups/postuser',
 
-  VERSIONSURL: routePrefix + 'versions',
+  VERSIONSURL: 'versions',
 };
 export { CommonApiUrlList };
