@@ -10,7 +10,8 @@
     "lint": "ng lint",
     "local": "ng serve -c development",
     "qa": "ng build --prod --configuration=qa --build optimizer",
-    "sonar": "sonar-scanner"
+    "sonar": "sonar-scanner",
+    "docs": "typedoc"
   },
   "private": true,
   "dependencies": {
@@ -24,9 +25,8 @@
     "@angular/platform-browser": "~13.0.0",
     "@angular/platform-browser-dynamic": "~13.0.0",
     "@angular/router": "~13.0.0",
-    "@azure/msal-angular": "^2.0.5",
-    "@azure/msal-browser": "^2.22.0",
     "@materia-ui/ngx-monaco-editor": "^6.0.0",
+    "@types/ws": "^8.5.4",
     "ag-grid": "17.1.1",
     "ag-grid-angular": "^26.2.0",
     "ag-grid-community": "^26.2.1",

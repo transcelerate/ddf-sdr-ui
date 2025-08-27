@@ -6,7 +6,7 @@ import { GridOptions } from 'ag-grid-community';
 import { configList } from 'src/app/shared/components/study-element-description/config/study-element-field-config';
 import { CommonMethodsService } from 'src/app/shared/services/common-methods.service';
 import { DialogService } from 'src/app/shared/services/communication.service';
-import { CheckboxRenderer } from 'src/app/features/admin/add-group/checkbox-renderer.component';
+import { CheckboxRenderer } from 'src/app/shared/components/checkbox-renderer/checkbox-renderer.component';
 import { BsModalService, BsModalRef, ModalOptions } from 'ngx-bootstrap/modal';
 import { ModalComponentComponent } from '../../../shared/components/modal-component/modal-component.component';
 
