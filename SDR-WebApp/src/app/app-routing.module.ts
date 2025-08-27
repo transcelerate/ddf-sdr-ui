@@ -40,13 +40,6 @@ const routes: Routes = [
         canActivate: []
       },
       {
-        path: 'admin',
-        loadChildren: () =>
-          import('./features/admin/admin.module').then((x) => x.AdminModule),
-        canActivate: [],
-        canLoad: []
-      },
-      {
         path: 'reports',
         loadChildren: () =>
           import('./features/reports/reports.module').then(

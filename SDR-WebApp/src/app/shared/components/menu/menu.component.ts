@@ -37,28 +37,6 @@ export class MenuComponent implements OnInit {
   ngOnInit() {
     this.ds.dialogObservable.subscribe((dialogState) => {
       this.refreshStatus = dialogState !== 'Not Clicked';
-      if (
-        this.menuItems.length == 2 &&
-        localStorage.getItem('isAdmin') == 'true'
-      ) {
-        this.menuItems.push(
-          {
-            text: 'Reports',
-            isSelected: false,
-            name: 'Reports',
-            subMenu: [{ text: 'SYSTEM USAGE', link: 'reports', name: 'Usage' }],
-          },
-          {
-            text: 'MANAGE',
-            isSelected: false,
-            name: 'Admin',
-            subMenu: [
-              { text: 'USER', link: 'admin/userMap', name: 'User Management' },
-              { text: 'GROUP', link: 'admin', name: 'Group Management' },
-            ],
-          }
-        );
-      }
       this.changeActive(dialogState);
     });
     localStorage.setItem('search1', '');
