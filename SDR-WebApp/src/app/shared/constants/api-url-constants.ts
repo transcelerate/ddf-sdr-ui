@@ -4,8 +4,6 @@ const CommonApiUrlList = {
   SEARCHRESULTLIGHT: 'studydefinitions/searchstudytitle',
   REVISIONHISTORY: 'studydefinitions/{studyId}/revisionhistory',
 
-  USAGEREPORT: 'reports/usage',
-
   VERSIONSURL: 'versions',
 };
 export { CommonApiUrlList };

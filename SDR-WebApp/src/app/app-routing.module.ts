@@ -38,16 +38,7 @@ const routes: Routes = [
             (x) => x.StudyCompareModule
           ),
         canActivate: []
-      },
-      {
-        path: 'reports',
-        loadChildren: () =>
-          import('./features/reports/reports.module').then(
-            (x) => x.ReportsModule
-          ),
-        canActivate: [],
-        canLoad: []
-      },
+      }
     ],
   },
 ];

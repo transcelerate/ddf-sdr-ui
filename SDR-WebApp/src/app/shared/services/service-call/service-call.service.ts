@@ -79,52 +79,6 @@ export class ServiceCall {
       reqObj
     );
   }
-  getAllGroups(reqObj: any) {
-    return this.httpWrapperService.postData(
-      environment.BASE_URL + CommonApiUrlList.ALLGROUPS,
-      reqObj
-    );
-  }
-  postGroup(reqObj: any) {
-    return this.httpWrapperService.postData(
-      environment.BASE_URL + CommonApiUrlList.POSTGROUP,
-      reqObj
-    );
-  }
-  checkGroup(groupName: any) {
-    return this.httpWrapperService.getData(
-      environment.BASE_URL + CommonApiUrlList.CHECKGROUP + groupName
-    );
-  }
-  getAllUsers(reqObj: any) {
-    return this.httpWrapperService.postData(
-      environment.BASE_URL + CommonApiUrlList.ALLUSERS,
-      reqObj
-    );
-  }
-  getUsageReport(reqObj: any) {
-    return this.httpWrapperService.postData(
-      environment.BASE_URL + CommonApiUrlList.USAGEREPORT,
-      reqObj
-    );
-  }
-  postUser(reqObj: any) {
-    return this.httpWrapperService.postData(
-      environment.BASE_URL + CommonApiUrlList.POSTUSERS,
-      reqObj
-    );
-  }
-  getAllGroupList() {
-    return this.httpWrapperService.getData(
-      environment.BASE_URL + CommonApiUrlList.GETGROUPLIST
-    );
-  }
-  getAllUserList() {
-    return this.httpWrapperService.getData(
-      environment.BASE_URL + CommonApiUrlList.GETUSERLIST
-    );
-  }
-
   readConfigFile() {
     return dropDownJson;
   }
