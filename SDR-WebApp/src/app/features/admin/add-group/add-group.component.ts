@@ -11,7 +11,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { CheckboxRenderer } from './checkbox-renderer.component';
+import { CheckboxRenderer } from '../../../shared/components/checkbox-renderer/checkbox-renderer.component';
 import {
   CellClassParams,
   ColDef,

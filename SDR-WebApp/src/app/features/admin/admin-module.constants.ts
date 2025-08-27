@@ -4,7 +4,7 @@ import { AgGridModule } from 'ag-grid-angular';
 import { AddGroupComponent } from './add-group/add-group.component';
 import { GroupManagementComponent } from './group-management/group-management.component';
 import { BtnCellRenderer } from './group-management/button-renderer/button-renderer.component';
-import { CheckboxRenderer } from './add-group/checkbox-renderer.component';
+import { CheckboxRenderer } from '../../shared/components/checkbox-renderer/checkbox-renderer.component';
 import { UserManagementComponent } from './user-management/user-management.component';
 import { AddUserComponent } from './add-user/add-user.component';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
