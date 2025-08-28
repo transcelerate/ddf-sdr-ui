@@ -33,6 +33,7 @@ jobs:
           # The node.js version to use
           node-version: '16'
           cache: 'npm'
+          cache-dependency-path: ${{ env.APP_DIR }}/package-lock.json
 
       - name: Install Dependencies
         working-directory: ${{ env.APP_DIR }}
