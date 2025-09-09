@@ -9,6 +9,12 @@ RUN npm ci
 
 # Copy the angular code and build
 COPY SDR-WebApp/. .
+
+# Replace tokens in environment.ts
+ARG BASE_URL
+ARG ENV_NAME
+RUN sed -i 's|{#Apim-BaseUrl#}|'"${BASE_URL}"'|g' src/environments/environment.ts
+RUN sed -i 's|{#Env-Name#}|'"${ENV_NAME}"'|g' src/environments/environment.ts
 RUN npm run build --production
 
 
