@@ -8,191 +8,90 @@ on:
   push:
     branches: [ develop ]
  
-
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
-  
 
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+  APP_DIR: SDR-WebApp
+  
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
-  Build_Deploy_DEV:
+  build_and_test:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
     environment: DEV
     
-    steps:   
-    
-    - name: Fetch Depth
-      uses: actions/checkout@v2
-      # fetch depth is used to disable shallow cloning while sonarqube analysis
-      with:
-        fetch-depth: 0
-        
-      # "Note: the 'AZURE_SP' secret is required to be added into GitHub Secrets. See this blog post for details: https://samlearnsazure.blog/2019/12/13/github-actions/"
-    - name: Azure Login
-      uses: azure/login@v1
-      with:
-        creds: ${{ secrets.AZURE_SP }} 
-    
-    - name: Find and Replace User Name - Using Build Variable
-      # Variables in environment.ts is replaced using the find script while fetching it from keyvault through secrets
-      run: |
-        find ${{ github.workspace }}/SDR-WebApp/src/environments/environment.ts -type f -exec sed -i ''s@{#Apim-BaseUrl#}@'${{ secrets.APIM_BASE_URL }}'@g'' {} \;
-        find ${{ github.workspace }}/SDR-WebApp/src/environments/environment.ts -type f -exec sed -i ''s@{#Env-Name#}@'${{ secrets.ENV_NAME }}'@g'' {} \;
-              
-    - name: Use Node 14.x
-      uses: actions/setup-node@v1
-      with:
-        # The node.js version to use
-        node-version: 14.x
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
       
-    - name: npm cli
-      # Few npm dependencies needs to be installed seperately through command line as it throwa error
-      run: |
-         cd ${{ github.workspace }}/SDR-WebApp
-         npm install -g @angular/cli@13.0.3         
-         npm install @angular-devkit/build-angular
-         npm install @materia-ui/ngx-monaco-editor
-         npm install typescript@4.4.4
-         npm install @angular-builders/custom-webpack
-         npm install ngx-spinner@13.1.1
-         npm install webpack-obfuscator@3.5.1
-         npm install javascript-obfuscator@4.0.0
-         npm install tslint-angular@3.0.3
-         npm install -g sonarqube-scanner
-         npm install ngx-bootstrap@8.0.0
-         npm install rxjs@7.4.0
-         npm install karma-jasmine@4.0.0
-  
-    - name: npm install
-      # Install the other dependecies for the SDR-WebApp project
-      run:  npm install SDR-WebApp
-         
-    - name: npm update
-     # Update the other packages for the SDR-WebApp project
-      run:  npm update SDR-WebApp
-      
-    - name: Build SDR-WebApp
-      # For building the project
-      run: |
-         cd ${{ github.workspace }}/SDR-WebApp
-         ng build --configuration=production
-         # For checking the list of files after the Build completion
-         cd ${{ github.workspace }}/SDR-WebApp/dist
-         ls
-         cd ${{ github.workspace }}/SDR-WebApp/dist/SDR-WebApp
-         ls
-         
-    - name: 'Copy Files to: ${{ github.workspace }}'
-      # Copying the artifacts generated after build to github default workspace
-      run: |
-       # For checking the contents after copying the artifacts to default directory
-       cp -R '${{ github.workspace }}/SDR-WebApp/dist/SDR-WebApp' '${{ github.workspace }}'
-       cd  ${{ github.workspace }}
-       ls     
-      
-    - name: 'Publish Artifact: Artifact'
-      uses: actions/upload-artifact@v4
-      # To publish the artifact
-      with:
-        path: '${{ github.workspace }}/SDR-WebApp/dist/**'
-        name: Build-Artifact
-    
-    
-######################---------------Jasmine Test Cases-----------------------#############################
+      - name: Use Node 16.x
+        uses: actions/setup-node@v4
+        with:
+          # The node.js version to use
+          node-version: '16'
+          cache: 'npm'
+          cache-dependency-path: ${{ env.APP_DIR }}/package-lock.json
 
-    - name: Run Angular tests
-      # Running the jasmine test cases
-      run: |
-          cd '${{ github.workspace }}/SDR-WebApp'
-          npm install karma-jasmine --save-dev
-          ng test --reporters junit --watch=false --browsers ChromeHeadless
-
-          
-          
-    - name: Publish Unit Test Results
-      uses: EnricoMi/publish-unit-test-result-action/composite@v1
-      # Publish the test cases results
-      if: always()
-      with:
-        files: '${{ github.workspace }}/SDR-WebApp/testresults/junit/unit-test-result.xml'
+      - name: Install Dependencies
+        working-directory: ${{ env.APP_DIR }}
+        run: npm ci
     
- 
- #############################-----------Sonar Scan---------------#############################################
-     
-          
-    # - name: Run Angular tests for Sonar
-      # # Running the jasmine test cases and copying the test case files to default github directory
-      # run: |
-          # cd '${{ github.workspace }}/SDR-WebApp'
-          # ng test --code-coverage true --watch=false --browsers ChromeHeadless
-          # # Copying the coverage.xml and lcov.info to Github default working directory for sonarqube analysis
-          # cp testresults/coverage/cobertura-coverage.xml '${{ github.workspace }}/coverage.xml'    
-          # cp testresults/coverage/lcov.info '${{ github.workspace }}/lcov.info' 
-          
-     
-    # - uses: actions/setup-dotnet@v1
-      # # Setup for installing sonar-scanner
-      # with:
-        # dotnet-version: 6.0.x
+      - name: Install Chrome (for Karma)
+        uses: browser-actions/setup-chrome@v2
+        id: setup-chrome
         
-    # - name: Install SonarQube scanner
-      # # Installing Sonar scanner
-      # if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
-      # shell: pwsh
-      # run: |
-          # # reportgenrator used for converting the report files
-          # # dotnet tool update dotnet-reportgenerator-globaltool -g 
-           # dotnet tool install --global dotnet-reportgenerator-globaltool --version 4.8.12
-          # reportgenerator "-reports:${{ github.workspace }}/SDR-WebApp/testresults/*/cobertura-coverage.xml" "-targetdir:coverage" -reporttypes:"Cobertura;SonarQube;lcov"
+      - name: Run Unit Tests (Karma/Jasmine)
+        working-directory: ${{ env.APP_DIR }}
+        env:
+          CHROME_BIN: ${{ steps.setup-chrome.outputs.crhome-path }}
+        run: npx ng test --reporters junit --watch=false --browsers=ChromeHeadless
+
+      - name: Publish Unit Test Results
+        if: always()
+        uses: EnricoMi/publish-unit-test-result-action@v2
+        with:
+          files: ${{ env.APP_DIR }}/testresults/junit/**/*.xml
+
+      - name: Find and Replace Environment details from configuration
+        run: |
+          find ${{ github.workspace }}/SDR-WebApp/src/environments/environment.ts -type f -exec sed -i ''s@{#Api-BaseUrl#}@'${{ vars.API_BASE_URL }}'@g'' {} \;
+          find ${{ github.workspace }}/SDR-WebApp/src/environments/environment.ts -type f -exec sed -i ''s@{#Env-Name#}@'${{ vars.ENV_NAME }}'@g'' {} \;
+
+      - name: Build App
+        working-directory: ${{ env.APP_DIR }}
+        run: npx ng build --configuration production
+      
+      - name: Upload Build Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: ${{ env.APP_DIR }}/dist
+          if-no-files-found: error
+
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_SP }} 
           
-    # - name: Run Sonar
-      # env:
-        # # SONAR_TOKEN and SONAR_HOST_URL getting fetched from secrets
-        # SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        # SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-      # run: |
-          # cd '${{ github.workspace }}/SDR-WebApp'
-          # sonar-scanner -Dsonar.host.url=$SONAR_HOST_URL -Dsonar.login=$SONAR_TOKEN
-
- 
-##########################-------------Deployment----------------#####################################
-
-    # - name: 'Run Azure webapp deploy action using publish profile credentials'
-    #   env:
-    #     # AZURE_WEBAPP_NAME is getting fetched from secrets
-    #     # AZURE_WEBAPP_PACKAGE_PATH is declared from build path
-    #     AZURE_WEBAPP_NAME: ${{ secrets.AZURE_WEBAPP_NAME }}    # set this to your application's name
-    #     AZURE_WEBAPP_PACKAGE_PATH: '${{ github.workspace }}/SDR-WebApp/dist'      # set this to the path to your web app project, defaults to the repository root
-    #   uses: azure/webapps-deploy@v2
-    #   # Deploy to target machine and path
-    #   with: 
-    #     app-name: ${{ env.AZURE_WEBAPP_NAME }} # Replace with your app name
-    #     package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
-
-    - name: Azure Container Registry Login
-      uses: Azure/docker-login@v1
-      with:
-        # Container registry username
-        username: ${{ secrets.ACR_USERNAME }} # default is 
-        # Container registry password
-        password: ${{ secrets.ACR_PASSWORD }} # default is 
-        # Container registry server url
-        login-server: ${{ secrets.ACR_NAME }} # default is https://index.docker.io/v1/
-    - run: |
-        cp '${{ github.workspace }}/Dockerfile' '${{ github.workspace }}/SDR-WebApp/dist/SDR-WebApp'
-        cp '${{ github.workspace }}/nginx.conf' '${{ github.workspace }}/SDR-WebApp/dist/SDR-WebApp'
-        cd ${{ github.workspace }}/SDR-WebApp/dist/SDR-WebApp
-        ls
-        docker build . -t ${{ secrets.ACR_NAME }}/sdruibuild:latest
-        docker push ${{ secrets.ACR_NAME }}/sdruibuild:latest
-        
-    - uses: azure/webapps-deploy@v2
-      with:
-        app-name: ${{ secrets.AZURE_WEBAPP_NAME }}
-        images: '${{ secrets.ACR_NAME }}/sdruibuild:latest'
-
-
-
-       
+      - name: GitHub Container Registry Login
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}  
+      
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          tags: ghcr.io/transcelerate/ddf-sdr-ui:latest
+          
+      - name: Deploy to Azure WebApp
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: ${{ secrets.AZURE_WEBAPP_NAME }}
+          images: 'ghcr.io/transcelerate/ddf-sdr-ui:latest' 
