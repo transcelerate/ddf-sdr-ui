@@ -5,6 +5,7 @@ import { AuditTrailComponent } from './components/audit-trail/audit-trail.compon
 import { VersionComparisonComponent } from './components/version-comparison/version-comparison.component';
 import { ModalComponentComponent } from './components/modal-component/modal-component.component';
 import { SimpleSearchComponent } from './components/simple-search/simple-search/simple-search.component';
+import { CheckboxRenderer } from './components/checkbox-renderer/checkbox-renderer.component';
 
 @NgModule({
   imports: [SharedModuleConstants.MODULE_IMPORTS],
@@ -15,6 +16,7 @@ import { SimpleSearchComponent } from './components/simple-search/simple-search/
     VersionComparisonComponent,
     ModalComponentComponent,
     SimpleSearchComponent,
+    CheckboxRenderer
   ],
   providers: [SharedModuleConstants.MODULE_PROVIDERS],
   entryComponents: [SharedModuleConstants.ENTRY_COMPONENTS],
