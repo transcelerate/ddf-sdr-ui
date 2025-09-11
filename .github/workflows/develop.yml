@@ -57,7 +57,6 @@ jobs:
 
       - name: Find and Replace Environment details from configuration
         run: |
-          find ${{ github.workspace }}/SDR-WebApp/src/environments/environment.ts -type f -exec sed -i ''s@{#Api-BaseUrl#}@'${{ vars.API_BASE_URL }}'@g'' {} \;
           find ${{ github.workspace }}/SDR-WebApp/src/environments/environment.ts -type f -exec sed -i ''s@{#Env-Name#}@'${{ vars.ENV_NAME }}'@g'' {} \;
 
       - name: Build App

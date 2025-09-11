@@ -29,6 +29,6 @@ export class AppModuleConstants {
 
 export const protectedResources = {
   profileApi: {
-    endpoint: environment.BASE_URL,
+    endpoint: environment.API_BASE_URL,
   },
 };
