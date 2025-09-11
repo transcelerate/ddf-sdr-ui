@@ -12,6 +12,17 @@ import { HttpHeaders } from '@angular/common/http';
 export class ServiceCall {
   constructor(private httpWrapperService: HttpWrapperService) {}
 
+  getApiBaseUrl(): string {
+    // Look first in the .env variable, which, if running in our Docker container, will expose a
+    // run-time-configurable API base URL, provided by environment variable of same name    
+    if ((window as any).env && (window as any).env.APP_API_BASE_URL) {
+      return (window as any).env.APP_API_BASE_URL;
+    } else {
+      // If run-time value was not available, return the build-time value for base URL
+      return environment.API_BASE_URL;
+    }
+  }
+
   getHttpOptions(usdmVersion: any): IHTTPOptions {
     return {
       headers: this.getHTTPHeaders(usdmVersion),
@@ -32,13 +43,13 @@ export class ServiceCall {
       studyURL = studyURL.substring(1);
     }
     return this.httpWrapperService.getData(
-      environment.BASE_URL + studyURL,
+      this.getApiBaseUrl() + studyURL,
       this.getHttpOptions(usdmVersion)
     );
   }
   getStudyLinks(studyId: any, versionId: any) {
     return this.httpWrapperService.getData(
-      environment.BASE_URL +
+      this.getApiBaseUrl() +
         CommonApiUrlList.STUDYLINKS.replace('{studyId}', studyId) +
         '?sdruploadversion=' +
         versionId
@@ -46,7 +57,7 @@ export class ServiceCall {
   }
   getAuditTrail(studyId: any) {
     return this.httpWrapperService.getData(
-      environment.BASE_URL +
+      this.getApiBaseUrl() +
         CommonApiUrlList.REVISIONHISTORY.replace('{studyId}', studyId)
     );
   }
@@ -57,25 +68,25 @@ export class ServiceCall {
     }
 
     return this.httpWrapperService.getData(
-      environment.BASE_URL + soaURL,
+      this.getApiBaseUrl() + soaURL,
       this.getHttpOptions(usdmVersion)
     );
   }
 
   getSearchResult(reqObj: any) {
     return this.httpWrapperService.postData(
-      environment.BASE_URL + CommonApiUrlList.SEARCHRESULT,
+      this.getApiBaseUrl() + CommonApiUrlList.SEARCHRESULT,
       reqObj
     );
   }
   getVersions() {
     return this.httpWrapperService.getData(
-      environment.BASE_URL + CommonApiUrlList.VERSIONSURL
+      this.getApiBaseUrl() + CommonApiUrlList.VERSIONSURL
     );
   }
   getSearchResultLight(reqObj: any) {
     return this.httpWrapperService.postData(
-      environment.BASE_URL + CommonApiUrlList.SEARCHRESULTLIGHT,
+      this.getApiBaseUrl() + CommonApiUrlList.SEARCHRESULTLIGHT,
       reqObj
     );
   }
