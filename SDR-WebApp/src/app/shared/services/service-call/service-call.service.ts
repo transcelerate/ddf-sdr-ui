@@ -15,12 +15,17 @@ export class ServiceCall {
   getApiBaseUrl(): string {
     // Look first in the .env variable, which, if running in our Docker container, will expose a
     // run-time-configurable API base URL, provided by environment variable of same name    
+    var url;
     if ((window as any).env && (window as any).env.APP_API_BASE_URL) {
-      return (window as any).env.APP_API_BASE_URL;
+      url = (window as any).env.APP_API_BASE_URL;
     } else {
       // If run-time value was not available, return the build-time value for base URL
-      return environment.API_BASE_URL;
+      url = environment.API_BASE_URL;
     }
+    if (!url.endsWith('/')) {
+      url = `${url}/`;
+    }
+    return url;
   }
 
   getHttpOptions(usdmVersion: any): IHTTPOptions {
