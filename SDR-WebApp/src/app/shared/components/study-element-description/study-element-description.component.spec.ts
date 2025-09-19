@@ -1,8 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ElementRef } from '@angular/core';
-import { MsalBroadcastService } from '@azure/msal-angular';
-import { MsalService } from '@azure/msal-angular';
 import { ServiceCall } from '../../services/service-call/service-call.service';
 import { Attribute } from './model';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -276,8 +274,6 @@ describe('StudyElementDescriptionComponent', () => {
 
   beforeEach(() => {
     const elementRefStub = () => ({});
-    const msalBroadcastServiceStub = () => ({});
-    const msalServiceStub = () => ({});
     const serviceCallStub = () => ({
       getStudyElement: (studyId: any, versionId: any) => ({ subscribe: {} }),
       getStudyElementWithVersion: (usdmVersion: any, url: any) => ({
@@ -309,8 +305,6 @@ describe('StudyElementDescriptionComponent', () => {
       declarations: [StudyElementDescriptionComponent],
       providers: [
         { provide: ElementRef, useFactory: elementRefStub },
-        { provide: MsalBroadcastService, useFactory: msalBroadcastServiceStub },
-        { provide: MsalService, useFactory: msalServiceStub },
         { provide: ServiceCall, useFactory: serviceCallStub },
         { provide: NgxSpinnerService, useFactory: ngxSpinnerServiceStub },
         { provide: CommonMethodsService, useFactory: commonMethodsServiceStub },

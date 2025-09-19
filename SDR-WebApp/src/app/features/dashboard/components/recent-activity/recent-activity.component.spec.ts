@@ -6,8 +6,6 @@ import { ServiceCall } from '../../../../shared/services/service-call/service-ca
 import { DialogService } from '../../../../shared/services/communication.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { CommonMethodsService } from '../../../../shared/services/common-methods.service';
-import { MsalBroadcastService } from '@azure/msal-angular';
-import { MsalService } from '@azure/msal-angular';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
 import { RecentActivityComponent } from './recent-activity.component';
@@ -32,12 +30,6 @@ describe('RecentActivityComponent', () => {
         bLOCK_SIZE: any
       ) => ({}),
     });
-    const msalBroadcastServiceStub = () => ({
-      msalSubject$: {
-        pipe: () => ({ subscribe: (f: (arg0: {}) => any) => f({}) }),
-      },
-    });
-    const msalServiceStub = () => ({});
     const activatedRouteStub = () => ({});
     const routerStub = () => ({ navigate: (array: any, object: any) => ({}) });
     TestBed.configureTestingModule({
@@ -51,8 +43,6 @@ describe('RecentActivityComponent', () => {
         { provide: DialogService, useFactory: dialogServiceStub },
         { provide: NgxSpinnerService, useFactory: ngxSpinnerServiceStub },
         { provide: CommonMethodsService, useFactory: commonMethodsServiceStub },
-        { provide: MsalBroadcastService, useFactory: msalBroadcastServiceStub },
-        { provide: MsalService, useFactory: msalServiceStub },
         { provide: ActivatedRoute, useFactory: activatedRouteStub },
         { provide: Router, useFactory: routerStub },
       ],
@@ -75,16 +65,6 @@ describe('RecentActivityComponent', () => {
 
   it(`showStudyElement has default value`, () => {
     expect(component.showStudyElement).toEqual(false);
-  });
-
-  describe('ngOnInit', () => {
-    it('makes expected calls', () => {
-      const dialogServiceStub: DialogService =
-        fixture.debugElement.injector.get(DialogService);
-      spyOn(dialogServiceStub, 'changeDialogState').and.callThrough();
-      component.ngOnInit();
-      expect(dialogServiceStub.changeDialogState).toHaveBeenCalled();
-    });
   });
 
   describe('getStudyVersionGrid', () => {

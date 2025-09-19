@@ -1,9 +1,6 @@
-import { Component, OnDestroy } from '@angular/core';
-import { AgRendererComponent, ICellRendererAngularComp } from 'ag-grid-angular';
-import {
-  IAfterGuiAttachedParams,
-  ICellRendererParams,
-} from 'ag-grid-community';
+import { Component } from '@angular/core';
+import { AgRendererComponent } from 'ag-grid-angular';
+import { IAfterGuiAttachedParams } from 'ag-grid-community';
 @Component({
   selector: 'checkbox-renderer',
   template: `
@@ -23,7 +20,7 @@ import {
       (change)="this.refresh(this.params)"
     />{{ params.selected }}
   `,
-  styleUrls: ['./add-group.component.scss'],
+  styleUrls: ['./checkbox-renderer.component.scss'],
 })
 export class CheckboxRenderer implements AgRendererComponent {
   public params: any;
