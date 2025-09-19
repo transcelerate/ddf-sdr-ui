@@ -30,8 +30,6 @@ export class BreadcrumbComponent implements OnInit {
       return 'home';
     } else if (window.location.href.indexOf('comparison') != -1) {
       return 'comparison';
-    } else if (window.location.href.indexOf('addGroup') != -1) {
-      return 'admin/';
     } else {
       return 'search';
     }
@@ -47,14 +45,6 @@ export class BreadcrumbComponent implements OnInit {
     url: string = '',
     breadcrumbs: IBreadCrumb[] = []
   ): IBreadCrumb[] {
-    //If no routeConfig is avalailable we are on the root path
-    // if(url==''){
-    //   let baseUrl = environment.redirectUrl.split('home')[0];
-    //   console.log(baseUrl);
-    //   url = window.location.href.split(baseUrl)[1] === 'home' || window.location.href.split(baseUrl)[1] === 'search' ?
-    //   window.location.href.split(baseUrl)[1] : '';
-
-    // }
     let label =
       route.routeConfig && route.routeConfig.data
         ? route.routeConfig.data['breadcrumb']
